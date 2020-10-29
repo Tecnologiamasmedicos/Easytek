@@ -3,10 +3,10 @@
     'category': 'Website/Website',
     'sequence': 50,
     'summary': 'Sell your products online',
-    'website': 'https://www.odoo.com/page/e-commerce',
+    'website': 'example.com',
     'version': '1.0',
     'description': "",
-    'depends': ['website', 'sale', 'website_payment', 'website_mail', 'website_form', 'portal_rating', 'digest'],
+    'depends': ['website', 'sale', 'website_payment', 'website_mail', 'website_form', 'digest'],
     'data': [
         # 'security/ir.model.access.csv',
         # 'security/website_sale.xml',
@@ -30,7 +30,7 @@
     'demo': [
         'data/demo.xml',
     ],
-    'qweb': ['static/src/xml/*.xml'],
+    # 'qweb': ['static/src/xml/*.xml'],
     'installable': True,
     'application': True,
     'uninstall_hook': 'uninstall_hook',
