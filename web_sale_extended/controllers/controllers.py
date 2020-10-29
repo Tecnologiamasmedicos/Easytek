@@ -615,7 +615,7 @@ class WebsiteSaleExtended(http.Controller):
             'callback': kw.get('callback'),
             'only_services': order and order.only_services,
         }
-        return request.render("web_sale_extended.web_sale_shop_address", render_values)
+        return request.render("web_sale_extended.address", render_values)
 
     # @http.route(['/shop/checkout'], type='http', auth="public", website=True, sitemap=False)
     # def checkout(self, **post):
