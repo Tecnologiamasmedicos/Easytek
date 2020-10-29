@@ -47,15 +47,26 @@
                                     </t>
                                     <form action="/shop/address" method="post" class="checkout_autoformat">
                                         <div class="form-row">
-                                            
-                                            <div t-attf-class="form-group #{error.get('name') and 'o_has_error' or ''} col-lg-6 div_name">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" for="name">Primer Nombre</label>
+                                                    <input type="text" name="name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in checkout and checkout['name']" />
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" for="second_name">Primer Nombre</label>
+                                                    <input type="text" name="second_name" />
+                                                </div>
+                                            </div>                                           
+                                            <!-- <div t-attf-class="form-group #{error.get('name') and 'o_has_error' or ''} col-lg-6 div_name">
                                                 <label class="col-form-label" for="name">Primer Nombre</label>
                                                 <input type="text" name="name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in checkout and checkout['name']" />
                                             </div>
-                                            <div t-attf-class="form-group  col-lg-6 div_name">
+                                            <div t-attf-class="form-group #{error.get('name') and 'o_has_error' or ''} col-lg-6 div_name">
                                                 <label class="col-form-label" for="second_name">Segundo Nombre</label>
                                                 <input type="text" name="second_name"  />
-                                            </div>
+                                            </div> -->
                                             <div class="w-100"/>
                                             <t t-if="mode[1] == 'billing'">
                                                 <div t-attf-class="form-group #{error.get('email') and 'o_has_error' or ''} col-lg-6" id="div_email">
