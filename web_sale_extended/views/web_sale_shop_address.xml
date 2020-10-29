@@ -2,7 +2,7 @@
 <odoo>
     <template id="address" name="Address Management">
         <t t-set="no_footer" t-value="1"/>
-        <!-- <t t-call="website.layout"> -->
+        <t t-call="website.layout">
                 <div id="wrap">
                     <div class="container oe_website_sale py-2">
                         <div class="row">
@@ -176,6 +176,6 @@
                         </div>
                     </div>
                 </div>
-        <!-- </t> -->
+        </t>
     </template>
 </odoo>
