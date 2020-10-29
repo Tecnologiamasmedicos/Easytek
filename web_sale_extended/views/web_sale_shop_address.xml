@@ -2,7 +2,7 @@
 <odoo>
     <template id="address" name="Address Management">
         <t t-set="no_footer" t-value="1"/>
-        <t t-call="website.layout">
+        <!-- <t t-call="website.layout"> -->
                 <div id="wrap">
                     <div class="container oe_website_sale py-2">
                         <div class="row">
@@ -55,8 +55,20 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label class="col-form-label" for="second_name">Primer Nombre</label>
+                                                    <label class="col-form-label" for="second_name">Segundo  Nombre</label>
                                                     <input type="text" name="second_name" />
+                                                </div>
+                                            </div> 
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" for="last_name">Primer  Apellido</label>
+                                                    <input type="text" name="last_name" />
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" for="second_last_name">Segundo  Apellido</label>
+                                                    <input type="text" name="second_last_name" />
                                                 </div>
                                             </div>                                           
                                             <!-- <div t-attf-class="form-group #{error.get('name') and 'o_has_error' or ''} col-lg-6 div_name">
@@ -164,6 +176,6 @@
                         </div>
                     </div>
                 </div>
-        </t>
+        <!-- </t> -->
     </template>
 </odoo>
