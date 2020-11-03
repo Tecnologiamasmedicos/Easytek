@@ -6,21 +6,22 @@ from werkzeug.exceptions import Forbidden, NotFound
 
 from odoo import fields, http, SUPERUSER_ID, tools, _
 from odoo.http import request
-from odoo.addons.base.models.ir_qweb_fields import nl2br
-from odoo.addons.http_routing.models.ir_http import slug
-from odoo.addons.payment.controllers.portal import PaymentProcessing
-from odoo.addons.website.controllers.main import QueryURL
-from odoo.addons.website.models.ir_http import sitemap_qs2dom
-from odoo.exceptions import ValidationError
-from odoo.addons.portal.controllers.portal import _build_url_w_params
-from odoo.addons.website.controllers.main import Website
-from odoo.addons.website_form.controllers.main import WebsiteForm
-from odoo.osv import expression
+# from odoo.addons.base.models.ir_qweb_fields import nl2br
+# from odoo.addons.http_routing.models.ir_http import slug
+# from odoo.addons.payment.controllers.portal import PaymentProcessing
+# from odoo.addons.website.controllers.main import QueryURL
+# from odoo.addons.website.models.ir_http import sitemap_qs2dom
+# from odoo.exceptions import ValidationError
+# from odoo.addons.portal.controllers.portal import _build_url_w_params
+# from odoo.addons.website.controllers.main import Website
+# from odoo.addons.website_form.controllers.main import WebsiteForm
+# from odoo.osv import expression
+from odoo.addons.website_sale.controllers.main import WebsiteSale
 _logger = logging.getLogger(__name__)
 
 
 
-class WebsiteSaleExtended(http.Controller):
+class WebsiteSaleExtended(WebsiteSale):
 
     # def _get_pricelist_context(self):
     #     pricelist_context = dict(request.env.context)
@@ -376,160 +377,160 @@ class WebsiteSaleExtended(http.Controller):
     # Checkout
     # ------------------------------------------------------
 
-    def checkout_redirection(self, order):
-        # must have a draft sales order with lines at this point, otherwise reset
-        if not order or order.state != 'draft':
-            request.session['sale_order_id'] = None
-            request.session['sale_transaction_id'] = None
-            return request.redirect('/shop')
+    # def checkout_redirection(self, order):
+    #     # must have a draft sales order with lines at this point, otherwise reset
+    #     if not order or order.state != 'draft':
+    #         request.session['sale_order_id'] = None
+    #         request.session['sale_transaction_id'] = None
+    #         return request.redirect('/shop')
 
-        if order and not order.order_line:
-            return request.redirect('/shop/cart')
+    #     if order and not order.order_line:
+    #         return request.redirect('/shop/cart')
 
-        # if transaction pending / done: redirect to confirmation
-        tx = request.env.context.get('website_sale_transaction')
-        if tx and tx.state != 'draft':
-            return request.redirect('/shop/payment/confirmation/%s' % order.id)
+    #     # if transaction pending / done: redirect to confirmation
+    #     tx = request.env.context.get('website_sale_transaction')
+    #     if tx and tx.state != 'draft':
+    #         return request.redirect('/shop/payment/confirmation/%s' % order.id)
 
-    def checkout_values(self, **kw):
-        order = request.website.sale_get_order(force_create=1)
-        shippings = []
-        if order.partner_id != request.website.user_id.sudo().partner_id:
-            Partner = order.partner_id.with_context(show_address=1).sudo()
-            shippings = Partner.search([
-                ("id", "child_of", order.partner_id.commercial_partner_id.ids),
-                '|', ("type", "in", ["delivery", "other"]), ("id", "=", order.partner_id.commercial_partner_id.id)
-            ], order='id desc')
-            if shippings:
-                if kw.get('partner_id') or 'use_billing' in kw:
-                    if 'use_billing' in kw:
-                        partner_id = order.partner_id.id
-                    else:
-                        partner_id = int(kw.get('partner_id'))
-                    if partner_id in shippings.mapped('id'):
-                        order.partner_shipping_id = partner_id
-                elif not order.partner_shipping_id:
-                    last_order = request.env['sale.order'].sudo().search([("partner_id", "=", order.partner_id.id)], order='id desc', limit=1)
-                    order.partner_shipping_id.id = last_order and last_order.id
+    # def checkout_values(self, **kw):
+    #     order = request.website.sale_get_order(force_create=1)
+    #     shippings = []
+    #     if order.partner_id != request.website.user_id.sudo().partner_id:
+    #         Partner = order.partner_id.with_context(show_address=1).sudo()
+    #         shippings = Partner.search([
+    #             ("id", "child_of", order.partner_id.commercial_partner_id.ids),
+    #             '|', ("type", "in", ["delivery", "other"]), ("id", "=", order.partner_id.commercial_partner_id.id)
+    #         ], order='id desc')
+    #         if shippings:
+    #             if kw.get('partner_id') or 'use_billing' in kw:
+    #                 if 'use_billing' in kw:
+    #                     partner_id = order.partner_id.id
+    #                 else:
+    #                     partner_id = int(kw.get('partner_id'))
+    #                 if partner_id in shippings.mapped('id'):
+    #                     order.partner_shipping_id = partner_id
+    #             elif not order.partner_shipping_id:
+    #                 last_order = request.env['sale.order'].sudo().search([("partner_id", "=", order.partner_id.id)], order='id desc', limit=1)
+    #                 order.partner_shipping_id.id = last_order and last_order.id
 
-        values = {
-            'order': order,
-            'shippings': shippings,
-            'only_services': order and order.only_services or False
-        }
-        return values
+    #     values = {
+    #         'order': order,
+    #         'shippings': shippings,
+    #         'only_services': order and order.only_services or False
+    #     }
+    #     return values
 
-    def _get_mandatory_billing_fields(self):
-        return ["name", "email", "street", "city", "country_id"]
+    # def _get_mandatory_billing_fields(self):
+    #     return ["name", "email", "street", "city", "country_id"]
 
-    def _get_mandatory_shipping_fields(self):
-        return ["name", "street", "city", "country_id"]
+    # def _get_mandatory_shipping_fields(self):
+    #     return ["name", "street", "city", "country_id"]
 
-    def checkout_form_validate(self, mode, all_form_values, data):
-        # mode: tuple ('new|edit', 'billing|shipping')
-        # all_form_values: all values before preprocess
-        # data: values after preprocess
-        error = dict()
-        error_message = []
+    # def checkout_form_validate(self, mode, all_form_values, data):
+    #     # mode: tuple ('new|edit', 'billing|shipping')
+    #     # all_form_values: all values before preprocess
+    #     # data: values after preprocess
+    #     error = dict()
+    #     error_message = []
 
-        # Required fields from form
-        required_fields = [f for f in (all_form_values.get('field_required') or '').split(',') if f]
-        # Required fields from mandatory field function
-        required_fields += mode[1] == 'shipping' and self._get_mandatory_shipping_fields() or self._get_mandatory_billing_fields()
-        # Check if state required
-        _logger.info("***CHECKOUT FORM ***")
-        _logger.info(request.env)
-        country = request.env['res.country']
-        if data.get('country_id'):
-            country = country.browse(int(data.get('country_id')))
-            if country.state_required:
-                required_fields += ['state_id']
-            if country.zip_required:
-                required_fields += ['zip']
+    #     # Required fields from form
+    #     required_fields = [f for f in (all_form_values.get('field_required') or '').split(',') if f]
+    #     # Required fields from mandatory field function
+    #     required_fields += mode[1] == 'shipping' and self._get_mandatory_shipping_fields() or self._get_mandatory_billing_fields()
+    #     # Check if state required
+    #     _logger.info("***CHECKOUT FORM ***")
+    #     _logger.info(request.env)
+    #     country = request.env['res.country']
+    #     if data.get('country_id'):
+    #         country = country.browse(int(data.get('country_id')))
+    #         if country.state_required:
+    #             required_fields += ['state_id']
+    #         if country.zip_required:
+    #             required_fields += ['zip']
 
-        # error message for empty required fields
-        for field_name in required_fields:
-            if not data.get(field_name):
-                error[field_name] = 'missing'
+    #     # error message for empty required fields
+    #     for field_name in required_fields:
+    #         if not data.get(field_name):
+    #             error[field_name] = 'missing'
 
-        # email validation
-        if data.get('email') and not tools.single_email_re.match(data.get('email')):
-            error["email"] = 'error'
-            error_message.append(_('Invalid Email! Please enter a valid email address.'))
+    #     # email validation
+    #     if data.get('email') and not tools.single_email_re.match(data.get('email')):
+    #         error["email"] = 'error'
+    #         error_message.append(_('Invalid Email! Please enter a valid email address.'))
 
-        # vat validation
-        Partner = request.env['res.partner']
-        if data.get("vat") and hasattr(Partner, "check_vat"):
-            if data.get("country_id"):
-                data["vat"] = Partner.fix_eu_vat_number(data.get("country_id"), data.get("vat"))
-            partner_dummy = Partner.new({
-                'vat': data['vat'],
-                'country_id': (int(data['country_id'])
-                               if data.get('country_id') else False),
-            })
-            try:
-                partner_dummy.check_vat()
-            except ValidationError:
-                error["vat"] = 'error'
+    #     # vat validation
+    #     Partner = request.env['res.partner']
+    #     if data.get("vat") and hasattr(Partner, "check_vat"):
+    #         if data.get("country_id"):
+    #             data["vat"] = Partner.fix_eu_vat_number(data.get("country_id"), data.get("vat"))
+    #         partner_dummy = Partner.new({
+    #             'vat': data['vat'],
+    #             'country_id': (int(data['country_id'])
+    #                            if data.get('country_id') else False),
+    #         })
+    #         try:
+    #             partner_dummy.check_vat()
+    #         except ValidationError:
+    #             error["vat"] = 'error'
 
-        if [err for err in error.values() if err == 'missing']:
-            error_message.append(_('Some required fields are empty.'))
+    #     if [err for err in error.values() if err == 'missing']:
+    #         error_message.append(_('Some required fields are empty.'))
 
-        return error, error_message
+    #     return error, error_message
 
-    def _checkout_form_save(self, mode, checkout, all_values):
-        Partner = request.env['res.partner']
-        if mode[0] == 'new':
-            partner_id = Partner.sudo().with_context(tracking_disable=True).create(checkout).id
-        elif mode[0] == 'edit':
-            partner_id = int(all_values.get('partner_id', 0))
-            if partner_id:
-                # double check
-                order = request.website.sale_get_order()
-                shippings = Partner.sudo().search([("id", "child_of", order.partner_id.commercial_partner_id.ids)])
-                if partner_id not in shippings.mapped('id') and partner_id != order.partner_id.id:
-                    return Forbidden()
-                Partner.browse(partner_id).sudo().write(checkout)
-        return partner_id
+    # def _checkout_form_save(self, mode, checkout, all_values):
+    #     Partner = request.env['res.partner']
+    #     if mode[0] == 'new':
+    #         partner_id = Partner.sudo().with_context(tracking_disable=True).create(checkout).id
+    #     elif mode[0] == 'edit':
+    #         partner_id = int(all_values.get('partner_id', 0))
+    #         if partner_id:
+    #             # double check
+    #             order = request.website.sale_get_order()
+    #             shippings = Partner.sudo().search([("id", "child_of", order.partner_id.commercial_partner_id.ids)])
+    #             if partner_id not in shippings.mapped('id') and partner_id != order.partner_id.id:
+    #                 return Forbidden()
+    #             Partner.browse(partner_id).sudo().write(checkout)
+    #     return partner_id
 
-    def values_preprocess(self, order, mode, values):
-        # Convert the values for many2one fields to integer since they are used as IDs
-        partner_fields = request.env['res.partner']._fields
-        return {
-            k: (bool(v) and int(v)) if k in partner_fields and partner_fields[k].type == 'many2one' else v
-            for k, v in values.items()
-        }
+    # def values_preprocess(self, order, mode, values):
+    #     # Convert the values for many2one fields to integer since they are used as IDs
+    #     partner_fields = request.env['res.partner']._fields
+    #     return {
+    #         k: (bool(v) and int(v)) if k in partner_fields and partner_fields[k].type == 'many2one' else v
+    #         for k, v in values.items()
+    #     }
 
-    def values_postprocess(self, order, mode, values, errors, error_msg):
-        new_values = {}
-        authorized_fields = request.env['ir.model']._get('res.partner')._get_form_writable_fields()
-        for k, v in values.items():
-            # don't drop empty value, it could be a field to reset
-            if k in authorized_fields and v is not None:
-                new_values[k] = v
-            else:  # DEBUG ONLY
-                if k not in ('field_required', 'partner_id', 'callback', 'submitted'): # classic case
-                    _logger.debug("website_sale postprocess: %s value has been dropped (empty or not writable)" % k)
+    # def values_postprocess(self, order, mode, values, errors, error_msg):
+    #     new_values = {}
+    #     authorized_fields = request.env['ir.model']._get('res.partner')._get_form_writable_fields()
+    #     for k, v in values.items():
+    #         # don't drop empty value, it could be a field to reset
+    #         if k in authorized_fields and v is not None:
+    #             new_values[k] = v
+    #         else:  # DEBUG ONLY
+    #             if k not in ('field_required', 'partner_id', 'callback', 'submitted'): # classic case
+    #                 _logger.debug("website_sale postprocess: %s value has been dropped (empty or not writable)" % k)
 
-        new_values['team_id'] = request.website.salesteam_id and request.website.salesteam_id.id
-        new_values['user_id'] = request.website.salesperson_id and request.website.salesperson_id.id
+    #     new_values['team_id'] = request.website.salesteam_id and request.website.salesteam_id.id
+    #     new_values['user_id'] = request.website.salesperson_id and request.website.salesperson_id.id
 
-        if request.website.specific_user_account:
-            new_values['website_id'] = request.website.id
+    #     if request.website.specific_user_account:
+    #         new_values['website_id'] = request.website.id
 
-        if mode[0] == 'new':
-            new_values['company_id'] = request.website.company_id.id
+    #     if mode[0] == 'new':
+    #         new_values['company_id'] = request.website.company_id.id
 
-        lang = request.lang.code if request.lang.code in request.website.mapped('language_ids.code') else None
-        if lang:
-            new_values['lang'] = lang
-        if mode == ('edit', 'billing') and order.partner_id.type == 'contact':
-            new_values['type'] = 'other'
-        if mode[1] == 'shipping':
-            new_values['parent_id'] = order.partner_id.commercial_partner_id.id
-            new_values['type'] = 'delivery'
+    #     lang = request.lang.code if request.lang.code in request.website.mapped('language_ids.code') else None
+    #     if lang:
+    #         new_values['lang'] = lang
+    #     if mode == ('edit', 'billing') and order.partner_id.type == 'contact':
+    #         new_values['type'] = 'other'
+    #     if mode[1] == 'shipping':
+    #         new_values['parent_id'] = order.partner_id.commercial_partner_id.id
+    #         new_values['type'] = 'delivery'
 
-        return new_values, errors, error_msg
+    #     return new_values, errors, error_msg
 
     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def address(self, **kw):
