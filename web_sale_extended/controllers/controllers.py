@@ -596,6 +596,11 @@ class WebsiteSaleExtended(WebsiteSale):
                 _logger.info(mode)
                 _logger.info(post)
                 _logger.info(kw)
+                post['firstname'] = kw['name']
+                post['othernames'] = kw['othernames']
+                post['last_name'] = kw['last_name']
+                post['last_name2'] = kw['last_name2']
+                post['identification_document'] = kw["identification_document"]
                 partner_id = self._checkout_form_save(mode, post, kw)
                 if mode[1] == 'billing':
                     order.partner_id = partner_id
