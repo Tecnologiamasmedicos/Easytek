@@ -92,7 +92,7 @@
                                             </div>
                                             <div t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6">
                                                 <label class="col-form-label" for="document">Tipo de documento</label>
-                                                <select id="country_id" name="document" t-attf-class="form-control #{error.get('') and 'is-invalid' or ''}" t-att-mode="mode[1]">
+                                                <select name="document" t-attf-class="form-control #{error.get('') and 'is-invalid' or ''}" t-att-mode="mode[1]">
                                                     <option value="">Tipo documeno...</option>
                                                     <option value="1" style="">[11] Registro Civil de Nacimiento</option>
                                                     <option value="2" style="">[12] Tarjeta de Identidad</option>
