@@ -437,6 +437,8 @@ class WebsiteSaleExtended(http.Controller):
         # Required fields from mandatory field function
         required_fields += mode[1] == 'shipping' and self._get_mandatory_shipping_fields() or self._get_mandatory_billing_fields()
         # Check if state required
+        _logger.info("***CHECKOUT FORM ***")
+        _logger.info(request.env)
         country = request.env['res.country']
         if data.get('country_id'):
             country = country.browse(int(data.get('country_id')))
@@ -575,8 +577,8 @@ class WebsiteSaleExtended(http.Controller):
 
         # IF POSTED
         if 'submitted' in kw:
-            _logger.error("****FORMULARIO*****")
-            _logger.error(kw)
+            _logger.info("****FORMULARIO*****")
+            _logger.info(kw)
             pre_values = self.values_preprocess(order, mode, kw)
             errors, error_msg = self.checkout_form_validate(mode, kw, pre_values)
             post, errors, error_msg = self.values_postprocess(order, mode, pre_values, errors, error_msg)
