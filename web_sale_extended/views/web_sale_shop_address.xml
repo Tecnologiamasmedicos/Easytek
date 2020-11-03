@@ -108,6 +108,12 @@
                                                     
                                                 </select>
                                             </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" for="document">Número de documento</label>
+                                                    <input type="text" name="document" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in checkout and checkout['name']" />
+                                                </div>
+                                            </div> 
                                             <div class="w-100"/>
                                             <div t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-lg-12 div_street">
                                                 <label class="col-form-label" for="street">Street <span class="d-none d-md-inline"> and Number</span></label>
