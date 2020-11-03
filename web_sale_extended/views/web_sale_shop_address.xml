@@ -49,8 +49,8 @@
                                         <div class="form-row">
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label class="col-form-label" for="firstname">Primer Nombre</label>
-                                                    <input type="text" name="firstname" t-attf-class="form-control #{error.get('firstname') and 'is-invalid' or ''}" t-att-value="'firstname' in checkout and checkout['firstname']" />
+                                                    <label class="col-form-label" for="name">Primer Nombre</label>
+                                                    <input type="text" name="name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in checkout and checkout['name']" />
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
