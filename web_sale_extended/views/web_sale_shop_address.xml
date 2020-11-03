@@ -49,26 +49,26 @@
                                         <div class="form-row">
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label class="col-form-label" for="name">Primer Nombre</label>
-                                                    <input type="text" name="name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in checkout and checkout['name']" />
+                                                    <label class="col-form-label" for="firstname">Primer Nombre</label>
+                                                    <input type="text" name="firstname" t-attf-class="form-control #{error.get('firstname') and 'is-invalid' or ''}" t-att-value="'firstname' in checkout and checkout['firstname']" />
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label class="col-form-label" for="second_name">Segundo  Nombre</label>
-                                                    <input type="text" name="second_name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in checkout and checkout['name']" />
+                                                    <label class="col-form-label" for="othernames">Segundo  Nombre</label>
+                                                    <input type="text" name="othernames" t-attf-class="form-control #{error.get('othernames') and 'is-invalid' or ''}" t-att-value="'othernames' in checkout and checkout['othernames']" />
                                                 </div>
                                             </div> 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label class="col-form-label" for="last_name">Primer  Apellido</label>
-                                                    <input type="text" name="last_name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in checkout and checkout['name']"/>
+                                                    <input type="text" name="last_name" t-attf-class="form-control #{error.get('last_name') and 'is-invalid' or ''}" t-att-value="'last_name' in checkout and checkout['last_name']"/>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label class="col-form-label" for="second_last_name">Segundo  Apellido</label>
-                                                    <input type="text" name="second_last_name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in checkout and checkout['name']" />
+                                                    <label class="col-form-label" for="last_name2">Segundo  Apellido</label>
+                                                    <input type="text" name="last_name2" t-attf-class="form-control #{error.get('last_name2') and 'is-invalid' or ''}" t-att-value="'last_name2' in checkout and checkout['last_name2']" />
                                                 </div>
                                             </div>                                           
                                             <!-- <div t-attf-class="form-group #{error.get('name') and 'o_has_error' or ''} col-lg-6 div_name">
@@ -110,8 +110,8 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label class="col-form-label" for="document">Número de documento</label>
-                                                    <input type="text" name="document" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in checkout and checkout['name']" />
+                                                    <label class="col-form-label" for="identification_document">Número de documento</label>
+                                                    <input type="text" name="identification_document" t-attf-class="form-control #{error.get('identification_document') and 'is-invalid' or ''}" t-att-value="'identification_document' in checkout and checkout['identification_document']" />
                                                 </div>
                                             </div> 
                                             <div class="w-100"/>
