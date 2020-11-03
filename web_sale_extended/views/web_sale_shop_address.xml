@@ -61,14 +61,14 @@
                                             </div> 
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label class="col-form-label" for="last_name">Primer  Apellido</label>
-                                                    <input type="text" name="last_name" t-attf-class="form-control #{error.get('last_name') and 'is-invalid' or ''}" t-att-value="'last_name' in checkout and checkout['last_name']"/>
+                                                    <label class="col-form-label" for="lastname">Primer  Apellido</label>
+                                                    <input type="text" name="lastname" t-attf-class="form-control #{error.get('lastname') and 'is-invalid' or ''}" t-att-value="'lastname' in checkout and checkout['lastname']"/>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label class="col-form-label" for="last_name2">Segundo  Apellido</label>
-                                                    <input type="text" name="last_name2" t-attf-class="form-control #{error.get('last_name2') and 'is-invalid' or ''}" t-att-value="'last_name2' in checkout and checkout['last_name2']" />
+                                                    <label class="col-form-label" for="lastname2">Segundo  Apellido</label>
+                                                    <input type="text" name="lastname2" t-attf-class="form-control #{error.get('lastname2') and 'is-invalid' or ''}" t-att-value="'lastname2' in checkout and checkout['lastname2']" />
                                                 </div>
                                             </div>                                           
                                             <!-- <div t-attf-class="form-group #{error.get('name') and 'o_has_error' or ''} col-lg-6 div_name">
