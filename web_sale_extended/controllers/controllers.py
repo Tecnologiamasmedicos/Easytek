@@ -478,20 +478,24 @@ class WebsiteSaleExtended(WebsiteSale):
 
     #     return error, error_message
 
-    # def _checkout_form_save(self, mode, checkout, all_values):
-    #     Partner = request.env['res.partner']
-    #     if mode[0] == 'new':
-    #         partner_id = Partner.sudo().with_context(tracking_disable=True).create(checkout).id
-    #     elif mode[0] == 'edit':
-    #         partner_id = int(all_values.get('partner_id', 0))
-    #         if partner_id:
-    #             # double check
-    #             order = request.website.sale_get_order()
-    #             shippings = Partner.sudo().search([("id", "child_of", order.partner_id.commercial_partner_id.ids)])
-    #             if partner_id not in shippings.mapped('id') and partner_id != order.partner_id.id:
-    #                 return Forbidden()
-    #             Partner.browse(partner_id).sudo().write(checkout)
-    #     return partner_id
+    def _checkout_form_save(self, mode, checkout, all_values):
+        Partner = request.env['res.partner']
+        if mode[0] == 'new':
+            _logger.info("****CHECKOUT FORM*****")
+            _logger.info(mode)
+            _logger.info(checkout)
+            _logger.info(all_values)
+            partner_id = Partner.sudo().with_context(tracking_disable=True).create(checkout).id
+        elif mode[0] == 'edit':
+            partner_id = int(all_values.get('partner_id', 0))
+            if partner_id:
+                # double check
+                order = request.website.sale_get_order()
+                shippings = Partner.sudo().search([("id", "child_of", order.partner_id.commercial_partner_id.ids)])
+                if partner_id not in shippings.mapped('id') and partner_id != order.partner_id.id:
+                    return Forbidden()
+                Partner.browse(partner_id).sudo().write(checkout)
+        return partner_id
 
     # def values_preprocess(self, order, mode, values):
     #     # Convert the values for many2one fields to integer since they are used as IDs
@@ -588,6 +592,10 @@ class WebsiteSaleExtended(WebsiteSale):
                 errors['error_message'] = error_msg
                 values = kw
             else:
+                _logger.info("****ELSE*****")
+                _logger.info(mode)
+                _logger.info(post)
+                _logger.info(kw)
                 partner_id = self._checkout_form_save(mode, post, kw)
                 if mode[1] == 'billing':
                     order.partner_id = partner_id
