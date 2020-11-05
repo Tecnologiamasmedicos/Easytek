@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="beneficiary">
-        <h2>Hola Mundo</h2>
+        <t t-call="website.layout">
+            <h2>Hola Mundo</h2>
+        </t>
     </template>
 </odoo>
