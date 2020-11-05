@@ -17,7 +17,6 @@ from odoo.http import request
 # from odoo.addons.website_form.controllers.main import WebsiteForm
 # from odoo.osv import expression
 from odoo.addons.website_sale.controllers.main import WebsiteSale
-from web_sale_extended.models.models import ResPartner
 _logger = logging.getLogger(__name__)
 
 
@@ -541,7 +540,8 @@ class WebsiteSaleExtended(WebsiteSale):
     def address(self, **kw):
         Partner = request.env['res.partner'].with_context(show_address=1).sudo()
         order = request.website.sale_get_order()
-        # _logger.info(ResPartner.website_partner_type)
+        _logger.info("*** GET METHOD ***")
+        _logger.info(Partner)
 
         redirection = self.checkout_redirection(order)
         if redirection:
