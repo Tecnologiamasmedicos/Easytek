@@ -15,7 +15,7 @@
                     <div class="col-lg-2">
                         <div class="form-control">
                             <label class="col-form-label" for="document">Tipo de documento</label>
-                            <select name="document" t-attf-class="form-control #{error.get('') and 'is-invalid' or ''}" t-att-mode="mode[1]">
+                            <select name="document">
                                 <option value="">C.C</option>
                                 <option value="1" style="">P.A</option>
                                             
