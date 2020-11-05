@@ -139,4 +139,29 @@ class WebsiteSaleExtended(WebsiteSale):
     @http.route(['/add/beneficiary'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def beneficiary(self, **kwargs):
         return request.render("web_sale_extended.beneficiary")
+
+
+
+class OdooWebsiteSearchCity(http.Controller):
+
+    @http.route(['/search/suggestion_city'], type='http', auth="public", website=True)
+    def search_suggestion(self, city_id=None, **post):
+        cities = []
+        if post:
+            query = post.get('query').lower()
+            for suggestion in query.split(" "):
+                suggested_cities = request.env['res.city'].sudo().search([])
+                for city in suggested_cities:
+                    #if len(cities) > 0 and city.id in [line.get('id') for line in cities]:
+                    #    continue
+                    cities.append({
+                        'city': '%s - %s' % (city.name, city.state_id.name),
+                        'id': city.id,
+                        })
+        data = {}
+        data['status'] = True,
+        data['error'] = None,
+        data['data'] = {'cities': cities}
+
+        return json.dumps(data)
    
