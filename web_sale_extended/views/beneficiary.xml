@@ -24,7 +24,7 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="form-group">
-                            <label class="col-form-label" for="numero_documento">Numero documento</label>
+                            <label class="col-form-label" for="numero_documento">Número documento</label>
                             <input class="form-control" type="text" name="numero_documento" />
                         </div>
                     </div>
@@ -176,7 +176,7 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="form-group">
-                            <label class="col-form-label" for="numero_documento">Numero documento*</label>
+                            <label class="col-form-label" for="numero_documento">Número documento*</label>
                             <input class="form-control" type="text" name="numero_documento" />
                         </div>
                     </div>
