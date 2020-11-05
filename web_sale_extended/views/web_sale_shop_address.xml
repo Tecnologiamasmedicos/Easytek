@@ -131,10 +131,33 @@
                                                     <input type="text" name="zip" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="'zip' in checkout and checkout['zip']" />
                                                 </div>
                                             </t>
-                                            <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-8 div_city">
+                                            <!-- <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-8 div_city">
                                                 <label class="col-form-label" for="city">City</label>
                                                 <input type="text" name="city" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" t-att-value="'city' in checkout and checkout['city']" />
+                                            </div> -->
+
+                                            <div t-attf-class="input-group row">
+                                                  <label for="city_id" class="col-md-3 col-form-label">Ciudad Origen</label>
+                                                  <t t-if="calendar_appointment_type_id == 1">
+                                                    <div class="col-md-9">
+                                                      <input
+                                                          type="text"
+                                                          name="search_city"
+                                                          class="search-query-city form-control oe_search_box"
+                                                          placeholder="Seleccione una Ciudad..."
+                                                          data-limit="10"
+                                                          t-att-value="search_city"/>
+                                                      <input type="hidden" name="city_id" class="search-query-city-id"/>
+                                                    </div>
+                                                  </t>
+                                                  <t t-else="">
+                                                    <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-8 div_city">
+                                                        <label class="col-form-label" for="city">City</label>
+                                                        <input type="text" name="city" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" t-att-value="'city' in checkout and checkout['city']" />
+                                                    </div>
+                                                  </t>
                                             </div>
+
                                             <t t-if="'zip' in zip_city and zip_city.index('zip') &gt; zip_city.index('city')">
                                                 <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip">
                                                     <label class="col-form-label label-optional" for="zip">Zip Code</label>
