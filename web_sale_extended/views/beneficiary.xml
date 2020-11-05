@@ -4,7 +4,7 @@
         <t t-call="website.layout">
             
             <div class="container">
-                <h3>Datos del Asegurado Principal o Tomador</h3>
+                <h4>Datos del Asegurado Principal o Tomador</h4>
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="form-group">
@@ -70,7 +70,7 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="form-group">
-                            <!-- <label class="col-form-label" for="address">Número telefono</label> -->
+                            <label class="col-form-label" for="address">Dirección de residencia</label>
                             <input class="form-control" type="text" name="address" placeholder="Dirección de residencia"/>
                         </div>
                     </div>
@@ -136,6 +136,64 @@
                         </div>
                     </div>
                     
+                </div>
+
+                <br/>
+                <br/>
+                <h6>Datos Beneficiario</h6>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label" for="beneficiario1">Parentezco*</label>
+                            <select name="beneficiario1" class="form-control">
+                                <option value="">...</option>
+                                <option value="1" style="">Espos@</option>
+                                <option value="1" style="">Padre</option>
+                                <option value="1" style="">Madre</option>
+                                <option value="1" style="">Hij@</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label class="col-form-label" for="nombrebene1">Nombre Completo*</label>
+                            <input class="form-control" type="text" name="nombrebene1" placeholder="Pepito pérez"  />
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label class="col-form-label" for="document">Tipo de documento*</label>
+                            <select name="document" class="form-control">
+                                <option value="">...</option>
+                                <option value="">C.C</option>
+                                <option value="1" style="">P.A</option>
+                                <option value="1" style="">T.I</option>
+                                            
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label" for="numero_documento">Numero documento*</label>
+                            <input class="form-control" type="text" name="numero_documento" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label class="col-form-label" for="date">Fecha nacimiento*</label>
+                            <input class="form-control" type="date" name="date"  />
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label class="col-form-label" for="email">Email*</label>
+                            <input class="form-control" type="email"  name="email" placeholder='ejemplo@ejemplo.com' />
+                        </div>
+                    </div>
                 </div>
                 
             </div>
