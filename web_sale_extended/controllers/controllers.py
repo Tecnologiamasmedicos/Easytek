@@ -17,7 +17,7 @@ from odoo.http import request
 # from odoo.addons.website_form.controllers.main import WebsiteForm
 # from odoo.osv import expression
 from odoo.addons.website_sale.controllers.main import WebsiteSale
-# from web_sale_extended.models.models import ResPartner
+from web_sale_extended.models.models import ResPartner
 _logger = logging.getLogger(__name__)
 
 
