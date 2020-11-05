@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="beneficiary">
+        <h2>Hola Mundo</h2>
+    </template>
+</oddo>
