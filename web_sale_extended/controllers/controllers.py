@@ -148,30 +148,38 @@ class OdooWebsiteSearchCity(http.Controller):
     def search_suggestion(self, city_id=None, **post):
 
         cities = []
-        suggested_cities = request.env['res.city'].sudo().search([])
-        prueba = request.env['res.city.zip'].sudo().search([])
-        _logger.info("***CITIES***")
-        _logger.info(prueba)
-        for city in suggested_cities:
-            # _logger.info(city)
+        # suggested_cities = request.env['res.city'].sudo().search([])
+        complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
+        for zip in complete_cities_with_zip:
             cities.append({
-                'city': "{0} - {1}".format(city.name, city.state_id.name),
-                'id': city.id,
+                'city': "{0} - {1} - {2} - {3}".format(zip.name, zip.city_id.name, zip.city_id.state_id.name, 
+                zip.city_id.state_id.country_id.name),
+                'city_id': zip.city_id,
+                'state_id': zip.city_id.state_id,
+                'country_id': zip.city_id.state_id.country_id,
+                'zip_id': zip.id,
             })
-        if post:
-            query = post.get('query').lower()
-            for suggestion in query.split(" "):
-                suggested_cities = request.env['res.city'].sudo().search([])
-                _logger.info("***CITIES***")
-                _logger.info(suggested_cities)
-                for city in suggested_cities:
-                    #if len(cities) > 0 and city.id in [line.get('id') for line in cities]:
-                    #    continue
 
-                    cities.append({
-                        'city': '%s - %s' % (city.name, city.state_id.name),
-                        'id': city.id,
-                        })
+        # for city in suggested_cities:
+        #     # _logger.info(city)
+        #     cities.append({
+        #         'city': "{0} - {1}".format(city.name, city.state_id.name),
+        #         'id': city.id,
+        #     })
+        # if post:
+        #     query = post.get('query').lower()
+        #     for suggestion in query.split(" "):
+        #         suggested_cities = request.env['res.city'].sudo().search([])
+        #         _logger.info("***CITIES***")
+        #         _logger.info(suggested_cities)
+        #         for city in suggested_cities:
+        #             #if len(cities) > 0 and city.id in [line.get('id') for line in cities]:
+        #             #    continue
+
+        #             cities.append({
+        #                 'city': '%s - %s' % (city.name, city.state_id.name),
+        #                 'id': city.id,
+        #                 })
         data = {}
         data['status'] = True,
         data['error'] = None,
