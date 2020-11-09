@@ -146,7 +146,11 @@ class OdooWebsiteSearchCity(http.Controller):
 
     @http.route(['/search/suggestion_city'],  methods=['GET'], type='http', auth="public", website=True)
     def search_suggestion(self, city_id=None, **post):
+
         cities = []
+        suggested_cities = request.env['res.city'].sudo().search([])
+        _logger.info("***CITIES***")
+        _logger.info(suggested_cities)
         if post:
             query = post.get('query').lower()
             for suggestion in query.split(" "):
