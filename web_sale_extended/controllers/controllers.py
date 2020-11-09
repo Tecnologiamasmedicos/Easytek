@@ -144,7 +144,7 @@ class WebsiteSaleExtended(WebsiteSale):
 
 class OdooWebsiteSearchCity(http.Controller):
 
-    @http.route(['/search/suggestion_city'], type='http', auth="public", website=True)
+    @http.route(['/search/suggestion_city'],  methods=['GET'], type='http', auth="public", website=True)
     def search_suggestion(self, city_id=None, **post):
         cities = []
         if post:
