@@ -149,12 +149,13 @@ class OdooWebsiteSearchCity(http.Controller):
 
         cities = []
         suggested_cities = request.env['res.city'].sudo().search([])
+        prueba = request.env['res.city.zip'].sudo().search([])
         _logger.info("***CITIES***")
-        _logger.info(suggested_cities)
+        _logger.info(prueba)
         for city in suggested_cities:
-            _logger.info(city)
+            # _logger.info(city)
             cities.append({
-                'city': "{0} - {1} - {2}".format(city.zipcode,city.name, city.state_id.name),
+                'city': "{0} - {1}".format(city.name, city.state_id.name),
                 'id': city.id,
             })
         if post:
