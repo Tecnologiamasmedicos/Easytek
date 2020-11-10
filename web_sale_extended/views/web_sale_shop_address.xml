@@ -22,13 +22,13 @@
                             <div class="col-12 col-xl order-xl-1 oe_cart">
                                 <div>
                                     <t t-if="mode == ('new', 'billing')">
-                                        <h2 class="o_page_header mt8">Your Address test
-                                            <small> or </small>
-                                            <a role="button" href='/web/login?redirect=/shop/checkout' class='btn btn-primary' style="margin-top: -11px">Log In</a>
+                                        <h2 class="o_page_header mt8">Dirección
+                                            <small> Ó </small>
+                                            <a role="button" href='/web/login?redirect=/shop/checkout' class='btn btn-primary' style="margin-top: -11px">Inicia Sesión</a>
                                         </h2>
                                     </t>
                                     <t t-if="mode == ('edit', 'billing')">
-                                        <h2 class="o_page_header mt8">Your Address test</h2>
+                                        <h2 class="o_page_header mt8">Dirección</h2>
                                     </t>
                                     <t t-if="mode[1] == 'shipping'">
                                         <h2 class="o_page_header mt8">Dirección de entrega </h2>
@@ -229,10 +229,10 @@
                                         <div class="d-flex justify-content-between">
                                             <a role="button" t-att-href="mode == ('new', 'billing') and '/shop/cart' or '/shop/checkout'" class="btn btn-secondary mb32">
                                                 <i class="fa fa-chevron-left"/>
-                                                <span>Back</span>
+                                                <span>Atrás</span>
                                             </a>
                                             <a role="button" href="#" class="btn btn-primary mb32 a-submit a-submit-disable a-submit-loading">
-                                                <span>Next</span>
+                                                <span>Siguiente</span>
                                                 <i class="fa fa-chevron-right"/>
                                             </a>
                                         </div>
