@@ -151,7 +151,7 @@ class OdooWebsiteSearchCity(http.Controller):
         suggested_cities = request.env['res.city'].sudo().search([])
         complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
         for zip_city in complete_cities_with_zip:
-            _logger.info(zip_city.city_id.name)
+            # _logger.info(zip_city.city_id.name)
             cities.append({
                 'city': "{0} - {1} - {2} - {3}".format(zip_city.name, zip_city.city_id.name, zip_city.city_id.state_id.name,
                  zip_city.city_id.state_id.country_id.name),
@@ -185,6 +185,6 @@ class OdooWebsiteSearchCity(http.Controller):
         data['status'] = True,
         data['error'] = None,
         data['data'] = {'cities': cities}
-
+        _logger.info(data)
         return json.dumps(data)
    
