@@ -137,11 +137,11 @@
                                             </div> -->
                                             <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-8 div_city">
                                                 <label class="col-form-label" for="city">Ciudad</label>
-                                                <select class="selectpicker" data-live-search="true"  id="city" name="city" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" t-att-value="'city' in checkout and checkout['city']" >
+                                                <select class="selectpicker" data-size="5" data-live-search="true"  id="city" name="city" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" t-att-value="'city' in checkout and checkout['city']" >
                                                     <option value="">Ciudad...</option>
                                                     <t t-foreach="cities" t-as="c">
                                                         <option t-att-value="c.id" t-att-selected="c.name">
-                                                            <t t-esc="c.name" /> <t t-esc="c.city_id.name" />
+                                                            <t t-esc="c.name" /> <t t-esc="c.city_id.name" /> <t t-esc="c.city_id.state_id.name" /> <t t-esc="c.city_id.state_id.country_id.name" />
                                                         </option>
                                                     </t>
                                                 </select>
@@ -178,7 +178,7 @@
                                             <div class="w-100"/>
                                             <div t-attf-class="form-group #{error.get('country_id') and 'o_has_error' or ''} col-lg-6 div_country">
                                                 <label class="col-form-label" for="country_id">País</label>
-                                                <select class="selectpicker" data-live-search="true"  id="country_id" name="country_id" t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}" t-att-mode="mode[1]">
+                                                <select class="selectpicker" data-size="5" data-live-search="true"  id="country_id" name="country_id" t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}" t-att-mode="mode[1]">
                                                     <option value="">País...</option>
                                                     <t t-foreach="countries" t-as="c">
                                                         <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
