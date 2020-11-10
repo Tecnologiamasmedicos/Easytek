@@ -31,7 +31,7 @@
                                         <h2 class="o_page_header mt8">Your Address test</h2>
                                     </t>
                                     <t t-if="mode[1] == 'shipping'">
-                                        <h2 class="o_page_header mt8">Shipping Address </h2>
+                                        <h2 class="o_page_header mt8">Dirección de entrega </h2>
                                     </t>
                                     <t t-if="partner_id == website_sale_order.partner_shipping_id.id == website_sale_order.partner_invoice_id.id">
                                         <div class="alert alert-warning" role="alert" t-if="not only_services">
@@ -87,24 +87,19 @@
                                                 </div>
                                             </t>
                                             <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-lg-6" id="div_phone">
-                                                <label class="col-form-label" for="phone">Phone</label>
+                                                <label class="col-form-label" for="phone">Teléfono</label>
                                                 <input type="tel" name="phone" t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="'phone' in checkout and checkout['phone']" />
                                             </div>
                                             <div t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6">
                                                 <label class="col-form-label" for="document">Tipo de documento</label>
-                                                <select name="document" t-attf-class="form-control #{error.get('') and 'is-invalid' or ''}" t-att-mode="mode[1]">
+                                                <select name="document" class="selectpicker" id="document" t-attf-class="form-control #{error.get('') and 'is-invalid' or ''}" t-att-mode="mode[1]">
                                                     <option value="">Tipo documeno...</option>
-                                                    <option value="1" style="">[11] Registro Civil de Nacimiento</option>
-                                                    <option value="2" style="">[12] Tarjeta de Identidad</option>
-                                                    <option value="3" style="">[13] Cédula de Ciudadanía</option>
-                                                    <option value="4" style="">[21] Tarjeta de Extranjería</option>
-                                                    <option value="5" style="">[22] Cédula de Extranjería</option>
-                                                    <option value="6" style="">[31] NIT</option>
-                                                    <option value="7" style="">[41] Pasaporte</option>
-                                                    <option value="8" style="">[42] Documento de Identificación Extranjero</option>
-                                                    <option value="9" style="">[43] Sin identificación del exterior o para uso definido por la DIAN</option>
-                                                    <option value="10" style="">[50] NIT de Otro País</option>
-                                                    <option value="11" style="">[91] NUIP</option>
+                                                    <t t-foreach="document_types" t-as="dt">
+                                                        <option t-att-value="dt.id" t-att-selected="dt.name">
+                                                            <t t-esc="dt.name" /> 
+                                                        </option>
+                                                    </t>
+                                                    
                                                     
                                                 </select>
                                             </div>
@@ -114,16 +109,29 @@
                                                     <input type="text" name="identification_document" t-attf-class="form-control #{error.get('identification_document') and 'is-invalid' or ''}" t-att-value="'identification_document' in checkout and checkout['identification_document']" />
                                                 </div>
                                             </div> 
+                                            <div t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6">
+                                                <label class="col-form-label" for="fiscal_position">Posición fiscal</label>
+                                                <select name="fiscal_position" class="selectpicker" id="fiscal_position" t-attf-class="form-control #{error.get('') and 'is-invalid' or ''}" t-att-mode="mode[1]">
+                                                    <option value="">Seleccione una...</option>
+                                                    <t t-foreach="fiscal_position" t-as="fp">
+                                                        <option t-att-value="fp.id" t-att-selected="fp.name">
+                                                            <t t-esc="fp.name" /> 
+                                                        </option>
+                                                    </t>
+                                                    
+                                                    
+                                                </select>
+                                            </div>
                                             <div class="w-100"/>
                                             <div t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-lg-12 div_street">
-                                                <label class="col-form-label" for="street">Street <span class="d-none d-md-inline"> and Number</span></label>
+                                                <label class="col-form-label" for="street">Dirección <span class="d-none d-md-inline"> </span></label>
                                                 <input type="text" name="street" t-attf-class="form-control #{error.get('street') and 'is-invalid' or ''}" t-att-value="'street' in checkout and checkout['street']" />
                                             </div>
-                                            <div t-attf-class="form-group #{error.get('street2') and 'o_has_error' or ''} col-lg-12 div_street2">
+                                            <!-- <div t-attf-class="form-group #{error.get('street2') and 'o_has_error' or ''} col-lg-12 div_street2">
                                                 <label class="col-form-label label-optional" for="street2">Street 2</label>
                                                 <input type="text" name="street2" t-attf-class="form-control #{error.get('street2') and 'is-invalid' or ''}" t-att-value="'street2' in checkout and checkout['street2']" />
-                                            </div>
-                                            <div class="w-100"/>
+                                            </div> -->
+                                            <div class="w-100"></div>
                                             <t t-set='zip_city' t-value='country and [x for x in country.get_address_fields() if x in ["zip", "city"]] or ["city", "zip"]'/>
                                             <t t-if="'zip' in zip_city and zip_city.index('zip') &lt; zip_city.index('city')">
                                                 <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip">
@@ -189,7 +197,7 @@
                                             </div>
                                             <div t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-lg-6 div_state" t-att-style="(not country or not country.state_ids) and 'display: none'">
                                                 <label class="col-form-label" for="state_id">State / Province</label>
-                                                <select class="selectpicker" id="state_id" data-live-search="true" name="state_id" t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}" data-init="1">
+                                                <select class="selectpicker" data-size="4" id="state_id" data-live-search="true" name="state_id" t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}" data-init="1">
                                                     <option value="">State / Province...</option>
                                                     <t t-foreach="country_states" t-as="s">
                                                         <option t-att-value="s.id" t-att-selected="s.id == ('state_id' in checkout and country and checkout['state_id'] != '' and int(checkout['state_id']))">

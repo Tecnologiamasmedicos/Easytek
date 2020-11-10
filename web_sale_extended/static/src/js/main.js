@@ -6,7 +6,8 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         $('#country_id').selectpicker();
         $('#state_id').selectpicker();
         $('#city').selectpicker();
-
+        $('#document').selectpicker();
+        $('#fiscal_position').selectpicker();
     });
     // var ajax = require('web.ajax');
     // var core = require('web.core');
