@@ -152,21 +152,21 @@ class OdooWebsiteSearchCity(http.Controller):
         complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
         for zip_city in complete_cities_with_zip:
             _logger.info(zip_city.city_id.name)
-            # cities.append({
-            #     'city': "{0} - {1} - {2} - {3}".format(zip_city.name, zip_city.city_id.name, zip_city.city_id.state_id.name,
-            #      zip_city.city_id.state_id.country_id.name),
-            #     'city_id': zip_city.city_id,
-            #     'state_id': zip_city.city_id.state_id,
-            #     'country_id': zip_city.city_id.state_id.country_id,
-            #     'zip_id': zip_city.id,
-            # })
-
-        for city in suggested_cities:
-            # _logger.info(city)
             cities.append({
-                'city': "{0} - {1}".format(city.name, city.state_id.name),
-                'id': city.id,
+                'city': "{0} - {1} - {2} - {3}".format(zip_city.name, zip_city.city_id.name, zip_city.city_id.state_id.name,
+                 zip_city.city_id.state_id.country_id.name),
+                'city_id': zip_city.city_id,
+                'state_id': zip_city.city_id.state_id,
+                'country_id': zip_city.city_id.state_id.country_id,
+                'zip_id': zip_city.id,
             })
+
+        # for city in suggested_cities:
+        #     # _logger.info(city)
+        #     cities.append({
+        #         'city': "{0} - {1}".format(city.name, city.state_id.name),
+        #         'id': city.id,
+        #     })
         # if post:
         #     query = post.get('query').lower()
         #     for suggestion in query.split(" "):
