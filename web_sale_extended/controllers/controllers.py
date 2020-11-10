@@ -131,7 +131,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'countries': country.get_website_sale_countries(mode=mode[1]),
             'error': errors,
             'callback': kw.get('callback'),
-            'cities': self.get_cities,
+            'cities': self.get_cities(),
             'only_services': order and order.only_services,
         }
         return request.render("web_sale_extended.address", render_values)
