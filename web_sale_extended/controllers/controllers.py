@@ -155,9 +155,9 @@ class OdooWebsiteSearchCity(http.Controller):
             cities.append({
                 'city': "{0} - {1} - {2} - {3}".format(zip_city.name, zip_city.city_id.name, zip_city.city_id.state_id.name,
                  zip_city.city_id.state_id.country_id.name),
-                'city_id': zip_city.city_id,
-                'state_id': zip_city.city_id.state_id,
-                'country_id': zip_city.city_id.state_id.country_id,
+                'city_id': zip_city.city_id.id,
+                'state_id': zip_city.city_id.state_id.id,
+                'country_id': zip_city.city_id.state_id.country_id.id,
                 'zip_id': zip_city.id,
             })
 
