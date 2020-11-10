@@ -132,6 +132,8 @@ class WebsiteSaleExtended(WebsiteSale):
             'error': errors,
             'callback': kw.get('callback'),
             'cities': self.get_cities(),
+            'document_types': self.get_document_types(),
+            'fiscal_position': self.get_fiscal_position(),
             'only_services': order and order.only_services,
         }
         return request.render("web_sale_extended.address", render_values)
@@ -140,6 +142,14 @@ class WebsiteSaleExtended(WebsiteSale):
     def get_cities(self):
         complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
         return complete_cities_with_zip
+
+    def get_document_types(self):
+        document_type = request.env['res.partner.document.type'].sudo().search([])
+        return document_type
+    def get_fiscal_position(self):
+        fiscal_position = request.env['account.fiscal.position'].sudo().search([])
+        return fiscal_position
+
 
 
     @http.route(['/add/beneficiary'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
