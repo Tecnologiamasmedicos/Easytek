@@ -1,6 +1,10 @@
 odoo.define('web_sale_extended.show_website_cities', function(require) {
     'use strict';
-    $('#country_id').selectpicker();
+
+    $(function() {
+        console.log("ready");
+        $('#country_id').selectpicker();
+    });
     // var ajax = require('web.ajax');
     // var core = require('web.core');
     // var sAnimation = require('website.content.snippets.animation');
