@@ -131,10 +131,16 @@ class WebsiteSaleExtended(WebsiteSale):
             'countries': country.get_website_sale_countries(mode=mode[1]),
             'error': errors,
             'callback': kw.get('callback'),
+            'cities': self.get_cities,
             'only_services': order and order.only_services,
         }
         return request.render("web_sale_extended.address", render_values)
     
+
+    def get_cities(self):
+        complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
+        return complete_cities_with_zip
+
 
     @http.route(['/add/beneficiary'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def beneficiary(self, **kwargs):
@@ -150,6 +156,8 @@ class OdooWebsiteSearchCity(http.Controller):
         cities = []
         suggested_cities = request.env['res.city'].sudo().search([])
         complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
+        # prueba = request.env['res.partner.document.type'].sudo().search([]) consulta tipo de documento
+        # prueba = request.env['account.fiscal.position'].sudo().search([])   consulta posicion fiscal
         for zip_city in complete_cities_with_zip:
             # _logger.info(zip_city.city_id.name)
             cities.append({
