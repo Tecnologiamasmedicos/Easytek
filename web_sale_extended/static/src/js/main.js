@@ -16,6 +16,10 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             console.log(array_data[60]);
             document.querySelector("input[name='zip']").value = array_data[60]
         });
+
+        document.getElementById('cant_beneficiarios').addEventListener('change', function() {
+            console.log('You selected: ', this.value);
+        });
     });
     // var ajax = require('web.ajax');
     // var core = require('web.core');
