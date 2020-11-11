@@ -8,6 +8,14 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         $('#city').selectpicker();
         $('#document').selectpicker();
         $('#fiscal_position').selectpicker();
+
+        $('#city').change(function() {
+            let data_select = $("#city option:selected").text();
+            console.log(data_select);
+            let array_data = data_select.split(" ");
+            console.log(array_data[60]);
+            document.querySelector("input[name='zip']").value = array_data[60]
+        });
     });
     // var ajax = require('web.ajax');
     // var core = require('web.core');

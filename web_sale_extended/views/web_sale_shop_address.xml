@@ -136,7 +136,7 @@
                                             <t t-if="'zip' in zip_city and zip_city.index('zip') &lt; zip_city.index('city')">
                                                 <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip">
                                                     <label class="col-form-label label-optional" for="zip">Código postal</label>
-                                                    <input type="text" name="zip" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="'zip' in checkout and checkout['zip']" />
+                                                    <input type="text"  name="zip" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="'zip' in checkout and checkout['zip']" readonly />
                                                 </div>
                                             </t>
                                             <!-- <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-8 div_city">
