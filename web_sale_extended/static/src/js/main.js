@@ -17,9 +17,22 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             document.querySelector("input[name='zip']").value = array_data[60]
         });
 
-        document.getElementById('cant_beneficiarios').addEventListener('change', function() {
-            console.log('You selected: ', this.value);
-        });
+
+    });
+    $("#beneficiary1").hide();
+    $("#beneficiary2").hide();
+    $("#beneficiary3").hide();
+    $("#beneficiary4").hide();
+    $("#beneficiary5").hide();
+    $("#beneficiary6").hide();
+
+    document.getElementById('cant_beneficiarios').addEventListener('change', function() {
+        let cantidad_beneficiarios = parseInt(this.value);
+        for (let index = 0; index < cantidad_beneficiarios; index++) {
+            let id_elemento = "#beneficiary" + (index + 1);
+            $(id_elemento).show();
+
+        }
     });
     // var ajax = require('web.ajax');
     // var core = require('web.core');
