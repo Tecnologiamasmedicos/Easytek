@@ -148,7 +148,7 @@
                                                 <select class="selectpicker" data-size="5" data-live-search="true"  id="city" name="city" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" t-att-value="'city' in checkout and checkout['city']" >
                                                     <option value="">Ciudad...</option>
                                                     <t t-foreach="cities" t-as="c">
-                                                        <option t-att-value="c.id" t-att-selected="c.name">
+                                                        <option t-att-value="c.city_id.name" t-att-selected="c.name">
                                                             <t t-esc="c.name" /> <t t-esc="c.city_id.name" /> <t t-esc="c.city_id.state_id.name" /> <t t-esc="c.city_id.state_id.country_id.name" />
                                                         </option>
                                                     </t>
