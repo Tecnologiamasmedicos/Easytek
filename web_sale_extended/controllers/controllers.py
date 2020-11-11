@@ -100,8 +100,8 @@ class WebsiteSaleExtended(WebsiteSale):
                 post['othernames'] = kw['othernames']
                 post['lastname'] = kw['lastname']
                 post['lastname2'] = kw['lastname2']
-                post['document_type_id'] = kw["document"]
-                post['property_account_position_id'] = kw["fiscal_position"]
+                post['document_type_id'] = int(kw["document"])
+                post['property_account_position_id'] = int(kw["fiscal_position"])
                 post['identification_document'] = kw["identification_document"]
                 partner_id = self._checkout_form_save(mode, post, kw)
                 if mode[1] == 'billing':
