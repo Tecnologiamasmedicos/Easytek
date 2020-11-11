@@ -42,7 +42,10 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         } else {
             for (let index = 0; index < cantidad_beneficiarios; index++) {
                 let id_elemento = "#beneficiary" + (index + 1);
+                let id_subti = "#subti" + (index + 1);
+                $(id_subti).val("Datos del beneficiario " + (index + 1) + " de " + cantidad_beneficiarios);
                 $(id_elemento).show();
+
 
             }
         }
