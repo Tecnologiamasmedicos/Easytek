@@ -18,13 +18,16 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         });
 
 
+        $("#beneficiary1").hide();
+        $("#beneficiary2").hide();
+        $("#beneficiary3").hide();
+        $("#beneficiary4").hide();
+        $("#beneficiary5").hide();
+        $("#beneficiary6").hide();
+
+
     });
-    $("#beneficiary1").hide();
-    $("#beneficiary2").hide();
-    $("#beneficiary3").hide();
-    $("#beneficiary4").hide();
-    $("#beneficiary5").hide();
-    $("#beneficiary6").hide();
+
 
     document.getElementById('cant_beneficiarios').addEventListener('change', function() {
         let cantidad_beneficiarios = parseInt(this.value);
