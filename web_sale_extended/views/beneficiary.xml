@@ -84,8 +84,11 @@
                                 <label class="col-form-label" for="sex">Estado Civil</label>
                                 <select name="sex" class="form-control">
                                     <option value="">Estado civil</option>
-                                    <option value="1" style="">Casado</option>
                                     <option value="2" style="">Soltero</option>
+                                    <option value="1" style="">Casado</option>
+                                    <option value="2" style="">Unión Libre</option>
+                                    <option value="2" style="">Viudo/a</option>
+                                    <option value="2" style="">Divorciado/a</option>
 
                                                 
                                 </select>
@@ -165,6 +168,8 @@
 
                     <br/>
                     <br/>
+                    <div id="data_beneficiary">
+                    </div>
                     <h4>Datos Beneficiario</h4>
 
 
@@ -248,6 +253,10 @@
                             </div>
                         </div>
                     </div>
+                    <a role="button" href="#" class="btn btn-primary mb32 a-submit a-submit-disable a-submit-loading">
+                        <span>Guardar</span>
+                        <i class="fa fa-chevron-right"/>
+                    </a>
                 </form>
             </div>
         </t>
