@@ -18,6 +18,13 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         });
 
 
+        hide_beneficiaries();
+
+
+    });
+
+
+    function hide_beneficiaries() {
         $("#beneficiary1").hide();
         $("#beneficiary2").hide();
         $("#beneficiary3").hide();
@@ -25,17 +32,21 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         $("#beneficiary5").hide();
         $("#beneficiary6").hide();
 
-
-    });
+    }
 
 
     document.getElementById('cant_beneficiarios').addEventListener('change', function() {
         let cantidad_beneficiarios = parseInt(this.value);
-        for (let index = 0; index < cantidad_beneficiarios; index++) {
-            let id_elemento = "#beneficiary" + (index + 1);
-            $(id_elemento).show();
+        if (cantidad_beneficiarios == 0) {
+            hide_beneficiaries();
+        } else {
+            for (let index = 0; index < cantidad_beneficiarios; index++) {
+                let id_elemento = "#beneficiary" + (index + 1);
+                $(id_elemento).show();
 
+            }
         }
+
     });
     // var ajax = require('web.ajax');
     // var core = require('web.core');
