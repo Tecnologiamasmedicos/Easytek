@@ -4,198 +4,251 @@
         <t t-call="website.layout">
             <br/>
             <div class="container">
-                <h4>Datos del Asegurado Principal o Tomador</h4>
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="name">Primer Nombre</label>
-                            <input class="form-control" type="text" name="name" />
+                <form action="/detail-beneficiary" method="post" class="checkout_autoformat">
+                    <h4>Datos del Asegurado Principal o Tomador</h4>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="name">Primer Nombre</label>
+                                <input class="form-control" type="text" name="name" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-2">
-                        <div class="form-group">
-                            <label class="col-form-label" for="document">Tipo de documento</label>
-                            <select name="document" class="form-control">
-                                <option value="">C.C</option>
-                                <option value="1" style="">P.A</option>
-                                            
-                            </select>
+                        
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="othername">Segundo Nombre</label>
+                                <input class="form-control" type="text" name="othername" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label class="col-form-label" for="numero_documento">Número documento</label>
-                            <input class="form-control" type="text" name="numero_documento" />
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="lastname">Primer Apellido</label>
+                                <input class="form-control" type="text" name="lastname" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label class="col-form-label" for="email">Email</label>
-                            <input class="form-control" type="email"  name="email" placeholder='ejemplo@ejemplo.com' />
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="lastname2">Segundo Apellido</label>
+                                <input class="form-control" type="text" name="lastname2" />
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="phone">Número telefono</label>
-                            <input class="form-control" type="text" name="phone" />
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="sex">Sexo</label>
-                            <select name="sex" class="form-control">
-                                <option value="">Masculino</option>
-                                <option value="1" style="">Femenino</option>
-                                <option value="1" style="">Otro</option>
-
-                                            
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="sex">Estado Civil</label>
-                            <select name="sex" class="form-control">
-                                <option value="">Estado civil</option>
-                                <option value="1" style="">Casado</option>
-                                <option value="2" style="">Soltero</option>
-
-                                            
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="form-group">
-                            <label class="col-form-label" for="address">Dirección de residencia</label>
-                            <input class="form-control" type="text" name="address" placeholder="Dirección de residencia"/>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="date">Fecha nacimiento</label>
-                            <input class="form-control" type="date" name="date"  />
-                        </div>
-                    </div>
-                    
-                </div>
-
-
-                <div class="row">
-                    
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="deparment">Departamento</label>
-                            <select name="deparment" class="form-control">
-                                <option value="">Departamento...</option>
-                                <option value="1" style="">Valle del Cauca</option>
-                                <option value="1" style="">Cundinamarca</option>
-
-                                            
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="city">Ciudad</label>
-                            <select name="city" class="form-control">
-                                <option value="">Ciudad</option>
-                                <option value="1" style="">Bogotá</option>
-                                <option value="2" style="">Cali</option>
-
-                                            
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="profesion">Profesión</label>
-                            <input class="form-control" type="text" name="profesion"  />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="beneficiario">Cantidad de beneficiarios a incluir</label>
-                            <select name="beneficiario" class="form-control">
-                                <option value="">...</option>
-                                <option value="1" style="">1</option>
-                                <option value="1" style="">2</option>
-                                <option value="1" style="">3</option>
-                                <option value="1" style="">4</option>
-                                <option value="1" style="">5</option>
-                                <option value="1" style="">6</option>
-
-                                            
-                            </select>
-                        </div>
-                    </div>
-                    
-                </div>
-
-                <br/>
-                <br/>
-                <h4>Datos Beneficiario</h4>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label class="col-form-label" for="beneficiario1">Parentesco*</label>
-                            <select name="beneficiario1" class="form-control">
-                                <option value="">...</option>
-                                <option value="1" style="">Espos@</option>
-                                <option value="1" style="">Padre</option>
-                                <option value="1" style="">Madre</option>
-                                <option value="1" style="">Hij@</option>
-                            </select>
-
-                        </div>
+                        
                     </div>
 
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="nombrebene1">Nombre Completo*</label>
-                            <input class="form-control" type="text" name="nombrebene1" placeholder="Pepito pérez"  />
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="document">Tipo de documento</label>
+                                <select name="document" class="form-control">
+                                    <option value="">C.C</option>
+                                    <option value="1" style="">P.A</option>
+                                                
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="numero_documento">Número documento</label>
+                                <input class="form-control" type="text" name="numero_documento" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="email">Email</label>
+                                <input class="form-control" type="email"  name="email" placeholder='ejemplo@ejemplo.com' />
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="phone">Número telefono</label>
+                                <input class="form-control" type="text" name="phone" />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
-                        <div class="form-group">
-                            <label class="col-form-label" for="document">Tipo de documento*</label>
-                            <select name="document" class="form-control">
-                                <option value="">...</option>
-                                <option value="">C.C</option>
-                                <option value="1" style="">P.A</option>
-                                <option value="1" style="">T.I</option>
-                                            
-                            </select>
+                    <div class="row">
+                        
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="col-form-label" for="sex">Sexo</label>
+                                <select name="sex" class="form-control">
+                                    <option value="">Masculino</option>
+                                    <option value="1" style="">Femenino</option>
+                                    <option value="1" style="">Otro</option>
+
+                                                
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="col-form-label" for="sex">Estado Civil</label>
+                                <select name="sex" class="form-control">
+                                    <option value="">Estado civil</option>
+                                    <option value="1" style="">Casado</option>
+                                    <option value="2" style="">Soltero</option>
+
+                                                
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label class="col-form-label" for="numero_documento">Número documento*</label>
-                            <input class="form-control" type="text" name="numero_documento" />
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                <label class="col-form-label" for="address">Dirección de residencia</label>
+                                <input class="form-control" type="text" name="address" placeholder="Dirección de residencia"/>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="col-form-label" for="date">Fecha nacimiento</label>
+                                <input class="form-control" type="date" name="date"  />
+                            </div>
+                        </div>
+                        
+                    </div>
+
+
+                    <div class="row">
+                        
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="col-form-label" for="deparment">Departamento</label>
+                                <select name="deparment" class="form-control">
+                                    <option value="">Departamento...</option>
+                                    <option value="1" style="">Valle del Cauca</option>
+                                    <option value="1" style="">Cundinamarca</option>
+
+                                                
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="col-form-label" for="city">Ciudad</label>
+                                <select name="city" class="form-control">
+                                    <option value="">Ciudad</option>
+                                    <option value="1" style="">Bogotá</option>
+                                    <option value="2" style="">Cali</option>
+
+                                                
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="col-form-label" for="profesion">Profesión</label>
+                                <input class="form-control" type="text" name="profesion"  />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label class="col-form-label" for="date">Fecha nacimiento*</label>
-                            <input class="form-control" type="date" name="date"  />
+                    <div class="row">
+                        
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="col-form-label" for="beneficiario">Cantidad de beneficiarios a incluir</label>
+                                <select name="beneficiario" class="form-control">
+                                    <option value="0">...</option>
+                                    <option value="1" style="">1</option>
+                                    <option value="2" style="">2</option>
+                                    <option value="3" style="">3</option>
+                                    <option value="4" style="">4</option>
+                                    <option value="5" style="">5</option>
+                                    <option value="6" style="">6</option>
+
+                                                
+                                </select>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <br/>
+                    <br/>
+                    <h4>Datos Beneficiario</h4>
+
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="name">Primer Nombre</label>
+                                <input class="form-control" type="text" name="name" />
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="othername">Segundo Nombre</label>
+                                <input class="form-control" type="text" name="othername" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="lastname">Primer Apellido</label>
+                                <input class="form-control" type="text" name="lastname" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="lastname2">Segundo Apellido</label>
+                                <input class="form-control" type="text" name="lastname2" />
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row">
+                        
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="beneficiario1">Parentesco*</label>
+                                <select name="beneficiario1" class="form-control">
+                                    <option value="">...</option>
+                                    <option value="1" style="">Espos@</option>
+                                    <option value="1" style="">Padre</option>
+                                    <option value="1" style="">Madre</option>
+                                    <option value="1" style="">Hij@</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="document">Tipo de documento*</label>
+                                <select name="document" class="form-control">
+                                    <option value="">...</option>
+                                    <option value="">C.C</option>
+                                    <option value="1" style="">P.A</option>
+                                    <option value="1" style="">T.I</option>
+                                                
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="numero_documento">Número documento*</label>
+                                <input class="form-control" type="text" name="numero_documento" />
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="date">Fecha nacimiento*</label>
+                                <input class="form-control" type="date" name="date"  />
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="col-form-label" for="email">Email*</label>
+                                <input class="form-control" type="email"  name="email" placeholder='ejemplo@ejemplo.com' />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label class="col-form-label" for="email">Email*</label>
-                            <input class="form-control" type="email"  name="email" placeholder='ejemplo@ejemplo.com' />
-                        </div>
-                    </div>
-                </div>
-                
+                </form>
             </div>
         </t>
     </template>
