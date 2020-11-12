@@ -28,7 +28,8 @@
         'views/views.xml',
         'views/templates.xml',
         'views/web_sale_shop_address.xml',
-        'views/beneficiary.xml'
+        'views/beneficiary.xml',
+        'views/beneficiary_detail.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
