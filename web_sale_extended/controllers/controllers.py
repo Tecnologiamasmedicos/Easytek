@@ -161,11 +161,11 @@ class WebsiteSaleExtended(WebsiteSale):
         _logger.info(request.env.user)
         return request.render("web_sale_extended.beneficiary")
 
-    @http.route(['/detail-beneficiary'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
+    @http.route(['/beneficiary-detail'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def address(self, **kwargs):
         _logger.info("***INFORME BENEFICIARIO***")
         _logger.info(kwargs)
-        return "Hello World"
+        return request.render("web_sale_extended.beneficiary_detail", kwargs)
 
 
 
