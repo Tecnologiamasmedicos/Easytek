@@ -5,7 +5,7 @@
             <br/>
             <div class="container">
                 <form action="/detail-beneficiary" method="post" class="checkout_autoformat">
-                    <h4>Datos del Asegurado Principal o Tomador</h4>
+                    <h4>Datos del Asegurado Principal</h4>
                     <div class="row">
                         <div class="col-lg-3">
                             <div class="form-group">
@@ -140,7 +140,7 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label class="col-form-label" for="profesion">Profesión</label>
+                                <label class="col-form-label" for="profesion">Ocupación</label>
                                 <input class="form-control" type="text" name="profesion"  />
                             </div>
                         </div>
