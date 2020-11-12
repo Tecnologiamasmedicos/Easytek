@@ -245,6 +245,22 @@
                                             </t>
                                         </select>
                                     </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                                Acepto términos y condiciones
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                                            <label class="form-check-label" for="defaultCheck2">
+                                                Acepto tratamiento de datos
+                                            </label>
+                                        </div>
+                                    </div>
                                     <div class="w-100"/>
                                     <t t-if="mode == ('new', 'billing') and not only_services">
                                         <div class="col-lg-12">

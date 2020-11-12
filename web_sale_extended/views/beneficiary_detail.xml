@@ -3,6 +3,9 @@
     <template id="beneficiary_detail">
         <t t-call="website.layout">
             <div class="container">
+                <h2>Resumen final de Suscripción</h2>
+                <br/>
+                <br/>
                 <div class="row">
                     <h4>Datos del Asegurado Principal</h4>
                     <table class="table table-borderless">
@@ -113,8 +116,8 @@
                             <tr>
 
                             
-                            <td><t t-esc="bfemail1"/> </td>
                             <td><t t-esc="bfdate1"/></td>
+                            <td><t t-esc="bfemail1"/> </td>
                             </tr>
                             
                         </tbody>
@@ -159,6 +162,397 @@
                     
                 </div>
                 <!-- FIN BENEFICIARIO 1 -->
+                <!-- BENEFICIARIO 2 -->
+                <div class="row" t-if="bfirstname2">
+                    <h4>Datos del beneficiario 2/<t t-esc="beneficiario"/></h4>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Parentesco</th>
+                            <th scope="col">Nombre Completo</th>
+                            <th scope="col">Cédula de ciudadania</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="bfparentesco2"/></td>
+                            <td><t t-esc="bfirstname2"/> <t t-esc="bfothername2"/> <t t-esc="bflastname2"/> <t t-esc="bflastname22"/> </td>
+                            <td><t t-esc="bfdocument2"/>  <t t-esc="bfnumero_documento2"/></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">fecha de Nacimiento</th>
+                            <th scope="col">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            
+                            <td><t t-esc="bfdate2"/></td>
+                            <td><t t-esc="bfemail2"/> </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+
+                    <!-- <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Dirección</th>
+                            <th scope="col">Departamento</th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="address"/>  </td>
+                            <td><t t-esc="deparment"/> </td>
+                            
+                            </tr>
+                            
+                        </tbody>
+                    </table> -->
+                    <!-- <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Ciudad</th>
+                            <th scope="col">Estado Civil</th>
+                            <th scope="col">Ocupación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="city"/>  </td>
+                            <td><t t-esc="estado_civil"/> </td>
+                            <td><t t-esc="profesion"/></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table> -->
+                    
+                </div>
+                <!-- FIN BENEFICIARIO 2 -->
+                <!-- BENEFICIARIO 3 -->
+                <div class="row" t-if="bfirstname3">
+                    <h4>Datos del beneficiario 3/<t t-esc="beneficiario"/></h4>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Parentesco</th>
+                            <th scope="col">Nombre Completo</th>
+                            <th scope="col">Cédula de ciudadania</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="bfparentesco3"/></td>
+                            <td><t t-esc="bfirstname3"/> <t t-esc="bfothername3"/> <t t-esc="bflastname3"/> <t t-esc="bflastname32"/> </td>
+                            <td><t t-esc="bfdocument3"/>  <t t-esc="bfnumero_documento3"/></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">fecha de Nacimiento</th>
+                            <th scope="col">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            
+                            <td><t t-esc="bfdate3"/></td>
+                            <td><t t-esc="bfemail3"/> </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+
+                    <!-- <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Dirección</th>
+                            <th scope="col">Departamento</th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="address"/>  </td>
+                            <td><t t-esc="deparment"/> </td>
+                            
+                            </tr>
+                            
+                        </tbody>
+                    </table> -->
+                    <!-- <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Ciudad</th>
+                            <th scope="col">Estado Civil</th>
+                            <th scope="col">Ocupación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="city"/>  </td>
+                            <td><t t-esc="estado_civil"/> </td>
+                            <td><t t-esc="profesion"/></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table> -->
+                    
+                </div>
+                <!-- FIN BENEFICIARIO 3 -->
+                <!-- BENEFICIARIO 4 -->
+                <div class="row" t-if="bfirstname4">
+                    <h4>Datos del beneficiario 4/<t t-esc="beneficiario"/></h4>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Parentesco</th>
+                            <th scope="col">Nombre Completo</th>
+                            <th scope="col">Cédula de ciudadania</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="bfparentesco4"/></td>
+                            <td><t t-esc="bfirstname4"/> <t t-esc="bfothername4"/> <t t-esc="bflastname4"/> <t t-esc="bflastname42"/> </td>
+                            <td><t t-esc="bfdocument4"/>  <t t-esc="bfnumero_documento4"/></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">fecha de Nacimiento</th>
+                            <th scope="col">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            
+                            <td><t t-esc="bfdate4"/></td>
+                            <td><t t-esc="bfemail4"/> </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+
+                    <!-- <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Dirección</th>
+                            <th scope="col">Departamento</th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="address"/>  </td>
+                            <td><t t-esc="deparment"/> </td>
+                            
+                            </tr>
+                            
+                        </tbody>
+                    </table> -->
+                    <!-- <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Ciudad</th>
+                            <th scope="col">Estado Civil</th>
+                            <th scope="col">Ocupación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="city"/>  </td>
+                            <td><t t-esc="estado_civil"/> </td>
+                            <td><t t-esc="profesion"/></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table> -->
+                    
+                </div>
+                <!-- FIN BENEFICIARIO 4 -->
+                <!-- BENEFICIARIO 5 -->
+                <div class="row" t-if="bfirstname5">
+                    <h4>Datos del beneficiario 5/<t t-esc="beneficiario"/></h4>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Parentesco</th>
+                            <th scope="col">Nombre Completo</th>
+                            <th scope="col">Cédula de ciudadania</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="bfparentesco5"/></td>
+                            <td><t t-esc="bfirstname5"/> <t t-esc="bfothername5"/> <t t-esc="bflastname5"/> <t t-esc="bflastname52"/> </td>
+                            <td><t t-esc="bfdocument5"/>  <t t-esc="bfnumero_documento5"/></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">fecha de Nacimiento</th>
+                            <th scope="col">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            
+                            <td><t t-esc="bfdate5"/></td>
+                            <td><t t-esc="bfemail5"/> </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+
+                    <!-- <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Dirección</th>
+                            <th scope="col">Departamento</th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="address"/>  </td>
+                            <td><t t-esc="deparment"/> </td>
+                            
+                            </tr>
+                            
+                        </tbody>
+                    </table> -->
+                    <!-- <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Ciudad</th>
+                            <th scope="col">Estado Civil</th>
+                            <th scope="col">Ocupación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="city"/>  </td>
+                            <td><t t-esc="estado_civil"/> </td>
+                            <td><t t-esc="profesion"/></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table> -->
+                    
+                </div>
+                <!-- FIN BENEFICIARIO 5 -->
+                <!-- BENEFICIARIO 6 -->
+                <div class="row" t-if="bfirstname6">
+                    <h4>Datos del beneficiario 6/<t t-esc="beneficiario"/></h4>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Parentesco</th>
+                            <th scope="col">Nombre Completo</th>
+                            <th scope="col">Cédula de ciudadania</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="bfparentesco6"/></td>
+                            <td><t t-esc="bfirstname6"/> <t t-esc="bfothername6"/> <t t-esc="bflastname6"/> <t t-esc="bflastname62"/> </td>
+                            <td><t t-esc="bfdocument6"/>  <t t-esc="bfnumero_documento6"/></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">fecha de Nacimiento</th>
+                            <th scope="col">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            
+                            <td><t t-esc="bfdate6"/></td>
+                            <td><t t-esc="bfemail6"/> </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+
+                    <!-- <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Dirección</th>
+                            <th scope="col">Departamento</th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="address"/>  </td>
+                            <td><t t-esc="deparment"/> </td>
+                            
+                            </tr>
+                            
+                        </tbody>
+                    </table> -->
+                    <!-- <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Ciudad</th>
+                            <th scope="col">Estado Civil</th>
+                            <th scope="col">Ocupación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="city"/>  </td>
+                            <td><t t-esc="estado_civil"/> </td>
+                            <td><t t-esc="profesion"/></td>
+                            </tr>
+                            
+                        </tbody>
+                    </table> -->
+                    
+                </div>
+                <!-- FIN BENEFICIARIO 6 -->
+
             </div>
 
         </t>
