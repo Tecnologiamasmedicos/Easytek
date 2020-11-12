@@ -173,27 +173,27 @@
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="name">Primer Nombre</label>
-                                    <input class="form-control" type="text" name="name" />
+                                    <label class="col-form-label" for="bfirstname1">Primer Nombre</label>
+                                    <input class="form-control" type="text" name="bfirstname1" />
                                 </div>
                             </div>
                             
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="othername">Segundo Nombre</label>
-                                    <input class="form-control" type="text" name="othername" />
+                                    <label class="col-form-label" for="bfothername1">Segundo Nombre</label>
+                                    <input class="form-control" type="text" name="bfothername1" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="lastname">Primer Apellido</label>
-                                    <input class="form-control" type="text" name="lastname" />
+                                    <label class="col-form-label" for="bflastname1">Primer Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname1" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="lastname2">Segundo Apellido</label>
-                                    <input class="form-control" type="text" name="lastname2" />
+                                    <label class="col-form-label" for="bflastname12">Segundo Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname12" />
                                 </div>
                             </div>
                             
@@ -203,8 +203,8 @@
                         
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="beneficiario1">Parentesco*</label>
-                                    <select name="beneficiario1" class="form-control">
+                                    <label class="col-form-label" for="bfparentesco1">Parentesco*</label>
+                                    <select name="bfparentesco1" class="form-control">
                                         <option value="">...</option>
                                         <option value="1" style="">Espos@</option>
                                         <option value="1" style="">Padre</option>
@@ -217,8 +217,8 @@
 
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="document">Tipo de documento*</label>
-                                    <select name="document" class="form-control">
+                                    <label class="col-form-label" for="bfdocument1">Tipo de documento*</label>
+                                    <select name="bfdocument1" class="form-control">
                                         <option value="">...</option>
                                         <option value="">C.C</option>
                                         <option value="1" style="">P.A</option>
@@ -229,14 +229,14 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="numero_documento">Número documento*</label>
-                                    <input class="form-control" type="text" name="numero_documento" />
+                                    <label class="col-form-label" for="bfnumero_documento1">Número documento*</label>
+                                    <input class="form-control" type="text" name="bfnumero_documento1" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="date">Fecha nacimiento*</label>
-                                    <input class="form-control" type="date" name="date"  />
+                                    <label class="col-form-label" for="bfdate1">Fecha nacimiento*</label>
+                                    <input class="form-control" type="date" name="bfdate1"  />
                                 </div>
                             </div>
                             
@@ -245,8 +245,8 @@
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="email">Email*</label>
-                                    <input class="form-control" type="email"  name="email" placeholder='ejemplo@ejemplo.com' />
+                                    <label class="col-form-label" for="bfemail1">Email*</label>
+                                    <input class="form-control" type="email"  name="bfemail1" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
                         </div>
