@@ -40,8 +40,8 @@
                             <div class="form-group">
                                 <label class="col-form-label" for="document">Tipo de documento</label>
                                 <select name="document" class="form-control">
-                                    <option value="">C.C</option>
-                                    <option value="1" style="">P.A</option>
+                                    <option value="C.C">C.C</option>
+                                    <option value="P.A" style="">P.A</option>
                                                 
                                 </select>
                             </div>
@@ -71,9 +71,9 @@
                             <div class="form-group">
                                 <label class="col-form-label" for="sex">Sexo</label>
                                 <select name="sex" class="form-control">
-                                    <option value="">Masculino</option>
-                                    <option value="1" style="">Femenino</option>
-                                    <option value="1" style="">Otro</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Femenino" style="">Femenino</option>
+                                    <option value="Otro" style="">Otro</option>
 
                                                 
                                 </select>
@@ -84,11 +84,11 @@
                                 <label class="col-form-label" for="sex">Estado Civil</label>
                                 <select name="sex" class="form-control">
                                     <option value="">Estado civil</option>
-                                    <option value="2" style="">Soltero</option>
-                                    <option value="1" style="">Casado</option>
-                                    <option value="2" style="">Unión Libre</option>
-                                    <option value="2" style="">Viudo/a</option>
-                                    <option value="2" style="">Divorciado/a</option>
+                                    <option value="Soltero" style="">Soltero</option>
+                                    <option value="Casado" style="">Casado</option>
+                                    <option value="Unión Libre" style="">Unión Libre</option>
+                                    <option value="Viudo/a" style="">Viudo/a</option>
+                                    <option value="Divorciado/a" style="">Divorciado/a</option>
 
                                                 
                                 </select>
@@ -119,8 +119,8 @@
                                 <label class="col-form-label" for="deparment">Departamento</label>
                                 <select name="deparment" class="form-control">
                                     <option value="">Departamento...</option>
-                                    <option value="1" style="">Valle del Cauca</option>
-                                    <option value="1" style="">Cundinamarca</option>
+                                    <option value="Valle del Cauca" style="">Valle del Cauca</option>
+                                    <option value="Cundinamarca" style="">Cundinamarca</option>
 
                                                 
                                 </select>
@@ -131,8 +131,8 @@
                                 <label class="col-form-label" for="city">Ciudad</label>
                                 <select name="city" class="form-control">
                                     <option value="">Ciudad</option>
-                                    <option value="1" style="">Bogotá</option>
-                                    <option value="2" style="">Cali</option>
+                                    <option value="Bogotá" style="">Bogotá</option>
+                                    <option value="Cali" style="">Cali</option>
 
                                                 
                                 </select>
@@ -206,10 +206,10 @@
                                     <label class="col-form-label" for="bfparentesco1">Parentesco*</label>
                                     <select name="bfparentesco1" class="form-control">
                                         <option value="">...</option>
-                                        <option value="1" style="">Espos@</option>
-                                        <option value="1" style="">Padre</option>
-                                        <option value="1" style="">Madre</option>
-                                        <option value="1" style="">Hij@</option>
+                                        <option value="Espos@" style="">Espos@</option>
+                                        <option value="Padre" style="">Padre</option>
+                                        <option value="Madre" style="">Madre</option>
+                                        <option value="Hij@" style="">Hij@</option>
                                     </select>
 
                                 </div>
@@ -220,9 +220,9 @@
                                     <label class="col-form-label" for="bfdocument1">Tipo de documento*</label>
                                     <select name="bfdocument1" class="form-control">
                                         <option value="">...</option>
-                                        <option value="">C.C</option>
-                                        <option value="1" style="">P.A</option>
-                                        <option value="1" style="">T.I</option>
+                                        <option value="C.C">C.C</option>
+                                        <option value="P.A" style="">P.A</option>
+                                        <option value="T.I" style="">T.I</option>
                                                     
                                     </select>
                                 </div>
@@ -256,31 +256,31 @@
                     <div class="dropdown-divider"></div>
 
                     <div id="beneficiary2">
-                        <h4 id="subti2"></h4>
+                        <h4 id="subti1"></h4>
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="name">Primer Nombre</label>
-                                    <input class="form-control" type="text" name="name" />
+                                    <label class="col-form-label" for="bfirstname2">Primer Nombre</label>
+                                    <input class="form-control" type="text" name="bfirstname2" />
                                 </div>
                             </div>
                             
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="othername">Segundo Nombre</label>
-                                    <input class="form-control" type="text" name="othername" />
+                                    <label class="col-form-label" for="bfothername2">Segundo Nombre</label>
+                                    <input class="form-control" type="text" name="bfothername2" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="lastname">Primer Apellido</label>
-                                    <input class="form-control" type="text" name="lastname" />
+                                    <label class="col-form-label" for="bflastname2">Primer Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname2" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="lastname2">Segundo Apellido</label>
-                                    <input class="form-control" type="text" name="lastname2" />
+                                    <label class="col-form-label" for="bflastname22">Segundo Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname22" />
                                 </div>
                             </div>
                             
@@ -290,13 +290,13 @@
                         
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="beneficiario1">Parentesco*</label>
-                                    <select name="beneficiario1" class="form-control">
+                                    <label class="col-form-label" for="bfparentesco2">Parentesco*</label>
+                                    <select name="bfparentesco2" class="form-control">
                                         <option value="">...</option>
-                                        <option value="1" style="">Espos@</option>
-                                        <option value="1" style="">Padre</option>
-                                        <option value="1" style="">Madre</option>
-                                        <option value="1" style="">Hij@</option>
+                                        <option value="Espos@" style="">Espos@</option>
+                                        <option value="Padre" style="">Padre</option>
+                                        <option value="Madre" style="">Madre</option>
+                                        <option value="Hij@" style="">Hij@</option>
                                     </select>
 
                                 </div>
@@ -304,26 +304,26 @@
 
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="document">Tipo de documento*</label>
-                                    <select name="document" class="form-control">
+                                    <label class="col-form-label" for="bfdocument2">Tipo de documento*</label>
+                                    <select name="bfdocument2" class="form-control">
                                         <option value="">...</option>
-                                        <option value="">C.C</option>
-                                        <option value="1" style="">P.A</option>
-                                        <option value="1" style="">T.I</option>
+                                        <option value="C.C">C.C</option>
+                                        <option value="P.A" style="">P.A</option>
+                                        <option value="T.I" style="">T.I</option>
                                                     
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="numero_documento">Número documento*</label>
-                                    <input class="form-control" type="text" name="numero_documento" />
+                                    <label class="col-form-label" for="bfnumero_documento2">Número documento*</label>
+                                    <input class="form-control" type="text" name="bfnumero_documento2" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="date">Fecha nacimiento*</label>
-                                    <input class="form-control" type="date" name="date"  />
+                                    <label class="col-form-label" for="bfdate2">Fecha nacimiento*</label>
+                                    <input class="form-control" type="date" name="bfdate2"  />
                                 </div>
                             </div>
                             
@@ -332,8 +332,8 @@
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="email">Email*</label>
-                                    <input class="form-control" type="email"  name="email" placeholder='ejemplo@ejemplo.com' />
+                                    <label class="col-form-label" for="bfemail2">Email*</label>
+                                    <input class="form-control" type="email"  name="bfemail2" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
                         </div>
@@ -344,31 +344,31 @@
                     <div class="dropdown-divider"></div>
 
                     <div id="beneficiary3">
-                        <h4 id="subti3"></h4>
+                        <h4 id="subti1"></h4>
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="name">Primer Nombre</label>
-                                    <input class="form-control" type="text" name="name" />
+                                    <label class="col-form-label" for="bfirstname3">Primer Nombre</label>
+                                    <input class="form-control" type="text" name="bfirstname3" />
                                 </div>
                             </div>
                             
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="othername">Segundo Nombre</label>
-                                    <input class="form-control" type="text" name="othername" />
+                                    <label class="col-form-label" for="bfothername3">Segundo Nombre</label>
+                                    <input class="form-control" type="text" name="bfothername3" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="lastname">Primer Apellido</label>
-                                    <input class="form-control" type="text" name="lastname" />
+                                    <label class="col-form-label" for="bflastname3">Primer Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname3" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="lastname2">Segundo Apellido</label>
-                                    <input class="form-control" type="text" name="lastname2" />
+                                    <label class="col-form-label" for="bflastname32">Segundo Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname32" />
                                 </div>
                             </div>
                             
@@ -378,13 +378,13 @@
                         
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="beneficiario1">Parentesco*</label>
-                                    <select name="beneficiario1" class="form-control">
+                                    <label class="col-form-label" for="bfparentesco3">Parentesco*</label>
+                                    <select name="bfparentesco3" class="form-control">
                                         <option value="">...</option>
-                                        <option value="1" style="">Espos@</option>
-                                        <option value="1" style="">Padre</option>
-                                        <option value="1" style="">Madre</option>
-                                        <option value="1" style="">Hij@</option>
+                                        <option value="Espos@" style="">Espos@</option>
+                                        <option value="Padre" style="">Padre</option>
+                                        <option value="Madre" style="">Madre</option>
+                                        <option value="Hij@" style="">Hij@</option>
                                     </select>
 
                                 </div>
@@ -392,26 +392,26 @@
 
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="document">Tipo de documento*</label>
-                                    <select name="document" class="form-control">
+                                    <label class="col-form-label" for="bfdocument3">Tipo de documento*</label>
+                                    <select name="bfdocument3" class="form-control">
                                         <option value="">...</option>
-                                        <option value="">C.C</option>
-                                        <option value="1" style="">P.A</option>
-                                        <option value="1" style="">T.I</option>
+                                        <option value="C.C">C.C</option>
+                                        <option value="P.A" style="">P.A</option>
+                                        <option value="T.I" style="">T.I</option>
                                                     
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="numero_documento">Número documento*</label>
-                                    <input class="form-control" type="text" name="numero_documento" />
+                                    <label class="col-form-label" for="bfnumero_documento3">Número documento*</label>
+                                    <input class="form-control" type="text" name="bfnumero_documento3" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="date">Fecha nacimiento*</label>
-                                    <input class="form-control" type="date" name="date"  />
+                                    <label class="col-form-label" for="bfdate3">Fecha nacimiento*</label>
+                                    <input class="form-control" type="date" name="bfdate3"  />
                                 </div>
                             </div>
                             
@@ -420,8 +420,8 @@
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="email">Email*</label>
-                                    <input class="form-control" type="email"  name="email" placeholder='ejemplo@ejemplo.com' />
+                                    <label class="col-form-label" for="bfemail3">Email*</label>
+                                    <input class="form-control" type="email"  name="bfemail3" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
                         </div>
@@ -431,31 +431,31 @@
                     <div class="dropdown-divider"></div>
 
                     <div id="beneficiary4">
-                        <h4 id="subti4"></h4>
+                        <h4 id="subti1"></h4>
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="name">Primer Nombre</label>
-                                    <input class="form-control" type="text" name="name" />
+                                    <label class="col-form-label" for="bfirstname4">Primer Nombre</label>
+                                    <input class="form-control" type="text" name="bfirstname4" />
                                 </div>
                             </div>
                             
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="othername">Segundo Nombre</label>
-                                    <input class="form-control" type="text" name="othername" />
+                                    <label class="col-form-label" for="bfothername4">Segundo Nombre</label>
+                                    <input class="form-control" type="text" name="bfothername4" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="lastname">Primer Apellido</label>
-                                    <input class="form-control" type="text" name="lastname" />
+                                    <label class="col-form-label" for="bflastname4">Primer Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname4" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="lastname2">Segundo Apellido</label>
-                                    <input class="form-control" type="text" name="lastname2" />
+                                    <label class="col-form-label" for="bflastname42">Segundo Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname42" />
                                 </div>
                             </div>
                             
@@ -465,13 +465,13 @@
                         
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="beneficiario1">Parentesco*</label>
-                                    <select name="beneficiario1" class="form-control">
+                                    <label class="col-form-label" for="bfparentesco4">Parentesco*</label>
+                                    <select name="bfparentesco2" class="form-control">
                                         <option value="">...</option>
-                                        <option value="1" style="">Espos@</option>
-                                        <option value="1" style="">Padre</option>
-                                        <option value="1" style="">Madre</option>
-                                        <option value="1" style="">Hij@</option>
+                                        <option value="Espos@" style="">Espos@</option>
+                                        <option value="Padre" style="">Padre</option>
+                                        <option value="Madre" style="">Madre</option>
+                                        <option value="Hij@" style="">Hij@</option>
                                     </select>
 
                                 </div>
@@ -479,26 +479,26 @@
 
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="document">Tipo de documento*</label>
-                                    <select name="document" class="form-control">
+                                    <label class="col-form-label" for="bfdocument4">Tipo de documento*</label>
+                                    <select name="bfdocument4" class="form-control">
                                         <option value="">...</option>
-                                        <option value="">C.C</option>
-                                        <option value="1" style="">P.A</option>
-                                        <option value="1" style="">T.I</option>
+                                        <option value="C.C">C.C</option>
+                                        <option value="P.A" style="">P.A</option>
+                                        <option value="T.I" style="">T.I</option>
                                                     
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="numero_documento">Número documento*</label>
-                                    <input class="form-control" type="text" name="numero_documento" />
+                                    <label class="col-form-label" for="bfnumero_documento4">Número documento*</label>
+                                    <input class="form-control" type="text" name="bfnumero_documento4" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="date">Fecha nacimiento*</label>
-                                    <input class="form-control" type="date" name="date"  />
+                                    <label class="col-form-label" for="bfdate4">Fecha nacimiento*</label>
+                                    <input class="form-control" type="date" name="bfdate4"  />
                                 </div>
                             </div>
                             
@@ -507,8 +507,8 @@
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="email">Email*</label>
-                                    <input class="form-control" type="email"  name="email" placeholder='ejemplo@ejemplo.com' />
+                                    <label class="col-form-label" for="bfemail4">Email*</label>
+                                    <input class="form-control" type="email"  name="bfemail4" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
                         </div>
@@ -519,31 +519,31 @@
                     <div class="dropdown-divider"></div>
 
                      <div id="beneficiary5">
-                        <h4 id="subti5"></h4>
+                        <h4 id="subti1"></h4>
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="name">Primer Nombre</label>
-                                    <input class="form-control" type="text" name="name" />
+                                    <label class="col-form-label" for="bfirstname5">Primer Nombre</label>
+                                    <input class="form-control" type="text" name="bfirstname5" />
                                 </div>
                             </div>
                             
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="othername">Segundo Nombre</label>
-                                    <input class="form-control" type="text" name="othername" />
+                                    <label class="col-form-label" for="bfothername5">Segundo Nombre</label>
+                                    <input class="form-control" type="text" name="bfothername5" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="lastname">Primer Apellido</label>
-                                    <input class="form-control" type="text" name="lastname" />
+                                    <label class="col-form-label" for="bflastname5">Primer Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname5" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="lastname2">Segundo Apellido</label>
-                                    <input class="form-control" type="text" name="lastname2" />
+                                    <label class="col-form-label" for="bflastname52">Segundo Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname52" />
                                 </div>
                             </div>
                             
@@ -553,13 +553,13 @@
                         
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="beneficiario1">Parentesco*</label>
-                                    <select name="beneficiario1" class="form-control">
+                                    <label class="col-form-label" for="bfparentesco5">Parentesco*</label>
+                                    <select name="bfparentesco5" class="form-control">
                                         <option value="">...</option>
-                                        <option value="1" style="">Espos@</option>
-                                        <option value="1" style="">Padre</option>
-                                        <option value="1" style="">Madre</option>
-                                        <option value="1" style="">Hij@</option>
+                                        <option value="Espos@" style="">Espos@</option>
+                                        <option value="Padre" style="">Padre</option>
+                                        <option value="Madre" style="">Madre</option>
+                                        <option value="Hij@" style="">Hij@</option>
                                     </select>
 
                                 </div>
@@ -567,26 +567,26 @@
 
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="document">Tipo de documento*</label>
-                                    <select name="document" class="form-control">
+                                    <label class="col-form-label" for="bfdocument5">Tipo de documento*</label>
+                                    <select name="bfdocument5" class="form-control">
                                         <option value="">...</option>
-                                        <option value="">C.C</option>
-                                        <option value="1" style="">P.A</option>
-                                        <option value="1" style="">T.I</option>
+                                        <option value="C.C">C.C</option>
+                                        <option value="P.A" style="">P.A</option>
+                                        <option value="T.I" style="">T.I</option>
                                                     
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="numero_documento">Número documento*</label>
-                                    <input class="form-control" type="text" name="numero_documento" />
+                                    <label class="col-form-label" for="bfnumero_documento5">Número documento*</label>
+                                    <input class="form-control" type="text" name="bfnumero_documento5" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="date">Fecha nacimiento*</label>
-                                    <input class="form-control" type="date" name="date"  />
+                                    <label class="col-form-label" for="bfdate5">Fecha nacimiento*</label>
+                                    <input class="form-control" type="date" name="bfdate5"  />
                                 </div>
                             </div>
                             
@@ -595,8 +595,8 @@
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="email">Email*</label>
-                                    <input class="form-control" type="email"  name="email" placeholder='ejemplo@ejemplo.com' />
+                                    <label class="col-form-label" for="bfemail5">Email*</label>
+                                    <input class="form-control" type="email"  name="bfemail5" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
                         </div>
@@ -607,31 +607,31 @@
                     <div class="dropdown-divider"></div>
 
                      <div id="beneficiary6">
-                        <h4 id="subti6"></h4>
+                        <h4 id="subti1"></h4>
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="name">Primer Nombre</label>
-                                    <input class="form-control" type="text" name="name" />
+                                    <label class="col-form-label" for="bfirstname6">Primer Nombre</label>
+                                    <input class="form-control" type="text" name="bfirstname6" />
                                 </div>
                             </div>
                             
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="othername">Segundo Nombre</label>
-                                    <input class="form-control" type="text" name="othername" />
+                                    <label class="col-form-label" for="bfothername6">Segundo Nombre</label>
+                                    <input class="form-control" type="text" name="bfothername6" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="lastname">Primer Apellido</label>
-                                    <input class="form-control" type="text" name="lastname" />
+                                    <label class="col-form-label" for="bflastname6">Primer Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname6" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="lastname2">Segundo Apellido</label>
-                                    <input class="form-control" type="text" name="lastname2" />
+                                    <label class="col-form-label" for="bflastname62">Segundo Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname62" />
                                 </div>
                             </div>
                             
@@ -641,13 +641,13 @@
                         
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="beneficiario1">Parentesco*</label>
-                                    <select name="beneficiario1" class="form-control">
+                                    <label class="col-form-label" for="bfparentesco6">Parentesco*</label>
+                                    <select name="bfparentesco6" class="form-control">
                                         <option value="">...</option>
-                                        <option value="1" style="">Espos@</option>
-                                        <option value="1" style="">Padre</option>
-                                        <option value="1" style="">Madre</option>
-                                        <option value="1" style="">Hij@</option>
+                                        <option value="Espos@" style="">Espos@</option>
+                                        <option value="Padre" style="">Padre</option>
+                                        <option value="Madre" style="">Madre</option>
+                                        <option value="Hij@" style="">Hij@</option>
                                     </select>
 
                                 </div>
@@ -655,26 +655,26 @@
 
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="document">Tipo de documento*</label>
-                                    <select name="document" class="form-control">
+                                    <label class="col-form-label" for="bfdocument6">Tipo de documento*</label>
+                                    <select name="bfdocument6" class="form-control">
                                         <option value="">...</option>
-                                        <option value="">C.C</option>
-                                        <option value="1" style="">P.A</option>
-                                        <option value="1" style="">T.I</option>
+                                        <option value="C.C">C.C</option>
+                                        <option value="P.A" style="">P.A</option>
+                                        <option value="T.I" style="">T.I</option>
                                                     
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="numero_documento">Número documento*</label>
-                                    <input class="form-control" type="text" name="numero_documento" />
+                                    <label class="col-form-label" for="bfnumero_documento6">Número documento*</label>
+                                    <input class="form-control" type="text" name="bfnumero_documento6" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="date">Fecha nacimiento*</label>
-                                    <input class="form-control" type="date" name="date"  />
+                                    <label class="col-form-label" for="bfdate6">Fecha nacimiento*</label>
+                                    <input class="form-control" type="date" name="bfdate6"  />
                                 </div>
                             </div>
                             
@@ -683,8 +683,8 @@
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="email">Email*</label>
-                                    <input class="form-control" type="email"  name="email" placeholder='ejemplo@ejemplo.com' />
+                                    <label class="col-form-label" for="bfemail6">Email*</label>
+                                    <input class="form-control" type="email"  name="bfemail6" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
                         </div>
