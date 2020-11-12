@@ -4,7 +4,7 @@
         <t t-call="website.layout">
             <br/>
             <div class="container">
-                <form action="/detail-beneficiary" method="post" class="checkout_autoformat">
+                <form action="/beneficiary-detail" method="post" class="checkout_autoformat">
                     <h4>Datos del Asegurado Principal</h4>
                     <div class="row">
                         <div class="col-lg-3">
