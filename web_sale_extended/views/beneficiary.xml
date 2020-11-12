@@ -81,8 +81,8 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label class="col-form-label" for="sex">Estado Civil</label>
-                                <select name="sex" class="form-control">
+                                <label class="col-form-label" for="estado_civil">Estado Civil</label>
+                                <select name="estado_civil" class="form-control">
                                     <option value="">Estado civil</option>
                                     <option value="Soltero" style="">Soltero</option>
                                     <option value="Casado" style="">Casado</option>
