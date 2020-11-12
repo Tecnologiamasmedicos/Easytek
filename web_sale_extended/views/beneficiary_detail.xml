@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="beneficiary_detail">
+        <t t-call="website.layout">
+            <div class="container">
+                <div class="row">
+                    <h4>Datos del Asegurado Principal</h4>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">Nombre Completo</th>
+                            <th scope="col">Cédula de ciudadania</th>
+                            <th scope="col">Correo Electrónico</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            <td><t t-esc="name"/> <t t-esc="othername"/> </td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </t>
+    </template>
+<odoo>
