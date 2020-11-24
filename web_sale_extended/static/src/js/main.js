@@ -11,13 +11,172 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
         $('#city').change(function() {
             let data_select = $("#city option:selected").text();
+            console.log("ciudad del select");
             console.log(data_select);
-            let array_data = data_select.split(" ");
-            console.log(array_data[60]);
-            document.querySelector("input[name='zip']").value = array_data[60]
+            console.log("valor seleccionado");
+            console.log($(this).val());
+            let array_data = data_select.split(' ');
+            console.log("split");
+            console.log(array_data);
+            document.querySelector("input[name='zip']").value = array_data[52]
         });
+        /*$("input[name='birthdate_date']").on('change', function calcularEdad() {
+            console.log("cambio")
+            
+            let fecha = $(this).val();
+            console.log(fecha);
+            
+            let hoy = new Date();
+            let cumpleanos = new Date(fecha);
+            let edad = hoy.getFullYear() - cumpleanos.getFullYear();
+            let m = hoy.getMonth() - cumpleanos.getMonth();
+            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                edad--;
+            }
+            if(edad < 18){
+                console.log("Eres menor de edad perro");
+            }
+        });*/
+        $("#shop").validate({
+            rules:{
+                name : {
+                    required: true,
+                    minlength: 3
+                },
+                lastname: {
+                    required: true,
+                    minlength: 3
+                },
+                lastname2: {
+                    required: true,
+                    minlength: 3
+                },
+                email:{
+                    required: true,
+                    email: true
+                    
+                },
+                phone:{
+                    required: true,
+                    
+                    
+                },
+                document: {
+                    required: true
+                },
+                identification_document:{
+                    required: true,
+                    number: true,
+                    
+                },
+                
+                street:{
+                    required: true,
+                },
+                city:{
+                    required: true,
+                    
+                },
+                country_id:{
+                    required: true,
+                    
+                },
+                state_id:{
+                    required: true,
+                },
+                aceptacion_datos:{
+                    required: true
+                },
+                tyc:{
+                    required: true
+                },
+                birthdate_date:{
+                    required: true,
+                    mayor: {
+                        depends: function(elem) {
+                            var edad_maxima = 0;
+                            let fecha = $("input[name='birthdate_date']").val();
 
-
+                                let hoy = new Date();
+                                let cumpleanos = new Date(fecha);
+                                let edad = hoy.getFullYear() - cumpleanos.getFullYear();
+                                let m = hoy.getMonth() - cumpleanos.getMonth();
+                                if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                                    edad--;
+                                }
+                            
+                            
+                            return edad < 69
+                        }
+                    }
+                },
+                
+                
+            },
+            messages :{
+                name:{
+                    required: "Este campo es requerido",
+                    minlength: "Un nombre contiene más de 3 caracteres" 
+                },
+                lastname:{
+                    required: "Este campo es requerido",
+                    minlength: "Un apellido contiene más de 3 caracteres" 
+                },
+                lastname2:{
+                    required: "Este campo es requerido",
+                    minlength: "Un apellido contiene más de 3 caracteres" 
+                },
+                email:{
+                    required: "Este campo es requerido",
+                    email: "Escribe un email valido" 
+                },
+                phone:{
+                    required: "Este campo es requerido",
+                    
+                },
+                document:{
+                    required: "Este campo es requerido",
+                    
+                },
+                identification_document:{
+                    required: "Este campo es requerido",
+                    number: "Este campo solo es numérico"
+                    
+                },
+                street:{
+                    required: "Este campo es requerido",
+                    
+                },
+                city:{
+                    required: "Este campo es requerido",
+                    
+                },
+                country_id:{
+                    required: "Este campo es requerido",
+                    
+                },
+                state_id:{
+                    required: "Este campo es requerido",
+                    
+                },
+                aceptacion_datos:{
+                    required: "Acepte tratamiento de datos",
+                    
+                },
+                tyc:{
+                    required: "Acepte terminos y condiciones",
+                    
+                },
+                birthdate_date:{
+                    required: "Campo de fecha es obligatorio",
+                    //min: "Tienes que ser mayor de edad",
+                    mayor: "Ups debes de ser mayor 18 y menor de 69 años para seguir"
+                    
+                },
+                
+            }
+        });
+        
         hide_beneficiaries();
 
 
@@ -35,7 +194,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
     }
 
 
-    document.getElementById('cant_beneficiarios').addEventListener('change', function() {
+   /* document.getElementById('cant_beneficiarios').addEventListener('change', function() {
         let cantidad_beneficiarios = parseInt(this.value);
         if (cantidad_beneficiarios == 0) {
             hide_beneficiaries();
@@ -52,7 +211,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             }
         }
 
-    });
+    });*/
     // var ajax = require('web.ajax');
     // var core = require('web.core');
     // var sAnimation = require('website.content.snippets.animation');

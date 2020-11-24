@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'website_sale'],
+    'depends': ['base', 'website_sale', 'portal'],
 
     # always loaded
     'data': [
@@ -28,8 +28,12 @@
         'views/views.xml',
         'views/templates.xml',
         'views/web_sale_shop_address.xml',
+        'views/res_partner_view.xml',
         'views/beneficiary.xml',
-        'views/beneficiary_detail.xml'
+        'views/beneficiary_detail.xml',
+        'reports/sale_order_report.xml',
+        'data/shop_address.xml',
+        'data/beneficiary_confirm_template.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

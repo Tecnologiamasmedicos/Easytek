@@ -1,560 +1,749 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="beneficiary_detail">
+    <template id="beneficiary">
         <t t-call="website.layout">
+            <br/>
             <div class="container">
-                <h2>Resumen final de Suscripción</h2>
-                <br/>
-                <br/>
-                <div class="row">
-                    <h4>Datos del Asegurado Principal</h4>
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Nombre Completo</th>
-                            <th scope="col">Cédula de ciudadania</th>
-                            <th scope="col">Correo Electrónico</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
+                <form id="beneficiary" action="/beneficiary-detail" method="post" class="checkout_autoformat">
+                    <div class="card">
+                        <h4>Datos del Asegurador Principal</h4>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="name">Primer Nombre </label>
+                                    <input class="form-control" type="text" name="name" t-att-value="partner.firstname"/>
+                                </div>
+                            </div>
 
-                            <td><t t-esc="name"/> <t t-esc="othername"/> <t t-esc="lastname"/> <t t-esc="lastname2"/> </td>
-                            <td><t t-esc="document"/>  <t t-esc="numero_documento"/></td>
-                            <td><t t-esc="email"/></td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Número Teléfono</th>
-                            <th scope="col">Género</th>
-                            <th scope="col">fecha de Nacimiento</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="othername">Segundo Nombre</label>
+                                    <input class="form-control" type="text" name="othername" t-att-value="partner.othernames"  />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="lastname">Primer Apellido</label>
+                                    <input class="form-control" type="text" name="lastname" t-att-value="partner.lastname" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="lastname2">Segundo Apellido</label>
+                                    <input class="form-control" type="text" name="lastname2" t-att-value="partner.lastname2" />
+                                </div>
+                            </div>
 
-                            <td><t t-esc="phone"/>  </td>
-                            <td><t t-esc="sex"/> </td>
-                            <td><t t-esc="date"/></td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
+                        </div>
 
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Dirección</th>
-                            <th scope="col">Departamento</th>
-                            
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="document_type">Tipo de documento</label>
+                                    <select name="document_type" class="form-control">
+                                        <t t-foreach="document_types" t-as="dt">
+                                                <option t-att-value="dt.id" t-att-selected="dt.id == partner.document_type_id">
+                                                    <t t-esc="dt.name" /> 
+                                                </option>
+                                            </t>
 
-                            <td><t t-esc="address"/>  </td>
-                            <td><t t-esc="deparment"/> </td>
-                            
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Ciudad</th>
-                            <th scope="col">Estado Civil</th>
-                            <th scope="col">Ocupación</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="numero_documento">Número documento</label>
+                                    <input class="form-control" type="text" name="numero_documento" t-att-value="partner.identification_document" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="email">Email</label>
+                                    <input class="form-control" type="email"  name="email" placeholder='ejemplo@ejemplo.com'  t-att-value="partner.email"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="phone">Número telefono</label>
+                                    <input class="form-control" type="text" name="phone" t-att-value="partner.phone" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
 
-                            <td><t t-esc="city"/>  </td>
-                            <td><t t-esc="estado_civil"/> </td>
-                            <td><t t-esc="profesion"/></td>
-                            </tr>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="sex">Sexo</label>
+                                    <select name="sex" class="form-control">
+                                        <option value="">Seleccione...</option>
+                                        <option value="M">Masculino</option>
+                                        <option value="F" style="">Femenino</option>
+                                        <option value="O" style="">Otro</option>
+
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="estado_civil">Estado Civil</label>
+                                    <select name="estado_civil" class="form-control">
+                                        <option value="">Estado civil</option>
+                                        <option value="Soltero" style="">Soltero</option>
+                                        <option value="Casado" style="">Casado</option>
+                                        <option value="Unión Libre" style="">Unión Libre</option>
+                                        <option value="Viudo" style="">Viudo/a</option>
+                                        <option value="Divorciado" style="">Divorciado/a</option>
+
+
+                                    </select>
+                                </div>
+                            </div>
                             
-                        </tbody>
-                    </table>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="profesion">Ocupación</label>
+                                    <input class="form-control" type="text" name="ocupation"  />
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="address">Dirección de residencia</label>
+                                    <input class="form-control" type="text" name="address" placeholder="Dirección de residencia" t-att-value="partner.street"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="date">Fecha nacimiento</label>
+                                    <input class="form-control" type="date" name="date"  t-att-value="partner.birthdate_date"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="country_id">País</label>
+                                    <select name="country_id" class="form-control">
+                                        <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
+                                        <t t-foreach="countries" t-as="c">
+                                                <option t-att-value="c.id" t-att-selected="c.id == (country and country.id)">
+                                                    <t t-esc="c.name" />
+                                                </option>
+                                            </t>
+                                         
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="deparment">Departamento</label>
+                                    <select name="deparment" class="form-control">
+                                        <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
+                                        <t t-foreach="country_states" t-as="s">
+                                                <option t-att-value="s.id" t-att-selected="s.id == partner.state_id">
+                                                    <t t-esc="s.name" />
+                                                </option>
+                                        </t>
+                                         
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="city">Ciudad</label>
+                                    <select name="city" class="form-control">
+                                        <t t-foreach="cities" t-as="c">
+                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.name == partner.city">
+                                                 <t t-esc="c.city_id.name" />
+                                            </option>
+                                        </t>
+                                        <!--<option t-att-selected="partner.city"><t t-esc="partner.city" /></option>
+                                        <option value="Bogotá" style="">Bogotá</option>
+                                        <option value="Cali" style="">Cali</option>-->
+
+
+                                    </select>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="beneficiario">Cantidad de beneficiarios a incluir</label>
+                                    <select name="beneficiario" id="cant_beneficiarios" class="form-control">
+                                        <option value="0">...</option>
+                                        <option value="1" style="">1</option>
+                                        <option value="2" style="">2</option>
+                                        <option value="3" style="">3</option>
+                                        <option value="4" style="">4</option>
+                                        <option value="5" style="">5</option>
+                                        <option value="6" style="">6</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+
+                        </div>
+                    </div>
+
+                    <br/>
+                    <br/>
+                    <!-- BENEFICIARIO 1-->
+                    <div id="beneficiary1" class="card">
+                        <h4 id="subti1"></h4>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfirstname1">Primer Nombre</label>
+                                    <input class="form-control" type="text" name="bfirstname1" />
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfothername1">Segundo Nombre</label>
+                                    <input class="form-control" type="text" name="bfothername1" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bflastname1">Primer Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname1" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bflastname12">Segundo Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname12" />
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                        
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfparentesco1">Parentesco*</label>
+                                    <select name="bfparentesco1" class="form-control">
+                                        <option value="">...</option>
+                                        <option value="Espos@" style="">Espos@</option>
+                                        <option value="Padre" style="">Padre</option>
+                                        <option value="Madre" style="">Madre</option>
+                                        <option value="Hij@" style="">Hij@</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfdocument1">Tipo de documento*</label>
+                                    <select name="bfdocument1" class="form-control">
+                                        <option value="">...</option>
+                                        <t t-foreach="document_types" t-as="dt">
+                                            <option t-att-value="dt.id">
+                                                <t t-esc="dt.name" /> 
+                                            </option>
+                                        </t>
+                                                    
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfnumero_documento1">Número documento*</label>
+                                    <input class="form-control" type="text" name="bfnumero_documento1" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfdate1">Fecha nacimiento*</label>
+                                    <input class="form-control" type="date" name="bfdate1"  />
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfemail1">Email*</label>
+                                    <input class="form-control" type="email"  name="bfemail1" placeholder='ejemplo@ejemplo.com' />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Fin beneficiario 1 -->
+                    <div class="dropdown-divider"></div>
+                    <br/>
+
+                    <div id="beneficiary2" class="card">
+                        <h4 id="subti2"></h4>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfirstname2">Primer Nombre</label>
+                                    <input class="form-control" type="text" name="bfirstname2" />
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfothername2">Segundo Nombre</label>
+                                    <input class="form-control" type="text" name="bfothername2" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bflastname2">Primer Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname2" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bflastname22">Segundo Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname22" />
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                        
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfparentesco2">Parentesco*</label>
+                                    <select name="bfparentesco2" class="form-control">
+                                        <option value="">...</option>
+                                        <option value="Espos@" style="">Espos@</option>
+                                        <option value="Padre" style="">Padre</option>
+                                        <option value="Madre" style="">Madre</option>
+                                        <option value="Hij@" style="">Hij@</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfdocument2">Tipo de documento*</label>
+                                    <select name="bfdocument2" class="form-control">
+                                        <option value="">...</option>
+                                        <t t-foreach="document_types" t-as="dt">
+                                            <option t-att-value="dt.id" t-att-selected="dt.id == partner.document_type_id">
+                                                <t t-esc="dt.name" /> 
+                                            </option>
+                                        </t>
+                                                    
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfnumero_documento2">Número documento*</label>
+                                    <input class="form-control" type="text" name="bfnumero_documento2" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfdate2">Fecha nacimiento*</label>
+                                    <input class="form-control" type="date" name="bfdate2"  />
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfemail2">Email*</label>
+                                    <input class="form-control" type="email"  name="bfemail2" placeholder='ejemplo@ejemplo.com' />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Fin beneficiario 2 -->
+                    <div class="dropdown-divider"></div>
+                    <br/>
+
+                    <div id="beneficiary3" class="card">
+                        <h4 id="subti3"></h4>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfirstname3">Primer Nombre</label>
+                                    <input class="form-control" type="text" name="bfirstname3" />
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfothername3">Segundo Nombre</label>
+                                    <input class="form-control" type="text" name="bfothername3" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bflastname3">Primer Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname3" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bflastname32">Segundo Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname32" />
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                        
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfparentesco3">Parentesco*</label>
+                                    <select name="bfparentesco3" class="form-control">
+                                        <option value="">...</option>
+                                        <option value="Espos@" style="">Espos@</option>
+                                        <option value="Padre" style="">Padre</option>
+                                        <option value="Madre" style="">Madre</option>
+                                        <option value="Hij@" style="">Hij@</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfdocument3">Tipo de documento*</label>
+                                    <select name="bfdocument3" class="form-control">
+                                        <option value="">...</option>
+                                        <t t-foreach="document_types" t-as="dt">
+                                            <option t-att-value="dt.id">
+                                                <t t-esc="dt.name" /> 
+                                            </option>
+                                        </t>
+                                                    
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfnumero_documento3">Número documento*</label>
+                                    <input class="form-control" type="text" name="bfnumero_documento3" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfdate3">Fecha nacimiento*</label>
+                                    <input class="form-control" type="date" name="bfdate3"  />
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfemail3">Email*</label>
+                                    <input class="form-control" type="email"  name="bfemail3" placeholder='ejemplo@ejemplo.com' />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Fin beneficiario 3 -->
+                    <div class="dropdown-divider"></div>
+                    <br/>
+
+                    <div id="beneficiary4" class="card">
+                        <h4 id="subti4"></h4>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfirstname4">Primer Nombre</label>
+                                    <input class="form-control" type="text" name="bfirstname4" />
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfothername4">Segundo Nombre</label>
+                                    <input class="form-control" type="text" name="bfothername4" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bflastname4">Primer Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname4" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bflastname42">Segundo Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname42" />
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                        
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfparentesco4">Parentesco*</label>
+                                    <select name="bfparentesco4" class="form-control">
+                                        <option value="">...</option>
+                                        <option value="Espos@" style="">Espos@</option>
+                                        <option value="Padre" style="">Padre</option>
+                                        <option value="Madre" style="">Madre</option>
+                                        <option value="Hij@" style="">Hij@</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfdocument4">Tipo de documento*</label>
+                                    <select name="bfdocument4" class="form-control">
+                                        <option value="">...</option>
+                                        <t t-foreach="document_types" t-as="dt">
+                                            <option t-att-value="dt.id">
+                                                <t t-esc="dt.name" /> 
+                                            </option>
+                                        </t>
+                                                    
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfnumero_documento4">Número documento*</label>
+                                    <input class="form-control" type="text" name="bfnumero_documento4" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfdate4">Fecha nacimiento*</label>
+                                    <input class="form-control" type="date" name="bfdate4"  />
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfemail4">Email*</label>
+                                    <input class="form-control" type="email"  name="bfemail4" placeholder='ejemplo@ejemplo.com' />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- FIN BENEFICIARIO 4 -->
+                    <div class="dropdown-divider"></div>
+                    <br/>
+                     <div id="beneficiary5" class="card">
+                        <h4 id="subti5"></h4>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfirstname5">Primer Nombre</label>
+                                    <input class="form-control" type="text" name="bfirstname5" />
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfothername5">Segundo Nombre</label>
+                                    <input class="form-control" type="text" name="bfothername5" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bflastname5">Primer Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname5" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bflastname52">Segundo Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname52" />
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                        
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfparentesco5">Parentesco*</label>
+                                    <select name="bfparentesco5" class="form-control">
+                                        <option value="">...</option>
+                                        <option value="Espos@" style="">Espos@</option>
+                                        <option value="Padre" style="">Padre</option>
+                                        <option value="Madre" style="">Madre</option>
+                                        <option value="Hij@" style="">Hij@</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfdocument5">Tipo de documento*</label>
+                                    <select name="bfdocument5" class="form-control">
+                                        <option value="">...</option>
+                                        <t t-foreach="document_types" t-as="dt">
+                                            <option t-att-value="dt.id">
+                                                <t t-esc="dt.name" /> 
+                                            </option>
+                                        </t>
+                                                    
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfnumero_documento5">Número documento*</label>
+                                    <input class="form-control" type="text" name="bfnumero_documento5" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfdate5">Fecha nacimiento*</label>
+                                    <input class="form-control" type="date" name="bfdate5"  />
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfemail5">Email*</label>
+                                    <input class="form-control" type="email"  name="bfemail5" placeholder='ejemplo@ejemplo.com' />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- FIN BENEFICIARIO 5 -->
+                    <div class="dropdown-divider"></div>
+                    <br/>
+
+                     <div id="beneficiary6" class="card">
+                        <h4 id="subti6"></h4>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfirstname6">Primer Nombre</label>
+                                    <input class="form-control" type="text" name="bfirstname6" />
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfothername6">Segundo Nombre</label>
+                                    <input class="form-control" type="text" name="bfothername6" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bflastname6">Primer Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname6" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bflastname62">Segundo Apellido</label>
+                                    <input class="form-control" type="text" name="bflastname62" />
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                        
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfparentesco6">Parentesco*</label>
+                                    <select name="bfparentesco6" class="form-control">
+                                        <option value="">...</option>
+                                        <option value="Espos@" style="">Espos@</option>
+                                        <option value="Padre" style="">Padre</option>
+                                        <option value="Madre" style="">Madre</option>
+                                        <option value="Hij@" style="">Hij@</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfdocument6">Tipo de documento*</label>
+                                    <select name="bfdocument6" class="form-control">
+                                        <option value="">...</option>
+                                        <t t-foreach="document_types" t-as="dt">
+                                            <option t-att-value="dt.id">
+                                                <t t-esc="dt.name" /> 
+                                            </option>
+                                        </t>
+                                                    
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfnumero_documento6">Número documento*</label>
+                                    <input class="form-control" type="text" name="bfnumero_documento6" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfdate6">Fecha nacimiento*</label>
+                                    <input class="form-control" type="date" name="bfdate6"  />
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfemail6">Email*</label>
+                                    <input class="form-control" type="email"  name="bfemail6" placeholder='ejemplo@ejemplo.com' />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                     
-                </div>
-
-                <!-- BENEFICIARIO 1 -->
-                <div class="row">
-                    <h4>Datos del beneficiario 1/<t t-esc="beneficiario"/></h4>
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Parentesco</th>
-                            <th scope="col">Nombre Completo</th>
-                            <th scope="col">Cédula de ciudadania</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="bfparentesco1"/></td>
-                            <td><t t-esc="bfirstname1"/> <t t-esc="bfothername1"/> <t t-esc="bflastname1"/> <t t-esc="bflastname12"/> </td>
-                            <td><t t-esc="bfdocument1"/>  <t t-esc="bfnumero_documento1"/></td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">fecha de Nacimiento</th>
-                            <th scope="col">Email</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            
-                            <td><t t-esc="bfdate1"/></td>
-                            <td><t t-esc="bfemail1"/> </td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-
-                    <!-- <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Dirección</th>
-                            <th scope="col">Departamento</th>
-                            
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="address"/>  </td>
-                            <td><t t-esc="deparment"/> </td>
-                            
-                            </tr>
-                            
-                        </tbody>
-                    </table> -->
-                    <!-- <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Ciudad</th>
-                            <th scope="col">Estado Civil</th>
-                            <th scope="col">Ocupación</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="city"/>  </td>
-                            <td><t t-esc="estado_civil"/> </td>
-                            <td><t t-esc="profesion"/></td>
-                            </tr>
-                            
-                        </tbody>
-                    </table> -->
-                    
-                </div>
-                <!-- FIN BENEFICIARIO 1 -->
-                <!-- BENEFICIARIO 2 -->
-                <div class="row" t-if="bfirstname2">
-                    <h4>Datos del beneficiario 2/<t t-esc="beneficiario"/></h4>
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Parentesco</th>
-                            <th scope="col">Nombre Completo</th>
-                            <th scope="col">Cédula de ciudadania</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="bfparentesco2"/></td>
-                            <td><t t-esc="bfirstname2"/> <t t-esc="bfothername2"/> <t t-esc="bflastname2"/> <t t-esc="bflastname22"/> </td>
-                            <td><t t-esc="bfdocument2"/>  <t t-esc="bfnumero_documento2"/></td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">fecha de Nacimiento</th>
-                            <th scope="col">Email</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            
-                            <td><t t-esc="bfdate2"/></td>
-                            <td><t t-esc="bfemail2"/> </td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-
-                    <!-- <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Dirección</th>
-                            <th scope="col">Departamento</th>
-                            
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="address"/>  </td>
-                            <td><t t-esc="deparment"/> </td>
-                            
-                            </tr>
-                            
-                        </tbody>
-                    </table> -->
-                    <!-- <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Ciudad</th>
-                            <th scope="col">Estado Civil</th>
-                            <th scope="col">Ocupación</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="city"/>  </td>
-                            <td><t t-esc="estado_civil"/> </td>
-                            <td><t t-esc="profesion"/></td>
-                            </tr>
-                            
-                        </tbody>
-                    </table> -->
-                    
-                </div>
-                <!-- FIN BENEFICIARIO 2 -->
-                <!-- BENEFICIARIO 3 -->
-                <div class="row" t-if="bfirstname3">
-                    <h4>Datos del beneficiario 3/<t t-esc="beneficiario"/></h4>
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Parentesco</th>
-                            <th scope="col">Nombre Completo</th>
-                            <th scope="col">Cédula de ciudadania</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="bfparentesco3"/></td>
-                            <td><t t-esc="bfirstname3"/> <t t-esc="bfothername3"/> <t t-esc="bflastname3"/> <t t-esc="bflastname32"/> </td>
-                            <td><t t-esc="bfdocument3"/>  <t t-esc="bfnumero_documento3"/></td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">fecha de Nacimiento</th>
-                            <th scope="col">Email</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            
-                            <td><t t-esc="bfdate3"/></td>
-                            <td><t t-esc="bfemail3"/> </td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-
-                    <!-- <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Dirección</th>
-                            <th scope="col">Departamento</th>
-                            
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="address"/>  </td>
-                            <td><t t-esc="deparment"/> </td>
-                            
-                            </tr>
-                            
-                        </tbody>
-                    </table> -->
-                    <!-- <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Ciudad</th>
-                            <th scope="col">Estado Civil</th>
-                            <th scope="col">Ocupación</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="city"/>  </td>
-                            <td><t t-esc="estado_civil"/> </td>
-                            <td><t t-esc="profesion"/></td>
-                            </tr>
-                            
-                        </tbody>
-                    </table> -->
-                    
-                </div>
-                <!-- FIN BENEFICIARIO 3 -->
-                <!-- BENEFICIARIO 4 -->
-                <div class="row" t-if="bfirstname4">
-                    <h4>Datos del beneficiario 4/<t t-esc="beneficiario"/></h4>
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Parentesco</th>
-                            <th scope="col">Nombre Completo</th>
-                            <th scope="col">Cédula de ciudadania</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="bfparentesco4"/></td>
-                            <td><t t-esc="bfirstname4"/> <t t-esc="bfothername4"/> <t t-esc="bflastname4"/> <t t-esc="bflastname42"/> </td>
-                            <td><t t-esc="bfdocument4"/>  <t t-esc="bfnumero_documento4"/></td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">fecha de Nacimiento</th>
-                            <th scope="col">Email</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            
-                            <td><t t-esc="bfdate4"/></td>
-                            <td><t t-esc="bfemail4"/> </td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-
-                    <!-- <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Dirección</th>
-                            <th scope="col">Departamento</th>
-                            
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="address"/>  </td>
-                            <td><t t-esc="deparment"/> </td>
-                            
-                            </tr>
-                            
-                        </tbody>
-                    </table> -->
-                    <!-- <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Ciudad</th>
-                            <th scope="col">Estado Civil</th>
-                            <th scope="col">Ocupación</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="city"/>  </td>
-                            <td><t t-esc="estado_civil"/> </td>
-                            <td><t t-esc="profesion"/></td>
-                            </tr>
-                            
-                        </tbody>
-                    </table> -->
-                    
-                </div>
-                <!-- FIN BENEFICIARIO 4 -->
-                <!-- BENEFICIARIO 5 -->
-                <div class="row" t-if="bfirstname5">
-                    <h4>Datos del beneficiario 5/<t t-esc="beneficiario"/></h4>
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Parentesco</th>
-                            <th scope="col">Nombre Completo</th>
-                            <th scope="col">Cédula de ciudadania</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="bfparentesco5"/></td>
-                            <td><t t-esc="bfirstname5"/> <t t-esc="bfothername5"/> <t t-esc="bflastname5"/> <t t-esc="bflastname52"/> </td>
-                            <td><t t-esc="bfdocument5"/>  <t t-esc="bfnumero_documento5"/></td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">fecha de Nacimiento</th>
-                            <th scope="col">Email</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            
-                            <td><t t-esc="bfdate5"/></td>
-                            <td><t t-esc="bfemail5"/> </td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-
-                    <!-- <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Dirección</th>
-                            <th scope="col">Departamento</th>
-                            
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="address"/>  </td>
-                            <td><t t-esc="deparment"/> </td>
-                            
-                            </tr>
-                            
-                        </tbody>
-                    </table> -->
-                    <!-- <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Ciudad</th>
-                            <th scope="col">Estado Civil</th>
-                            <th scope="col">Ocupación</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="city"/>  </td>
-                            <td><t t-esc="estado_civil"/> </td>
-                            <td><t t-esc="profesion"/></td>
-                            </tr>
-                            
-                        </tbody>
-                    </table> -->
-                    
-                </div>
-                <!-- FIN BENEFICIARIO 5 -->
-                <!-- BENEFICIARIO 6 -->
-                <div class="row" t-if="bfirstname6">
-                    <h4>Datos del beneficiario 6/<t t-esc="beneficiario"/></h4>
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Parentesco</th>
-                            <th scope="col">Nombre Completo</th>
-                            <th scope="col">Cédula de ciudadania</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="bfparentesco6"/></td>
-                            <td><t t-esc="bfirstname6"/> <t t-esc="bfothername6"/> <t t-esc="bflastname6"/> <t t-esc="bflastname62"/> </td>
-                            <td><t t-esc="bfdocument6"/>  <t t-esc="bfnumero_documento6"/></td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">fecha de Nacimiento</th>
-                            <th scope="col">Email</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            
-                            <td><t t-esc="bfdate6"/></td>
-                            <td><t t-esc="bfemail6"/> </td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-
-                    <!-- <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Dirección</th>
-                            <th scope="col">Departamento</th>
-                            
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="address"/>  </td>
-                            <td><t t-esc="deparment"/> </td>
-                            
-                            </tr>
-                            
-                        </tbody>
-                    </table> -->
-                    <!-- <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                            <th scope="col">Ciudad</th>
-                            <th scope="col">Estado Civil</th>
-                            <th scope="col">Ocupación</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                            <td><t t-esc="city"/>  </td>
-                            <td><t t-esc="estado_civil"/> </td>
-                            <td><t t-esc="profesion"/></td>
-                            </tr>
-                            
-                        </tbody>
-                    </table> -->
-                    
-                </div>
-                <!-- FIN BENEFICIARIO 6 -->
-
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                    <button class="btn btn-custom mb32 a-submit a-submit-disable a-submit-loading">
+                        <span>Guardar</span>
+                        <i class="fa fa-chevron-right"/>
+                    </button>
+                </form>
             </div>
-
         </t>
     </template>
 </odoo>

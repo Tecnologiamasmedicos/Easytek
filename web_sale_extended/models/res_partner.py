@@ -11,12 +11,34 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
     
     website_partner_type = fields.Char(string='partner_type', compute='_get_website_partner_type', store=False)
+    birthdate_date = fields.Date("Birthdate")
+    ocupation = fields.Char("Ocupation")
+    #age = fields.Integer(string="Age", readonly=True, compute="_compute_age")
+    gender = fields.Selection(
+        [("M", _("Male")), ("F", _("Female")), ("O", _("Other"))]
+    )
+    relationship = fields.Selection(
+        [("P", "Principal"), ("C", "Conyugue"), ("D", "PADRES"), ("H", "HIJOS"), ("M", "HERMANOS"), ("S", "SUEGROS")]
+    )
+    marital_status = fields.Selection(
+        [ ("Soltero", "Soltero"), ("Casado", "Casado"), ("Unión Libre", "Unión Libre"), ("Divorciado", "Divorciado"), ("Viudo", "Viudo")]
+    )
+    address_beneficiary = fields.Char('Dirección del Beneficiario')
+    
     
     
     @api.depends('zip','city_id')
     def _get_website_partner_type(self):
         for record in self:
             record.website_partner_type = record.zip + record.street
+            
+    #@api.depends("birthdate_date")
+    #def _compute_age(self):
+    #    for record in self:
+    #       age = 0
+    #        if record.birthdate_date:
+    #            age = relativedelta(fields.Date.today(), record.birthdate_date).years
+    #        record.age = age
 
 
 # class web_sale_extended(models.Model):
