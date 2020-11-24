@@ -1,5 +1,13 @@
 <odoo>
   <data>
+    <data noupdate="0">
+        <record id="menu_my_beneficiaries" model="website.menu">
+            <field name="name">Beneficiarios</field>
+            <field name="url">/add/beneficiary</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence">50</field>
+        </record>
+    </data>
     <!-- explicit list view definition -->
 <!--
     <record model="ir.ui.view" id="web_sale_extended.list">

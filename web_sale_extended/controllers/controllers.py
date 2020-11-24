@@ -96,13 +96,18 @@ class WebsiteSaleExtended(WebsiteSale):
                 _logger.info(mode)
                 _logger.info(post)
                 _logger.info(kw)
+                if kw['othernames'] == '':
+                    post['othernames'] = ' '
+                else:
+                    post['othernames'] = kw['othernames']
+                
                 post['firstname'] = kw['name']
-                post['othernames'] = kw['othernames']
                 post['lastname'] = kw['lastname']
                 post['lastname2'] = kw['lastname2']
                 post['document_type_id'] = int(kw["document"])
-                post['property_account_position_id'] = int(kw["fiscal_position"])
+                post['person_type'] = "2"
                 post['identification_document'] = kw["identification_document"]
+                post["birthdate_date"] = kw["birthdate_date"]
                 partner_id = self._checkout_form_save(mode, post, kw)
                 if mode[1] == 'billing':
                     order.partner_id = partner_id
@@ -158,16 +163,108 @@ class WebsiteSaleExtended(WebsiteSale):
     def create_beneficiary(self, **kwargs):
         _logger.info("**BENEFICIARY**")
 
-        _logger.info(request.env.user)
-        return request.render("web_sale_extended.beneficiary")
+        _logger.info(request.env.user.email)
+        InsurerPartner = request.env['res.partner'].search([('email', '=', request.env.user.email)], limit=1)
 
+        country = request.env['res.country'].browse(int(InsurerPartner.country_id))
+        render_values = {
+            "partner": InsurerPartner[0],
+            'country_states': country.get_website_sale_states(),
+            'cities': self.get_cities(),
+            'countries': country.get_website_sale_countries(),
+            'document_types': self.get_document_types(),
+            'country': country,
+        }
+        return request.render("web_sale_extended.beneficiary", render_values)
+
+    
     @http.route(['/beneficiary-detail'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def beneficiary_detail(self, **kwargs):
         _logger.info("***INFORME BENEFICIARIO***")
         _logger.info(kwargs)
+        
+        
+        InsurerPartner = request.env['res.partner'].search([('email', '=', request.env.user.email)], limit=1)
+        InsurerPartner_childs = request.env['res.partner'].search([
+            ('parent_id', '=', InsurerPartner.id),
+        ], limit=6)
+        
+        
+        
+        
+        
+        #validaciones
+        #if not kwargs['first_name']:
+        #    raise(_('valiacion'))
+        
+        
+        BeneficiaryPartner = request.env['res.partner'].sudo()
+        
+        for i in range(int(kwargs['beneficiario'])):
+            firtst_name = "bfirstname"+str(i+1)
+            other_name = "bfothername"+str(i+1)
+            last_name = "bflastname"+str(i+1)
+            last_name2 = "bflastname"+str(i+1)+"2"
+            email = "bfemail"+str(i+1)
+            document_type = "bfdocument"+str(i+1)
+            identification_document = "bfnumero_documento"+str(i+1)
+            
+            if InsurerPartner_childs:
+                BeneficiaryPartner.write({
+                    'firstname': kwargs[firtst_name],
+                    'lastname': kwargs[last_name],
+                    'lastname2':kwargs[last_name2],
+                    'othernames': kwargs[other_name],
+                    'email': kwargs[email],
+                    #'mobile': phone,
+                    #'document_type_id': kwargs[document_type],
+                    'identification_document': kwargs[identification_document],
+                    'company_type': 'person',
+                    'active': False,
+                    'parent_id': InsurerPartner.id
+                })
+                
+
+            else:
+                BeneficiaryPartner.create({
+                    'firstname': kwargs[firtst_name],
+                    'lastname': kwargs[last_name],
+                    'lastname2':kwargs[last_name2],
+                    'othernames': kwargs[other_name],
+                    'email': kwargs[email],
+                    #'mobile': phone,
+                    #'document_type_id': kwargs[document_type],
+                    'identification_document': kwargs[identification_document],
+                    'company_type': 'person',
+                    'active': False,
+                    'parent_id': InsurerPartner.id
+                })
+    
+        
         return request.render("web_sale_extended.beneficiary_detail", kwargs)
 
 
+    @http.route(['/beneficiary-submit'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
+    def beneficiary_submit(self, **kwargs):
+        InsurerPartner = request.env['res.partner'].search([('email', '=', request.env.user.email)], limit=1)
+        InsurerPartner_childs = request.env['res.partner'].search([
+            ('parent_id', '=', InsurerPartner.id),
+        ], limit=6)
+        
+        for beneficiary in InsurerPartner_childs:
+            BeneficiaryPartner = request.env['res.partner'].browse(beneficiary.id)
+            BeneficiaryPartner.write({'active': True})
+            
+        #punto ideal para enviar el correo
+        
+        
+        
+        confirm_mail_template = request.env.ref('web_sale_extended.email_beneficiary_confirm_template')
+        confirm_mail_template.sudo().send_mail(InsurerPartner.id)
+
+                    
+        return 
+            
 
 
 class OdooWebsiteSearchCity(http.Controller):
@@ -218,3 +315,4 @@ class OdooWebsiteSearchCity(http.Controller):
         _logger.info(data)
         return json.dumps(data)
    
+

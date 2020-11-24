@@ -1,0 +1,20 @@
+label.error {
+    color: red;
+    font-size: 1rem;
+    display: block;
+    margin-top: 5px;
+}
+
+input.error {
+    border: 1px dashed red;
+    font-weight: 300;
+    color: red;
+}
+.card{
+    padding: 1rem;
+}
+.btn-custom {
+	background: #3333CC;
+    color: white;
+    border-radius: 10px;
+}

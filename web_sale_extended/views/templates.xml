@@ -4,11 +4,13 @@
 		<xpath expr="." position="inside">
 			<!-- Latest compiled and minified CSS -->
 			<link rel="stylesheet" href="/web_sale_extended/static/src/lib/bootstrap-select.min.css"/>
+            <link rel="stylesheet" href="/web_sale_extended/static/src/css/main.css"/>
 
 			<!-- Latest compiled and minified JavaScript -->
 
 			<script  src="/web_sale_extended/static/src/lib/bootstrap-select.min.js"></script>
 			<script src="/web_sale_extended/static/src/lib/jquery.typeahead.min.js" type="text/javascript"></script>
+            <script src="/web_sale_extended/static/src/lib/jquery.validate.min.js" type="text/javascript"></script>
 			<script src="/web_sale_extended/static/src/js/main.js" type="text/javascript"></script>
 		</xpath>
 	</template>
