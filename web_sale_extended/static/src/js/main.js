@@ -394,6 +394,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         $("#politica").show();
 
     });
+    $('#exampleModal').modal(options);
 
 
 
