@@ -21,6 +21,6 @@ input.error {
     border-radius: 10px;
 }
 
-label {
+.col-form-label {
     font-weight: normal;
 }
