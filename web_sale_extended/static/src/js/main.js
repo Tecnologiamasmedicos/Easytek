@@ -19,7 +19,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         $("input[name='bfdate1']").on('change', function calcularEdad() {
             let fecha = $(this).val();
             console.log(fecha);
-            
+
             let hoy = new Date();
             let cumpleanos = new Date(fecha);
             let edad = hoy.getFullYear() - cumpleanos.getFullYear();
@@ -32,24 +32,24 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             let ciudad_asegurador = $("input[name='city']").val();
             let adress_asegurador = $("input[name='address']").val();
             let asegurador_state = $("input[name='deparment']").val();
-            let country_asegurador = $("input[name='country_id']").val(); 
-            if(edad < 18){
+            let country_asegurador = $("input[name='country_id']").val();
+            if (edad < 18) {
                 console.log("Eres menor de edad perro");
-                
+
                 $("input[name='bfemail1']").val(email_asegurador);
                 $("input[name='bfaddress1']").val(adress_asegurador);
                 //$("select[name='bfcountry_id1']").val(country_asegurador);
                 //$("select[name='bfdeparment1']").val(asegurador_state);
                 //$("select[name='bfcity1']").val(ciudad_asegurador);
                 $("input[name='bffijo1']").val(telefono_fijo_asegurador);
-                
+
             }
         });
-        
-        
+
+
         $("#shop").validate({
-            rules:{
-                name : {
+            rules: {
+                name: {
                     required: true,
                     minlength: 3
                 },
@@ -61,61 +61,61 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                     required: true,
                     minlength: 3
                 },
-                email:{
+                email: {
                     required: true,
                     email: true
-                    
+
                 },
-                phone:{
+                phone: {
                     required: true,
-                    
-                    
+
+
                 },
                 document: {
                     required: true
                 },
-                identification_document:{
+                identification_document: {
                     required: true,
                     number: true,
-                    
+
                 },
-                
-                street:{
+
+                street: {
                     required: true,
                 },
-                city:{
+                city: {
                     required: true,
-                    
+
                 },
-                country_id:{
+                country_id: {
                     required: true,
-                    
+
                 },
-                state_id:{
+                state_id: {
                     required: true,
                 },
-                aceptacion_datos:{
+                aceptacion_datos: {
                     required: true
                 },
-                tyc:{
+                tyc: {
                     required: true
                 },
-                birthdate_date:{
+                birthdate_date: {
                     required: true,
                     max: {
                         depends: function(elem) {
                             var edad_maxima = 0;
                             let fecha = $("input[name='birthdate_date']").val();
 
-                                let hoy = new Date();
-                                let cumpleanos = new Date(fecha);
-                                let edad = hoy.getFullYear() - cumpleanos.getFullYear();
-                                let m = hoy.getMonth() - cumpleanos.getMonth();
-                                if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
-                                    edad--;
-                                }
-                            
-                            
+                            let hoy = new Date();
+                            let cumpleanos = new Date(fecha);
+                            let edad = hoy.getFullYear() - cumpleanos.getFullYear();
+                            let m = hoy.getMonth() - cumpleanos.getMonth();
+                            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                                edad--;
+                            }
+
+
                             return edad > 69
                         }
                     },
@@ -124,85 +124,85 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                             var edad_maxima = 0;
                             let fecha = $("input[name='birthdate_date']").val();
 
-                                let hoy = new Date();
-                                let cumpleanos = new Date(fecha);
-                                let edad = hoy.getFullYear() - cumpleanos.getFullYear();
-                                let m = hoy.getMonth() - cumpleanos.getMonth();
-                                if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
-                                    edad--;
-                                }
-                            
+                            let hoy = new Date();
+                            let cumpleanos = new Date(fecha);
+                            let edad = hoy.getFullYear() - cumpleanos.getFullYear();
+                            let m = hoy.getMonth() - cumpleanos.getMonth();
+                            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                                edad--;
+                            }
+
                             return edad < 18
                         }
                     }
                 },
-                
-                
+
+
             },
-            messages :{
-                name:{
+            messages: {
+                name: {
                     required: "Upss!! tu nombre es requerido",
-                    minlength: "Un nombre contiene más de 3 caracteres" 
+                    minlength: "Un nombre contiene más de 3 caracteres"
                 },
-                lastname:{
+                lastname: {
                     required: "Este campo es requerido",
-                    minlength: "Un apellido contiene más de 3 caracteres" 
+                    minlength: "Un apellido contiene más de 3 caracteres"
                 },
-                lastname2:{
+                lastname2: {
                     required: "Este campo es requerido",
-                    minlength: "Un apellido contiene más de 3 caracteres" 
+                    minlength: "Un apellido contiene más de 3 caracteres"
                 },
-                email:{
+                email: {
                     required: "Este campo es requerido",
-                    email: "Escribe un email valido" 
+                    email: "Escribe un email valido"
                 },
-                phone:{
+                phone: {
                     required: "Este campo es requerido",
-                    
+
                 },
-                document:{
+                document: {
                     required: "Este campo es requerido",
-                    
+
                 },
-                identification_document:{
+                identification_document: {
                     required: "Este campo es requerido",
                     number: "Este campo solo es numérico"
-                    
+
                 },
-                street:{
+                street: {
                     required: "Este campo es requerido",
-                    
+
                 },
-                city:{
+                city: {
                     required: "Este campo es requerido",
-                    
+
                 },
-                country_id:{
+                country_id: {
                     required: "Este campo es requerido",
-                    
+
                 },
-                state_id:{
+                state_id: {
                     required: "Este campo es requerido",
-                    
+
                 },
-                aceptacion_datos:{
+                aceptacion_datos: {
                     required: "Upss Acepte política de tratamiento de datos para continuar",
-                    
+
                 },
-                tyc:{
+                tyc: {
                     required: "Acepte terminos y condiciones para continuar",
-                    
+
                 },
-                birthdate_date:{
+                birthdate_date: {
                     required: "Campo de fecha es obligatorio",
                     min: "Tienes que ser mayor de edad",
                     max: "Ups debes de ser mayor 18 y menor de 69 años para continuar"
-                    
+
                 },
-                
+
             }
         });
-        
+
         hide_beneficiaries();
 
 
@@ -218,116 +218,15 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         $("#beneficiary6").hide();
 
     }
-    
-    
+
+
     $("#cant_beneficiarios").on('change', function mostrarbeneficiarios() {
         let cantidad_beneficiarios = parseInt($(this).val());
         if (cantidad_beneficiarios == 0) {
             hide_beneficiaries();
         } else {
             for (let index = 0; index < cantidad_beneficiarios; index++) {
-                    
-                    let id_elemento = "#beneficiary" + (index + 1);
-                    let id_subti = "#subti" + (index + 1);
-                    let subtitulo = "Datos del beneficiario " + (index + 1) + " de " + cantidad_beneficiarios;
-                    console.log(subtitulo);
-                    $(id_subti).text(subtitulo);
-                    $(id_elemento).show();
 
-
-            }
-        }
-    });
-    $("select[name='estado_civil']").on('change', function cambiarConyugues() {
-        console.log("cambio");
-            
-        let estado = $(this).val();
-        if (estado == 'Soltero'){
-            let newOptions = {
-                Seleccione: "",
-                PADRES: "D",
-                HIJOS: "H",
-                HERMANOS: "M"
-            };
-            for (let index = 0; index < 6; index++) {
-                let id_elemento = 'bfparentesco'+ (index + 1);
-                console.log(id_elemento);
-                let elemento = "select[name='"+id_elemento+"']";
-                console.log(elemento);
-                let elemento_completo = $(elemento);
-                console.log(elemento_completo);
-                elemento_completo.empty();
-                $.each(newOptions, function(key,value) {
-                  elemento_completo.append($("<option></option>")
-                     .attr("value", value).text(key));
-                });
-                
-            }
-            
-            
-            
-        }else if (estado == 'Viudo'){
-            let newOptions = {
-                Seleccione: "",
-                PADRES: "D",
-                HIJOS: "H",
-                HERMANOS: "M",
-                SUEGROS: "S"
-            };
-            for (let index = 0; index < 6; index++) {
-                let id_elemento = 'bfparentesco'+ (index + 1);
-                console.log(id_elemento);
-                let elemento = "select[name='"+id_elemento+"']";
-                console.log(elemento);
-                let elemento_completo = $(elemento);
-                console.log(elemento_completo);
-                elemento_completo.empty();
-                $.each(newOptions, function(key,value) {
-                  elemento_completo.append($("<option></option>")
-                     .attr("value", value).text(key));
-                });
-                
-            }
-            
-            
-            
-        }else{
-            let newOptions = {
-                Seleccione: "",
-                CONYUGUE: "C",
-                PADRES: "D",
-                HIJOS: "H",
-                HERMANOS: "M",
-                SUEGROS: "S"
-            };
-            for (let index = 0; index < 6; index++) {
-                let id_elemento = 'bfparentesco'+ (index + 1);
-                console.log(id_elemento);
-                let elemento = "select[name='"+id_elemento+"']";
-                console.log(elemento);
-                let elemento_completo = $(elemento);
-                console.log(elemento_completo);
-                elemento_completo.empty();
-                $.each(newOptions, function(key,value) {
-                  elemento_completo.append($("<option></option>")
-                     .attr("value", value).text(key));
-                });
-                
-            }
-            
-            
-            
-        }
-        
-    });
-    
-
-   /* document.getElementById('cant_beneficiarios').addEventListener('change', function() {
-        let cantidad_beneficiarios = parseInt(this.value);
-        if (cantidad_beneficiarios == 0) {
-            hide_beneficiaries();
-        } else {
-            for (let index = 0; index < cantidad_beneficiarios; index++) {
                 let id_elemento = "#beneficiary" + (index + 1);
                 let id_subti = "#subti" + (index + 1);
                 let subtitulo = "Datos del beneficiario " + (index + 1) + " de " + cantidad_beneficiarios;
@@ -338,8 +237,114 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
             }
         }
+    });
+    $("select[name='estado_civil']").on('change', function cambiarConyugues() {
+        console.log("cambio");
 
-    });*/
+        let estado = $(this).val();
+        if (estado == 'Soltero') {
+            let newOptions = {
+                Seleccione: "",
+                PADRES: "D",
+                HIJOS: "H",
+                HERMANOS: "M"
+            };
+            for (let index = 0; index < 6; index++) {
+                let id_elemento = 'bfparentesco' + (index + 1);
+                console.log(id_elemento);
+                let elemento = "select[name='" + id_elemento + "']";
+                console.log(elemento);
+                let elemento_completo = $(elemento);
+                console.log(elemento_completo);
+                elemento_completo.empty();
+                $.each(newOptions, function(key, value) {
+                    elemento_completo.append($("<option></option>")
+                        .attr("value", value).text(key));
+                });
+
+            }
+
+
+
+        } else if (estado == 'Viudo') {
+            let newOptions = {
+                Seleccione: "",
+                PADRES: "D",
+                HIJOS: "H",
+                HERMANOS: "M",
+                SUEGROS: "S"
+            };
+            for (let index = 0; index < 6; index++) {
+                let id_elemento = 'bfparentesco' + (index + 1);
+                console.log(id_elemento);
+                let elemento = "select[name='" + id_elemento + "']";
+                console.log(elemento);
+                let elemento_completo = $(elemento);
+                console.log(elemento_completo);
+                elemento_completo.empty();
+                $.each(newOptions, function(key, value) {
+                    elemento_completo.append($("<option></option>")
+                        .attr("value", value).text(key));
+                });
+
+            }
+
+
+
+        } else {
+            let newOptions = {
+                Seleccione: "",
+                CONYUGUE: "C",
+                PADRES: "D",
+                HIJOS: "H",
+                HERMANOS: "M",
+                SUEGROS: "S"
+            };
+            for (let index = 0; index < 6; index++) {
+                let id_elemento = 'bfparentesco' + (index + 1);
+                console.log(id_elemento);
+                let elemento = "select[name='" + id_elemento + "']";
+                console.log(elemento);
+                let elemento_completo = $(elemento);
+                console.log(elemento_completo);
+                elemento_completo.empty();
+                $.each(newOptions, function(key, value) {
+                    elemento_completo.append($("<option></option>")
+                        .attr("value", value).text(key));
+                });
+
+            }
+
+
+
+        }
+
+    });
+
+
+    $("select[name='deparment']").on('change', function cambiarCiudades() {
+        let estado = $(this).val();
+        console.log(estado);
+    });
+
+    /* document.getElementById('cant_beneficiarios').addEventListener('change', function() {
+         let cantidad_beneficiarios = parseInt(this.value);
+         if (cantidad_beneficiarios == 0) {
+             hide_beneficiaries();
+         } else {
+             for (let index = 0; index < cantidad_beneficiarios; index++) {
+                 let id_elemento = "#beneficiary" + (index + 1);
+                 let id_subti = "#subti" + (index + 1);
+                 let subtitulo = "Datos del beneficiario " + (index + 1) + " de " + cantidad_beneficiarios;
+                 console.log(subtitulo);
+                 $(id_subti).text(subtitulo);
+                 $(id_elemento).show();
+
+
+             }
+         }
+
+     });*/
     // var ajax = require('web.ajax');
     // var core = require('web.core');
     // var sAnimation = require('website.content.snippets.animation');
