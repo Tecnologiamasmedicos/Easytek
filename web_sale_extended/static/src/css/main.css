@@ -10,11 +10,17 @@ input.error {
     font-weight: 300;
     color: red;
 }
-.card{
+
+.card {
     padding: 1rem;
 }
+
 .btn-custom {
-	background: #3333CC;
+    background: #3333CC;
     color: white;
     border-radius: 10px;
+}
+
+label {
+    font-weight: normal;
 }
