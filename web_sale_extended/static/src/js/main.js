@@ -327,7 +327,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         console.log(estado);
 
         $.ajax({
-            data: { 'departamento': estad },
+            data: { 'departamento': estado },
             url: "/search/cities",
             type: 'get',
             success: function(data) {
