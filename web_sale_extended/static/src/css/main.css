@@ -33,3 +33,11 @@ input.error {
 .modal-header {
     border-bottom: 1px solid #eee;
 }
+
+#boton_aceptar {
+    float: left;
+}
+
+#texto_modal {
+    text-align: center;
+}
