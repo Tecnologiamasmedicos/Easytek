@@ -1370,7 +1370,7 @@
                                         <div class="col-md-5"></div>
 
                                     </div>
-                                    <p>¿Estás seguro de avanzar?</p>
+                                    <p id="texto_modal">¿Estás seguro de avanzar?</p>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -1379,8 +1379,8 @@
                                         <div class="col-md-6">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                         </div>
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-custom">Aceptar </button>
+                                        <div class="col-md-6 right">
+                                            <button id="boton_aceptar" type="button" class="btn btn-custom">Aceptar </button>
                                         </div>
 
 
