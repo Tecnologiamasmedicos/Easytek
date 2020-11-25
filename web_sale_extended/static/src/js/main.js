@@ -325,6 +325,25 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
     $("select[name='deparment']").on('change', function cambiarCiudades() {
         let estado = $(this).val();
         console.log(estado);
+
+        $.ajax({
+            data: { 'departamento': estad },
+            url: "/search/cities",
+            type: 'get',
+            success: function(data) {
+                console.log("ajax cities");
+                console.log(data);
+                // var mensaje = '<p id="mensaje">No hay ' + text_model + '</p>';
+                // $('.remover').remove();
+                // if (data.length > 0) {
+                //     mostrar_datos(data, obj_model);
+                //     $('#mensaje').hide();
+                // } else {
+                //     $('#main').append(mensaje);
+                // }
+            }
+
+        });
     });
 
     /* document.getElementById('cant_beneficiarios').addEventListener('change', function() {
