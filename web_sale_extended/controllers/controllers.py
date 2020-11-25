@@ -336,6 +336,36 @@ class WebsiteSaleExtended(WebsiteSale):
 
                     
         return "Datos eviados correctamente"
+
+    
+    @http.route(['/search/cities'],  methods=['GET'], type='http', auth="public", website=True)
+    def search_suggestion(self, city_id=None, **kwargs):
+
+        cities = []
+        _logger.info('****************************************\n\n++++++++++++++++++++++++++++++++++++')
+        _logger.info(kwargs)
+        suggested_cities = request.env['res.city'].sudo().search([])
+        complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
+        # prueba = request.env['res.partner.document.type'].sudo().search([]) consulta tipo de documento
+        # prueba = request.env['account.fiscal.position'].sudo().search([])   consulta posicion fiscal
+        for zip_city in complete_cities_with_zip:
+            # _logger.info(zip_city.city_id.name)
+            cities.append({
+                'city': "{0} - {1} - {2} - {3}".format(zip_city.name, zip_city.city_id.name, zip_city.city_id.state_id.name,
+                 zip_city.city_id.state_id.country_id.name),
+                'city_id': zip_city.city_id.id,
+                'state_id': zip_city.city_id.state_id.id,
+                'country_id': zip_city.city_id.state_id.country_id.id,
+                'zip_id': zip_city.id,
+            })
+
+
+        data = {}
+        data['status'] = True,
+        data['error'] = None,
+        data['data'] = {'cities': cities}
+        _logger.info(data)
+        return json.dumps(data)
             
 
 
