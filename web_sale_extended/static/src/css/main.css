@@ -25,3 +25,11 @@ input.error {
     font-weight: normal;
     color: #000066;
 }
+
+.modal-footer {
+    border-top: 1px solid #eee;
+}
+
+.modal-header {
+    border-bottom: 1px solid #eee;
+}
