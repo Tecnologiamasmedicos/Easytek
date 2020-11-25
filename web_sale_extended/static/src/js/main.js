@@ -339,7 +339,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                     elemento_completo.empty();
                     console.log(obj);
                     elemento_completo.append($("<option></option>")
-                        .attr("value", city).text(city));
+                        .attr("value", obj.city).text(obj.city));
                 });
                 // var mensaje = '<p id="mensaje">No hay ' + text_model + '</p>';
                 // $('.remover').remove();
