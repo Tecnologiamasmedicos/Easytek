@@ -332,7 +332,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             type: 'get',
             success: function(data) {
                 console.log("ajax cities");
-                console.log(data);
+                console.log(data.data);
                 // var mensaje = '<p id="mensaje">No hay ' + text_model + '</p>';
                 // $('.remover').remove();
                 // if (data.length > 0) {
