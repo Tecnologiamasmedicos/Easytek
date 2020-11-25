@@ -340,8 +340,9 @@
                                     <label class="col-form-label" for="bfdeparment1">Departamento</label>
                                     <select name="bfdeparment1" class="form-control">
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
+                                        <option value="">Seleccionar...</option>
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id" t-att-selected="s.id == partner.state_id">
+                                                <option t-att-value="s.id">
                                                     <t t-esc="s.name" />
                                                 </option>
                                         </t>
@@ -353,8 +354,9 @@
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfcity1">Ciudad</label>
                                     <select name="bfcity1" class="form-control">
+                                        <option value="">Seleccionar...</option>
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.name == partner.city">
+                                            <option t-att-value="c.city_id.name">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -524,8 +526,9 @@
                                     <label class="col-form-label" for="bfdeparment2">Departamento</label>
                                     <select name="bfdeparment2" class="form-control">
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
+                                        <option value="">Seleccionar...</option>
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id" t-att-selected="s.id == partner.state_id">
+                                                <option t-att-value="s.id">
                                                     <t t-esc="s.name" />
                                                 </option>
                                         </t>
@@ -537,8 +540,9 @@
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfcity2">Ciudad</label>
                                     <select name="bfcity2" class="form-control">
+                                        <option value="">Seleccionar...</option>
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.name == partner.city">
+                                            <option t-att-value="c.city_id.name">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -710,8 +714,9 @@
                                     <label class="col-form-label" for="bfdeparment3">Departamento</label>
                                     <select name="bfdeparment3" class="form-control">
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
+                                        <option value="">Seleccionar...</option>
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id" t-att-selected="s.id == partner.state_id">
+                                                <option t-att-value="s.id">
                                                     <t t-esc="s.name" />
                                                 </option>
                                         </t>
@@ -723,8 +728,9 @@
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfcity3">Ciudad</label>
                                     <select name="bfcity3" class="form-control">
+                                        <option value="">Seleccionar...</option>
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.name == partner.city">
+                                            <option t-att-value="c.city_id.name">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -896,8 +902,9 @@
                                     <label class="col-form-label" for="bfdeparment4">Departamento</label>
                                     <select name="bfdeparment4" class="form-control">
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
+                                        <option value="">Seleccionar...</option>
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id" t-att-selected="s.id == partner.state_id">
+                                                <option t-att-value="s.id">
                                                     <t t-esc="s.name" />
                                                 </option>
                                         </t>
@@ -909,8 +916,9 @@
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfcity4">Ciudad</label>
                                     <select name="bfcity4" class="form-control">
+                                        <option value="">Seleccionar...</option>
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.name == partner.city">
+                                            <option t-att-value="c.city_id.name">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -1081,8 +1089,9 @@
                                     <label class="col-form-label" for="bfdeparment5">Departamento</label>
                                     <select name="bfdeparment5" class="form-control">
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
+                                        <option value="">Seleccionar...</option>
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id" t-att-selected="s.id == partner.state_id">
+                                                <option t-att-value="s.id">
                                                     <t t-esc="s.name" />
                                                 </option>
                                         </t>
@@ -1094,8 +1103,9 @@
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfcity5">Ciudad</label>
                                     <select name="bfcity5" class="form-control">
+                                        <option value="">Seleccionar...</option>
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.name == partner.city">
+                                            <option t-att-value="c.city_id.name">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -1267,8 +1277,9 @@
                                     <label class="col-form-label" for="bfdeparment6">Departamento</label>
                                     <select name="bfdeparment6" class="form-control">
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
+                                        <option value="">Seleccionar...</option>
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id" t-att-selected="s.id == partner.state_id">
+                                                <option t-att-value="s.id">
                                                     <t t-esc="s.name" />
                                                 </option>
                                         </t>
@@ -1280,8 +1291,9 @@
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfcity6">Ciudad</label>
                                     <select name="bfcity6" class="form-control">
+                                        <option value="">Seleccionar...</option>
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.name == partner.city">
+                                            <option t-att-value="c.city_id.name">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
