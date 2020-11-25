@@ -45,7 +45,8 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
             }
         });
-
+        $("#terminos").hide();
+        $("#politica").hide();
         $("#shop").validate({
             rules: {
                 name: {

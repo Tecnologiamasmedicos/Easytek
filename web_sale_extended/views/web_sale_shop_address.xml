@@ -291,7 +291,7 @@
                                             <input class="form-check-input" type="checkbox" value="" name="tyc" id="defaultCheck1"/>
                                             <label class="form-check-label" for="tyc">
                                                 Acepto términos y condiciones
-                                                <a href="" id="btn_terminos"> (leer)</a>
+                                                <a href="#terminos" id="btn_terminos"> (leer)</a>
                                             </label>
                                         </div>
                                     </div>
@@ -300,7 +300,7 @@
                                             <input class="form-check-input" type="checkbox" value="" name="aceptacion_datos" id="defaultCheck2"/>
                                             <label class="form-check-label" for="aceptacion_datos">
                                                 Acepto política de tratamiento de datos
-                                                <a href="" id="btn_politica"> (leer)</a>
+                                                <a href="#politica" id="btn_politica"> (leer)</a>
                                             </label>
                                         </div>
                                     </div>
