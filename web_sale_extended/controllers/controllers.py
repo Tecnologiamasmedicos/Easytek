@@ -351,7 +351,7 @@ class WebsiteSaleExtended(WebsiteSale):
         for city in suggested_cities:
             # _logger.info(zip_city.city_id.name)
             cities.append({
-                'city': city.name
+                'city': city.name,
                 'city_id': city.id,
             })
 
