@@ -1361,14 +1361,22 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="container">
-                                        <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Img_tip_(1).png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                        <div class="row">
+                                            <div class="col-lg-3"></div>
+                                            <div class="col-lg-6">
+                                                <img class="" src="/web_sale_extended/static/src/images/Img_tip_(1).png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                            </div>
+                                            <div class="col-lg-3"></div>
+                                        </div>
+                                        <p>Te recomendamos que revises los datos antes de aceptar. si estas seguro avancemos</p>
+                                        
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary mb32" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary mb32" data-dismiss="modal">Cancelar</button>
                                     <button type="button" class="btn btn-custom mb32 a-submit a-submit-disable a-submit-loading">
-                                        <span>Guardar</span>
-                                        <i class="fa fa-chevron-right"/>
+                                        <span>Aceptar</span>
+
                                     </button>
                                     
                                 </div>
