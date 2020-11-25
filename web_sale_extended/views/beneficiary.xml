@@ -21,10 +21,9 @@
                         </div>
                   </section>
                     <br/>
-                    <!-- <div class="card"> -->
-                        <!-- <h4>Datos del Asegurador Principal</h4> -->
-                        <fieldset>
-                        <legend>Datos del Asegurador Principal</legend>
+                    <div class="card">
+                        <h4>Datos del Asegurador Principal</h4>
+                        
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
@@ -217,8 +216,8 @@
                             
 
                         </div>
-                        </fieldset>
-                    <!-- </div> -->
+
+                    </div>
 
                     <br/>
                     <br/>
@@ -1364,7 +1363,7 @@
                                     ...
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary mb32" data-dismiss="modal">Close</button>
                                     <button type="button" class="btn btn-custom mb32 a-submit a-submit-disable a-submit-loading">
                                         <span>Guardar</span>
                                         <i class="fa fa-chevron-right"/>
