@@ -331,7 +331,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 let elemento_completo = $(elemento);
                 elemento_completo.empty();
                 decode_data.data.cities.forEach(function(obj) {
-                    console.log(obj);
                     elemento_completo.append($("<option></option>")
                         .attr("value", obj.city).text(obj.city));
                 });
@@ -347,24 +346,45 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         let estado = $(this).val();
         let elemento = "select[name='city']";
         consultarCiudades(estado, elemento);
-        // $.ajax({
-        //     data: { 'departamento': estado },
-        //     url: "/search/cities",
-        //     type: 'get',
-        //     success: function(data) {
-        //         let decode_data = JSON.parse(data);
-        //         let elemento_completo = $("select[name='city']");
-        //         elemento_completo.empty();
-        //         decode_data.data.cities.forEach(function(obj) {
-        //             console.log(obj);
-        //             elemento_completo.append($("<option></option>")
-        //                 .attr("value", obj.city).text(obj.city));
-        //         });
 
-        //     }
-
-        // });
     });
+    $("select[name='bfdeparment1']").on('change', function cambiarCiudades() {
+        let estado = $(this).val();
+        let elemento = "select[name='bfcity1']";
+        consultarCiudades(estado, elemento);
+
+    });
+    $("select[name='bfdeparment2']").on('change', function cambiarCiudades() {
+        let estado = $(this).val();
+        let elemento = "select[name='bfcity2']";
+        consultarCiudades(estado, elemento);
+
+    });
+    $("select[name='bfdeparment3']").on('change', function cambiarCiudades() {
+        let estado = $(this).val();
+        let elemento = "select[name='bfcity3']";
+        consultarCiudades(estado, elemento);
+
+    });
+    $("select[name='bfdeparment4']").on('change', function cambiarCiudades() {
+        let estado = $(this).val();
+        let elemento = "select[name='bfcity4']";
+        consultarCiudades(estado, elemento);
+
+    });
+    $("select[name='bfdeparment5']").on('change', function cambiarCiudades() {
+        let estado = $(this).val();
+        let elemento = "select[name='bfcity5']";
+        consultarCiudades(estado, elemento);
+
+    });
+    $("select[name='bfdeparment6']").on('change', function cambiarCiudades() {
+        let estado = $(this).val();
+        let elemento = "select[name='bfcity6']";
+        consultarCiudades(estado, elemento);
+
+    });
+
 
 
 
