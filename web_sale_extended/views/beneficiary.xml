@@ -1355,7 +1355,7 @@
                             <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">¡Aviso!</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button  class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">x</span>
                                 </button>
                             </div>
@@ -1380,7 +1380,7 @@
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                         </div>
                                         <div class="col-md-6 right">
-                                            <button id="boton_aceptar" type="button" class="btn btn-custom">Aceptar </button>
+                                            <input id="boton_aceptar" type="submit" class="btn btn-custom" value="Aceptar"/> 
                                         </div>
 
 
