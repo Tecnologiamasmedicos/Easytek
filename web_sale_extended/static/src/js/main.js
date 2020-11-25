@@ -395,9 +395,9 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
     });
     // $('#exampleModal').modal();
-    $('#exampleModal').on('shown.bs.modal', function() {
-        // $('#myInput').trigger('focus')
-    });
+    // $('#exampleModal').on('shown.bs.modal', function() {
+    //     // $('#myInput').trigger('focus')
+    // });
 
 
 
