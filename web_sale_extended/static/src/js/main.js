@@ -334,9 +334,19 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 let decode_data = JSON.parse(data);
                 console.log("ajax cities");
                 console.log(decode_data);
+                // for (let index = 0; index < decode_data.data.cities.length; index++) {
+                //     const element = array[index];
+                //     let elemento_completo = $("select[name='city']");
+                //     elemento_completo.empty();
+                //     console.log(obj);
+                //     elemento_completo.append($("<option></option>")
+                //         .attr("value", obj.city).text(obj.city));
+
+
+                // }
+                let elemento_completo = $("select[name='city']");
+                elemento_completo.empty();
                 decode_data.data.cities.forEach(function(obj) {
-                    let elemento_completo = $("select[name='city']");
-                    elemento_completo.empty();
                     console.log(obj);
                     elemento_completo.append($("<option></option>")
                         .attr("value", obj.city).text(obj.city));
