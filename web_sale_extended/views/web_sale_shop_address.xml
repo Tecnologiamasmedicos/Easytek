@@ -299,9 +299,12 @@
                                             <input class="form-check-input" type="checkbox" value="" name="aceptacion_datos" id="defaultCheck2"/>
                                             <label class="form-check-label" for="aceptacion_datos">
                                                 Acepto política de tratamiento de datos
-                                                <a href="javascript:window.open('https://drive.google.com/file/d/1Ssha64EwsnK9Y1zEfJwJl9sD_GbF6c1Y/view?usp=sharing');"> (leer)</a>
+                                                <a href=""> (leer)</a>
                                             </label>
                                         </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <iframe src="/web_sale_extended/static/src/files/terminos.pdf" width="100%" height="680px">Prueba</iframe>
                                     </div>
                                     <div class="w-100"/>
                                     <t t-if="mode == ('new', 'billing') and not only_services">
