@@ -57,10 +57,10 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                     required: true,
                     minlength: 3
                 },
-                lastname2: {
-                    required: true,
-                    minlength: 3
-                },
+                // lastname2: {
+                //     required: true,
+                //     minlength: 3
+                // },
                 email: {
                     required: true,
                     email: true
@@ -148,10 +148,10 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                     required: "Este campo es requerido",
                     minlength: "Un apellido contiene más de 3 caracteres"
                 },
-                lastname2: {
-                    required: "Este campo es requerido",
-                    minlength: "Un apellido contiene más de 3 caracteres"
-                },
+                // lastname2: {
+                //     required: "Este campo es requerido",
+                //     minlength: "Un apellido contiene más de 3 caracteres"
+                // },
                 email: {
                     required: "Este campo es requerido",
                     email: "Escribe un email valido"
