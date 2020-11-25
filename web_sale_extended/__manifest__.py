@@ -31,8 +31,8 @@
         'views/res_partner_view.xml',
         'views/beneficiary.xml',
         'views/beneficiary_detail.xml',
-        # 'reports/sale_order_report.xml',
-        # 'reports/res_partner_report.xml',
+        'reports/sale_order_report.xml',
+        'reports/res_partner_report.xml',
         'data/shop_address.xml',
         'data/beneficiary_confirm_template.xml'
     ],
