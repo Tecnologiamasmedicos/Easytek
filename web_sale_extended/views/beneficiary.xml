@@ -1351,35 +1351,21 @@
 
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-dialog">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">¡Alerta!</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true"></span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-3"></div>
-                                            <div class="col-lg-6">
-                                                <img class="" src="/web_sale_extended/static/src/images/Img_tip_(1).png" data-original-title="" title="" aria-describedby="tooltip557569"/>
-                                            </div>
-                                            <div class="col-lg-3"></div>
-                                        </div>
-                                        <p>Te recomendamos que revises los datos antes de aceptar. si estas seguro avancemos</p>
-                                        
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary mb32" data-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-custom mb32 a-submit a-submit-disable a-submit-loading">
-                                        <span>Aceptar</span>
-
-                                    </button>
-                                    
-                                </div>
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quisquam illum ab assumenda l
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
                             </div>
                         </div>
                     </div>
