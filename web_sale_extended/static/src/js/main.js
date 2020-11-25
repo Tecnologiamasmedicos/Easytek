@@ -333,7 +333,10 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             success: function(data) {
                 let decode_data = JSON.parse(data);
                 console.log("ajax cities");
-                console.log(decode_data);
+                // console.log(decode_data);
+                decode_data.cities.forEach(function(obj) {
+                    console.log(obj);
+                });
                 // var mensaje = '<p id="mensaje">No hay ' + text_model + '</p>';
                 // $('.remover').remove();
                 // if (data.length > 0) {
