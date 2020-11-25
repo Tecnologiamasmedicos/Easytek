@@ -45,8 +45,8 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
             }
         });
-
-
+        $("#terminos").hide();
+        $("#politica").hide();
         $("#shop").validate({
             rules: {
                 name: {
@@ -382,6 +382,16 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         let estado = $(this).val();
         let elemento = "select[name='bfcity6']";
         consultarCiudades(estado, elemento);
+
+    });
+    $("#btn_terminos").click(function() {
+        $("#politica").hide();
+        $("#terminos").show();
+
+    });
+    $("#btn_politica").click(function() {
+        $("#terminos").hide();
+        $("#politica").show();
 
     });
 
