@@ -321,48 +321,52 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
     });
 
-
-    $("select[name='deparment']").on('change', function cambiarCiudades() {
-        let estado = $(this).val();
-        console.log(estado);
-
+    function consultarCiudades(estado, elemento) {
         $.ajax({
             data: { 'departamento': estado },
             url: "/search/cities",
             type: 'get',
             success: function(data) {
                 let decode_data = JSON.parse(data);
-                console.log("ajax cities");
-                console.log(decode_data);
-                // for (let index = 0; index < decode_data.data.cities.length; index++) {
-                //     const element = array[index];
-                //     let elemento_completo = $("select[name='city']");
-                //     elemento_completo.empty();
-                //     console.log(obj);
-                //     elemento_completo.append($("<option></option>")
-                //         .attr("value", obj.city).text(obj.city));
-
-
-                // }
-                let elemento_completo = $("select[name='city']");
+                let elemento_completo = $(elemento);
                 elemento_completo.empty();
                 decode_data.data.cities.forEach(function(obj) {
                     console.log(obj);
                     elemento_completo.append($("<option></option>")
                         .attr("value", obj.city).text(obj.city));
                 });
-                // var mensaje = '<p id="mensaje">No hay ' + text_model + '</p>';
-                // $('.remover').remove();
-                // if (data.length > 0) {
-                //     mostrar_datos(data, obj_model);
-                //     $('#mensaje').hide();
-                // } else {
-                //     $('#main').append(mensaje);
-                // }
+
             }
 
         });
+
+    }
+
+
+    $("select[name='deparment']").on('change', function cambiarCiudades() {
+        let estado = $(this).val();
+        let elemento = "select[name='city']";
+        consultarCiudades(estado, elemento);
+        // $.ajax({
+        //     data: { 'departamento': estado },
+        //     url: "/search/cities",
+        //     type: 'get',
+        //     success: function(data) {
+        //         let decode_data = JSON.parse(data);
+        //         let elemento_completo = $("select[name='city']");
+        //         elemento_completo.empty();
+        //         decode_data.data.cities.forEach(function(obj) {
+        //             console.log(obj);
+        //             elemento_completo.append($("<option></option>")
+        //                 .attr("value", obj.city).text(obj.city));
+        //         });
+
+        //     }
+
+        // });
     });
+
+
 
     /* document.getElementById('cant_beneficiarios').addEventListener('change', function() {
          let cantidad_beneficiarios = parseInt(this.value);
