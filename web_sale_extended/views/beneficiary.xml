@@ -21,9 +21,10 @@
                         </div>
                   </section>
                     <br/>
-                    <div class="card">
+                    <!-- <div class="card"> -->
                         <!-- <h4>Datos del Asegurador Principal</h4> -->
                         <fieldset>
+                        <legend>Datos del Asegurador Principal</legend>
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
@@ -217,7 +218,7 @@
 
                         </div>
                         </fieldset>
-                    </div>
+                    <!-- </div> -->
 
                     <br/>
                     <br/>
