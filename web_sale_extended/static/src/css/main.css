@@ -35,9 +35,10 @@ input.error {
 }
 
 #boton_aceptar {
-    float: left;
+    float: right;
 }
 
-#texto_modal {
-    text-align: right;
+#texto_modal,
+.centro {
+    text-align: center;
 }
