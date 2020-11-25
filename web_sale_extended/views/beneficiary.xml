@@ -1354,7 +1354,7 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">¡Aviso!</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">x</span>
                                 </button>
@@ -1365,6 +1365,7 @@
                                         <div class="col-md-5"></div>
                                         <div class="col-md-2">
                                             <img  src="/web_sale_extended/static/src/images/Img_tip_(1).png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                            <p>¿Estás seguro de avanzar?</p>
                                         </div>
                                         <div class="col-md-5"></div>
 
@@ -1374,13 +1375,13 @@
                             <div class="modal-footer">
                                 <div class="container-fluid">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-6">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                         </div>
-                                        <div class="col-md-5">
-                                            <button type="button" class="btn btn-primary">Aceptar </button>
+                                        <div class="col-md-6">
+                                            <button type="button" class="btn btn-custom">Aceptar </button>
                                         </div>
-                                        <div class="col-md-2"></div>
+
 
                                     </div>
                                 </div>
