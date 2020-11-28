@@ -42,3 +42,19 @@ input.error {
 .centro {
     text-align: center;
 }
+
+.form-control {
+    border-radius: 4px;
+}
+
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
+
+header .navbar-brand.logo img {
+    height: 4rem;
+}
