@@ -19,7 +19,8 @@ input.error {
 .btn-success,
 #add_to_cart,
 .btn-primary {
-    background: #3333CC;
+    background: #000066;
+    /*#3333CC*/
     color: white;
     border-radius: 5px;
 }
