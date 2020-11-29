@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-lg-12 pt0 pb0">
                         <div class="s_alert clearfix s_alert_md w-100" data-name="Alert" style="border: none;">
-                            <img class="img-fluid o_we_custom_image d-block mx-auto" src="/web_sale_extended/static/src/images/Img_tip_(1).png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                            <img class="img-fluid o_we_custom_image d-block mx-auto" src="/web_sale_extended/static/src/images/Img_success.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
                             <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip947855"/>
                             <div class="s_alert_content">
                             <p/>
