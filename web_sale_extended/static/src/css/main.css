@@ -15,10 +15,12 @@ input.error {
     padding: 1rem;
 }
 
-.btn-custom {
+.btn-custom,
+.btn-success,
+#add_to_cart {
     background: #3333CC;
     color: white;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 .col-form-label {
