@@ -63,3 +63,7 @@ input.error {
 header .navbar-brand.logo img {
     height: 4rem;
 }
+
+.o_brand_promotion {
+    display: none;
+}
