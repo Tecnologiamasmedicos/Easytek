@@ -6,20 +6,21 @@
             <div class="container">
                 <form id="beneficiary" action="/beneficiary-detail" method="post" class="checkout_autoformat">
                     <section class="s_text_block pt0 pb0" data-name="Text block" style="">
-                        <div class="container">
-                          <div class="row">
-                            <div class="col-lg-12 pt0 pb0">
-                              <div class="s_alert clearfix w-100 s_alert_md" data-name="Alert" style="border: 1px solid #39B54A; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(0, 153, 51, 0.5); border-radius: 5px;">
-                                <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Img_tip_(1).png" data-original-title="" title="" aria-describedby="tooltip557569"/>
-                                <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip947855"/>
-                                <div class="s_alert_content">
-                                  <p><font style="color: rgb(57,181,74,1); font-size: 18px;"><b>!Empecemos! vamos a llenar la información de tu plan, así como la de todo tu grupo familiar!&amp;nbsp;</b></font><br/>La información de tus beneficiarios o familiares es opcional, una vez actualizados tus datos, podemos ir a pagar para generar tu póliza y ¡listo! </p>
+                        <section class="s_text_block pt0 pb0" data-name="Text block" style="">
+                            <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12 pt0 pb0">
+                                <div class="s_alert clearfix s_alert_md w-100" data-name="Alert" style="border: 1px solid #39B54A; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(0, 153, 51, 0.5); border-radius: 5px;">
+                                    <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Img_success.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip947855"/>
+                                    <div class="s_alert_content">
+                                    <p><font color="#39b54a"><span style="font-size: 18px;"><b>¡Empecemos! Vamos a llenar la información de tu #NombrePlan, así como la de todo tu grupo familiar.</b></span></font><br/>La información de tus beneficiarios o familiares es opcional, una vez actualizados tus datos, podemos ir a pagar para generar tu póliza y ¡listo! </p>
+                                    </div>
                                 </div>
-                              </div>
+                                </div>
                             </div>
-                          </div>
-                        </div>
-                  </section>
+                            </div>
+                        </section>
                     <br/>
                     <div class="card">
                         <h4>Datos del Asegurador Principal</h4>
@@ -1370,7 +1371,7 @@
                                         <div class="col-md-5"></div>
 
                                     </div>
-                                    <p id="texto_modal">¿Estás seguro de avanzar?</p>
+                                    <p id="texto_modal">¡Ya estámos casi listos! solo asegúrate que la información es correcta ¿Estás seguro de avanzar?</p>
                                 </div>
                             </div>
                             <div class="modal-footer">
