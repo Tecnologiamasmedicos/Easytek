@@ -354,7 +354,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'datas': b64_pdf,
             'datas_fname': file_name + '.pdf',
             'store_fname': file_name,
-            'res_model': 'product.template',
+            'res_model': 'res.partner',
             'res_id': 1,
             'mimetype': 'application/x-pdf'
         })
