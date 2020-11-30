@@ -396,14 +396,14 @@ class OdooWebsiteSearchCity(http.Controller):
     def search_suggestion(self, city_id=None, **post):
 
         cities = []
-        suggested_cities = request.env['res.city'].sudo().search([('country_id', '=', 49),])
+
         complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
-        prueba = request.env['res.country.state'].sudo().search([])
+        prueba = request.env['res.country.state'].sudo().search([('country_id', '=', 49),])
         _logger.info("stateeeeeeeee*****************************************")
         
 
         for states in prueba:
-            _logger.info(states.name)
+            _logger.info(states)
             cities.append({
                 'state': states.name,
                 'country_id': states.country_id
@@ -419,27 +419,6 @@ class OdooWebsiteSearchCity(http.Controller):
         #         'country_id': zip_city.city_id.state_id.country_id.id,
         #         'zip_id': zip_city.id,
         #     })
-
-        # for city in suggested_cities:
-        #     # _logger.info(city)
-        #     cities.append({
-        #         'city': "{0} - {1}".format(city.name, city.state_id.name),
-        #         'id': city.id,
-        #     })
-        # if post:
-        #     query = post.get('query').lower()
-        #     for suggestion in query.split(" "):
-        #         suggested_cities = request.env['res.city'].sudo().search([])
-        #         _logger.info("***CITIES***")
-        #         _logger.info(suggested_cities)
-        #         for city in suggested_cities:
-        #             #if len(cities) > 0 and city.id in [line.get('id') for line in cities]:
-        #             #    continue
-
-        #             cities.append({
-        #                 'city': '%s - %s' % (city.name, city.state_id.name),
-        #                 'id': city.id,
-        #                 })
         data = {}
         data['status'] = True,
         data['error'] = None,
