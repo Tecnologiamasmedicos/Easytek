@@ -403,7 +403,7 @@ class OdooWebsiteSearchCity(http.Controller):
         
 
         for states in prueba:
-            _logger.info(states)
+            _logger.info(states.name)
             cities.append({
                 'state': states.name,
                 'country_id': states.country_id
