@@ -338,6 +338,12 @@ class WebsiteSaleExtended(WebsiteSale):
         return "Datos eviados correctamente"
 
     
+    @http.route(['/report/beneficiary'],  methods=['GET'], type='http', auth="public", website=True)
+    def search_suggestion(self, city_id=None, **kwargs):
+
+        return request.render("web_sale_extended.report_customreport_customeasytek_template_res_partner", kwargs)
+
+    
     @http.route(['/search/cities'],  methods=['GET'], type='http', auth="public", website=True)
     def search_suggestion(self, city_id=None, **kwargs):
 
