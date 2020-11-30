@@ -348,7 +348,7 @@ class WebsiteSaleExtended(WebsiteSale):
         pdf = report.sudo().render_qweb_pdf()[0]
         file_name = "prueba"
         b64_pdf = base64.b64encode(pdf)
-        report_file = request.env['ir.attachment'].create({
+        report_file = request.env['ir.attachment'].sudo().create({
             'name': file_name,
             'type': 'binary',
             'datas': b64_pdf,
