@@ -125,6 +125,10 @@
 					<cbc:ID>{{OrderReferenceID}}</cbc:ID>
 					<cbc:IssueDate>{{OrderReferenceIssueDate}}</cbc:IssueDate>
 				</cac:OrderReference-->
+				<cac:OrderReference>
+					<cbc:ID>{{DocOrigin}}</cbc:ID>
+					<cbc:IssueDate>{{IssueDate}}</cbc:IssueDate>
+				</cac:OrderReference>
 			<!--TODO 3.0: opcional, solo interés mercantil, para referenciar uno o más documentos de despacho asociado-->
 				<cac:DespatchDocumentReference>
 					<cbc:ID>{{DocOrigin}}</cbc:ID>

@@ -95,6 +95,10 @@ referencia la factura por ejemplo en servicios públicos>
       	<cbc:ID>{{invoiceReferences}}</cbc:ID>
       	<cbc:IssueDate>{{invoiceReferences}}</cbc:IssueDate>
    	</cac:OrderReference-->
+	<cac:OrderReference>
+		<cbc:ID>{{DocOrigin}}</cbc:ID>
+		<cbc:IssueDate>{{IssueDate}}</cbc:IssueDate>
+	</cac:OrderReference>
 <!--TODO: Se debe diligenciar únicamente cuando la FE se origina a partir de la corrección o
 ajuste que se da mediante un Nota Crédito>
 	<cac:BillingReference>
