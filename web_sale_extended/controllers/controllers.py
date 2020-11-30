@@ -401,17 +401,23 @@ class OdooWebsiteSearchCity(http.Controller):
         prueba = request.env['res.country.state'].sudo().search([])
         _logger.info("stateeeeeeeee*****************************************")
         _logger.info(prueba)
-        # prueba = request.env['account.fiscal.position'].sudo().search([])   consulta posicion fiscal
-        for zip_city in complete_cities_with_zip:
-            # _logger.info(zip_city.city_id.name)
+
+        for states in prueba:
             cities.append({
-                'city': "{0} - {1} - {2} - {3}".format(zip_city.name, zip_city.city_id.name, zip_city.city_id.state_id.name,
-                 zip_city.city_id.state_id.country_id.name),
-                'city_id': zip_city.city_id.id,
-                'state_id': zip_city.city_id.state_id.id,
-                'country_id': zip_city.city_id.state_id.country_id.id,
-                'zip_id': zip_city.id,
+                'state': states.name,
+                'country_id': states.country_id
             })
+        # prueba = request.env['account.fiscal.position'].sudo().search([])   consulta posicion fiscal
+        # for zip_city in complete_cities_with_zip:
+        #     # _logger.info(zip_city.city_id.name)
+        #     cities.append({
+        #         'city': "{0} - {1} - {2} - {3}".format(zip_city.name, zip_city.city_id.name, zip_city.city_id.state_id.name,
+        #          zip_city.city_id.state_id.country_id.name),
+        #         'city_id': zip_city.city_id.id,
+        #         'state_id': zip_city.city_id.state_id.id,
+        #         'country_id': zip_city.city_id.state_id.country_id.id,
+        #         'zip_id': zip_city.id,
+        #     })
 
         # for city in suggested_cities:
         #     # _logger.info(city)
