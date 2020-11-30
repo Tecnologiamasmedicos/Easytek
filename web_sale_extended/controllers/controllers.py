@@ -400,9 +400,10 @@ class OdooWebsiteSearchCity(http.Controller):
         complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
         prueba = request.env['res.country.state'].sudo().search([])
         _logger.info("stateeeeeeeee*****************************************")
-        _logger.info(prueba)
+        
 
         for states in prueba:
+            _logger.info(states)
             cities.append({
                 'state': states.name,
                 'country_id': states.country_id
