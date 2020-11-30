@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-import logging
+import logging, base64
 from datetime import datetime
 from werkzeug.exceptions import Forbidden, NotFound
 
@@ -340,20 +340,37 @@ class WebsiteSaleExtended(WebsiteSale):
     
     @http.route(['/report/beneficiary'],  methods=['GET'], type='http', auth="public", website=True)
     def search_suggestion(self, city_id=None, **kwargs):
-
+        
+        report_obj = request.env['ir.actions.report']
+        report = report_obj._get_report_from_name('web_sale_extended.report_customreport_customeasytek_template_res_partner')
+        pdf = report.render_qweb_pdf()[0]
+        file_name = "prueba"
+        b64_pdf = base64.b64encode(pdf)
+        report_file = request.env['ir.attachment'].create({
+            'name': file_name,
+            'type': 'binary',
+            'datas': b64_pdf,
+            'datas_fname': file_name + '.pdf',
+            'store_fname': file_name,
+            'res_model': 'product.template',
+            'res_id': 1,
+            'mimetype': 'application/x-pdf'
+        })
+                
         return request.render("web_sale_extended.report_customreport_customeasytek_template_res_partner", kwargs)
 
-    
+
+
+    # search cities by ajax peticion
     @http.route(['/search/cities'],  methods=['GET'], type='http', auth="public", website=True)
-    def search_suggestion(self, city_id=None, **kwargs):
+    def search_cities(self, city_id=None, **kwargs):
 
         cities = []
         _logger.info('****************************************\n\n++++++++++++++++++++++++++++++++++++')
         _logger.info(kwargs)
         suggested_cities = request.env['res.city'].sudo().search([('state_id', '=', int(kwargs['departamento']))])
         complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
-        # prueba = request.env['res.partner.document.type'].sudo().search([]) consulta tipo de documento
-        # prueba = request.env['account.fiscal.position'].sudo().search([])   consulta posicion fiscal
+
         for city in suggested_cities:
             # _logger.info(zip_city.city_id.name)
             cities.append({
