@@ -359,7 +359,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'mimetype': 'application/x-pdf'
         })
                 
-        return request.render("web_sale_extended.report_customreport_customeasytek_template_res_partner", kwargs)
+        return request.render(report_file, kwargs)
 
 
 
@@ -396,7 +396,7 @@ class OdooWebsiteSearchCity(http.Controller):
     def search_suggestion(self, city_id=None, **post):
 
         cities = []
-        suggested_cities = request.env['res.city'].sudo().search([])
+        suggested_cities = request.env['res.city'].sudo().search([('country_id', '=', 49),])
         complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
         prueba = request.env['res.country.state'].sudo().search([])
         _logger.info("stateeeeeeeee*****************************************")
@@ -437,6 +437,6 @@ class OdooWebsiteSearchCity(http.Controller):
         data['status'] = True,
         data['error'] = None,
         data['data'] = {'cities': cities}
-        _logger.info(data)
+        # _logger.info(data)
         return json.dumps(data)
    
