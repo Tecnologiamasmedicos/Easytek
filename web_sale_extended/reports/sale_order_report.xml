@@ -10,7 +10,7 @@
         />
         
         
-        <record id="paperformat_sale_order_report_easytek" model="report.paperformat">
+	<!--<record id="paperformat_sale_order_report_easytek" model="report.paperformat">
           <field name="name">Formato de Papel easytek</field>
           <field name="default" eval="True"/>
           <field name="format">A4</field>
@@ -24,8 +24,7 @@
           <field name="header_line" eval="False"/>
           <field name="header_spacing">20</field>
           <field name="dpi">90</field>
-        </record>
-        
+	</record>-->
         <template id="report_customreport_customeasytek_template">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
@@ -164,3 +163,4 @@
         </template>                    
     </data>
 </odoo> 
+
