@@ -343,9 +343,9 @@ class WebsiteSaleExtended(WebsiteSale):
         
         report_obj = request.env['ir.actions.report']
         report = report_obj._get_report_from_name('web_sale_extended.report_customreport_customeasytek_template_res_partner')
-        _logger.info("reporte")
+        _logger.info("reporte***************************************************")
         _logger.info(report)
-        pdf = report.render_qweb_pdf()[0]
+        pdf = report.render_qweb_pdf()
         file_name = "prueba"
         b64_pdf = base64.b64encode(pdf)
         report_file = request.env['ir.attachment'].create({
