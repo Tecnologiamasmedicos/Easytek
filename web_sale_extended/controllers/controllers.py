@@ -339,12 +339,12 @@ class WebsiteSaleExtended(WebsiteSale):
 
     
     @http.route(['/report/beneficiary'],  methods=['GET'], type='http', auth="public", website=True)
-    def search_suggestion(self, city_id=None, **kwargs):
+    def report_poliza(self, city_id=None, **kwargs):
         
         report_obj = request.env['ir.actions.report']
         report = report_obj._get_report_from_name('web_sale_extended.report_customreport_customeasytek_template_res_partner')
         _logger.info("reporte***************************************************")
-        _logger.info(report)
+        _logger.info(report[0])
         pdf = report.render_qweb_pdf()
         file_name = "prueba"
         b64_pdf = base64.b64encode(pdf)
@@ -398,7 +398,9 @@ class OdooWebsiteSearchCity(http.Controller):
         cities = []
         suggested_cities = request.env['res.city'].sudo().search([])
         complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
-        # prueba = request.env['res.partner.document.type'].sudo().search([]) consulta tipo de documento
+        prueba = request.env['res.country.state'].sudo().search([])
+        _logger.info("stateeeeeeeee*****************************************")
+        _logger.info(prueba)
         # prueba = request.env['account.fiscal.position'].sudo().search([])   consulta posicion fiscal
         for zip_city in complete_cities_with_zip:
             # _logger.info(zip_city.city_id.name)
