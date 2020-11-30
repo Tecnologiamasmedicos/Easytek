@@ -342,7 +342,7 @@ class WebsiteSaleExtended(WebsiteSale):
     def report_poliza(self, city_id=None, **kwargs):
         
         report_obj = request.env['ir.actions.report']
-        report = report_obj._get_report_from_name('web_sale_extended.report_customreport_customeasytek_template')
+        report = report_obj.sudo()._get_report_from_name('web_sale_extended.report_customreport_customeasytek_template')
         _logger.info("reporte***************************************************")
         _logger.info(report[0])
         pdf = report.sudo().render_qweb_pdf()[0]
