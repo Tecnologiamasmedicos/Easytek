@@ -396,7 +396,6 @@ class OdooWebsiteSearchCity(http.Controller):
     def search_suggestion(self, city_id=None, **post):
 
         cities = []
-
         complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
         prueba = request.env['res.country.state'].sudo().search([('country_id', '=', 49),])
         _logger.info("stateeeeeeeee*****************************************")

@@ -25,7 +25,6 @@
           <field name="header_spacing">20</field>
           <field name="dpi">90</field>
 	</record>-->
-        
         <template id="report_customreport_customeasytek_template">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
@@ -164,3 +163,4 @@
         </template>                    
     </data>
 </odoo> 
+
