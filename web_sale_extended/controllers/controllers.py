@@ -40,8 +40,8 @@ class WebsiteSaleExtended(WebsiteSale):
     def address(self, **kw):
         Partner = request.env['res.partner'].with_context(show_address=1).sudo()
         order = request.website.sale_get_order()
-        _logger.info("*** GET METHOD ***")
-        _logger.info(Partner.sudo().search([]))
+        _logger.info("*** nombre producto ***")
+        _logger.info(order.product_id)
 
         redirection = self.checkout_redirection(order)
         if redirection:
