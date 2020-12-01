@@ -43,6 +43,7 @@ class WebsiteSaleExtended(WebsiteSale):
         order_detail = request.env['sale.order.line'].sudo().search([('order_id', "=", int(order.id))])
         _logger.info("*** nombre producto ***")
         _logger.info(order)
+        _logger.info(order_detail.name)
 
         redirection = self.checkout_redirection(order)
         if redirection:
