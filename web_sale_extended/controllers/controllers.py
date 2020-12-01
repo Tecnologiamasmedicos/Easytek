@@ -142,7 +142,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'callback': kw.get('callback'),
             'cities': self.get_cities(),
             'document_types': self.get_document_types(),
-            'fiscal_position': self.get_fiscal_position(),
+            # 'fiscal_position': self.get_fiscal_position(),
             'only_services': order and order.only_services,
         }
         return request.render("web_sale_extended.address", render_values)
