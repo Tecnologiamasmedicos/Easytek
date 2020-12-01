@@ -49,7 +49,7 @@
                                                         <span style="font-size: 18px;">
                                                             <b>Llenemos</b>
                                                         </span>
-                                                        <b style="font-size: 18px;">&amp;nbsp;la siguiente información para adquirir tu #NombrePlan, es fácil y rápido.</b>
+                                                        <b style="font-size: 18px;">&amp;nbsp;la siguiente información para adquirir tu <t t-esc="order_detail.product_template_id.name"/>, es fácil y rápido.</b>
                                                         </font>
                                                         <br/>
                                                     </div>

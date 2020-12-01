@@ -38,6 +38,9 @@ class WebsiteSaleExtended(WebsiteSale):
     # toma de datos de pago y se crea el asegurador principal
     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def address(self, **kw):
+
+        ''' Toma de datos de pago y se crea el asegurador principal '''
+
         Partner = request.env['res.partner'].with_context(show_address=1).sudo()
         order = request.website.sale_get_order()
         order_detail = request.env['sale.order.line'].sudo().search([('order_id', "=", int(order.id))])
@@ -146,6 +149,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'document_types': self.get_document_types(),
             # 'fiscal_position': self.get_fiscal_position(),
             'only_services': order and order.only_services,
+            'order_detail': order_detail,
         }
         return request.render("web_sale_extended.address", render_values)
     
