@@ -141,11 +141,11 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             },
             messages: {
                 name: {
-                    required: "Upss!! tu nombre es requerido",
+                    required: "¡Upss! tu nombre es requerido",
                     minlength: "Un nombre contiene más de 3 caracteres"
                 },
                 lastname: {
-                    required: "Este campo es requerido",
+                    required: "¡Upss! tu apellido es requerido",
                     minlength: "Un apellido contiene más de 3 caracteres"
                 },
                 // lastname2: {
@@ -153,28 +153,28 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 //     minlength: "Un apellido contiene más de 3 caracteres"
                 // },
                 email: {
-                    required: "Este campo es requerido",
+                    required: "¡Upss! tu email es requerido",
                     email: "Escribe un email valido"
                 },
                 phone: {
-                    required: "Este campo es requerido",
+                    required: "¡Upss! tu telefono es requerido",
 
                 },
                 document: {
-                    required: "Este campo es requerido",
+                    required: "¡Upss! tu tipo de documento es requerido",
 
                 },
                 identification_document: {
-                    required: "Este campo es requerido",
+                    required: "¡Upss! tu numero de documento es requerido",
                     number: "Este campo solo es numérico"
 
                 },
                 street: {
-                    required: "Este campo es requerido",
+                    required: "¡Upss! tu dirección es requerido",
 
                 },
                 city: {
-                    required: "Este campo es requerido",
+                    required: "¡Upss! tu ciudad es requerido",
 
                 },
                 country_id: {
@@ -182,21 +182,21 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
                 },
                 state_id: {
-                    required: "Este campo es requerido",
+                    required: "¡Upss! tu departamento es requerido",
 
                 },
                 aceptacion_datos: {
-                    required: "Upss Acepte política de tratamiento de datos para continuar",
+                    required: "¡Upss! Acepte política de tratamiento de datos para continuar",
 
                 },
                 tyc: {
-                    required: "Acepte terminos y condiciones para continuar",
+                    required: "¡Upss! Acepte terminos y condiciones para continuar",
 
                 },
                 birthdate_date: {
                     required: "Campo de fecha es obligatorio",
-                    min: "Tienes que ser mayor de edad",
-                    max: "Ups debes de ser mayor 18 y menor de 69 años para continuar"
+                    min: "¡Upss! Tienes que ser mayor de edad",
+                    max: "¡Upss! debes de ser  menor de 69 años para continuar"
 
                 },
 
