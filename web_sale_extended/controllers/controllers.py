@@ -40,6 +40,7 @@ class WebsiteSaleExtended(WebsiteSale):
     def address(self, **kw):
         Partner = request.env['res.partner'].with_context(show_address=1).sudo()
         order = request.website.sale_get_order()
+        order_detail = request.env['sale.order.line'].sudo().search([('order_id', "=", int(order.id))])
         _logger.info("*** nombre producto ***")
         _logger.info(order)
 
