@@ -41,7 +41,7 @@ class WebsiteSaleExtended(WebsiteSale):
         Partner = request.env['res.partner'].with_context(show_address=1).sudo()
         order = request.website.sale_get_order()
         _logger.info("*** nombre producto ***")
-        _logger.info(order.product_id)
+        _logger.info(order)
 
         redirection = self.checkout_redirection(order)
         if redirection:
