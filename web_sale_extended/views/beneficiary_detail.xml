@@ -24,7 +24,7 @@
                                 <br/>
                                 <div>
                                 <div>
-                                    <span style="font-size: 18px;">Ya puedes descargar o imprimir tu póliza aquí</span>
+                                    <span style="font-size: 18px;">Ya puedes descargar o imprimir tu póliza de seguros aquí</span>
                                 </div>
                                 <div>
                                     <!-- <span style="font-size: 18px;">con tu nueva contraseña</span> -->
@@ -64,7 +64,7 @@
               </section> -->
                 <br/>
                 <br/>
-                <section class="s_text_block pt0 pb0" data-name="Text block" style="">
+                <!-- <section class="s_text_block pt0 pb0" data-name="Text block" style="">
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-12 pt0 pb0">
@@ -98,6 +98,40 @@
                             
                         </div>
                     </div>
+                </section> -->
+
+
+                <section class="s_text_block pt0 pb0" data-name="Text block">
+                    <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 pt0 pb0">
+                        <div class="s_alert clearfix s_alert_md w-100" data-name="Alert" style="border: 1px solid #FFFFFF; box-sizing: background: #FFFFFF; box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.3);border-radius: 4px;">
+                            <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/docu.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                            <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip947855"/>
+                            <div class="s_alert_content">
+                            <p>
+                                <font color="#39b54a">
+                                <span style="color: #333333; font-size: 16px;">
+                                    <b>Póliza <t t-esc="partner.firstname"/> <t t-esc="partner.lastname"/>  No. <t t-esc="order_detail.order_id.id"/></b>
+                                </span>
+                                </font>
+                                <br/>
+                                <font style="font-size: 12px; color: #828282;">Emitida por MásMedicos</font>
+                            </p>
+                            <p>
+                                <font style="">
+                                <span style="font-size: 14px; white-space: pre-wrap;">Póliza de seguros MásMedicos para <t t-esc="partner.firstname"/> <t t-esc="partner.lastname"/> No. <t t-esc="order_detail.order_id.id"/> <t t-esc="order_detail.product_template_id.name"/>.</span>
+                                </font>
+                                <br/>
+                            </p>
+                            <div style="text-align: right;">
+                            <a href="/report/beneficiary"><img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>&amp;nbsp;&amp;nbsp;</a>
+                            <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/></div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
                 </section>
 
                 <h5>Y puedes descargar o imprimir los documentos de tu plan aquí</h5>
@@ -126,13 +160,54 @@
                                 </font>
                                 <br/>
                             </p>
-                            <div style="text-align: right;"><img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>&amp;nbsp;&amp;nbsp;<img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/></div>
+                            <div style="text-align: right;">
+                            <a href="/web_sale_extended/static/src/files/tratamiento_de_datos.pdf" download="privacidad"><img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>&amp;nbsp;&amp;nbsp;</a>
+                            <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/></div>
                             </div>
                         </div>
                         </div>
                     </div>
                     </div>
                 </section>
+                <br/>
+                <br/>
+                <section class="s_text_block pt0 pb0" data-name="Text block">
+                    <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 pt0 pb0">
+                        <div class="s_alert clearfix s_alert_md w-100" data-name="Alert" style="border: 1px solid #FFFFFF; box-sizing: background: #FFFFFF; box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.3);border-radius: 4px;">
+                            <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/docu.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                            <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip947855"/>
+                            <div class="s_alert_content">
+                            <p>
+                                <font color="#39b54a">
+                                <span style="color: #333333; font-size: 16px;">
+                                    <b>Manual de usuario</b>
+                                </span>
+                                </font>
+                                <br/>
+                                <font style="font-size: 12px; color: #828282;">Emitida por MásMedicos</font>
+                            </p>
+                            <p>
+                                <font style="">
+                                <span style="font-size: 14px; white-space: pre-wrap;">Manual de usuario del servicio MásMédicos.</span>
+                                </font>
+                                <br/>
+                            </p>
+                            <div style="text-align: right;">
+                            <a href="/web_sale_extended/static/src/files/manual_usuario.pdf" download="manual_usuario"><img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>&amp;nbsp;&amp;nbsp;</a>
+                            <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/></div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </section>
+
+                <br/>
+                <br/>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/pfS3z6hjEGI" frameborder="0" allow="accelerometer; 
+                autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 
 
                 

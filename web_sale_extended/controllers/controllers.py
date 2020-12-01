@@ -294,7 +294,8 @@ class WebsiteSaleExtended(WebsiteSale):
                     'relationship': kwargs[relationship],
                     'address_beneficiary': kwargs[address_beneficiary],
                 })
-    
+        kwargs['order_detail'] = order_detail
+        kwargs['partner'] = InsurerPartner[0]
         
         return request.render("web_sale_extended.beneficiary_detail", kwargs)
 
@@ -373,8 +374,8 @@ class WebsiteSaleExtended(WebsiteSale):
             'name': file_name,
             'type': 'binary',
             'datas': b64_pdf,
-            'datas_fname': file_name + '.pdf',
-            'store_fname': file_name,
+            # 'datas_fname': file_name + '.pdf',
+            # 'store_fname': file_name,
             'res_model': 'res.partner',
             'res_id': 1,
             'mimetype': 'application/x-pdf'

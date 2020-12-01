@@ -70,3 +70,8 @@ header .navbar-brand.logo img {
 .o_brand_promotion {
     display: none;
 }
+
+.navbar .active {
+    background-color: #e3e3ef;
+    border-radius: 5px;
+}
