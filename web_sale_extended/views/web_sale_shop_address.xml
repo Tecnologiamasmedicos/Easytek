@@ -157,7 +157,7 @@
                                         <select name="document" class="selectpicker" id="document" 
                                         t-attf-class="form-control #{error.get('') and 'is-invalid' or ''}" 
                                         t-att-mode="mode[1]">
-                                            <option value="">Tipo documeno...</option>
+                                            <option value="">Tipo documento...</option>
                                             <t t-foreach="document_types" t-as="dt">
                                                 <option t-att-value="dt.id" t-att-selected="dt.name">
                                                     <t t-esc="dt.name" /> 

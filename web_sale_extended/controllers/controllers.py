@@ -34,6 +34,8 @@ class WebsiteSaleExtended(WebsiteSale):
                 Partner.browse(partner_id).sudo().write(checkout)
         return partner_id
 
+    
+    # toma de datos de pago y se crea el asegurador principal
     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def address(self, **kw):
         Partner = request.env['res.partner'].with_context(show_address=1).sudo()
@@ -147,20 +149,23 @@ class WebsiteSaleExtended(WebsiteSale):
     
 
     def get_cities(self):
+        ''' LISTADOS DE TODAS LAS CIUDADES '''
         complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
         return complete_cities_with_zip
 
     def get_document_types(self):
+        ''' LISTADOS DE TODOS LOS TIPOS DE DOCUMENTO '''
+
         document_type = request.env['res.partner.document.type'].sudo().search([])
         return document_type
-    def get_fiscal_position(self):
-        fiscal_position = request.env['account.fiscal.position'].sudo().search([])
-        return fiscal_position
+
 
 
 
     @http.route(['/add/beneficiary'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
-    def create_beneficiary(self, **kwargs):
+    def get_data_beneficiary(self, **kwargs):
+
+        ''' Captura de datos del beneficiario más no guarda informacion '''
         _logger.info("**BENEFICIARY**")
 
         _logger.info(request.env.user.email)
@@ -188,7 +193,9 @@ class WebsiteSaleExtended(WebsiteSale):
 
     
     @http.route(['/beneficiary-detail'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
-    def beneficiary_detail(self, **kwargs):
+    def create_beneficiary(self, **kwargs):
+
+        ''' Guarda datos de los beneficiarios y los deja inactivo  '''
         _logger.info("***INFORME BENEFICIARIO***")
         _logger.info(kwargs)
         
@@ -283,6 +290,9 @@ class WebsiteSaleExtended(WebsiteSale):
 
     @http.route(['/beneficiary-submit'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def beneficiary_submit(self, **kwargs):
+
+        ''' Actualiza el estado de los beneficiarios a true '''
+
         InsurerPartner = request.env['res.partner'].search([('email', '=', request.env.user.email)], limit=1)
         InsurerPartner_childs = request.env['res.partner'].search([
             ('parent_id', '=', InsurerPartner[0].id), ('active', '=', False),
@@ -366,7 +376,7 @@ class WebsiteSaleExtended(WebsiteSale):
     # search cities by ajax peticion
     @http.route(['/search/cities'],  methods=['GET'], type='http', auth="public", website=True)
     def search_cities(self, city_id=None, **kwargs):
-
+        ''' Busca las ciudades por departamentos en peticiones ajax retorna un json '''
         cities = []
         _logger.info('****************************************\n\n++++++++++++++++++++++++++++++++++++')
         _logger.info(kwargs)
