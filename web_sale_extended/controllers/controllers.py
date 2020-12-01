@@ -186,6 +186,9 @@ class WebsiteSaleExtended(WebsiteSale):
         _logger.info(InsurerPartner[0].id)
         _logger.info(len(InsurerPartner_childs))
 
+        order = order_detail = request.env['sale.order'].sudo().search([('partner_id', "=", InsurerPartner[0].id)])
+        order_detail = request.env['sale.order.line'].sudo().search([('order_id', "=", int(order.id))])
+
         country = request.env['res.country'].browse(int(InsurerPartner.country_id))
         render_values = {
             "partner": InsurerPartner[0],
@@ -194,6 +197,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'countries': country.get_website_sale_countries(),
             'document_types': self.get_document_types(),
             'country': country,
+            'order_detail': order_detail,
         }
         return request.render("web_sale_extended.beneficiary", render_values)
 
@@ -210,7 +214,8 @@ class WebsiteSaleExtended(WebsiteSale):
         InsurerPartner_childs = request.env['res.partner'].search([
             ('parent_id', '=', InsurerPartner[0].id),
         ], limit=6)
-        
+        order = order_detail = request.env['sale.order'].sudo().search([('partner_id', "=", InsurerPartner[0].id)])
+        order_detail = request.env['sale.order.line'].sudo().search([('order_id', "=", int(order.id))])
         _logger.info("***Datos de beneficiario***")
         _logger.info(len(InsurerPartner_childs))
         
