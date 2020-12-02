@@ -181,6 +181,10 @@
                                             t-attf-class="form-control #{error.get('birthdate_date') and 'is-invalid' or ''}" 
                                             t-att-value="'identification_document' in checkout and checkout['birthdate_date']" />
 
+                                        
+                                    </div>
+                                    <div t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6">
+
                                         <label class="col-form-label" for="expedition_date">Fecha de expedicion del documento</label>
                                             <input type="date" name="expedition_date" 
                                             t-attf-class="form-control #{error.get('expedition_date') and 'is-invalid' or ''}" 
