@@ -178,18 +178,13 @@
                                     <div t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6">
                                         <label class="col-form-label" for="birthdate_date">Fecha nacimiento</label>
                                             <input type="date" name="birthdate_date" 
-                                            t-attf-class="form-control #{error.get('identification_document') and 'is-invalid' or ''}" 
+                                            t-attf-class="form-control #{error.get('birthdate_date') and 'is-invalid' or ''}" 
                                             t-att-value="'identification_document' in checkout and checkout['birthdate_date']" />
-                                       <!-- <select name="fiscal_position" class="selectpicker" id="fiscal_position" 
-                                        t-attf-class="form-control #{error.get('') and 'is-invalid' or ''}" 
-                                        t-att-mode="mode[1]">
-                                            <option value="">Seleccione una...</option>
-                                            <t t-foreach="fiscal_position" t-as="fp">
-                                                <option t-att-value="fp.id" t-att-selected="fp.name">
-                                                    <t t-esc="fp.name" /> 
-                                                </option>
-                                            </t>      
-                                        </select>-->
+
+                                        <label class="col-form-label" for="expedition_date">Fecha de expedicion del documento</label>
+                                            <input type="date" name="expedition_date" 
+                                            t-attf-class="form-control #{error.get('expedition_date') and 'is-invalid' or ''}" 
+                                             />
                                     </div>
                                     <div class="w-100"/>
                                     <div t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-lg-12 div_street">

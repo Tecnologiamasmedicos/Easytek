@@ -136,6 +136,10 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                         }
                     }
                 },
+                expedition_date: {
+                    required: true,
+
+                }
 
 
             },
@@ -194,9 +198,14 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
                 },
                 birthdate_date: {
-                    required: "Campo de fecha es obligatorio",
+                    required: "¡Upss! tu fecha de nacimiento es requerido",
                     min: "¡Upss! Tienes que ser mayor de edad",
                     max: "¡Upss! debes de ser  menor de 69 años para continuar"
+
+                },
+                expedition_date: {
+                    required: "¡Upss! tu fecha de expedición es requerido",
+
 
                 },
 
