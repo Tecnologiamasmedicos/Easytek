@@ -10,7 +10,7 @@ import os
 #sys.setdefaultencoding('utf8')
 #from StringIO import StringIO
 from io import StringIO ## for Python 3
-from datetime import datetime
+from datetime import datetime, timedelta
 from base64 import b64encode, b64decode
 from zipfile import ZipFile
 from . import global_functions
@@ -18,7 +18,7 @@ from pytz import timezone
 from requests import post, exceptions
 from lxml import etree
 
-from odoo import models, fields, _
+from odoo import models, fields, _, api
 from odoo.exceptions import ValidationError, UserError
 from odoo.http import request
 
@@ -124,6 +124,8 @@ class AccountInvoiceDianDocument(models.Model):
     pdf_filename = fields.Char(string='Pdf Filename')
     attach_pdf = fields.Boolean(string='Adjuntar pdf en Comfiar', default=False)
     attach_pdf_response = fields.Text(string='Respuesta Adjuntar Pdf')
+    date_validation_dian = fields.Char(string="Date of validation DIAN")
+
 
     def unlink(self):
         for record in self:
@@ -385,13 +387,13 @@ class AccountInvoiceDianDocument(models.Model):
         _logger.info('impresion')
         _logger.info(self.invoice_id.refund_type)
 
-        if self.invoice_id.type == 'out_invoice':
+        if self.invoice_id.type == 'out_invoice' and not self.invoice_id.refund_type:
             xml_filename_prefix = 'fv'
             dddddddd = str(out_invoice_sent + 1).zfill(8)
         elif self.invoice_id.type == 'out_refund' and self.invoice_id.refund_type != 'debit':
             xml_filename_prefix = 'nc'
             dddddddd = str(out_refund_sent + 1).zfill(8)
-        elif self.invoice_id.type == 'out_refund' and self.invoice_id.refund_type == 'debit':
+        elif self.invoice_id.type == 'out_invoice' and self.invoice_id.refund_type == 'debit':
             xml_filename_prefix = 'nd'
             dddddddd = str(out_refund_sent + 1).zfill(8)
 
@@ -434,8 +436,8 @@ class AccountInvoiceDianDocument(models.Model):
             timezone('America/Bogota')).strftime('%H:%M:%S-05:00')
         self.invoice_id.issue_time = IssueTime
         ActualDeliveryDate = datetime.now().date()
-        LossRiskResponsibilityCode = ''
-        LossRisk = ''
+        LossRiskResponsibilityCode = self.invoice_id.invoice_incoterm_id.code or ''
+        LossRisk = self.invoice_id.invoice_incoterm_id.name or ''
         if self.invoice_id.invoice_type_code == '02':
             if not self.invoice_id.invoice_incoterm_id:
                 raise UserError(msg7)
@@ -459,21 +461,8 @@ class AccountInvoiceDianDocument(models.Model):
         RteIVA = impuestos['05']['amount'] if impuestos.get('05') else 0.0
         RteICA = impuestos['07']['amount'] if impuestos.get('07') else 0.0
 
-        # ClTec = False
-        # SoftwarePIN = False
-        # IdSoftware = self.company_id.software_id
-
-        # if self.invoice_id.type == 'out_invoice':
-        #     ClTec = active_dian_resolution['technical_key']
-        # else:
-        #     SoftwarePIN = self.company_id.software_pin
 
         TipoAmbie = self.company_id.profile_execution_id
-
-        # if TipoAmbie == '1':
-        #     QRCodeURL = DIAN['catalogo']
-        # else:
-        #     QRCodeURL = DIAN['catalogo-hab']
 
         ValFac = self.invoice_id.amount_untaxed
         ValImp1 = einvoicing_taxes['TaxesTotal']['01']['total']
@@ -483,51 +472,19 @@ class AccountInvoiceDianDocument(models.Model):
         #El valor a pagar puede verse afectado, por anticipos, y descuentos y
         #cargos a nivel de factura
         PayableAmount = TaxInclusiveAmount
-        # cufe_cude = global_functions.get_cufe_cude(
-        #     ID,
-        #     IssueDate,
-        #     IssueTime,
-        #     str('{:.2f}'.format(ValFac)),
-        #     '01',
-        #     str('{:.2f}'.format(ValImp1)),
-        #     '04',
-        #     str('{:.2f}'.format(ValImp2)),
-        #     '03',
-        #     str('{:.2f}'.format(ValImp3)),
-        #     str('{:.2f}'.format(TaxInclusiveAmount)),#self.invoice_id.amount_total
-        #     NitOFE,
-        #     NitAdq,
-        #     ClTec,
-        #     SoftwarePIN,
-        #     TipoAmbie)
-        # software_security_code = global_functions.get_software_security_code(
-        #     IdSoftware,
-        #     self.company_id.software_pin,
-        #     ID)
-        # partition_key = 'co|' + str(IssueDate).split('-')[2] + '|' + cufe_cude['CUFE/CUDE'][:2]
-        # emission_date = str(IssueDate).replace('-', '')
-        # QRCodeURL = QRCodeURL.format(cufe_cude['CUFE/CUDE'], partition_key, emission_date)
-
-        # self.write({
-        #     'invoice_url': QRCodeURL,
-        #     'cufe_cude_uncoded': cufe_cude['CUFE/CUDEUncoded'],
-        #     'cufe_cude': cufe_cude['CUFE/CUDE'],
-        #     'software_security_code_uncoded':
-        #         software_security_code['SoftwareSecurityCodeUncoded'],
-        #     'software_security_code':
-        #         software_security_code['SoftwareSecurityCode']})
+        
         _logger.info('lo q envia')
         _logger.info(self.invoice_id.payment_mean_code_id)
         return {
             'codDoc': self.type_account,
             'nroCbte': self._get_nroCbte()['nroCbte'],
             'puntoDeVentaId': active_dian_resolution['puntoDeVentaId'],
-            'DocOrigin': self.invoice_id.invoice_origin or '',
-            'Note1': '',
-            'Note2': '',
+            'DocOrigin': self.invoice_id.ref1_comfiar or '',
+            'Note1': self.company_id.tributary_information or '',
+            'Note2': self.invoice_id.narration or '',
             'Note3': '',
-            'Note4': self.invoice_id.narration or '',
-            'Note5': '{:.2f}'.format(RteFte),
+            'Note4': '\n' + (self.invoice_id.narration2 or ''),
+            'Note5': self.invoice_id.invoice_date_due or '',
             'Note6': '{:.2f}'.format(RteIVA),
             'Note7': '{:.2f}'.format(RteICA),
             'InvoiceAuthorization': active_dian_resolution['resolution_number'],
@@ -548,7 +505,7 @@ class AccountInvoiceDianDocument(models.Model):
             # 'UUID': cufe_cude['CUFE/CUDE'],
             'IssueDate': IssueDate,
             'IssueTime': IssueTime,
-            'LineCountNumeric': len(self.invoice_id.invoice_line_ids),
+            'LineCountNumeric': len(self.invoice_id.invoice_line_ids.filtered(lambda x: x.display_type not in ('line_section', 'line_note'))),
             'DocumentCurrencyCode': self.invoice_id.currency_id.name,
             'ActualDeliveryDate': ActualDeliveryDate,
             'Delivery': customer._get_delivery_values(),
@@ -569,7 +526,10 @@ class AccountInvoiceDianDocument(models.Model):
             'LineExtensionAmount': '{:.2f}'.format(self.invoice_id.amount_untaxed),
             'TaxExclusiveAmount': '{:.2f}'.format(self.invoice_id.amount_untaxed),
             'TaxInclusiveAmount': '{:.2f}'.format(TaxInclusiveAmount),#ValTot
-            'PayableAmount': '{:.2f}'.format(PayableAmount)}
+            'PayableAmount': '{:.2f}'.format(PayableAmount),
+            
+            'Receptores': customer._get_receptor_comfiar(self.company_id),
+            }
 
 
     def _get_invoice_values(self):
@@ -712,7 +672,7 @@ class AccountInvoiceDianDocument(models.Model):
         xml_values = self._get_xml_values(False)
         # xml_values.update(Prefix = self._get_nroCbte()['prefix'])
         
-        if self.invoice_id.operation_type == '10' or self.invoice_id.reversed_entry_id:
+        if self.invoice_id.operation_type == '10' or self.invoice_id.debit_origin_id:
             billing_reference = self.invoice_id._get_billing_reference()
         else:
             billing_reference = False
@@ -819,7 +779,7 @@ class AccountInvoiceDianDocument(models.Model):
         _logger.info('credit')
         _logger.info(self.invoice_id.refund_type)
 
-        if self.invoice_id.type == "out_invoice":
+        if self.invoice_id.type == "out_invoice" and not self.invoice_id.refund_type:
             if self.company_id.comfiar_send_mail:
                 _logger.info('*** Mail Comfiar -- pre_template_xml')
                 xml_without_signature = global_functions.get_template_xml(
@@ -841,7 +801,7 @@ class AccountInvoiceDianDocument(models.Model):
                 xml_without_signature = global_functions.get_template_xml(
                     self._get_credit_note_values(),
                     'CreditNote')
-        elif self.invoice_id.type == "out_refund" and self.invoice_id.refund_type == "debit":
+        elif self.invoice_id.type == "out_invoice" and self.invoice_id.refund_type == "debit":
             if self.company_id.comfiar_send_mail:
                 xml_without_signature = global_functions.get_template_xml(
                     self._get_debit_note_values(),
@@ -1389,7 +1349,10 @@ class AccountInvoiceDianDocument(models.Model):
                         for item in root.iter('{%s}UUID' % cbc):
                             cufe_cude.append(item.text)
                         if len(cufe_cude) == 1:
-                            self.cufe_cude = cufe_cude[0]
+                            if self.invoice_id.operation_type not in ('22','32'):
+                                self.cufe_cude = cufe_cude[0]
+                            else:
+                                self.cude = cufe_cude[0]
                         elif len(cufe_cude) == 2:
                             self.cude = cufe_cude[0]
                             self.cufe_cude = cufe_cude[1]
@@ -1415,6 +1378,8 @@ class AccountInvoiceDianDocument(models.Model):
                         self.output_dian_response += item.text + '\n\n'
                     for item in root.iter('string'):
                         self.output_dian_response += item.text + '\n\n'
+                    for item in root.iter('ResponseDateTime'):
+                        self.date_validation_dian = item.text
 
                     if out_dian_code == '00':
                         self.write({'state': 'done'})
@@ -1516,7 +1481,7 @@ class AccountInvoiceDianDocument(models.Model):
         self.AutorizarComprobanteAsincrono()
         resp = False
         count = 0
-        while (resp == False and count < 3):
+        while (resp == False and count < 2):
             resp = self.SalidaTransaccion()
             count += 1
         count = 0
@@ -1894,7 +1859,7 @@ class AccountInvoiceDianDocument(models.Model):
 
             if self.pdf_file and self.xml_file and self.company_id.odoo_send_mail_einv and not self.mail_sent:
                 self.action_send_mail()
-            elif self.output_comfiar_status_code == 'AUTORIZADO' and not self.company_id.odoo_send_mail_einv:
+            elif self.pdf_file and self.output_comfiar_status_code == 'AUTORIZADO' and not self.company_id.odoo_send_mail_einv:
                 self.mail_sent = True
     
     def get_status_by_document_number(self):
@@ -1926,7 +1891,16 @@ class AccountInvoiceDianDocument(models.Model):
                 record.RespuestaComprobante()
             except Exception as e:
                 record.attach_pdf_response = 'Error occurred : ' + str(e)
-                
+    
+    def get_date_validation_dian(self):
+        for record in self:
+            xml_resp = record.transaction_output_invoice
+            xml_tree = etree.fromstring(xml_resp.encode('utf-8'))
+            for element in xml_tree.iter('RespuestaDIAN'):
+                root = etree.fromstring(element.text.encode('utf-16'))
+                for item in root.iter('ResponseDateTime'):
+                    record.date_validation_dian = item.text
+                    
 
 class AccountInvoiceDianDocumentLine(models.Model):
     _name = "account.invoice.dian.document.line"

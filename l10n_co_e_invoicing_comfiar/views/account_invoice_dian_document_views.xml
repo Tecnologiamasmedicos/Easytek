@@ -9,7 +9,7 @@
                     decoration-muted="state=='cancel'">
                     <field name="invoice_id"/>
                     <field name="type_account" string="Tipo"/>
-                    <field name="cufe_cude"/>
+                    <field name="transaction_id"/>
                     <field name="xml_filename"/>
                     <field name="output_comfiar_status_code"/>
                     <field name="state"/>
@@ -92,6 +92,12 @@
                             confirm="Are you sure you want to consult by Voucher number?
 It is possible that the voucher consulted does not correspond to the Odoo invoice. It is recommended to validate in Comfiar that the receipt with this number is the same as odoo."
                             class="btn-primary"/>
+                        <button name="AutorizarComprobanteAsincrono"
+                            string="Publicar"
+                            type="object"
+                            class="btn-primary"
+                            invisible="1"
+                        />
                     </header>
                     <sheet>
                         <group>
@@ -168,8 +174,12 @@ It is possible that the voucher consulted does not correspond to the Odoo invoic
                                 <field name="transaction_output_invoice" readonly="1" groups="l10n_co_e_invoicing_comfiar.group_invoice_dian_documen_admin" style="border: 1px solid #D1D1D1;"/>
                             </page>
                             <page string="DIAN" name="DIAN">
+                                <div>
+                                    <button name="get_date_validation_dian" type="object" string="Get validation date DIAN" class="oe_link"/>
+                                </div>
                                 <group>
                                     <field name="output_dian_status_code" readonly="1"/>
+                                    <field name="date_validation_dian" readonly="1"/>
                                     <field name="output_dian_response" readonly="1"/>
                                 </group>
                             </page>

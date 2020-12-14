@@ -87,13 +87,13 @@
 				<cbc:IssueDate>{{IssueDate}}</cbc:IssueDate>
 				<cbc:IssueTime>{{IssueTime}}</cbc:IssueTime>
 			<!--TODO 1.0: Establecer opcional-->
-				<cbc:Note>{{Note1}}</cbc:Note>
-				<cbc:Note>{{Note2}}</cbc:Note>
-				<cbc:Note>{{Note3}}</cbc:Note>
-				<cbc:Note>{{Note4}}</cbc:Note>
-				<cbc:Note>{{Note5}}</cbc:Note> <!--ReteFte-->
-				<cbc:Note>{{Note6}}</cbc:Note> <!--ReteIVA-->
-				<cbc:Note>{{Note7}}</cbc:Note> <!--ReteICA-->
+				<cbc:Note>{{Note1}}</cbc:Note> <!--Información Tributaria-->
+				<cbc:Note>{{Note2}}</cbc:Note> <!--Terminos y condicinones-->
+				<cbc:Note>Note3</cbc:Note>
+				<cbc:Note>{{Note4}}</cbc:Note> <!--Comentarios adicionales-->
+				<cbc:Note>{{Note5}}</cbc:Note> <!--Fecha de vencimiento-->
+				<cbc:Note>Note6</cbc:Note> 
+				<cbc:Note>Note7</cbc:Note> <!---->
 				<cbc:DocumentCurrencyCode listAgencyID="6"
 					listAgencyName="United Nations Economic Commission for Europe"
 					listID="ISO 4217 Alpha">{{DocumentCurrencyCode}}</cbc:DocumentCurrencyCode>
@@ -125,10 +125,6 @@
 					<cbc:ID>{{OrderReferenceID}}</cbc:ID>
 					<cbc:IssueDate>{{OrderReferenceIssueDate}}</cbc:IssueDate>
 				</cac:OrderReference-->
-				<cac:OrderReference>
-					<cbc:ID>{{DocOrigin}}</cbc:ID>
-					<cbc:IssueDate>{{IssueDate}}</cbc:IssueDate>
-				</cac:OrderReference>
 			<!--TODO 3.0: opcional, solo interés mercantil, para referenciar uno o más documentos de despacho asociado-->
 				<cac:DespatchDocumentReference>
 					<cbc:ID>{{DocOrigin}}</cbc:ID>
@@ -150,9 +146,9 @@
 					<cbc:AdditionalAccountID>{{AccountingSupplierParty.AdditionalAccountID}}</cbc:AdditionalAccountID>
 					<cac:Party>
 						<cbc:IndustryClassificationCode>{{IndustryClassificationCode}}</cbc:IndustryClassificationCode>
-						{% if AccountingSupplierParty.PartyName %}
+						{% if AccountingSupplierParty.Name %}
 						<cac:PartyName>
-							<cbc:Name>{{AccountingSupplierParty.PartyName}}</cbc:Name>
+							<cbc:Name>{{AccountingSupplierParty.Name}}</cbc:Name>
 						</cac:PartyName>
 						{% endif %}
 						<cac:PhysicalLocation>
@@ -264,9 +260,9 @@
 							<cbc:ID {% if AccountingCustomerParty.CompanyIDschemeName == '31' %}schemeID="{{AccountingCustomerParty.CompanyIDschemeID}}"{% endif %}
 								schemeName="{{AccountingCustomerParty.CompanyIDschemeName}}">{{AccountingCustomerParty.CompanyID}}</cbc:ID>
 						</cac:PartyIdentification>
-						{% if AccountingCustomerParty.PartyName%}
+						{% if AccountingCustomerParty.Name%}
 						<cac:PartyName>
-							<cbc:Name>{{AccountingCustomerParty.PartyName}}</cbc:Name>
+							<cbc:Name>{{AccountingCustomerParty.Name}}</cbc:Name>
 						</cac:PartyName>
 						{% endif %}
 						{% if AccountingCustomerParty.CompanyID != '2222222222' %}
@@ -578,8 +574,8 @@
 					<cbc:ID>{{DebitNoteLineID}}</cbc:ID>
 				<!--TODO 3.0: Obligatorio de informar para el caso de facturas por contratos de servicio tipo AIU.
 					Para el ítem Adminsitración. En este caso la cbc:Note debe empezar por el texto: “Contrato de
-					servicios AIU por concepto de:” El contribuyente debe incluir el objeto del contrato facturado>
-					<cbc:Note>Información Adicional: Texto libre para añadir información adicional al artículo.</cbc:Note-->
+					servicios AIU por concepto de:” El contribuyente debe incluir el objeto del contrato facturado-->
+					<cbc:Note>{{DebitNoteLine.Note}}</cbc:Note>
 					<cbc:DebitedQuantity unitCode="{{DebitNoteLine.unitCode}}">{{DebitNoteLine.Quantity}}</cbc:DebitedQuantity>
 					<cbc:LineExtensionAmount currencyID="{{DocumentCurrencyCode}}">{{DebitNoteLine.LineExtensionAmount}}</cbc:LineExtensionAmount>
 					{% if DebitNoteLine.LineExtensionAmount == 0 -%}
@@ -651,15 +647,21 @@
 						{% if DebitNoteLine.ModelName %}
 						<cbc:ModelName>{{DebitNoteLine.ModelName}}</cbc:ModelName>
 						{% endif %}
+						<cac:ManufacturersItemIdentification>
+							<cbc:ID>{{DebitNoteLine.SellersItemIdentification}}</cbc:ID>
+							<cbc:ExtendedID>{{DebitNoteLine.unitCode}}</cbc:ExtendedID>
+						</cac:ManufacturersItemIdentification>
 					<!--TODO 2.0, Grupo de datos de identificación del artículo o servicio de acuerdo con el vendedor-->
-						<cac:SellersItemIdentification>
+						<!-- <cac:SellersItemIdentification>
 							<cbc:ID>{{DebitNoteLine.SellersItemIdentification}}</cbc:ID>
 							<cbc:ExtendedID></cbc:ExtendedID>
-						</cac:SellersItemIdentification>
+						</cac:SellersItemIdentification> -->
 					<!--TODO 2.0, Grupo de datos de identificación del artículo o servicio de acuerdo con un estándar-->
 					<!--OPCIONAL schemeName="Estándar de adopción del contribuyente" schemeAgencyID="" schemeAgencyName=""-->
 						<cac:StandardItemIdentification>
-							<cbc:ID schemeID="999">AOHV84-225</cbc:ID>
+							<cbc:ID schemeID="{{DebitNoteLine.StandardschemeID}}"
+									schemeName="{{DebitNoteLine.StandardschemeName}}"
+									{% if DebitNoteLine.StandardschemeAgencyID %}schemeAgencyID="{{DebitNoteLine.StandardschemeAgencyID}}"{% endif %}>{{DebitNoteLine.StandardItemIdentification}}</cbc:ID>
 							<!-- <cbc:ID schemeID="999">{{DebitNoteLine.StandardItemIdentification}}</cbc:ID> -->
 						</cac:StandardItemIdentification>
 					<!--TODO 2.0, opcional, Grupo de información para adicionar información específica del ítem que puede
@@ -697,15 +699,20 @@
 			<prefixPtoVenta>{{Prefix}}</prefixPtoVenta>
 			<nroCbte>{{nroCbte}}</nroCbte>
 			<Receptores>
+				{% for ElectronicMail, Receptor in Receptores.items() -%}
 				<Receptor>
-					<Login>{{AccountingCustomerParty.ElectronicMail}}</Login>
+					<Login>{{ElectronicMail}}</Login>
 					<TipoUsuario>0</TipoUsuario>
-					<Nombre>{{AccountingCustomerParty.Name}}</Nombre>
-					<Mail>{{AccountingCustomerParty.ElectronicMail}}</Mail>
-					<Contacto>{{AccountingCustomerParty.Telephone}}</Contacto>
+					<Nombre>{{Receptor.Name}}</Nombre>
+					<Mail>{{Receptor.Email}}</Mail>
+					<Contacto>{{Receptor.Telephone}}</Contacto>
 					<Idioma>05</Idioma>
 					<Adjunto>ADJUNTO</Adjunto>
+					<!-- {% if Receptor.Rol %}
+					<Rol>{{Receptor.Rol}}</Rol>
+					{% endif %} -->
 				</Receptor>
+				{% endfor -%}
 			</Receptores>
 		</informacionComfiar>
 	</Comprobante>

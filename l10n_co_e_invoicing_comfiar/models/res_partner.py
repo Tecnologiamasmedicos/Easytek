@@ -122,7 +122,8 @@ class ResPartner(models.Model):
 			'CompanyIDschemeName': self.document_type_id.code,
 			'CompanyID': self.identification_document,
 			'listName': self.property_account_position_id.listname,
-			'TaxLevelCode': self.property_account_position_id.tax_level_code_id.code,
+			'TaxLevelCode': tax_level_codes,
+			# self.property_account_position_id.tax_level_code_id.code,
 			'TaxSchemeID': self.property_account_position_id.tax_scheme_id.code,
 			'TaxSchemeName': self.property_account_position_id.tax_scheme_id.name,
 			'CorporateRegistrationSchemeName': self.ref,
@@ -133,7 +134,7 @@ class ResPartner(models.Model):
 			'MiddleName': middle_name,
 			'Telephone': telephone,
 			'Telefax': '',
-			'ElectronicMail': self.email
+			'ElectronicMail': self.email,
 		}
 
 
@@ -167,3 +168,24 @@ class ResPartner(models.Model):
 			'AddressLine': self.street or '',
 			'CountryIdentificationCode': self.country_id.code,
 			'CountryName': self.country_id.name}
+			
+	def _get_receptor_comfiar(self, company_id):
+		self.ensure_one()
+
+		if self.phone and self.mobile:
+			telephone = self.phone + " / " + self.mobile
+		elif self.lastname:
+			telephone = self.phone
+		elif self.lastname2:
+			telephone = self.mobile
+		ambiente = company_id.profile_execution_id
+		email_comp = company_id.einvoicing_email or False
+		if not email_comp:
+			raise UserError(_('No ha seleccionado un correo de facturación electrónica en la compañia para el ambiente de pruebas'))
+		receptor = {}
+		for email in self.email.split(','):
+			receptor = dict(receptor, **{email.replace(' ', ''): {'Name': self.name,
+												 'Telephone': telephone,
+												 'Email': email.replace(' ', '') if ambiente == '1' else email_comp,
+												 }})
+		return receptor

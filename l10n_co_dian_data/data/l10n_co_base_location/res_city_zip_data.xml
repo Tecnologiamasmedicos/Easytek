@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<data>
+	<data noupdate="1">
 		<record id="CO050001" model="res.city.zip">
 		    <field name="name">050001</field>
 		    <!--<field name="city">MEDELLÍN</field>-->

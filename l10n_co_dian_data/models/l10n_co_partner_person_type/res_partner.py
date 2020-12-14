@@ -136,9 +136,6 @@ class ResPartner(models.Model):
         country, company or other"""
         return (self.env["ir.config_parameter"].sudo().get_param("partner_names_order", self._names_order_default()))
 
-
-    
-
     def _inverse_name_after_cleaning_whitespace(self):
         """Clean whitespace in :attr:`~.name` and split it.
 

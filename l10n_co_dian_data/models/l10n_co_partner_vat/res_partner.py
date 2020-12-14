@@ -108,7 +108,7 @@ class ResPartner(models.Model):
         for item in self:
             if item.document_type_id.code != 1:
                 msg = _('Error! Number of digits in Identification number must be'
-                        'between 2 and 12')
+                        'between 2 and 12 \n\n %s [%s]') % (item.name, item.id)
                 if len(str(item.identification_document)) < 2:
                     raise exceptions.ValidationError(msg)
                 elif len(str(item.identification_document)) > 12:
@@ -130,7 +130,7 @@ class ResPartner(models.Model):
                                 item.document_type_id.code != 41:
                     if re.match("^[0-9]+$", item.identification_document) is None:
                         msg = _('Error! Identification number can only '
-                                'have numbers')
+                                'have numbers \n\n %s [%s]') % (item.name, item.id)
                         raise exceptions.ValidationError(msg)
 
 
@@ -148,7 +148,7 @@ class ResPartner(models.Model):
                     self.check_digit = False
                     self.vat = self.country_id.code + self.identification_document
             else:
-                msg = _('The Country has No ISO Code.')
+                msg = _('The Country has No ISO Code. \n\n %s [%s]') % (self.name, self.id)
                 raise ValidationError(msg)
         elif not self.identification_document and self.vat:
             self.vat = False

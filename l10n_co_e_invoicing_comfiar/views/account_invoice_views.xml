@@ -11,22 +11,34 @@
                 <field name="send_invoice_to_dian" invisible="1"/>
                     <!-- attrs="{'invisible': [('type', 'not in', ('out_invoice','out_refund'))],'!required': [('type', '!=', 'out_invoice')]}"/> -->
                 <field name="operation_type" string="Tipo Operacion"
-                    attrs="{'invisible': [('type', 'not in', ('out_invoice','out_refund'))],'!required': [('type', '!=', 'out_invoice')]}"
+                    attrs="{'invisible': [('type', 'not in', ('out_invoice','out_refund'))],
+                            '!required': [('type', '!=', 'out_invoice')],
+                            'readonly': [('state', '!=', 'draft')]}"
                     />
                 <field name="invoice_type_code"
-                    attrs="{'invisible': [('type', 'not in', ('out_invoice','out_refund'))],'!required': [('type', '!=', 'out_invoice')]}"
+                    attrs="{'invisible': [('type', 'not in', ('out_invoice','out_refund'))],
+                            '!required': [('type', '!=', 'out_invoice')],
+                            'readonly': [('state', '!=', 'draft')]}"
                     />
                 <field name="is_invoice_out_odoo"
-                    attrs="{'invisible': ['|',('type', 'not in', ('out_invoice','out_refund')),('operation_type', 'not in', ('20','30'))],'!required': [('type', '!=', 'out_invoice')]}"
+                    attrs="{'invisible': ['|',('type', 'not in', ('out_invoice','out_refund')),('operation_type', 'not in', ('20','30'))],
+                            '!required': [('type', '!=', 'out_invoice')],
+                            'readonly': [('state', '!=', 'draft')]}"
                     />
                 <field name="id_invoice_refound"
-                    attrs="{'invisible': ['|',('type', 'not in', ('out_invoice','out_refund')),('is_invoice_out_odoo', '==', False)],'!required': [('type', '!=', 'out_invoice')]}"
+                    attrs="{'invisible': ['|',('type', 'not in', ('out_invoice','out_refund')),('is_invoice_out_odoo', '==', False)],
+                            '!required': [('type', '!=', 'out_invoice')],
+                            'readonly': [('state', '!=', 'draft')]}"
                     />
                 <field name="uuid_invoice"
-                    attrs="{'invisible': ['|',('type', 'not in', ('out_invoice','out_refund')),('is_invoice_out_odoo', '==', False)],'!required': [('type', '!=', 'out_invoice')]}"
+                    attrs="{'invisible': ['|',('type', 'not in', ('out_invoice','out_refund')),('is_invoice_out_odoo', '==', False)],
+                            '!required': [('type', '!=', 'out_invoice')],
+                            'readonly': [('state', '!=', 'draft')]}"
                     />
                 <field name="issue_date_invoice"
-                    attrs="{'invisible': ['|',('type', 'not in', ('out_invoice','out_refund')),('is_invoice_out_odoo', '==', False)],'!required': [('type', '!=', 'out_invoice')]}"
+                    attrs="{'invisible': ['|',('type', 'not in', ('out_invoice','out_refund')),('is_invoice_out_odoo', '==', False)],
+                            '!required': [('type', '!=', 'out_invoice')],
+                            'readonly': [('state', '!=', 'draft')]}"
                     />
                 <field name="customizationid_invoice" invisible="1"
                     />
@@ -55,8 +67,19 @@
                 <attribute name="attrs">{'required': [('invoice_type_code','=','02')]}</attribute>
             </xpath>
             <xpath expr="//field[@name='ref']" position="after">
-                <field name="ref1_comfiar"/>
+                <field name="ref1_comfiar" string="Orden de Compra"/>
             </xpath>
+            <div class="oe_button_box" position="inside">
+                <button type="object" class="oe_stat_button" name="action_view_credit_notes" icon="fa-plus" attrs="{'invisible': [('credit_note_count', '=', 0)]}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value"><field name="credit_note_count"/></span>
+                        <span class="o_stat_text">Notas Crédito</span>
+                    </div>
+                </button>
+            </div>
+            <field name="narration" position="after">
+                <field name="narration2" attrs="{'invisible': [('type','not in',('out_invoice','out_refund'))]}"/>
+            </field>
         </field>
     </record>
 

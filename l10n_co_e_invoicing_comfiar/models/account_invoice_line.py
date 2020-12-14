@@ -2,7 +2,8 @@
 # Copyright 2019 Joan Marín <Github@joanmarin>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields
+from odoo import models, fields, _
+from odoo.exceptions import UserError, ValidationError
 
 
 class AccountInvoiceLine(models.Model):
@@ -13,7 +14,8 @@ class AccountInvoiceLine(models.Model):
     def _get_invoice_lines_taxes(self, tax, tax_amount, invoice_line_taxes_total):
         tax_code = tax.tax_group_id.tax_group_type_id.code
         tax_name = tax.tax_group_id.tax_group_type_id.name
-        tax_percent = '{:.2f}'.format(tax_amount)
+        # tax_percent = '{:.2f}'.format(tax_amount)
+        tax_percent = str(tax_amount)
 
         if tax_code not in invoice_line_taxes_total:
             invoice_line_taxes_total[tax_code] = {}
