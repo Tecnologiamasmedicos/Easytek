@@ -484,7 +484,7 @@ class AccountInvoiceDianDocument(models.Model):
             'Note2': self.invoice_id.narration or '',
             'Note3': '',
             'Note4': '\n' + (self.invoice_id.narration2 or ''),
-            'Note5': self.invoice_id.invoice_date_due or '',
+            'Note5': self.invoice_id.invoice_date_due.strftime("%d/%m/%Y") or '',
             'Note6': '{:.2f}'.format(RteIVA),
             'Note7': '{:.2f}'.format(RteICA),
             'InvoiceAuthorization': active_dian_resolution['resolution_number'],
