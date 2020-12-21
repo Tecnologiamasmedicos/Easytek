@@ -405,10 +405,10 @@ class WebsiteSaleExtended(WebsiteSale):
     
     
     
-    @http.route(['/shop/product/<model("product.product"):product>'], type='http', auth="public", website=True)
+    @http.route(['/shop/product/<model("product.template"):product>'], type='http', auth="public", website=True)
     def product(self, product, category='', search='', **kwargs):
-        #if not product.can_access_from_current_website():
-        #    raise NotFound()
+        if not product.can_access_from_current_website():
+            raise NotFound()
 
         if product.id in (3,4,5):
             """This route is called when adding a product to cart (no options)."""
@@ -450,7 +450,7 @@ class WebsiteSaleExtended(WebsiteSale):
             if not qs or qs.lower() in loc:
                 yield {'loc': loc}
     
-    
+    """ 
     @http.route([
         '''/shop''',
         '''/shop/page/<int:page>''',
@@ -460,6 +460,7 @@ class WebsiteSaleExtended(WebsiteSale):
     def shop(self, page=0, category=None, search='', ppg=False, **post):
         # quitando acceso y funcionalidad a /shop*
         return request.redirect(request.httprequest.referrer or '/web/login')
+    """
     
     
     
