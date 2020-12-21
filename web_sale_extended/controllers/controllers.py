@@ -410,7 +410,7 @@ class WebsiteSaleExtended(WebsiteSale):
         if not product.can_access_from_current_website():
             raise NotFound()
 
-        if product.id in (3,4,5):
+        if product.id in (1,2,3):
             """This route is called when adding a product to cart (no options)."""
             sale_order = request.website.sale_get_order(force_create=True)
             if sale_order.state != 'draft':
