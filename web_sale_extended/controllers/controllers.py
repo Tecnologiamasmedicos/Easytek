@@ -140,7 +140,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'callback': kw.get('callback'),
             'cities': self.get_cities(),
             'document_types': self.get_document_types(),
-            'product': request.env['product.product'].browse(7),
+            'product': request.env['product.product'].sudo().browse(7),
             # 'fiscal_position': self.get_fiscal_position(),
             'only_services': order and order.only_services,
             'order_detail': order_detail,
@@ -395,7 +395,7 @@ class WebsiteSaleExtended(WebsiteSale):
         render_values = self._get_shop_payment_values(order, **post)
         render_values['only_services'] = order and order.only_services or False
         
-        render_values['product'] = request.env['product.product'].browse(7),
+        render_values['product'] = request.env['product.product'].sudo().browse(7),
         
         if render_values['errors']:
             render_values.pop('acquirers', '')
