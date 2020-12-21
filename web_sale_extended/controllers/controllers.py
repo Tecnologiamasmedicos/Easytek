@@ -405,7 +405,7 @@ class WebsiteSaleExtended(WebsiteSale):
     
     
     
-    @http.route(['/shop/product/<model("product.template"):product>'], type='http', auth="public", website=True)
+    @http.route(['/shop/product/<model("product.product"):product>'], type='http', auth="public", website=True)
     def product(self, product, category='', search='', **kwargs):
         #if not product.can_access_from_current_website():
         #    raise NotFound()
