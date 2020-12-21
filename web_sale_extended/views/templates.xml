@@ -18,9 +18,9 @@
     
     
     
-    <template id="header_inherit" inherit_id="website_sale.header" name="Header Shop My Cart Link">
+	<!--<template id="header_inherit" inherit_id="website_sale.header" name="Header Shop My Cart Link">
         <xpath expr="//li[@class='o_wsale_my_cart']" position="replace"/>
-    </template>
+	</template>-->
     
     <template id="wizard_checkout_inherit" name="Wizard Checkout" inherit_id="website_sale.wizard_checkout">
         <xpath expr="//div[@class='progress-wizard']" position="replace">
