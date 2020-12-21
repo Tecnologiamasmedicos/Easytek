@@ -407,8 +407,8 @@ class WebsiteSaleExtended(WebsiteSale):
     
     @http.route(['/shop/product/<model("product.template"):product>'], type='http', auth="public", website=True)
     def product(self, product, category='', search='', **kwargs):
-        if not product.can_access_from_current_website():
-            raise NotFound()
+        #if not product.can_access_from_current_website():
+        #    raise NotFound()
 
         if product.id in (3,4,5):
             """This route is called when adding a product to cart (no options)."""
@@ -434,6 +434,7 @@ class WebsiteSaleExtended(WebsiteSale):
             )
             #request.website.sale_reset()
             return request.redirect("/shop/checkout?express=1&product_id=" + str(product.id))
+        return request.redirect("/web/login")
 
             
     
