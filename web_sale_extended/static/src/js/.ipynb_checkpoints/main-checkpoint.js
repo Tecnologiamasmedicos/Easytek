@@ -353,9 +353,9 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 });
                 $('#city').selectpicker();
                 
-                let data_select = $("#city option:selected").text();
-                let array_data = data_select.split(', ');
-                document.querySelector("input[name='zip']").value = array_data[0]
+                //let data_select = $("#city option:selected").text();
+                //let array_data = data_select.split(', ');
+                //document.querySelector("input[name='zip']").value = array_data[0]
             }
         });
 

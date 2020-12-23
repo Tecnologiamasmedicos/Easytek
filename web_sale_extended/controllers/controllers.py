@@ -7,6 +7,7 @@ from werkzeug.exceptions import Forbidden, NotFound
 from odoo import fields, http, SUPERUSER_ID, tools, _
 from odoo.http import request
 from odoo.addons.website_sale.controllers.main import WebsiteSale
+from odoo.osv import expression
 _logger = logging.getLogger(__name__)
 
 
@@ -41,7 +42,12 @@ class WebsiteSaleExtended(WebsiteSale):
         order_detail = request.env['sale.order.line'].sudo().search([('order_id', "=", int(order.id))])
         _logger.info("*** nombre producto ***")
         _logger.info(order)
-        _logger.info(order_detail.product_template_id.name)
+        
+        _logger.error('************************\n+++++++++++++++++++++++++++++')
+        _logger.error(order)
+        
+        
+        #_logger.info(order_detail.product_template_id.name)
 
         redirection = self.checkout_redirection(order)
         if redirection:
@@ -134,7 +140,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'can_edit_vat': can_edit_vat,
             'country': country,
             'country_states': country.get_website_sale_states(mode=mode[1]),
-            'countries': country.get_website_sale_countries(mode=mode[1]),
+            'countries': country.get_website_sale_countries(mode=mode[1]).filtered(lambda line: line.id == 49),
             'fiscal_position_ids': fiscal_position_ids,
             'error': errors,
             'callback': kw.get('callback'),
@@ -151,8 +157,8 @@ class WebsiteSaleExtended(WebsiteSale):
     def get_cities(self):
         ''' LISTADOS DE TODAS LAS CIUDADES '''
         complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
-        #return complete_cities_with_zip
-        return []
+        return complete_cities_with_zip
+        #return []
 
     def get_document_types(self):
         ''' LISTADOS DE TODOS LOS TIPOS DE DOCUMENTO '''
@@ -186,7 +192,7 @@ class WebsiteSaleExtended(WebsiteSale):
             "partner": InsurerPartner[0],
             'country_states': country.get_website_sale_states(),
             'cities': self.get_cities(),
-            'countries': country.get_website_sale_countries(),
+            'countries': country.get_website_sale_countries().filtered(lambda line: line.id == 49),
             'document_types': self.get_document_types(),
             'country': country,
             'order_detail': order_detail,
@@ -375,7 +381,7 @@ class WebsiteSaleExtended(WebsiteSale):
             # _logger.info(zip_city.city_id.name)
             if city.city_id.state_id.id == int(kwargs['departamento']):
                 cities.append({
-                    'city': city.display_name,
+                    'city': city.city_id.name.lower().capitalize(),
                     'city_id': city.id,
                 })
         data = {}
@@ -383,6 +389,39 @@ class WebsiteSaleExtended(WebsiteSale):
         data['error'] = None,
         data['data'] = {'cities': cities}
         return json.dumps(data)
+    
+    
+    
+    
+    def _get_shop_payment_values(self, order, **kwargs):
+        values = dict(
+            website_sale_order=order,
+            errors=[],
+            partner=order.partner_id.id,
+            order=order,
+            payment_action_id=request.env.ref('payment.action_payment_acquirer').id,
+            return_url= '/shop/payment/validate',
+            bootstrap_formatting= True
+        )
+
+        domain = expression.AND([
+            ['&', ('state', 'in', ['enabled','test']), ('company_id', '=', order.company_id.id)],
+            ['|', ('website_id', '=', False), ('website_id', '=', request.website.id)],
+            ['|', ('country_ids', '=', False), ('country_ids', 'in', [order.partner_id.country_id.id])]
+        ])
+        acquirers = request.env['payment.acquirer'].search(domain)
+
+        values['access_token'] = order.access_token
+        values['acquirers'] = [acq for acq in acquirers if (acq.payment_flow == 'form' and acq.view_template_id) or
+                                    (acq.payment_flow == 's2s' and acq.registration_view_template_id)]
+        values['tokens'] = request.env['payment.token'].search(
+            [('partner_id', '=', order.partner_id.id),
+            ('acquirer_id', 'in', acquirers.ids)])
+
+        if order:
+            values['acq_extra_fees'] = acquirers.get_acquirer_extra_fees(order.amount_total, order.currency_id, order.partner_id.country_id.id)
+        return values
+    
     
     
     @http.route(['/shop/payment'], type='http', auth="public", website=True, sitemap=False)
@@ -405,10 +444,16 @@ class WebsiteSaleExtended(WebsiteSale):
     
     
     
+    
+    
+
+    
     @http.route(['/shop/product/<model("product.template"):product>'], type='http', auth="public", website=True)
     def product(self, product, category='', search='', **kwargs):
         if not product.can_access_from_current_website():
             raise NotFound()
+            
+        
 
         if product.id in (1,2,3):
             """This route is called when adding a product to cart (no options)."""
@@ -425,6 +470,8 @@ class WebsiteSaleExtended(WebsiteSale):
             if kwargs.get('no_variant_attribute_values'):
                 no_variant_attribute_values = json.loads(kw.get('no_variant_attribute_values'))
             sale_order.website_order_line.unlink()
+            
+            #for line in sale_order.get_order_lines
             sale_order._cart_update(
                 product_id=int(product.id),
                 add_qty=1,
@@ -450,7 +497,7 @@ class WebsiteSaleExtended(WebsiteSale):
             if not qs or qs.lower() in loc:
                 yield {'loc': loc}
     
-    """ 
+    
     @http.route([
         '''/shop''',
         '''/shop/page/<int:page>''',
@@ -460,7 +507,7 @@ class WebsiteSaleExtended(WebsiteSale):
     def shop(self, page=0, category=None, search='', ppg=False, **post):
         # quitando acceso y funcionalidad a /shop*
         return request.redirect(request.httprequest.referrer or '/web/login')
-    """
+    
     
     
     

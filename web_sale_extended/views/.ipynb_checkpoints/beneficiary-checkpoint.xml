@@ -13,7 +13,7 @@
                                     <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Img_success.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
                                     <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip947855"/>
                                     <div class="s_alert_content">
-                                    <p><font color="#39b54a"><span style="font-size: 18px;"><b>¡Empecemos! Vamos a llenar la información de tu <t t-esc="order_detail.product_template_id.name"/>, así como la de todo tu grupo familiar.</b></span></font><br/>La información de tus beneficiarios o familiares es opcional, una vez actualizados tus datos, podemos ir a pagar para generar tu póliza y ¡listo! </p>
+                                    <p><font color="#39b54a"><span style="font-size: 18px;"><b>¡Empecemos! Vamos a llenar la información de tu <t t-esc="order_detail.product_template_id[0].name"/>, así como la de todo tu grupo familiar.</b></span></font><br/>La información de tus beneficiarios o familiares es opcional, una vez actualizados tus datos, podemos ir a pagar para generar tu póliza y ¡listo! </p>
                                     </div>
                                 </div>
                                 </div>
