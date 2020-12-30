@@ -120,7 +120,7 @@
                             </p>
                             <p>
                                 <font style="">
-                                <span style="font-size: 14px; white-space: pre-wrap;">Póliza de seguros MásMedicos para <t t-esc="partner.firstname"/> <t t-esc="partner.lastname"/> No. <t t-esc="order_detail.order_id.id"/> <t t-esc="order_detail.product_template_id[0].name"/>.</span>
+                                <span style="font-size: 14px; white-space: pre-wrap;">Póliza de seguros de accidentes MásMedicos para <t t-esc="partner.firstname"/> <t t-esc="partner.lastname"/> No. <t t-esc="order_detail.order_id.id"/> <t t-esc="order_detail.product_template_id[0].name"/>.</span>
                                 </font>
                                 <br/>
                             </p>

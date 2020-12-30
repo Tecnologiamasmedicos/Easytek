@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <report
+                id="report_customreport_customeasytek_template_res_partner"
+                string="Reporte Easytek SAS"
+                model="res.partner"
+                report_type="qweb-pdf"
+                name="web_sale_extended.report_customreport_customeasytek_template_res_partner"
+        />
+        
+        
+	  <!--<record id="paperformat_sale_order_report_easytek" model="report.paperformat">
+          <field name="name">Formato de Papel 3ros easytek</field>
+          <field name="default" eval="True"/>
+          <field name="format">A4</field>
+          <field name="page_height">0</field>
+          <field name="page_width">0</field>
+          <field name="orientation">Portrait</field>
+          <field name="margin_top">25</field>
+          <field name="margin_bottom">12</field>
+          <field name="margin_left">11</field>
+          <field name="margin_right">11</field>
+          <field name="header_line" eval="False"/>
+          <field name="header_spacing">20</field>
+          <field name="dpi">90</field>
+	  </record>-->
+
+        
+        <template id="report_customreport_customeasytek_template_res_partner">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                        <div class="header">
+                            <style>
+                                
+                             </style>
+                            <p align="center" style="color:#1A015D;font-size:11px">COMPAÑIA DE SEGUROS S.A</p>
+                             
+                             <table style="width:100%">
+                                  <thead>
+                                    <tr>
+                                      <th>
+                                        <img t-att-src="'data:image/png;base64,%s' % to_text(doc.logo)" width="200" height="100"/> 
+                                      </th>
+                                      <th colspan="2"></th>
+                                      <th colspan="2"><p style="color:#1A015D;">CERTIFICADO INDIVIDUAL DE SEGURO DE ACCIDENTES PERSONALES</p></th>
+                                    </tr>
+                                    <tr>
+                                      <th scope="col"></th>
+                                      <th></th>
+                                      <th></th>
+                                        <th><p style="color:#1A015D;">TOMADOR:</p></th>
+                                        <th><p style="color:#1A015D;">NIT:<span> </span><span t-field="doc.vat"></span></p></th>
+                                    </tr>
+                                  </thead>
+                             </table>   
+                           
+                            <table style="width:100%">
+                                <tr>
+                                    <th>
+                                        <p align="justify" style="color:#1A015D;">
+                                            PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A que en adelante se denomina PALIG certifica mediante este documento, que forma parte integrante de la poliza, que el/los asegurados relacionados a continuación se encuentran amparados, por ende, se compromete a pagar los beneficios de acuerdo y con sujeción a las estipulaciones de esta poliza y que constan en el cuadro de coberturas en lo que respecta a:
+                                        </p>
+                                    </th> 
+                                </tr>
+                            </table>
+                            <strong><p style="color:#1A015D;">1. NOMBRE DEL ASEGURADO PRINCIPAL</p></strong>
+                            <hr></hr>
+                            <table style="width:100%">
+                              <tr>
+                                  <td><p style="color:#1A015D;font-size:10px;">1er Apellido</p></td>
+                                  <td><p style="color:#1A015D;font-size:10px;">2do Apellido</p></td> 
+                                  <td><p style="color:#1A015D;font-size:10px;">Nombres</p></td>
+                              </tr>
+                            </table>
+                             <table style="width:100%">
+                              <tr>
+                                  <td><p style="color:#1A015D;font-size:14px;">Número de Cédula</p></td>
+                                  <td><p style="color:#1A015D;font-size:14px;">CC</p></td> 
+                                  <td><p style="color:#1A015D;font-size:14px;">CE</p></td>
+                                  <td><p style="color:#1A015D;font-size:14px;">OTRO</p></td>
+                                  <td><p style="color:#1A015D;font-size:14px;">Fecha de Expedición</p></td> 
+                                  <td><p style="color:#1A015D;font-size:14px;">Sexo</p></td>
+                                  <td><p style="color:#1A015D;font-size:14px;">F</p></td>
+                                  <td><p style="color:#1A015D;font-size:14px;">M</p></td> 
+                              </tr>
+                            </table>
+                             <table style="width:100%">
+                              <tr>
+                                  <td><p style="color:#1A015D;font-size:14px;">Fecha de Nacimiento</p></td>
+                                  <td><p style="color:#1A015D;font-size:14px;">Estado Civil</p></td> 
+                                  <td><p style="color:#1A015D;font-size:14px;">Dirección de Residencia</p></td> 
+                              </tr>
+                            </table>
+                             <table style="width:100%">
+                              <tr>
+                                  <td><p style="color:#1A015D;font-size:14px;">Telefono(s)</p></td>
+                                  <td><p style="color:#1A015D;font-size:14px;">Celular</p></td> 
+                                  <td><p style="color:#1A015D;font-size:14px;">Email</p></td> 
+                              </tr>
+                            </table>
+                            <p align="justify" style="color:#1A015D;font-size:14px;">
+                                Fecha de inicio de vigencia del certificado al dia siguiente de CAMPO_TIPO_FECHA fecha fin de vigencia del certificado a los 12 meses siguientes al inicio de vigencia.
+                            </p>
+                             <strong><p style="color:#1A015D;">Dependiente 1</p></strong>
+                             <hr></hr>
+                            <table style="width:100%">
+                              <tr>
+                                  <td><p style="color:#1A015D;font-size:10px;">1er Apellido</p></td>
+                                  <td><p style="color:#1A015D;font-size:10px;">2do Apellido</p></td> 
+                                  <td><p style="color:#1A015D;font-size:10px;">Nombres</p></td>
+                              </tr>
+                            </table>
+                             <strong><p style="color:#1A015D;">Dependiente 2</p></strong>
+                             <hr></hr>
+                            <table style="width:100%">
+                              <tr>
+                                  <td><p style="color:#1A015D;font-size:10px;">1er Apellido</p></td>
+                                  <td><p style="color:#1A015D;font-size:10px;">2do Apellido</p></td> 
+                                  <td><p style="color:#1A015D;font-size:10px;">Nombres</p></td>
+                              </tr>
+                            </table>
+                             <strong><p style="color:#1A015D;">Dependiente 3</p></strong>
+                             <hr></hr>
+                            <table style="width:100%">
+                              <tr>
+                                  <td><p style="color:#1A015D;font-size:10px;">1er Apellido</p></td>
+                                  <td><p style="color:#1A015D;font-size:10px;">2do Apellido</p></td> 
+                                  <td><p style="color:#1A015D;font-size:10px;">Nombres</p></td>
+                              </tr>
+                            </table>
+                             <strong><p style="color:#1A015D;">Dependiente 4</p></strong>
+                             <hr></hr>
+                            <table style="width:100%">
+                              <tr>
+                                  <td><p style="color:#1A015D;font-size:10px;">1er Apellido</p></td>
+                                  <td><p style="color:#1A015D;font-size:10px;">2do Apellido</p></td> 
+                                  <td><p style="color:#1A015D;font-size:10px;">Nombres</p></td>
+                              </tr>
+                            </table>
+                             <strong><p style="color:#1A015D;">Dependiente 5</p></strong>
+                             <hr></hr>
+                            <table style="width:100%">
+                              <tr>
+                                  <td><p style="color:#1A015D;font-size:10px;">1er Apellido</p></td>
+                                  <td><p style="color:#1A015D;font-size:10px;">2do Apellido</p></td> 
+                                  <td><p style="color:#1A015D;font-size:10px;">Nombres</p></td>
+                              </tr>
+                            </table>
+                             <strong><p style="color:#1A015D;">Dependiente 6</p></strong>
+                             <hr></hr>
+                            <table style="width:100%">
+                              <tr>
+                                  <td><p style="color:#1A015D;font-size:10px;">1er Apellido</p></td>
+                                  <td><p style="color:#1A015D;font-size:10px;">2do Apellido</p></td> 
+                                  <td><p style="color:#1A015D;font-size:10px;">Nombres</p></td>
+                              </tr>
+                            </table>
+                        </div>
+                        <div class="page">
+                           
+                        </div>
+                  </t>
+                   </t>
+        </template>                    
+    </data>
+</odoo> 

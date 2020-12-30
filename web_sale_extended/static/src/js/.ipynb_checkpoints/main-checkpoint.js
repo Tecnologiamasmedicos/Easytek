@@ -5,25 +5,25 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         $('#country_id').selectpicker();
         $('#state_id').selectpicker('val', '');
         $('#fiscal_position_id').selectpicker();
-        //$('#city').selectpicker();
         $('#city').selectpicker();
         $('#document').selectpicker('val', '');
         $('#fiscal_position').selectpicker();
 
         $('#city').change(function() {
-            let data_select = $("#city option:selected").text();
-            let array_data = data_select.split(', ');
-            document.querySelector("input[name='zip']").value = array_data[0]
-            
-        
-        
-            
-            
+            let data_select = $("#city option:selected").val();
+            $.ajax({
+                data: { 'city_id': data_select },
+                url: "/search/zipcodes",
+                type: 'get',
+                success: function(data) {
+                    let decode_data = JSON.parse(data);
+                    document.querySelector("input[name='zip']").value = decode_data['data'].zipcode;
+                }
+            });
         });
+        
         $("input[name='bfdate1']").on('change', function calcularEdad() {
             let fecha = $(this).val();
-            console.log(fecha);
-
             let hoy = new Date();
             let cumpleanos = new Date(fecha);
             let edad = hoy.getFullYear() - cumpleanos.getFullYear();
@@ -349,7 +349,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 $('#city').empty();
                 decode_data.data.cities.forEach(function(obj) {
                     $('#city').append($("<option></option>")
-                        .attr("value", obj.city).text(obj.city));
+                        .attr("value", obj.city_id).text(obj.city));
                 });
                 $('#city').selectpicker();
                 
