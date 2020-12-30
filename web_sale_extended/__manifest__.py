@@ -29,6 +29,7 @@
         'views/templates.xml',
         'views/web_sale_shop_address.xml',
         'views/res_partner_view.xml',
+        'views/account.xml',
         'views/beneficiary.xml',
         'views/beneficiary_detail.xml',
         'reports/sale_order_report.xml',

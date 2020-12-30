@@ -51,9 +51,12 @@
     </template>
     
     <template id="cart_summary_inherit" name="Cart right column" inherit_id="website_sale.cart_summary">
-        <xpath expr="//div[@class='card-body p-xl-0']" position="after">
+        <xpath expr="//div[@class='card']" position="after">
             
             <t t-foreach="website_sale_order.website_order_line" t-as="line">
+            <div align="center" style="padding-top:15px;">
+                <h4>Si eres una empresa y deseas dar este<br/>beneficio a tus empleados, contactenos.</h4>
+            </div>
             <div class="container mt32" t-if="line.product_id.alternative_product_ids">
                 <h3>Productos Alternativos:</h3>
                 <div class="row mt16" style="">
@@ -65,35 +68,35 @@
                                 <a t-att-href="alt_product.website_url" style="display: block">
                                 <div t-if="product_variant" 
                                         t-field="product_variant.image_256" 
-                                        t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded shadow o_alternative_product o_image_256_max' }"/>
+                                        t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_alternative_product o_image_256_max' }"/>
                                 <div t-else="" 
                                         t-field="alt_product.image_256" 
-                                        t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded shadow o_alternative_product o_image_256_max' }"/>
+                                        t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_alternative_product o_image_256_max' }"/>
                                 </a>
                                 <h6>
                                 <!--<a t-att-href="alt_product.website_url" style="display: block">
                                     <span t-att-title="alt_product.name" t-field="alt_product.name" class="o_text_overflow" style="display: block;"/>
                                 </a>-->
                                 </h6>
+                            </div>
                         </div>
-                    </div>
-                </t>
-            </div>
+                    </t>
+                </div>
             </div>
             </t>
             
             <div>
-          <div>
-            <h4 align="center">Con el respaldo de:</h4>
-            <div align="center">
-            <img src="/web_sale_extended/static/src/images/COLOMBIA.png"  width="290" heigth="190"/>
-            <img src="/web_sale_extended/static/src/images/IKE-asistencia.png" width="180" heigth="90"/>
+              <div>
+                <h4 align="center">Con el respaldo de:</h4>
+                <div align="center">
+                <img src="/web_sale_extended/static/src/images/COLOMBIA.png"  width="290" heigth="190"/>
+                <img src="/web_sale_extended/static/src/images/IKE-asistencia.png" width="180" heigth="90"/>
+                </div>
+                </div>
+                <div align="center" class="mb-4">
+                  <img src="/web_sale_extended/static/src/images/easytek_bl.png"  width="150" heigth="80"/>
+              </div>
             </div>
-            </div>
-            <div align="center" class="mb-4">
-              <img src="/web_sale_extended/static/src/images/easytek_bl.png"  width="150" heigth="80"/>
-          </div>
-        </div>
         </xpath>
     </template>
     

@@ -40,14 +40,6 @@ class WebsiteSaleExtended(WebsiteSale):
         Partner = request.env['res.partner'].with_context(show_address=1).sudo()
         order = request.website.sale_get_order()
         order_detail = request.env['sale.order.line'].sudo().search([('order_id', "=", int(order.id))])
-        _logger.info("*** nombre producto ***")
-        _logger.info(order)
-        
-        _logger.error('************************\n+++++++++++++++++++++++++++++')
-        _logger.error(order)
-        
-        
-        #_logger.info(order_detail.product_template_id.name)
 
         redirection = self.checkout_redirection(order)
         if redirection:
@@ -90,8 +82,6 @@ class WebsiteSaleExtended(WebsiteSale):
 
         # IF POSTED
         if 'submitted' in kw:
-            _logger.info("****FORMULARIO*****")
-            _logger.info(kw)
             pre_values = self.values_preprocess(order, mode, kw)
             errors, error_msg = self.checkout_form_validate(mode, kw, pre_values)
             post, errors, error_msg = self.values_postprocess(order, mode, pre_values, errors, error_msg)
@@ -131,7 +121,10 @@ class WebsiteSaleExtended(WebsiteSale):
 
         country = 'country_id' in values and values['country_id'] != '' and request.env['res.country'].browse(int(values['country_id']))
         country = country and country.exists() or def_country_id
-        fiscal_position_ids = request.env['account.fiscal.position'].sudo().search([('active', '=', True)])
+        fiscal_position_ids = request.env['account.fiscal.position'].sudo().search([
+            ('active', '=', True),
+            ('website_published', '=', True),
+        ])
         render_values = {
             'website_sale_order': order,
             'partner_id': partner_id,
@@ -144,8 +137,9 @@ class WebsiteSaleExtended(WebsiteSale):
             'fiscal_position_ids': fiscal_position_ids,
             'error': errors,
             'callback': kw.get('callback'),
-            'cities': self.get_cities(),
-            'document_types': self.get_document_types(),
+            #'cities': self.get_cities(),
+            'cities': [],
+            'document_types': self.get_document_types('payment'),
             'product': request.env['product.product'].sudo().browse(3),
             # 'fiscal_position': self.get_fiscal_position(),
             'only_services': order and order.only_services,
@@ -160,15 +154,20 @@ class WebsiteSaleExtended(WebsiteSale):
         return complete_cities_with_zip
         #return []
 
-    def get_document_types(self):
+    def get_document_types(self, type='All'):
         ''' LISTADOS DE TODOS LOS TIPOS DE DOCUMENTO '''
-
-        document_type = request.env['res.partner.document.type'].sudo().search([
-            ('id','not in',[11,1,2,4]),
-        ], order='name')
+        
+        if type == "payment":
+            document_type = request.env['res.partner.document.type'].sudo().search([
+                ('id','not in',[11,1,2,4,6,10,9]),
+            ], order='name')
+        elif type == "beneficiary":
+            document_type = request.env['res.partner.document.type'].sudo().search([
+                ('id','not in',[4,6,10,9]),
+            ], order='name')
+        else:
+            document_type = request.env['res.partner.document.type'].sudo().search([], order='name')
         return document_type
-
-
 
 
     @http.route(['/add/beneficiary'], type='http', methods=['GET', 'POST'], auth="user", website=True, sitemap=False)
@@ -193,7 +192,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'country_states': country.get_website_sale_states(),
             'cities': self.get_cities(),
             'countries': country.get_website_sale_countries().filtered(lambda line: line.id == 49),
-            'document_types': self.get_document_types(),
+            'document_types': self.get_document_types('beneficiary'),
             'country': country,
             'order_detail': order_detail,
         }
@@ -391,7 +390,17 @@ class WebsiteSaleExtended(WebsiteSale):
         return json.dumps(data)
     
     
+    # search cities by ajax peticion
+    @http.route(['/search/zipcodes'],  methods=['GET'], type='http', auth="public", website=True)
+    def search_zipcodes(self, **kwargs):
+        suggested_zipcode = request.env['res.city.zip'].sudo().search([('city_id', '=', int(kwargs['city_id']))], limit=1)
+        data = {}
+        data['status'] = True,
+        data['error'] = None,
+        data['data'] = {'zipcode': suggested_zipcode.name}
+        return json.dumps(data)
     
+
     
     def _get_shop_payment_values(self, order, **kwargs):
         values = dict(
@@ -497,7 +506,7 @@ class WebsiteSaleExtended(WebsiteSale):
             if not qs or qs.lower() in loc:
                 yield {'loc': loc}
     
-    
+    """
     @http.route([
         '''/shop''',
         '''/shop/page/<int:page>''',
@@ -507,7 +516,7 @@ class WebsiteSaleExtended(WebsiteSale):
     def shop(self, page=0, category=None, search='', ppg=False, **post):
         # quitando acceso y funcionalidad a /shop*
         return request.redirect(request.httprequest.referrer or '/web/login')
-    
+    """
     
     
     
