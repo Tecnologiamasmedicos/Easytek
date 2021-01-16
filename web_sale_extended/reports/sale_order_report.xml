@@ -4,7 +4,7 @@
         
         
         
-	<!--<record id="paperformat_sale_order_report_easytek" model="report.paperformat">
+	<record id="paperformat_sale_order_report_easytek" model="report.paperformat">
           <field name="name">Formato de Papel easytek</field>
           <field name="default" eval="True"/>
           <field name="format">A4</field>
@@ -18,7 +18,7 @@
           <field name="header_line" eval="False"/>
           <field name="header_spacing">20</field>
           <field name="dpi">90</field>
-	</record>-->
+	</record>
         <template id="report_customreport_customeasytek_template">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
@@ -130,6 +130,11 @@
                                   <td><p style="color:#1A015D;font-size:12px;">1er Apellido</p></td>
                                   <td><p style="color:#1A015D;font-size:12px;">2do Apellido</p></td> 
                                   <td><p style="color:#1A015D;font-size:12px;">Nombres</p></td>
+                              </tr>
+                            <tr>
+                                  <td><p style="color:#1A015D;font-size:12px;"><t t-esc="doc.partner_id.lastname"/></p></td>
+                                  <td><p style="color:#1A015D;font-size:12px;"><t t-esc="doc.partner_id.lastname2"/></p></td> 
+                                  <td><p style="color:#1A015D;font-size:12px;"><t t-esc="doc.partner_id.firstname"/></p></td>
                               </tr>
                             </table>
                                  <table style="width:100%">
@@ -251,6 +256,8 @@
                                 <strong>Valor asegurado:</strong> $ CAMPO_valorasegurado, pesos Colombianos.
                             </p>
                             
+                            
+                            <div style="page-break-after: always;"/>
                             <table style="width:100%;">
                                   <thead>
                                     <tr>
@@ -258,7 +265,9 @@
                                          <img t-att-src="'data:image/png;base64,%s' % to_text(doc.logo)" width="150" height="100"/>
                                       </th>
                                       <th style="padding: 0px;" colspan="2"/>
-                                      <td style="padding: 0px;" colspan="2"><img src="https://drive.google.com/file/d/1DEmFxlWO0YE7EPEMvXG8Am0saQxOq7wQ/view?usp=sharing" width="150" height="60"/></td><!---->
+                                       <td style="padding: 0px;" colspan="2">
+                                          <img t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.logo_website_pdf)" width="180" height="70"/>
+                                      </td>
                                       <th style="padding: 0px;" colspan="2"/>
                                       <td style="padding: 0px;border-style:none solid none none;" colspan="2"><p><strong>PÓLIZA N°</strong></p></td>
                                       <td style="padding: 0px;"><p><strong>CERTIFICADO</strong></p></td>
@@ -274,13 +283,20 @@
                              </table>
                              <div style="font-family: montserrat;">
                               <strong><i style="color:#1A015D;">3. Cobertura: Asistencia Médica</i></strong>
-                              <div><img src="/web_sale_extended/static/src/images/MM_marcadeagua_20.png" width="800" height="1000"/></div><!--align="justify"-->
+                              <br/>
+                              <div style="padding-top:20px;">
+                                  <!--<img src="/web_sale_extended/static/src/images/MM_marcadeagua_20.png" width="800" height="1000"/>-->
+                                  <center>
+                                      <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].product_id.product_tmpl_id.logo_website_pdf)" width="600" height="800"/>
+                                  </center>
+                              </div>
                             </div>
                             <br/>
                             <br/>
                             <br/>
                             <br/>
                             <br/>
+                            <div style="page-break-after: always;"/>
                             <div><!-- style="background-image: url('MM_marcadeagua_20%.png');"-->
                               
                             <table style="width:100%;">
@@ -290,7 +306,9 @@
                                          <img t-att-src="'data:image/png;base64,%s' % to_text(doc.logo)" width="150" height="100"/>
                                       </th>
                                       <th style="padding: 0px;" colspan="2"/>
-                                      <td style="padding: 0px;" colspan="2"><img src="/web_sale_extended/static/src/images/COLOMBIA.png" width="150" height="60"/></td>
+                                      <td style="padding: 0px;" colspan="2">
+                                          <img t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.logo_website_pdf)" width="180" height="70"/>
+                                      </td>
                                       <th style="padding: 0px;" colspan="2"/>
                                       <td style="padding: 0px;border-style:none solid none none;" colspan="2"><p><strong>PÓLIZA N°</strong></p></td>
                                       <td style="padding: 0px;"><p><strong>CERTIFICADO</strong></p></td>

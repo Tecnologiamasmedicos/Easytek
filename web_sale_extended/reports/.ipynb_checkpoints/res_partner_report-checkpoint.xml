@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <report
-                id="report_customreport_customeasytek_template_res_partner"
-                string="Reporte Easytek SAS"
-                model="res.partner"
-                report_type="qweb-pdf"
-                name="web_sale_extended.report_customreport_customeasytek_template_res_partner"
-        />
+        
         
         
 	  <!--<record id="paperformat_sale_order_report_easytek" model="report.paperformat">
@@ -162,6 +156,16 @@
                         </div>
                   </t>
                    </t>
-        </template>                    
+        </template>
+        
+        
+        
+        <report
+                id="report_customreport_customeasytek_template_res_partner"
+                string="Reporte Easytek SAS"
+                model="res.partner"
+                report_type="qweb-pdf"
+                name="web_sale_extended.report_customreport_customeasytek_template_res_partner"
+        />
     </data>
 </odoo> 
