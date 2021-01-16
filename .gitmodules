@@ -1,0 +1,4 @@
+[submodule "lq-todoo/Easytek"]
+	path = lq-todoo/Easytek
+	url = git@github.com:lq-todoo/Easytek.git
+	branch = confacturacion
