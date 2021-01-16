@@ -10,4 +10,4 @@ _logger = logging.getLogger(__name__)
 class ResCompany(models.Model):
     _inherit = 'res.company'
     
-    logo = fields.Binary(string="Company Logo", readonly=False)
+    logo_website_pdf  = fields.Binary(string="Logo Website PDF", readonly=False)
