@@ -8,18 +8,58 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         $('#city').selectpicker();
         $('#document').selectpicker('val', '');
         $('#fiscal_position').selectpicker();
-
-        $('#city').change(function() {
-            let data_select = $("#city option:selected").val();
+        
+        function consultarZipcode(ciudad){
             $.ajax({
-                data: { 'city_id': data_select },
+                data: { 'city_id': ciudad },
                 url: "/search/zipcodes",
                 type: 'get',
                 success: function(data) {
                     let decode_data = JSON.parse(data);
                     document.querySelector("input[name='zip']").value = decode_data['data'].zipcode;
+                    document.querySelector("input[name='zip_id']").value = decode_data['data'].zipid;
                 }
             });
+        }
+
+        $('#city').change(function() {
+            let data_select = $("#city option:selected").val();
+            consultarZipcode(data_select);
+        });
+        
+        function consultarCiudades(estado, elemento) {
+            $.ajax({
+                data: { 'departamento': estado },
+                url: "/search/cities",
+                type: 'get',
+                success: function(data) {
+                    let decode_data = JSON.parse(data);
+                    let elemento_completo = $(elemento);
+                    $('#city').selectpicker('destroy');
+                    $('#city').empty();
+                    decode_data.data.cities.forEach(function(obj) {
+                        $('#city').append($("<option></option>")
+                            .attr("value", obj.city_id).text(obj.city));
+                    });
+                    $('#city').selectpicker();
+                    let data_select = $("#city option:selected").val();
+                    consultarZipcode(data_select);
+                }
+            });
+        }
+        
+        $("select[name='state_id']").on('change', function cambiarEstado() {
+            let estado = $(this).val();
+            let elemento = "select[name='city']";
+            if (estado != ''){
+                consultarCiudades(estado, elemento);
+            } else {
+                $('#city').selectpicker('destroy');
+                $('#city').empty();
+                $('#city').append($("<option></option>")
+                            .attr("value", '').text('Ciudad...'));
+                $('#city').selectpicker();
+            }
         });
         
         $("input[name='bfdate1']").on('change', function calcularEdad() {
@@ -69,12 +109,9 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 email: {
                     required: true,
                     email: true
-
                 },
                 phone: {
                     required: true,
-
-
                 },
                 document: {
                     required: true
@@ -82,7 +119,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 identification_document: {
                     required: true,
                     number: true,
-
                 },
 
                 street: {
@@ -90,11 +126,9 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 },
                 city: {
                     required: true,
-
                 },
                 country_id: {
                     required: true,
-
                 },
                 state_id: {
                     required: true,
@@ -119,8 +153,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                             if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
                                 edad--;
                             }
-
-
                             return edad > 69
                         }
                     },
@@ -128,7 +160,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                         depends: function(elem) {
                             var edad_maxima = 0;
                             let fecha = $("input[name='birthdate_date']").val();
-
                             let hoy = new Date();
                             let cumpleanos = new Date(fecha);
                             let edad = hoy.getFullYear() - cumpleanos.getFullYear();
@@ -145,8 +176,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                     required: true,
 
                 }
-
-
             },
             messages: {
                 name: {
@@ -210,16 +239,11 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 },
                 expedition_date: {
                     required: "¡Upss! tu fecha de expedición es requerido",
-
-
                 },
 
             }
         });
-
         hide_beneficiaries();
-
-
     });
 
 
@@ -279,8 +303,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
             }
 
-
-
         } else if (estado == 'Viudo') {
             let newOptions = {
                 Seleccione: "",
@@ -303,8 +325,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 });
 
             }
-
-
 
         } else {
             let newOptions = {
@@ -330,36 +350,11 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
             }
 
-
-
         }
 
     });
 
-    function consultarCiudades(estado, elemento) {
-        
-        $.ajax({
-            data: { 'departamento': estado },
-            url: "/search/cities",
-            type: 'get',
-            success: function(data) {
-                let decode_data = JSON.parse(data);
-                let elemento_completo = $(elemento);
-                $('#city').selectpicker('destroy');
-                $('#city').empty();
-                decode_data.data.cities.forEach(function(obj) {
-                    $('#city').append($("<option></option>")
-                        .attr("value", obj.city_id).text(obj.city));
-                });
-                $('#city').selectpicker();
-                
-                //let data_select = $("#city option:selected").text();
-                //let array_data = data_select.split(', ');
-                //document.querySelector("input[name='zip']").value = array_data[0]
-            }
-        });
-
-    }
+    
     
        /*         
         $('#country_id').change(function() {
@@ -378,12 +373,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         });*/
     
 
-    $("select[name='state_id']").on('change', function cambiarCiudades() {
-        let estado = $(this).val();
-        let elemento = "select[name='city']";
-        consultarCiudades(estado, elemento);
-
-    });
+  
     $("select[name='bfdeparment1']").on('change', function cambiarCiudades() {
         let estado = $(this).val();
         let elemento = "select[name='bfcity1']";
