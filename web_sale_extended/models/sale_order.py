@@ -16,6 +16,9 @@ class SaleOrder(models.Model):
     tusdatos_approved = fields.Boolean('Approved', default=False)
     tusdatos_email = fields.Char('Client e-mail', default='')
     
+    subscription_id = fields.Many2one('sale.subscription', 'Suscription ID')
+    
+    
     def tusdatos_approval(self):
         for record in self:
             approval = record.tusdatos_approved

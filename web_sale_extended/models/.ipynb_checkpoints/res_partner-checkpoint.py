@@ -26,6 +26,8 @@ class ResPartner(models.Model):
     )
     address_beneficiary = fields.Char('Dirección del Beneficiario')
     
+    subscription_id = fields.Many2one('sale.subscription', 'ID de Subscripción')
+    
     
     
     @api.depends('zip','city_id')

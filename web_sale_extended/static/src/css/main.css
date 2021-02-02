@@ -79,3 +79,30 @@ header .navbar-brand.logo img {
 .form-check-label {
     text-size: 10px;
 }
+
+
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  top: -5px;
+  left: 105%;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+#wrapwrap.o_portal {
+    background-color: #FFF !important;
+    /* color: #8c8c8c; */
+}

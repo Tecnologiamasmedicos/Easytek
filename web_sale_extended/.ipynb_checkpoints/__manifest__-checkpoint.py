@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'website_sale', 'portal', 'product', 'sale'],
+    'depends': ['base', 'website_sale', 'portal', 'product', 'sale', 'sale_subscription'],
 
     # always loaded
     'data': [
@@ -34,6 +34,8 @@
         'views/account.xml',
         'views/beneficiary.xml',
         'views/beneficiary_detail.xml',
+        'views/sale_subscription_view.xml',
+        'views/ir_sequence_view.xml',
         'reports/sale_order_report.xml',
         'reports/res_partner_report.xml',
         'data/shop_address.xml',
