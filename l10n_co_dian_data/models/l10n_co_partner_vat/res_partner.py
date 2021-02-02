@@ -123,15 +123,7 @@ class ResPartner(models.Model):
         field: 21 and 41. The rest does not permit any letters
         @return: void
         """
-        for item in self:
-            if item.document_type_id.code != 1:
-                if item.identification_document is not False and \
-                                item.document_type_id.code != 21 and \
-                                item.document_type_id.code != 41:
-                    if re.match("^[0-9]+$", item.identification_document) is None:
-                        msg = _('Error! Identification number can only '
-                                'have numbers \n\n %s [%s]') % (item.name, item.id)
-                        raise exceptions.ValidationError(msg)
+        
 
 
 

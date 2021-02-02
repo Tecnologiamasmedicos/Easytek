@@ -1,3 +1,7 @@
+$('.product_image .img').css('max-width','220px');
+$('.product_image .img').css('max-height','123');
+$('#submit_beneficiaries').css('margin-top','-220px');
+
 odoo.define('web_sale_extended.show_website_cities', function(require) {
     'use strict';
 
@@ -112,6 +116,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 },
                 phone: {
                     required: true,
+                    matches:"[0-9]+",minlength:10, maxlength:10,
                 },
                 document: {
                     required: true
@@ -260,7 +265,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
     $("#cant_beneficiarios").on('change', function mostrarbeneficiarios() {
         let cantidad_beneficiarios = parseInt($(this).val());
-        if (cantidad_beneficiarios == 0) {
+        if (cantidad_beneficiarios == 0 || cantidad_beneficiarios == '0') {
             hide_beneficiaries();
         } else {
             hide_beneficiaries();
@@ -269,11 +274,29 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 let id_elemento = "#beneficiary" + (index + 1);
                 let id_subti = "#subti" + (index + 1);
                 let subtitulo = "Datos del beneficiario " + (index + 1) + " de " + cantidad_beneficiarios;
-                console.log(subtitulo);
+                
                 $(id_subti).text(subtitulo);
                 $(id_elemento).show();
+                
+                //var beneficiaries_number = $("input[name='beneficiaries_number']").val();
+                //var beneficiaries_number = $("input[name='beneficiario']").val();
 
-
+                //alert(cantidad_beneficiarios);
+                
+                if (cantidad_beneficiarios == 1){
+                    $('#submit_beneficiaries').css('margin-top','-160px');       
+                } else if (cantidad_beneficiarios == 2){
+                    $('#submit_beneficiaries').css('margin-top','-130px');       
+                } else if (cantidad_beneficiarios == 3){
+                    $('#submit_beneficiaries').css('margin-top','-90px');       
+                } else if (cantidad_beneficiarios == 4){
+                    $('#submit_beneficiaries').css('margin-top','-50px');       
+                } else if (cantidad_beneficiarios == 5){
+                    $('#submit_beneficiaries').css('margin-top','-20px');       
+                } else if (cantidad_beneficiarios == 6){
+                    $('#submit_beneficiaries').css('margin-top','20px');       
+                }
+    
             }
         }
     });
@@ -372,44 +395,94 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             }
         });*/
     
-
+    
+    function consultarCiudadesBeneficiary(estado, elemento, item) {
+            $.ajax({
+                data: { 'departamento': estado },
+                url: "/search/cities",
+                type: 'get',
+                success: function(data) {
+                    let decode_data = JSON.parse(data);
+                    let elemento_completo = $(elemento);
+                    if (item == 0) {
+                        $('#bfcity0').empty();
+                        decode_data.data.cities.forEach(function(obj) {
+                            $('#bfcity0').append($("<option></option>")
+                                .attr("value", obj.city_id).text(obj.city));
+                        });
+                    } else if (item == 1) {
+                        $('#bfcity1').empty();
+                        decode_data.data.cities.forEach(function(obj) {
+                            $('#bfcity1').append($("<option></option>")
+                                .attr("value", obj.city_id).text(obj.city));
+                        });
+                    } else if (item == 2) {
+                        $('#bfcity2').empty();
+                        decode_data.data.cities.forEach(function(obj) {
+                            $('#bfcity2').append($("<option></option>")
+                                .attr("value", obj.city_id).text(obj.city));
+                        });    
+                    } else if (item == 3) {
+                        $('#bfcity3').empty();
+                        decode_data.data.cities.forEach(function(obj) {
+                            $('#bfcity3').append($("<option></option>")
+                                .attr("value", obj.city_id).text(obj.city));
+                        });
+                    } else if (item == 4) {
+                        $('#bfcity4').empty();
+                        decode_data.data.cities.forEach(function(obj) {
+                            $('#bfcity4').append($("<option></option>")
+                                .attr("value", obj.city_id).text(obj.city));
+                        });
+                    }  else if (item == 5) {
+                        $('#bfcity5').empty();
+                        decode_data.data.cities.forEach(function(obj) {
+                            $('#bfcity5').append($("<option></option>")
+                                .attr("value", obj.city_id).text(obj.city));
+                        });
+                    }
+                }
+            });
+        }
+    
   
+    $("select[name='bfdeparment0']").on('change', function cambiarCiudades() {
+        let estado = $(this).val();
+        let elemento = "select[name='bfcity0']";
+        consultarCiudadesBeneficiary(estado, elemento, 0);
+
+    });
     $("select[name='bfdeparment1']").on('change', function cambiarCiudades() {
         let estado = $(this).val();
         let elemento = "select[name='bfcity1']";
-        consultarCiudades(estado, elemento);
+        consultarCiudadesBeneficiary(estado, elemento, 1);
 
     });
     $("select[name='bfdeparment2']").on('change', function cambiarCiudades() {
         let estado = $(this).val();
         let elemento = "select[name='bfcity2']";
-        consultarCiudades(estado, elemento);
+        consultarCiudadesBeneficiary(estado, elemento, 2);
 
     });
     $("select[name='bfdeparment3']").on('change', function cambiarCiudades() {
         let estado = $(this).val();
         let elemento = "select[name='bfcity3']";
-        consultarCiudades(estado, elemento);
+        consultarCiudadesBeneficiary(estado, elemento, 3);
 
     });
     $("select[name='bfdeparment4']").on('change', function cambiarCiudades() {
         let estado = $(this).val();
         let elemento = "select[name='bfcity4']";
-        consultarCiudades(estado, elemento);
+        consultarCiudadesBeneficiary(estado, elemento, 4);
 
     });
     $("select[name='bfdeparment5']").on('change', function cambiarCiudades() {
         let estado = $(this).val();
         let elemento = "select[name='bfcity5']";
-        consultarCiudades(estado, elemento);
+        consultarCiudadesBeneficiary(estado, elemento, 5);
 
     });
-    $("select[name='bfdeparment6']").on('change', function cambiarCiudades() {
-        let estado = $(this).val();
-        let elemento = "select[name='bfcity6']";
-        consultarCiudades(estado, elemento);
-
-    });
+    
     $("#btn_terminos").click(function() {
         $("#politica").hide();
         $("#terminos").show();
@@ -420,6 +493,20 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         $("#politica").show();
 
     });
+    
+    
+    $("#posicion_fiscal_help_icon").on('click', function posicion_fiscal_help() {
+        $("#posicion_fiscal_help").toggle();
+    });
+    
+    $("#posicion_fiscal_help_icon").on('mouseover', function posicion_fiscal_help() {
+        $("#posicion_fiscal_help").show();
+    });
+
+    
+    
+    
+    
     // $('#exampleModal').modal();
     // $('#exampleModal').on('shown.bs.modal', function() {
     //     // $('#myInput').trigger('focus')
@@ -497,4 +584,22 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
 
 
+});
+
+
+
+odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require) {
+    'use strict';
+    
+    $(".portal_subscription_beneficiaries_change").on('click', function(e){
+        
+      var url_path = '/my/subscription/beneficiaries/';
+      var subscription_id = $("input[name='subscription_id']").val();
+      var url = url_path + subscription_id;
+      window.location.href = url;
+    });
+    
+
+
+    
 });

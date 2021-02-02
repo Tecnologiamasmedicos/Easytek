@@ -311,7 +311,22 @@
                                     
                                     
                                     <div t-attf-class="form-group #{error.get('fiscal_position_id') and 'o_has_error' or ''} col-lg-12 div_fiscal_position">
-                                        <label class="col-form-label" for="fiscal_position_id">Posición Fiscal</label>
+                                        <span style="font-weight: bold;">Posición Fiscal</span>
+                                        <i class="fa fa-question-circle rounded"
+                                           id="posicion_fiscal_help_icon"
+                                           data-original-title="" title="" aria-describedby="tooltip725291" 
+                                           style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 255); height:32px; width:32px; valign:middle;margin-top:-2vh;"/>
+                                        
+                                        
+                                        <!--<label class="col-form-label fa fa-question-circle rounded s_features_grid_icon" for="fiscal_position_id" style="width:100%">-->
+                                        
+                                        <div id="posicion_fiscal_help" 
+                                             style="display:none;color:#FFF;padding:5px;font-weight:100;float:right;margin-right:35%;font-weight:noset;font-size:12px;background-color: #1e1f24;border-radius: 5px;">
+                                            <span>PN No Declarantes: Personas no Declarantes de Renta</span>
+                                            <br/>
+                                            <span>No Responsable: Personas No Responsables de IVA</span>
+                                        </div>
+                                        <!--</label>-->
                                         <select class="selectpicker" data-size="4" id="fiscal_position_id" data-live-search="true" name="fiscal_position_id" 
                                         t-attf-class="form-control #{error.get('fiscal_position_id') and 'is-invalid' or ''}" data-init="1">
                                             <option value="">Posición Fiscal</option>
@@ -322,6 +337,7 @@
                                             </t>
                                         </select>
                                     </div>
+                                    
                                     
                                     
                                     
@@ -344,10 +360,10 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-12" id="terminos">
-                                        <iframe src="/web_sale_extended/static/src/files/terminos.pdf" width="100%" height="680px">Prueba</iframe>
+                                        <iframe src="/web_sale_extended/static/src/files/terminos.pdf" width="100%" height="680px">Acepto términos y condiciones</iframe>
                                     </div>
                                     <div class="col-lg-12" id="politica">
-                                        <iframe src="/web_sale_extended/static/src/files/tratamiento_de_datos.pdf" width="100%" height="680px">Prueba</iframe>
+                                        <iframe src="/web_sale_extended/static/src/files/tratamiento_de_datos.pdf" width="100%" height="680px">Acepto política de tratamiento de datos</iframe>
                                     </div>
                                     <div class="w-100"/>
                                     <t t-if="mode == ('new', 'billing') and not only_services">

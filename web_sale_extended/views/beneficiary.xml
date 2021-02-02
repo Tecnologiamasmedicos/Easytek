@@ -3,8 +3,23 @@
     <template id="beneficiary">
         <t t-call="website.layout">
             <br/>
+            
+            
+            
+            <div class="alert alert-success alert-dismissable d-print-none" role="status" style="text-align:center;">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">x</button>
+                        <strong>¡Gracias!</strong><br/>
+                        <span>Su pedido ha sido confirmado y pagado.</span>
+                
+                
+                </div>
+            
+            
+            
             <div class="container">
                 <form id="beneficiary" action="/beneficiary-detail" method="post" class="checkout_autoformat">
+                    <input type="hidden" name="beneficiaries_number" id="beneficiaries_number" t-att-value="beneficiaries_number"/>
+                    <input type="hidden" name="order_id" id="order_id" t-att-value="order_id"/>
                     <section class="s_text_block pt0 pb0" data-name="Text block" style="">
                         <div class="container">
                             <div class="row">
@@ -13,7 +28,7 @@
                                     <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Img_success.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
                                     <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip947855"/>
                                     <div class="s_alert_content">
-                                    <p><font color="#39b54a"><span style="font-size: 18px;"><b>¡Empecemos! Vamos a llenar la información de tu <t t-esc="order_detail.product_template_id[0].name"/>, así como la de todo tu grupo familiar.</b></span></font><br/>La información de tus beneficiarios o familiares es opcional, una vez actualizados tus datos, podemos ir a pagar para generar tu póliza y ¡listo! </p>
+                                    <p><font color="#39b54a"><span style="font-size: 18px;"><b>Ahora vamos a llenar la información de tu <t t-esc="order_detail.product_template_id[0].name"/>.</b></span></font><br/>Completemos los datos del asegurado principal &#40;o titular del plan&#41; y la de sus beneficiarios &#40;o grupo familiar&#41;</p>
                                     </div>
                                 </div>
                                 </div>
@@ -161,7 +176,7 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="deparment">Departamento</label>
-                                    <select name="deparment" class="form-control">
+                                    <select name="deparment" id="bfdeparment0" class="form-control">
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         <t t-foreach="country_states" t-as="s">
                                                 <option t-att-value="s.id" t-att-selected="s.id == partner.state_id.id">
@@ -175,9 +190,9 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="city">Ciudad</label>
-                                    <select name="city" class="form-control">
+                                    <select name="city" id="bfcity0" class="form-control">
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.name == partner.city">
+                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.id == partner.zip_id.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -260,11 +275,11 @@
                                     <label class="col-form-label" for="bfparentesco1">Parentesco*</label>
                                     <select name="bfparentesco1" class="form-control">
                                         <option value="">...</option>
-                                        <option value="C" style="">CONYUGUE</option>
-                                        <option value="D" style="">PADRES</option>
-                                        <option value="H" style="">HIJOS</option>
-                                        <option value="M" style="">HERMANOS</option>
-                                        <option value="S" style="">SUEGROS</option>
+                                        <option value="C" style="">Cónyugue</option>
+                                        <option value="D" style="">Padres</option>
+                                        <option value="H" style="">Hijos</option>
+                                        <option value="M" style="">Hermanos</option>
+                                        <option value="S" style="">Suegros</option>
                                     </select>
 
                                 </div>
@@ -355,10 +370,10 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfcity1">Ciudad</label>
-                                    <select name="bfcity1" class="form-control">
+                                    <select name="bfcity1" id="bfcity1" class="form-control">
                                         
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.name == partner.city">
+                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.id == partner.zip_id.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -405,6 +420,10 @@
                         </div>
 
                     </div>
+                    
+                    
+                    
+                    
                     <!-- Fin beneficiario 1 -->
                     <div class="dropdown-divider"></div>
                     <br/>
@@ -447,11 +466,11 @@
                                     <label class="col-form-label" for="bfparentesco2">Parentesco*</label>
                                     <select name="bfparentesco2" class="form-control">
                                         <option value="">...</option>
-                                        <option value="C" style="">CONYUGUE</option>
-                                        <option value="D" style="">PADRES</option>
-                                        <option value="H" style="">HIJOS</option>
-                                        <option value="M" style="">HERMANOS</option>
-                                        <option value="S" style="">SUEGROS</option>
+                                        <option value="C" style="">Cónyugue</option>
+                                        <option value="D" style="">Padres</option>
+                                        <option value="H" style="">Hijos</option>
+                                        <option value="M" style="">Hermanos</option>
+                                        <option value="S" style="">Suegros</option>
                                     </select>
 
                                 </div>
@@ -541,10 +560,10 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfcity2">Ciudad</label>
-                                    <select name="bfcity2" class="form-control">
+                                    <select name="bfcity2" id="bfcity2" class="form-control">
                                         
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.name == partner.city">
+                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.id == partner.zip_id.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -592,6 +611,8 @@
                         </div>
 
                     </div>
+                    
+                    
 
                     <!-- Fin beneficiario 2 -->
                     <div class="dropdown-divider"></div>
@@ -635,11 +656,11 @@
                                     <label class="col-form-label" for="bfparentesco3">Parentesco*</label>
                                     <select name="bfparentesco3" class="form-control">
                                         <option value="">...</option>
-                                        <option value="C" style="">CONYUGUE</option>
-                                        <option value="D" style="">PADRES</option>
-                                        <option value="H" style="">HIJOS</option>
-                                        <option value="M" style="">HERMANOS</option>
-                                        <option value="S" style="">SUEGROS</option>
+                                        <option value="C" style="">Cónyugue</option>
+                                        <option value="D" style="">Padres</option>
+                                        <option value="H" style="">Hijos</option>
+                                        <option value="M" style="">Hermanos</option>
+                                        <option value="S" style="">Suegros</option>
                                     </select>
 
                                 </div>
@@ -729,10 +750,10 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfcity3">Ciudad</label>
-                                    <select name="bfcity3" class="form-control">
+                                    <select name="bfcity3" id="bfcity3" class="form-control">
                                         
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.name == partner.city">
+                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.id == partner.zip_id.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -823,11 +844,11 @@
                                     <label class="col-form-label" for="bfparentesco4">Parentesco*</label>
                                     <select name="bfparentesco4" class="form-control">
                                         <option value="">...</option>
-                                        <option value="C" style="">CONYUGUE</option>
-                                        <option value="D" style="">PADRES</option>
-                                        <option value="H" style="">HIJOS</option>
-                                        <option value="M" style="">HERMANOS</option>
-                                        <option value="S" style="">SUEGROS</option>
+                                        <option value="C" style="">Cónyugue</option>
+                                        <option value="D" style="">Padres</option>
+                                        <option value="H" style="">Hijos</option>
+                                        <option value="M" style="">Hermanos</option>
+                                        <option value="S" style="">Suegros</option>
                                     </select>
 
                                 </div>
@@ -917,10 +938,10 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfcity4">Ciudad</label>
-                                    <select name="bfcity4" class="form-control">
+                                    <select name="bfcity4" id="bfcity4" class="form-control">
                                         
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.name == partner.city">
+                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.id == partner.zip_id.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -1010,11 +1031,11 @@
                                     <label class="col-form-label" for="bfparentesco5">Parentesco*</label>
                                     <select name="bfparentesco5" class="form-control">
                                         <option value="">...</option>
-                                        <option value="C" style="">CONYUGUE</option>
-                                        <option value="D" style="">PADRES</option>
-                                        <option value="H" style="">HIJOS</option>
-                                        <option value="M" style="">HERMANOS</option>
-                                        <option value="S" style="">SUEGROS</option>
+                                        <option value="C" style="">Cónyugue</option>
+                                        <option value="D" style="">Padres</option>
+                                        <option value="H" style="">Hijos</option>
+                                        <option value="M" style="">Hermanos</option>
+                                        <option value="S" style="">Suegros</option>
                                     </select>
 
                                 </div>
@@ -1104,10 +1125,10 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfcity5">Ciudad</label>
-                                    <select name="bfcity5" class="form-control">
+                                    <select name="bfcity5" id="bfcity5" class="form-control">
                                         
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.name == partner.city">
+                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.id == partner.zip_id.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -1198,11 +1219,11 @@
                                     <label class="col-form-label" for="bfparentesco6">Parentesco*</label>
                                     <select name="bfparentesco6" class="form-control">
                                         <option value="">...</option>
-                                        <option value="C" style="">CONYUGUE</option>
-                                        <option value="D" style="">PADRES</option>
-                                        <option value="H" style="">HIJOS</option>
-                                        <option value="M" style="">HERMANOS</option>
-                                        <option value="S" style="">SUEGROS</option>
+                                        <option value="C" style="">Cónyugue</option>
+                                        <option value="D" style="">Padres</option>
+                                        <option value="H" style="">Hijos</option>
+                                        <option value="M" style="">Hermanos</option>
+                                        <option value="S" style="">Suegros</option>
                                     </select>
 
                                 </div>
@@ -1292,10 +1313,10 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfcity6">Ciudad</label>
-                                    <select name="bfcity6" class="form-control">
+                                    <select name="bfcity6" id="bfcity6" class="form-control">
                                         
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.name == partner.city">
+                                            <option t-att-value="c.city_id.name" t-att-selected="c.city_id.id == partner.zip_id.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -1345,7 +1366,7 @@
 
                     </div>
                     <!-- Button trigger modal -->
-                    <button class="btn btn-custom mb32">
+                    <button class="btn btn-custom mb32 pull-right" id="submit_beneficiaries"><!--<button class="btn btn-custom mb32">-->
                         <span>Guardar</span>
                         <i class="fa fa-chevron-right"/>
                     </button>
