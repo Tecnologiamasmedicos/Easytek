@@ -18,6 +18,36 @@ class SaleOrder(models.Model):
     
     subscription_id = fields.Many2one('sale.subscription', 'Suscription ID')
     
+    beneficiary0_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
+    beneficiary1_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
+    beneficiary2_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
+    beneficiary3_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
+    beneficiary4_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
+    beneficiary5_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
+    beneficiary6_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
+    
+    @api.depends('subscription_id.subscription_partner_ids')
+    def _compute_beneficiary_partner(self):
+        for rec in self:
+            if rec.subscription_id:
+                for partner in rec.subscription_id.subscription_partner_ids:
+                    if partner.beneficiary_number == 1:
+                        rec.beneficiary0_id = partner
+                    if partner.beneficiary_number == 2:
+                        rec.beneficiary1_id = partner
+                    if partner.beneficiary_number == 3:
+                        rec.beneficiary2_id = partner
+                    if partner.beneficiary_number == 4:
+                        rec.beneficiary3_id = partner
+                    if partner.beneficiary_number == 5:
+                        rec.beneficiary4_id = partner
+                    if partner.beneficiary_number == 6:
+                        rec.beneficiary5_id = partner
+                    if partner.beneficiary_number == 7:
+                        rec.beneficiary6_id = partner
+
+        
+    
     
     def tusdatos_approval(self):
         for record in self:

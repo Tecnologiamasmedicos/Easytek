@@ -106,17 +106,15 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                     required: true,
                     minlength: 3
                 },
-                // lastname2: {
-                //     required: true,
-                //     minlength: 3
-                // },
                 email: {
                     required: true,
                     email: true
                 },
                 phone: {
                     required: true,
-                    matches:"[0-9]+",minlength:10, maxlength:10,
+                    number: true,
+                    minlength:7,
+                    maxlength:10,
                 },
                 document: {
                     required: true
@@ -125,7 +123,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                     required: true,
                     number: true,
                 },
-
                 street: {
                     required: true,
                 },
@@ -189,7 +186,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 },
                 lastname: {
                     required: "¡Upss! tu apellido es requerido",
-                    minlength: "Un apellido contiene más de 3 caracteres"
+                    minlength: "¡Upss! tu apellido debe contener más de 3 caracteres"
                 },
                 // lastname2: {
                 //     required: "Este campo es requerido",
@@ -197,10 +194,13 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 // },
                 email: {
                     required: "¡Upss! tu email es requerido",
-                    email: "Escribe un email valido"
+                    email: "¡Upss! escribe un email valido"
                 },
                 phone: {
                     required: "¡Upss! tu telefono es requerido",
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener mínimo 7 digitos",
+                    maxlength: "¡Upss! debe tener máximo 10 digitos"
 
                 },
                 document: {
@@ -209,20 +209,19 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 },
                 identification_document: {
                     required: "¡Upss! tu numero de documento es requerido",
-                    number: "Este campo solo es numérico"
+                    number: "¡Upss! este campo solo es numérico"
 
                 },
                 street: {
-                    required: "¡Upss! tu dirección es requerido",
+                    required: "¡Upss! tu dirección es requerida",
 
                 },
                 city: {
-                    required: "¡Upss! tu ciudad es requerido",
+                    required: "¡Upss! tu ciudad es requerida",
 
                 },
                 country_id: {
-                    required: "Este campo es requerido",
-
+                    required: "¡Upss! tu país es requerido",
                 },
                 state_id: {
                     required: "¡Upss! tu departamento es requerido",
@@ -446,9 +445,9 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         }
     
   
-    $("select[name='bfdeparment0']").on('change', function cambiarCiudades() {
+    $("select[id='bfdeparment0']").on('change', function cambiarCiudades() {
         let estado = $(this).val();
-        let elemento = "select[name='bfcity0']";
+        let elemento = "select[id='bfcity0']";
         consultarCiudadesBeneficiary(estado, elemento, 0);
 
     });
@@ -599,7 +598,700 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
       window.location.href = url;
     });
     
+    $("#beneficiary").validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 3
+                },
+                lastname: {
+                    required: true,
+                    minlength: 3
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                phone: {
+                    required: true,
+                    number: true,
+                    minlength:7,
+                    maxlength:10,
+                },
+                phone: {
+                    required: false,
+                    number: true,
+                    minlength:7,
+                    maxlength:7,
+                },
+                document_type: {
+                    required: true
+                },
+                numero_documento: {
+                    required: true,
+                    number: true,
+                },
+                address: {
+                    required: true,
+                },
+                city: {
+                    required: true,
+                },
+                country_id: {
+                    required: true,
+                },
+                state_id: {
+                    required: true,
+                },
+                date: {
+                    required: true,
+                    max: {
+                        depends: function(elem) {
+                            var edad_maxima = 0;
+                            let fecha = $("input[name='date']").val();
+                            let hoy = new Date();
+                            let cumpleanos = new Date(fecha);
+                            let edad = hoy.getFullYear() - cumpleanos.getFullYear();
+                            let m = hoy.getMonth() - cumpleanos.getMonth();
+                            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                                edad--;
+                            }
+                            return edad > 69
+                        }
+                    },
+                    min: {
+                        depends: function(elem) {
+                            var edad_maxima = 0;
+                            let fecha = $("input[name='date']").val();
+                            let hoy = new Date();
+                            let cumpleanos = new Date(fecha);
+                            let edad = hoy.getFullYear() - cumpleanos.getFullYear();
+                            let m = hoy.getMonth() - cumpleanos.getMonth();
+                            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                                edad--;
+                            }
+                            return edad < 18
+                        }
+                    }
+                },
+                // beneficiario1 ///////////////////////////
+                bfirstname1: {
+                    required: true,
+                    minlength: 3
+                },
+                bflastname1: {
+                    required: true,
+                    minlength: 3
+                },
+                bfemail1: {
+                    required: true,
+                    email: true
+                },
+                bfphone1: {
+                    required: true,
+                    number: true,
+                    minlength:7,
+                    maxlength:10,
+                },
+                bffijo1: {
+                    required: false,
+                    number: true,
+                    minlength:7,
+                    maxlength:7,
+                },
+                bfdocument1: {
+                    required: true
+                },
+                bfnumero_documento1: {
+                    required: true,
+                    number: true,
+                },
+                bfaddress1: {
+                    required: true,
+                },
+                bfcity1: {
+                    required: true,
+                },
+                bfcountry_id1: {
+                    required: true,
+                },
+                bfdeparment1: {
+                    required: true,
+                },
+                bfdate1: {
+                    required: true,
+                },
+                // beneficiario2 //////////////////////////////////////////
+                bfirstname2: {
+                    required: true,
+                    minlength: 3
+                },
+                bflastname2: {
+                    required: true,
+                    minlength: 3
+                },
+                bfemail2: {
+                    required: true,
+                    email: true
+                },
+                bfphone2: {
+                    required: true,
+                    number: true,
+                    minlength:7,
+                    maxlength:10,
+                },
+                bffijo1: {
+                    required: false,
+                    number: true,
+                    minlength:7,
+                    maxlength:7,
+                },
+                bfdocument2: {
+                    required: true
+                },
+                bfnumero_documento2: {
+                    required: true,
+                    number: true,
+                },
+                bfaddress2: {
+                    required: true,
+                },
+                bfcity2: {
+                    required: true,
+                },
+                bfcountry_id2: {
+                    required: true,
+                },
+                bfdeparment2: {
+                    required: true,
+                },
+                bfdate2: {
+                    required: true,
+                },
+                // beneficiario3 //////////////////////////////////////////
+                bfirstname3: {
+                    required: true,
+                    minlength: 3
+                },
+                bflastname3: {
+                    required: true,
+                    minlength: 3
+                },
+                bfemail3: {
+                    required: true,
+                    email: true
+                },
+                bfphone3: {
+                    required: true,
+                    number: true,
+                    minlength:7,
+                    maxlength:10,
+                },
+                bffijo3: {
+                    required: false,
+                    number: true,
+                    minlength:7,
+                    maxlength:7,
+                },
+                bfdocument3: {
+                    required: true
+                },
+                bfnumero_documento3: {
+                    required: true,
+                    number: true,
+                },
+                bfaddress3: {
+                    required: true,
+                },
+                bfcity3: {
+                    required: true,
+                },
+                bfcountry_id3: {
+                    required: true,
+                },
+                bfdeparment3: {
+                    required: true,
+                },
+                bfdate3: {
+                    required: true,
+                },
+                // beneficiario4 //////////////////////////////////////////
+                bfirstname4: {
+                    required: true,
+                    minlength: 3
+                },
+                bflastname4: {
+                    required: true,
+                    minlength: 3
+                },
+                bfemail4: {
+                    required: true,
+                    email: true
+                },
+                bfphone4: {
+                    required: true,
+                    number: true,
+                    minlength:7,
+                    maxlength:10,
+                },
+                bffijo4: {
+                    required: false,
+                    number: true,
+                    minlength:7,
+                    maxlength:7,
+                },
+                bfdocument4: {
+                    required: true
+                },
+                bfnumero_documento4: {
+                    required: true,
+                    number: true,
+                },
+                bfaddress4: {
+                    required: true,
+                },
+                bfcity4: {
+                    required: true,
+                },
+                bfcountry_id4: {
+                    required: true,
+                },
+                bfdeparment4: {
+                    required: true,
+                },
+                bfdate4: {
+                    required: true,
+                },
+                // beneficiario5 //////////////////////////////////////////
+                bfirstname5: {
+                    required: true,
+                    minlength: 3
+                },
+                bflastname5: {
+                    required: true,
+                    minlength: 3
+                },
+                bfemail5: {
+                    required: true,
+                    email: true
+                },
+                bfphone5: {
+                    required: true,
+                    number: true,
+                    minlength:7,
+                    maxlength:10,
+                },
+                bffijo5: {
+                    required: false,
+                    number: true,
+                    minlength:7,
+                    maxlength:7,
+                },
+                bfdocument5: {
+                    required: true
+                },
+                bfnumero_documento5: {
+                    required: true,
+                    number: true,
+                },
+                bfaddress5: {
+                    required: true,
+                },
+                bfcity5: {
+                    required: true,
+                },
+                bfcountry_id5: {
+                    required: true,
+                },
+                bfdeparment5: {
+                    required: true,
+                },
+                bfdate5: {
+                    required: true,
+                },
+                // beneficiario6 //////////////////////////////////////////
+                bfirstname6: {
+                    required: true,
+                    minlength: 3
+                },
+                bflastname6: {
+                    required: true,
+                    minlength: 3
+                },
+                bfemail6: {
+                    required: true,
+                    email: true
+                },
+                bfphone6: {
+                    required: true,
+                    number: true,
+                    minlength:7,
+                    maxlength:10,
+                },
+                bffijo6: {
+                    required: false,
+                    number: true,
+                    minlength:7,
+                    maxlength:7,
+                },
+                bfdocument6: {
+                    required: true
+                },
+                bfnumero_documento6: {
+                    required: true,
+                    number: true,
+                },
+                bfaddress6: {
+                    required: true,
+                },
+                bfcity6: {
+                    required: true,
+                },
+                bfcountry_id6: {
+                    required: true,
+                },
+                bfdeparment6: {
+                    required: true,
+                },
+                bfdate6: {
+                    required: true,
+                },
+                ////////////////////////////////////////////
+            },
+            messages: {
+                name: {
+                    required: "¡Upss! un nombre es requerido",
+                    minlength: "¡Upss! un nombre contiene más de 3 caracteres"
+                },
+                lastname: {
+                    required: "¡Upss! un apellido es requerido",
+                    minlength: "¡Upss! un apellido contiene más de 3 caracteres"
+                },
+                email: {
+                    required: "¡Upss! un email es requerido",
+                    email: "¡Upss! escribe un email valido"
+                },
+                phone: {
+                    required: "¡Upss! un telefono es requerido",
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener mínimo 7 digitos",
+                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                },
+                fijo: {
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener mínimo 7 digitos",
+                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                },
+                document_type: {
+                    required: "¡Upss! un tipo de documento es requerido",
+                },
+                numero_documento: {
+                    required: "¡Upss! un numero de documento es requerido",
+                    number: "¡Upss! este campo solo es numérico"
+                },
+                address: {
+                    required: "¡Upss! una dirección es requerida",
+                },
+                city: {
+                    required: "¡Upss! una ciudad es requerida",
+                },
+                country_id: {
+                    required: "¡Upss! un país es requerido",
+                },
+                state_id: {
+                    required: "¡Upss! un departamento es requerido",
+                },
+                date: {
+                    required: "¡Upss! una fecha de nacimiento es requerido",
+                    min: "¡Upss! Debe ser mayor de edad",
+                    max: "¡Upss! debes de ser  menor de 69 años para continuar"
+                },
+                ////////////////////////////////////////////
+                bfirstname1: {
+                    required: "¡Upss! un nombre es requerido",
+                    minlength: "¡Upss! un nombre contiene más de 3 caracteres"
+                },
+                bflastname1: {
+                    required: "¡Upss! un apellido es requerido",
+                    minlength: "¡Upss! un apellido contiene más de 3 caracteres"
+                },
+                bfemail1: {
+                    required: "¡Upss! un email es requerido",
+                    email: "¡Upss! escribe un email valido"
+                },
+                bfphone1: {
+                    required: "¡Upss! un telefono es requerido",
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener mínimo 7 digitos",
+                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                },
+                bffijo1: {
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener mínimo 7 digitos",
+                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                },
+                bfdocument1: {
+                    required: "¡Upss! un tipo de documento es requerido",
+                },
+                bfnumero_documento1: {
+                    required: "¡Upss! un numero de documento es requerido",
+                    number: "¡Upss! este campo solo es numérico"
+                },
+                bfaddress1: {
+                    required: "¡Upss! una dirección es requerida",
+                },
+                bfcity1: {
+                    required: "¡Upss! una ciudad es requerida",
+                },
+                bfcountry_id1: {
+                    required: "¡Upss! un país es requerido",
+                },
+                bfdeparment1: {
+                    required: "¡Upss! un departamento es requerido",
+                },
+                bfdate1: {
+                    required: "¡Upss! una fecha de nacimiento es requerido",
+                },
+                ////////////////////////////////////////////
+                bfirstname2: {
+                    required: "¡Upss! un nombre es requerido",
+                    minlength: "¡Upss! un nombre contiene más de 3 caracteres"
+                },
+                bflastname2: {
+                    required: "¡Upss! un apellido es requerido",
+                    minlength: "¡Upss! un apellido contiene más de 3 caracteres"
+                },
+                bfemail2: {
+                    required: "¡Upss! un email es requerido",
+                    email: "¡Upss! escribe un email valido"
+                },
+                bfphone2: {
+                    required: "¡Upss! un telefono es requerido",
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener mínimo 7 digitos",
+                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                },
+                bffijo2: {
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener mínimo 7 digitos",
+                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                },
+                bfdocument2: {
+                    required: "¡Upss! un tipo de documento es requerido",
+                },
+                bfnumero_documento2: {
+                    required: "¡Upss! un numero de documento es requerido",
+                    number: "¡Upss! este campo solo es numérico"
+                },
+                bfaddress2: {
+                    required: "¡Upss! una dirección es requerida",
+                },
+                bfcity2: {
+                    required: "¡Upss! una ciudad es requerida",
+                },
+                bfcountry_id2: {
+                    required: "¡Upss! un país es requerido",
+                },
+                bfdeparment2: {
+                    required: "¡Upss! un departamento es requerido",
+                },
+                bfdate2: {
+                    required: "¡Upss! una fecha de nacimiento es requerido",
+                },
+                ////////////////////////////////////////////
+                bfirstname3: {
+                    required: "¡Upss! tu nombre es requerido",
+                    minlength: "Un nombre contiene más de 3 caracteres"
+                },
+                bflastname3: {
+                    required: "¡Upss! tu apellido es requerido",
+                    minlength: "Un apellido contiene más de 3 caracteres"
+                },
+                bfemail3: {
+                    required: "¡Upss! tu email es requerido",
+                    email: "Escribe un email valido"
+                },
+                bfphone3: {
+                    required: "¡Upss! tu telefono es requerido",
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener mínimo 7 digitos",
+                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                },
+                bffijo3: {
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener mínimo 7 digitos",
+                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                },
+                bfdocument3: {
+                    required: "¡Upss! tu tipo de documento es requerido",
+                },
+                bfnumero_documento3: {
+                    required: "¡Upss! tu numero de documento es requerido",
+                    number: "Este campo solo es numérico"
+                },
+                bfaddress3: {
+                    required: "¡Upss! tu dirección es requerido",
+                },
+                bfcity3: {
+                    required: "¡Upss! tu ciudad es requerido",
+                },
+                bfcountry_id3: {
+                    required: "Este campo es requerido",
+                },
+                bfdeparment3: {
+                    required: "¡Upss! tu departamento es requerido",
+                },
+                bfdate3: {
+                    required: "¡Upss! tu fecha de nacimiento es requerido",
+                    min: "¡Upss! Tienes que ser mayor de edad",
+                    max: "¡Upss! debes de ser  menor de 69 años para continuar"
+                },
+                ////////////////////////////////////////////
+                bfirstname4: {
+                    required: "¡Upss! tu nombre es requerido",
+                    minlength: "Un nombre contiene más de 3 caracteres"
+                },
+                bflastname4: {
+                    required: "¡Upss! tu apellido es requerido",
+                    minlength: "Un apellido contiene más de 3 caracteres"
+                },
+                bfemail4: {
+                    required: "¡Upss! tu email es requerido",
+                    email: "Escribe un email valido"
+                },
+                bfphone4: {
+                    required: "¡Upss! tu telefono es requerido",
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener mínimo 7 digitos",
+                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                },
+                bffijo4: {
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener mínimo 7 digitos",
+                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                },
+                bfdocument4: {
+                    required: "¡Upss! tu tipo de documento es requerido",
+                },
+                bfnumero_documento4: {
+                    required: "¡Upss! tu numero de documento es requerido",
+                    number: "Este campo solo es numérico"
+                },
+                bfaddress4: {
+                    required: "¡Upss! tu dirección es requerido",
+                },
+                bfcity4: {
+                    required: "¡Upss! tu ciudad es requerido",
+                },
+                bfcountry_id4: {
+                    required: "Este campo es requerido",
+                },
+                bfdeparment4: {
+                    required: "¡Upss! tu departamento es requerido",
+                },
+                bfdate4: {
+                    required: "¡Upss! tu fecha de nacimiento es requerido",
+                    min: "¡Upss! Tienes que ser mayor de edad",
+                    max: "¡Upss! debes de ser  menor de 69 años para continuar"
+                },
+                ////////////////////////////////////////////
+                bfirstname5: {
+                    required: "¡Upss! tu nombre es requerido",
+                    minlength: "Un nombre contiene más de 3 caracteres"
+                },
+                bflastname5: {
+                    required: "¡Upss! tu apellido es requerido",
+                    minlength: "Un apellido contiene más de 3 caracteres"
+                },
+                bfemail5: {
+                    required: "¡Upss! tu email es requerido",
+                    email: "Escribe un email valido"
+                },
+                bfphone5: {
+                    required: "¡Upss! tu telefono es requerido",
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener mínimo 7 digitos",
+                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                },
+                bffijo5: {
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener mínimo 7 digitos",
+                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                },
+                bfdocument5: {
+                    required: "¡Upss! tu tipo de documento es requerido",
+                },
+                bfnumero_documento5: {
+                    required: "¡Upss! tu numero de documento es requerido",
+                    number: "Este campo solo es numérico"
+                },
+                bfaddress5: {
+                    required: "¡Upss! tu dirección es requerido",
+                },
+                bfcity5: {
+                    required: "¡Upss! tu ciudad es requerido",
+                },
+                bfcountry_id5: {
+                    required: "Este campo es requerido",
+                },
+                bfdeparment5: {
+                    required: "¡Upss! tu departamento es requerido",
+                },
+                bfdate5: {
+                    required: "¡Upss! tu fecha de nacimiento es requerido",
+                    min: "¡Upss! Tienes que ser mayor de edad",
+                    max: "¡Upss! debes de ser  menor de 69 años para continuar"
 
+                },
+                ////////////////////////////////////////////
+                bfirstname6: {
+                    required: "¡Upss! tu nombre es requerido",
+                    minlength: "Un nombre contiene más de 3 caracteres"
+                },
+                bflastname6: {
+                    required: "¡Upss! tu apellido es requerido",
+                    minlength: "Un apellido contiene más de 3 caracteres"
+                },
+                bfemail6: {
+                    required: "¡Upss! tu email es requerido",
+                    email: "Escribe un email valido"
+                },
+                bfphone6: {
+                    required: "¡Upss! tu telefono es requerido",
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener mínimo 7 digitos",
+                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                },
+                bffijo6: {
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener mínimo 7 digitos",
+                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                },
+                bfdocument6: {
+                    required: "¡Upss! tu tipo de documento es requerido",
+                },
+                bfnumero_documento6: {
+                    required: "¡Upss! tu numero de documento es requerido",
+                    number: "Este campo solo es numérico"
+                },
+                bfaddress6: {
+                    required: "¡Upss! tu dirección es requerido",
+                },
+                bfcity6: {
+                    required: "¡Upss! tu ciudad es requerido",
+                },
+                bfcountry_id6: {
+                    required: "Este campo es requerido",
+                },
+                bfdeparment6: {
+                    required: "¡Upss! tu departamento es requerido",
+                },
+                bfdate6: {
+                    required: "¡Upss! tu fecha de nacimiento es requerido",
+                    min: "¡Upss! Tienes que ser mayor de edad",
+                    max: "¡Upss! debes de ser  menor de 69 años para continuar"
+                },
+            }
+        });
 
-    
 });

@@ -2,6 +2,7 @@
 
 from . import res_partner
 from . import res_company
+from . import mail_template
 from . import product
 from . import account
 from . import sale_order

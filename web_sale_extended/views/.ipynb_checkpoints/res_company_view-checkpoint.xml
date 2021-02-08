@@ -6,8 +6,16 @@
             <field name="arch" type="xml">
                 <xpath expr="//sheet/notebook" position="inside">
                     <page string="Otros Logos">
-                        <label for="logo_website_pdf"/>
-                        <field name="logo_website_pdf"/>
+                        <group>
+                            <group>
+                                <label for="logo_website_pdf"/>
+                                <field name="logo_website_pdf"/>
+                            </group>
+                            <group>
+                                <label for="logo_supervigilado"/>
+                                <field name="logo_supervigilado"/>
+                            </group>
+                        </group>
                     </page>
                 </xpath>
             </field>

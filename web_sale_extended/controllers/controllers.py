@@ -160,6 +160,13 @@ class WebsiteSaleExtended(WebsiteSale):
 
                 # TDE FIXME: don't ever do this
                 order.message_partner_ids = [(4, partner_id), (3, request.website.partner_id.id)]
+                order.write({
+                    'require_signature': False,
+                    'require_payment': True,
+                })
+                
+                #send mail
+                #template = request.env['mail.template'].sudo().search([('tusdatos_process_send','=', True)], limit=1)
                 
                 if not errors:
                     
@@ -228,9 +235,13 @@ class WebsiteSaleExtended(WebsiteSale):
         return request.render("web_sale_extended.address", render_values)
     
 
-    def get_cities(self):
+    def get_cities(self, department=None):
         ''' LISTADOS DE TODAS LAS CIUDADES '''
-        complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
+        domain = []
+        if department:
+            domain.append(('city_id.state_id', '=', department))
+        complete_cities_with_zip = request.env['res.city.zip'].sudo().search(domain)
+        
         return complete_cities_with_zip
         #return []
 
@@ -277,7 +288,7 @@ class WebsiteSaleExtended(WebsiteSale):
         render_values = {
             "partner": order.partner_id,
             'country_states': country.get_website_sale_states(),
-            'cities': self.get_cities(),
+            'cities': self.get_cities(order.partner_id.state_id.id if order.partner_id.state_id else None),
             'countries': country.get_website_sale_countries().filtered(lambda line: line.id == 49),
             'document_types': self.get_document_types('beneficiary'),
             'country': country,
@@ -312,15 +323,16 @@ class WebsiteSaleExtended(WebsiteSale):
         
         Partner.sudo().write({
             'firstname': kwargs['name'],
-            'lastname': kwargs['othername'],
-            'lastname2':kwargs['lastname'],
-            'othernames': kwargs['lastname2'],
+            'lastname': kwargs['lastname'],
+            'lastname2':kwargs['lastname2'],
+            'othernames': kwargs['othername'],
             'email': kwargs['email'],
             'mobile': kwargs['phone'],
             #'document_type_id': kwargs[document_type],
             'identification_document': kwargs['numero_documento'],
             'company_type': 'person',
             'active': True,
+            'beneficiary_number': 1,
             #'parent_id': InsurerPartner.id  
         })
         beneficiary_list.append((4, Partner.id))
@@ -375,6 +387,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 'gender': kwargs[gender],
                 'relationship': kwargs[relationship],
                 'address_beneficiary': kwargs[address_beneficiary],
+                'beneficiary_number': i+2,
             })
             beneficiary_list.append((4, NewBeneficiaryPartner.id))
                 

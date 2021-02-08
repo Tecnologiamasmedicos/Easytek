@@ -116,7 +116,7 @@
                             <p>
                                 <font color="#39b54a">
                                 <span style="color: #333333; font-size: 16px;">
-                                    <b>Póliza <t t-esc="partner.firstname"/> <t t-esc="partner.lastname"/>  No. <t t-esc="order_detail.order_id.id"/></b>
+                                    <b>Certificado de póliza de accidentes personales No <!--<t t-esc="partner.firstname"/> <t t-esc="partner.lastname"/>-->  No. <t t-esc="order_detail.order_id.id"/></b>
                                 </span>
                                 </font>
                                 <br/>
@@ -186,7 +186,7 @@
                             <p>
                                 <font color="#39b54a">
                                 <span style="color: #333333; font-size: 16px;">
-                                    <b>Política de Trataiento de Datos</b>
+                                    <b>Política de Tratamiento de Datos</b>
                                 </span>
                                 </font>
                                 <br/>

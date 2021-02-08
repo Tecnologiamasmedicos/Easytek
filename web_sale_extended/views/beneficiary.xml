@@ -275,7 +275,7 @@
                                     <label class="col-form-label" for="bfparentesco1">Parentesco*</label>
                                     <select name="bfparentesco1" class="form-control">
                                         <option value="">...</option>
-                                        <option value="C" style="">Cónyugue</option>
+                                        <option value="C" style="">Cónyuge</option>
                                         <option value="D" style="">Padres</option>
                                         <option value="H" style="">Hijos</option>
                                         <option value="M" style="">Hermanos</option>
@@ -466,7 +466,7 @@
                                     <label class="col-form-label" for="bfparentesco2">Parentesco*</label>
                                     <select name="bfparentesco2" class="form-control">
                                         <option value="">...</option>
-                                        <option value="C" style="">Cónyugue</option>
+                                        <option value="C" style="">Cónyuge</option>
                                         <option value="D" style="">Padres</option>
                                         <option value="H" style="">Hijos</option>
                                         <option value="M" style="">Hermanos</option>
@@ -656,7 +656,7 @@
                                     <label class="col-form-label" for="bfparentesco3">Parentesco*</label>
                                     <select name="bfparentesco3" class="form-control">
                                         <option value="">...</option>
-                                        <option value="C" style="">Cónyugue</option>
+                                        <option value="C" style="">Cónyuge</option>
                                         <option value="D" style="">Padres</option>
                                         <option value="H" style="">Hijos</option>
                                         <option value="M" style="">Hermanos</option>
@@ -844,7 +844,7 @@
                                     <label class="col-form-label" for="bfparentesco4">Parentesco*</label>
                                     <select name="bfparentesco4" class="form-control">
                                         <option value="">...</option>
-                                        <option value="C" style="">Cónyugue</option>
+                                        <option value="C" style="">Cónyuge</option>
                                         <option value="D" style="">Padres</option>
                                         <option value="H" style="">Hijos</option>
                                         <option value="M" style="">Hermanos</option>
@@ -1031,7 +1031,7 @@
                                     <label class="col-form-label" for="bfparentesco5">Parentesco*</label>
                                     <select name="bfparentesco5" class="form-control">
                                         <option value="">...</option>
-                                        <option value="C" style="">Cónyugue</option>
+                                        <option value="C" style="">Cónyuge</option>
                                         <option value="D" style="">Padres</option>
                                         <option value="H" style="">Hijos</option>
                                         <option value="M" style="">Hermanos</option>

@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'website_sale', 'portal', 'product', 'sale', 'sale_subscription'],
+    'depends': ['base', 'website_sale', 'portal', 'product', 'sale', 'sale_subscription', 'mail'],
 
     # always loaded
     'data': [
@@ -31,6 +31,7 @@
         'views/product_view.xml',
         'views/res_company_view.xml',
         'views/res_partner_view.xml',
+        'views/mail_template_view.xml',
         'views/account.xml',
         'views/beneficiary.xml',
         'views/beneficiary_detail.xml',

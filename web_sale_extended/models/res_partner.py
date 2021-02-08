@@ -27,6 +27,7 @@ class ResPartner(models.Model):
     address_beneficiary = fields.Char('Dirección del Beneficiario')
     
     subscription_id = fields.Many2one('sale.subscription', 'ID de Subscripción')
+    beneficiary_number = fields.Integer('Número de Beneficiario')
     
     
     
