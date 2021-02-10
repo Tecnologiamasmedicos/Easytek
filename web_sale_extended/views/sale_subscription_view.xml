@@ -8,7 +8,16 @@
                 <xpath expr="//notebook" position="inside">
                     <page string="Beneficiarios" id="beneficiaries">
                         <group>
-                            <field name="subscription_partner_ids"/>
+                            <field name="subscription_partner_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="document_type_id"/>
+                                    <field name="identification_document"/>
+                                    <field name="email"/>
+                                    <field name="phone"/>
+                                    <field name="birthdate_date"/>
+                                </tree>
+                            </field>
                         </group>
                     </page>
                 </xpath>

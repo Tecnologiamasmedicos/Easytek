@@ -116,7 +116,7 @@
             
            <t t-foreach="website_sale_order.website_order_line[0]" t-as="line">
             <div align="center" style="padding-top:15px;">
-                <h5>Si eres una empresa y deseas dar este<br/>beneficio a tus empleados, contactenos.</h5>
+                <h5>Si eres una empresa y deseas dar este<br/>beneficio a tus empleados, contáctanos.</h5>
             </div>
             <div class="mt32">
                 <div align="center">
