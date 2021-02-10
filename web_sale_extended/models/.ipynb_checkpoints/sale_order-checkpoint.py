@@ -26,11 +26,14 @@ class SaleOrder(models.Model):
     beneficiary5_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
     beneficiary6_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
     
-    @api.depends('subscription_id.subscription_partner_ids')
+    @api.depends('order_line.write_date')
     def _compute_beneficiary_partner(self):
+        
+        _logger.error('****************************************666666666666666666666\++++++++++++++++++++++++')
+        
         for rec in self:
-            if rec.subscription_id:
-                for partner in rec.subscription_id.subscription_partner_ids:
+            if rec.order_line[0].subscription_id:
+                for partner in rec.order_line[0].subscription_id.subscription_partner_ids:
                     if partner.beneficiary_number == 1:
                         rec.beneficiary0_id = partner
                     if partner.beneficiary_number == 2:

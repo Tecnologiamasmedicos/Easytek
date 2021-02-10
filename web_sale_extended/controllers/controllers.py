@@ -336,6 +336,9 @@ class WebsiteSaleExtended(WebsiteSale):
             #'parent_id': InsurerPartner.id  
         })
         beneficiary_list.append((4, Partner.id))
+        order.write({
+            'beneficiary0_id': Partner.id
+        })
         
         for i in range(int(kwargs['beneficiario'])):
             firtst_name = "bfirstname"+str(i+1)
@@ -390,6 +393,30 @@ class WebsiteSaleExtended(WebsiteSale):
                 'beneficiary_number': i+2,
             })
             beneficiary_list.append((4, NewBeneficiaryPartner.id))
+            if i == 1:
+                order.write({
+                    'beneficiary1_id': NewBeneficiaryPartner.id
+                })
+            if i == 2:
+                order.write({
+                    'beneficiary2_id': NewBeneficiaryPartner.id
+                })
+            if i == 3:
+                order.write({
+                    'beneficiary3_id': NewBeneficiaryPartner.id
+                })
+            if i == 4:
+                order.write({
+                    'beneficiary4_id': NewBeneficiaryPartner.id
+                })
+            if i == 5:
+                order.write({
+                    'beneficiary5_id': NewBeneficiaryPartner.id
+                })
+            if i == 6:
+                order.write({
+                    'beneficiary6_id': NewBeneficiaryPartner.id
+                })
                 
                 
         Subscription.write({

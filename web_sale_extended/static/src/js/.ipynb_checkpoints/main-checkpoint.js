@@ -306,9 +306,9 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         if (estado == 'Soltero') {
             let newOptions = {
                 Seleccione: "",
-                PADRES: "D",
-                HIJOS: "H",
-                HERMANOS: "M"
+                Padres: "D",
+                Hijos: "H",
+                Hermanos: "M"
             };
             for (let index = 0; index < 6; index++) {
                 let id_elemento = 'bfparentesco' + (index + 1);
@@ -328,10 +328,10 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         } else if (estado == 'Viudo') {
             let newOptions = {
                 Seleccione: "",
-                PADRES: "D",
-                HIJOS: "H",
-                HERMANOS: "M",
-                SUEGROS: "S"
+                Padres: "D",
+                Hijos: "H",
+                Hermanos: "M",
+                Suegros: "S"
             };
             for (let index = 0; index < 6; index++) {
                 let id_elemento = 'bfparentesco' + (index + 1);
@@ -351,11 +351,11 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         } else {
             let newOptions = {
                 Seleccione: "",
-                CONYUGUE: "C",
-                PADRES: "D",
-                HIJOS: "H",
-                HERMANOS: "M",
-                SUEGROS: "S"
+                Cónyuge: "C",
+                Padres: "D",
+                Hijos: "H",
+                Hermanos: "M",
+                Suegros: "S"
             };
             for (let index = 0; index < 6; index++) {
                 let id_elemento = 'bfparentesco' + (index + 1);
@@ -508,7 +508,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
     
     // $('#exampleModal').modal();
     // $('#exampleModal').on('shown.bs.modal', function() {
-    //     // $('#myInput').trigger('focus')
+    // $('#myInput').trigger('focus')
     // });
 
 
@@ -618,13 +618,16 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     minlength:7,
                     maxlength:10,
                 },
-                phone: {
+                fijo: {
                     required: false,
                     number: true,
                     minlength:7,
                     maxlength:7,
                 },
                 document_type: {
+                    required: true
+                },
+                estado_civil: {
                     required: true
                 },
                 numero_documento: {
@@ -699,6 +702,9 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     minlength:7,
                     maxlength:7,
                 },
+                bfparentesco1: {
+                    required: true,
+                },
                 bfdocument1: {
                     required: true
                 },
@@ -740,11 +746,14 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     minlength:7,
                     maxlength:10,
                 },
-                bffijo1: {
+                bffijo2: {
                     required: false,
                     number: true,
                     minlength:7,
                     maxlength:7,
+                },
+                bfparentesco2: {
+                    required: true,
                 },
                 bfdocument2: {
                     required: true
@@ -793,6 +802,9 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     minlength:7,
                     maxlength:7,
                 },
+                bfparentesco3: {
+                    required: true,
+                },
                 bfdocument3: {
                     required: true
                 },
@@ -839,6 +851,9 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     number: true,
                     minlength:7,
                     maxlength:7,
+                },
+                bfparentesco4: {
+                    required: true,
                 },
                 bfdocument4: {
                     required: true
@@ -887,6 +902,9 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     minlength:7,
                     maxlength:7,
                 },
+                bfparentesco5: {
+                    required: true,
+                },
                 bfdocument5: {
                     required: true
                 },
@@ -934,6 +952,9 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     minlength:7,
                     maxlength:7,
                 },
+                bfparentesco6: {
+                    required: true,
+                },
                 bfdocument6: {
                     required: true
                 },
@@ -979,11 +1000,14 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 fijo: {
                     number: "¡Upss! este campo solo es numérico",
-                    minlength: "¡Upss! debe tener mínimo 7 digitos",
-                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                    minlength: "¡Upss! debe tener 7 digitos",
+                    maxlength: "¡Upss! debe tener 7 digitos"
                 },
                 document_type: {
                     required: "¡Upss! un tipo de documento es requerido",
+                },
+                estado_civil: {
+                    required: "¡Upss! un estado civil es requerido",
                 },
                 numero_documento: {
                     required: "¡Upss! un numero de documento es requerido",
@@ -1027,8 +1051,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bffijo1: {
                     number: "¡Upss! este campo solo es numérico",
-                    minlength: "¡Upss! debe tener mínimo 7 digitos",
-                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                    minlength: "¡Upss! debe tener 7 digitos",
+                    maxlength: "¡Upss! debe tener 7 digitos"
+                },
+                bfparentesco1: {
+                    required: "¡Upss! un parentesco de documento es requerido",
                 },
                 bfdocument1: {
                     required: "¡Upss! un tipo de documento es requerido",
@@ -1073,8 +1100,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bffijo2: {
                     number: "¡Upss! este campo solo es numérico",
-                    minlength: "¡Upss! debe tener mínimo 7 digitos",
-                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                    minlength: "¡Upss! debe tener 7 digitos",
+                    maxlength: "¡Upss! debe tener 7 digitos"
+                },
+                bfparentesco2: {
+                    required: "¡Upss! un parentesco de documento es requerido",
                 },
                 bfdocument2: {
                     required: "¡Upss! un tipo de documento es requerido",
@@ -1119,8 +1149,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bffijo3: {
                     number: "¡Upss! este campo solo es numérico",
-                    minlength: "¡Upss! debe tener mínimo 7 digitos",
-                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                    minlength: "¡Upss! debe tener 7 digitos",
+                    maxlength: "¡Upss! debe tener 7 digitos"
+                },
+                bfparentesco3: {
+                    required: "¡Upss! un parentesco de documento es requerido",
                 },
                 bfdocument3: {
                     required: "¡Upss! tu tipo de documento es requerido",
@@ -1167,8 +1200,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bffijo4: {
                     number: "¡Upss! este campo solo es numérico",
-                    minlength: "¡Upss! debe tener mínimo 7 digitos",
-                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                    minlength: "¡Upss! debe tener 7 digitos",
+                    maxlength: "¡Upss! debe tener 7 digitos"
+                },
+                bfparentesco4: {
+                    required: "¡Upss! un parentesco de documento es requerido",
                 },
                 bfdocument4: {
                     required: "¡Upss! tu tipo de documento es requerido",
@@ -1215,8 +1251,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bffijo5: {
                     number: "¡Upss! este campo solo es numérico",
-                    minlength: "¡Upss! debe tener mínimo 7 digitos",
-                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                    minlength: "¡Upss! debe tener 7 digitos",
+                    maxlength: "¡Upss! debe tener 7 digitos"
+                },
+                bfparentesco5: {
+                    required: "¡Upss! un parentesco de documento es requerido",
                 },
                 bfdocument5: {
                     required: "¡Upss! tu tipo de documento es requerido",
@@ -1264,8 +1303,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bffijo6: {
                     number: "¡Upss! este campo solo es numérico",
-                    minlength: "¡Upss! debe tener mínimo 7 digitos",
-                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                    minlength: "¡Upss! debe tener 7 digitos",
+                    maxlength: "¡Upss! debe tener 7 digitos"
+                },
+                bfparentesco6: {
+                    required: "¡Upss! un parentesco de documento es requerido",
                 },
                 bfdocument6: {
                     required: "¡Upss! tu tipo de documento es requerido",
