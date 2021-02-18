@@ -9,15 +9,15 @@ _logger = logging.getLogger(__name__)
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
-    
+
     logo = fields.Binary(related="company_id.logo")
     # TusDatos.co
     tusdatos_request_id = fields.Char('Report id', default='')
     tusdatos_approved = fields.Boolean('Approved', default=False)
     tusdatos_email = fields.Char('Client e-mail', default='')
-    
+
     subscription_id = fields.Many2one('sale.subscription', 'Suscription ID')
-    
+
     beneficiary0_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
     beneficiary1_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
     beneficiary2_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
@@ -25,12 +25,12 @@ class SaleOrder(models.Model):
     beneficiary4_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
     beneficiary5_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
     beneficiary6_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
-    
+
     @api.depends('order_line.write_date')
     def _compute_beneficiary_partner(self):
-        
+
         _logger.error('****************************************666666666666666666666\++++++++++++++++++++++++')
-        
+
         for rec in self:
             if rec.order_line[0].subscription_id:
                 for partner in rec.order_line[0].subscription_id.subscription_partner_ids:
@@ -49,9 +49,9 @@ class SaleOrder(models.Model):
                     if partner.beneficiary_number == 7:
                         rec.beneficiary6_id = partner
 
-        
-    
-    
+
+
+
     def tusdatos_approval(self):
         for record in self:
             approval = record.tusdatos_approved
@@ -85,11 +85,11 @@ class SaleOrder(models.Model):
                         cleaned_ctx = dict(self.env.context)
                         cleaned_ctx.pop('default_type', None)
                         template.with_context(lang=self.env.user.lang).send_mail(record.id, force_send=True, raise_exception=True)
-                        
-    
+
+
     #@api.model
     #def create(self, vals):
-    
+
     """
     def action_quotation_sent(self):
         _logger.error('*****************************ORDEN DE VENTA CREADA ++++++++++++++++++++++++++++++++++')
@@ -97,4 +97,3 @@ class SaleOrder(models.Model):
         super(SaleOrder, self).action_quotation_sent()
         self.action_confirm()
     """
-

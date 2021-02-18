@@ -35,10 +35,10 @@ class WebsiteSaleExtended(WebsiteSale):
                 if partner_id not in shippings.mapped('id') and partner_id != order.partner_id.id:
                     return Forbidden()
                 Partner.browse(partner_id).sudo().write(checkout)
-                
+
         return partner_id
 
-    
+
     @http.route(['/shop/tusdatos_request_confirmation'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def tusdatos_request_confirmation(self, **kw):
         order = request.website.sale_get_order()
@@ -56,14 +56,14 @@ class WebsiteSaleExtended(WebsiteSale):
             return request.redirect("/shop/extra_info")
 
         #return request.redirect("/shop/payment")
-        
-        
+
+
         render_values = {
             'order': order,
         }
         return request.render("web_sale_extended.tusdatos_request_confirmation", render_values)
-    
-    
+
+
     # toma de datos de pago y se crea el asegurador principal
     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def address(self, **kw):
@@ -122,7 +122,7 @@ class WebsiteSaleExtended(WebsiteSale):
             pre_values = self.values_preprocess(order, mode, kw)
             errors, error_msg = self.checkout_form_validate(mode, kw, pre_values)
             post, errors, error_msg = self.values_postprocess(order, mode, pre_values, errors, error_msg)
-            
+
             if errors:
                 errors['error_message'] = error_msg
                 values = kw
@@ -131,7 +131,7 @@ class WebsiteSaleExtended(WebsiteSale):
                     post['othernames'] = ' '
                 else:
                     post['othernames'] = kw['othernames']
-                
+
                 post['firstname'] = kw['name']
                 post['lastname'] = kw['lastname']
                 post['lastname2'] = kw['lastname2']
@@ -143,7 +143,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 post["zip"] = kw["zip"]
                 post["zip_id"] = kw["zip_id"]
                 post["state_id"] = kw["state_id"]
-                
+
                 _logger.info("\n****ZIP ID*****\n")
                 _logger.info(post["zip_id"])
                 partner_id = self._checkout_form_save(mode, post, kw)
@@ -164,13 +164,13 @@ class WebsiteSaleExtended(WebsiteSale):
                     'require_signature': False,
                     'require_payment': True,
                 })
-                
+
                 #send mail
                 #template = request.env['mail.template'].sudo().search([('tusdatos_process_send','=', True)], limit=1)
-                
+
                 if not errors:
-                    
-                    
+
+
                     if not order.tusdatos_request_id:
                         document_types = {'3': 'CC', '5':'CE', '8':'PEP', '7':'PP'}
                         expedition_date = kw["expedition_date"]
@@ -200,10 +200,10 @@ class WebsiteSaleExtended(WebsiteSale):
                         # TODO: fix redirection
                         #return request.redirect("/web")
                         return request.redirect('/shop/tusdatos_request_confirmation')
-            
-                    
-                    
-                    
+
+
+
+
                     return request.redirect(kw.get('callback') or '/shop/confirm_order')
 
         country = 'country_id' in values and values['country_id'] != '' and request.env['res.country'].browse(int(values['country_id']))
@@ -233,7 +233,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'order_detail': order_detail,
         }
         return request.render("web_sale_extended.address", render_values)
-    
+
 
     def get_cities(self, department=None):
         ''' LISTADOS DE TODAS LAS CIUDADES '''
@@ -241,7 +241,7 @@ class WebsiteSaleExtended(WebsiteSale):
         if department:
             domain.append(('city_id.state_id', '=', department))
         complete_cities_with_zip = request.env['res.city.zip'].sudo().search(domain)
-        
+
         return complete_cities_with_zip
         #return []
 
@@ -259,8 +259,8 @@ class WebsiteSaleExtended(WebsiteSale):
         else:
             document_type = request.env['res.partner.document.type'].sudo().search([], order='name')
         return document_type
-    
-    
+
+
 
 
     @http.route(['/my/order/beneficiaries/<int:order_id>'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
@@ -271,14 +271,14 @@ class WebsiteSaleExtended(WebsiteSale):
 
         #_logger.info(request.env.user.email)
         #InsurerPartner = request.env['res.partner'].search([('email', '=', request.env.user.email)], limit=1)
-        
+
         #InsurerPartner_childs = request.env['res.partner'].search([
         #    ('parent_id', '=', InsurerPartner[0].id),
         #], limit=6)
-        
+
         #order = request.env['sale.order'].sudo().search([('partner_id', "=", InsurerPartner[0].id)])
         #order_detail = request.env['sale.order.line'].sudo().search([('order_id', "=", int(order.id))])
-        
+
         order = request.env['sale.order'].sudo().browse(order_id)
         _logger.error(order)
         product = order.order_line[0].product_id
@@ -299,14 +299,14 @@ class WebsiteSaleExtended(WebsiteSale):
         }
         return request.render("web_sale_extended.beneficiary", render_values)
 
-    
+
     @http.route(['/beneficiary-detail'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def create_beneficiary(self, **kwargs):
 
         ''' Guarda datos de los beneficiarios y los deja inactivo  '''
         _logger.info("***INFORME BENEFICIARIO***")
         _logger.info(kwargs)
-        
+
         order = request.website.sale_get_order()
         #redirection = self.checkout_redirection(order)
         #if redirection:
@@ -320,7 +320,7 @@ class WebsiteSaleExtended(WebsiteSale):
         #if len(InsurerPartner_childs)>6:
         #    raise("Tienes muchos beneficiarios")
         _logger.info(kwargs['beneficiario'])
-        
+
         Partner.sudo().write({
             'firstname': kwargs['name'],
             'lastname': kwargs['lastname'],
@@ -333,13 +333,13 @@ class WebsiteSaleExtended(WebsiteSale):
             'company_type': 'person',
             'active': True,
             'beneficiary_number': 1,
-            #'parent_id': InsurerPartner.id  
+            #'parent_id': InsurerPartner.id
         })
         beneficiary_list.append((4, Partner.id))
         order.write({
             'beneficiary0_id': Partner.id
         })
-        
+
         for i in range(int(kwargs['beneficiario'])):
             firtst_name = "bfirstname"+str(i+1)
             other_name = "bfothername"+str(i+1)
@@ -358,8 +358,8 @@ class WebsiteSaleExtended(WebsiteSale):
             address_beneficiary = "bfaddress"+str(i+1)
             phone = "bffijo"+str(i+1)
             mobile = "bfphone"+str(i+1)
-            
-            
+
+
             _logger.error('****************************************\n++++++++++++++++++++++++++++++++++++++++')
             _logger.error(i)
             _logger.error(Partner)
@@ -417,14 +417,14 @@ class WebsiteSaleExtended(WebsiteSale):
                 order.write({
                     'beneficiary6_id': NewBeneficiaryPartner.id
                 })
-                
-                
+
+
         Subscription.write({
             'subscription_partner_ids': beneficiary_list,
         })
         kwargs['order_detail'] = order_detail
         kwargs['partner'] = Partner
-        
+
         return request.render("web_sale_extended.beneficiary_detail", kwargs)
 
 
@@ -437,13 +437,13 @@ class WebsiteSaleExtended(WebsiteSale):
         InsurerPartner_childs = request.env['res.partner'].search([
             ('parent_id', '=', InsurerPartner[0].id), ('active', '=', False),
         ], limit=6)
-        
+
         for beneficiary in InsurerPartner_childs:
             BeneficiaryPartner = request.env['res.partner'].browse(beneficiary.id)
             BeneficiaryPartner.sudo().write({'active': True})
             _logger.info("Beneficiario Activo")
             _logger.info(BeneficiaryPartner.firstname)
-            
+
         #punto ideal para enviar el correo
         _logger.info('2****************************************\n\n++++++++++++++++++++++++++++++++++++')
         # Send Mail
@@ -469,7 +469,7 @@ class WebsiteSaleExtended(WebsiteSale):
          #       })
          #       values = confirm_mail_template.generate_email(InsurerPartner.id, fields=None)
 
-          #      values['email_to'] = addr_to 
+          #      values['email_to'] = addr_to
            #     values['email_from'] = ''
            #     values['res_id'] = InsurerPartner.id
            #     values['attachment_ids'] = [(4, report_file.id)]
@@ -483,7 +483,7 @@ class WebsiteSaleExtended(WebsiteSale):
 
         return "Datos eviados correctamente"
 
-    
+
     @http.route(['/report/beneficiary'],  methods=['GET'], type='http', auth="public", website=True)
     def report_poliza(self, city_id=None, **kwargs):
         report_obj = request.env['ir.actions.report']
@@ -528,8 +528,8 @@ class WebsiteSaleExtended(WebsiteSale):
         data['error'] = None,
         data['data'] = {'cities': cities}
         return json.dumps(data)
-    
-    
+
+
     # search cities by ajax peticion
     @http.route(['/search/zipcodes'],  methods=['GET'], type='http', auth="public", website=True)
     def search_zipcodes(self, **kwargs):
@@ -539,8 +539,8 @@ class WebsiteSaleExtended(WebsiteSale):
         data['error'] = None,
         data['data'] = {'zipcode': suggested_zipcode.name, 'zipid': suggested_zipcode.id}
         return json.dumps(data)
-    
-    
+
+
     def _get_shop_payment_values(self, order, **kwargs):
         values = dict(
             website_sale_order=order,
@@ -569,35 +569,35 @@ class WebsiteSaleExtended(WebsiteSale):
         if order:
             values['acq_extra_fees'] = acquirers.get_acquirer_extra_fees(order.amount_total, order.currency_id, order.partner_id.country_id.id)
         return values
-    
-    
-    
+
+
+
     @http.route(['/shop/payment'], type='http', auth="public", website=True, sitemap=False)
     def payment(self, **post):
         order = request.website.sale_get_order()
-        
+
         redirection = self.checkout_redirection(order)
         if redirection:
             return redirection
 
         render_values = self._get_shop_payment_values(order, **post)
         render_values['only_services'] = order and order.only_services or False
-        
+
         render_values['product'] = request.env['product.product'].sudo().browse(3),
-        
+
         if render_values['errors']:
             render_values.pop('acquirers', '')
             render_values.pop('tokens', '')
 
         return request.render("website_sale.payment", render_values)
-    
-    
-    
+
+
+
     @http.route(['/shop/product/<model("product.template"):product>'], type='http', auth="public", website=True)
     def product(self, product, category='', search='', **kwargs):
         if not product.can_access_from_current_website():
             raise NotFound()
-            
+
         if product.id in (1,2,3):
             """This route is called when adding a product to cart (no options)."""
             sale_order = request.website.sale_get_order(force_create=True)
@@ -613,7 +613,7 @@ class WebsiteSaleExtended(WebsiteSale):
             if kwargs.get('no_variant_attribute_values'):
                 no_variant_attribute_values = json.loads(kw.get('no_variant_attribute_values'))
             sale_order.website_order_line.unlink()
-            
+
             #for line in sale_order.get_order_lines
             sale_order._cart_update(
                 product_id=int(product.id),
@@ -626,8 +626,8 @@ class WebsiteSaleExtended(WebsiteSale):
             return request.redirect("/shop/checkout?express=1&product_id=" + str(product.id))
         return request.redirect("/web/login")
 
-            
-    
+
+
     def sitemap_shop(env, rule, qs):
         if not qs or qs.lower() in '/shop':
             yield {'loc': '/shop'}
@@ -639,9 +639,8 @@ class WebsiteSaleExtended(WebsiteSale):
             loc = '/shop/category/%s' % slug(cat)
             if not qs or qs.lower() in loc:
                 yield {'loc': loc}
-    
-    
-    """
+
+
     @http.route([
         '''/shop''',
         '''/shop/page/<int:page>''',
@@ -651,8 +650,7 @@ class WebsiteSaleExtended(WebsiteSale):
     def shop(self, page=0, category=None, search='', ppg=False, **post):
         # quitando acceso y funcionalidad a /shop*
         return request.redirect(request.httprequest.referrer or '/web/login')
-    """
-   
+
     @http.route(['/shop/confirmation'], type='http', auth="public", website=True, sitemap=False)
     def payment_confirmation(self, **post):
         """ End of checkout process controller. Confirmation is basically seing
@@ -670,11 +668,11 @@ class WebsiteSaleExtended(WebsiteSale):
                 return request.render("website_sale.confirmation", {'order': order})
         else:
             return request.redirect('/shop')
-        
-        
-        
-        
-        
+
+
+
+
+
     @http.route('/shop/payment/token', type='http', auth='public', website=True, sitemap=False)
     def payment_token(self, pm_id=None, **kwargs):
         """ Method that handles payment using saved tokens
@@ -702,16 +700,16 @@ class WebsiteSaleExtended(WebsiteSale):
         tx = order._create_payment_transaction(vals)
         PaymentProcessing.add_payment_transaction(tx)
         return request.redirect('/payment/process')
-        
+
 
 
 
 
 
 class SalePortalExtended(CustomerPortal):
-    
-    
-    
+
+
+
     # note dbo: website_sale code
     @http.route(['/my/orders/<int:order_id>/transaction/'], type='json', auth="public", website=True)
     def payment_transaction_token(self, acquirer_id, order_id, save_token=False, access_token=None, **kwargs):
@@ -756,7 +754,7 @@ class SalePortalExtended(CustomerPortal):
                 'alias_usage': _('If we store your payment information on our server, subscription payments will be made automatically.'),
             }
         )
-        
+
 
 
     @http.route(['/my/orders/<int:order_id>/accept'], type='json', auth="public", website=True)
@@ -799,24 +797,24 @@ class SalePortalExtended(CustomerPortal):
         query_string = '&message=sign_ok'
         if order_sudo.has_to_be_paid(True):
             query_string += '#allow_payment=yes'
-            
-            
-        
-        
+
+
+
+
         return {
             'force_refresh': True,
             'redirect_url': order_sudo.get_portal_url(query_string=query_string),
         }
-    
 
-    
+
+
 class WebsitePaymentExtended(PaymentProcessing):
-    
-    
-    
+
+
+
     @http.route(['/payment/process'], type="http", auth="public", website=True, sitemap=False)
     def payment_status_page(self, **kwargs):
-        
+
         # When the customer is redirect to this website page,
         # we retrieve the payment transaction list from his session
         tx_ids_list = self.get_payment_transaction_ids()
@@ -829,14 +827,14 @@ class WebsitePaymentExtended(PaymentProcessing):
         }
         order = request.website.sale_get_order()
         url = "/my/order/beneficiaries/" + str(order.id)
-        
+
         order.action_confirm()
         return request.redirect(url)
         #return request.render("payment.payment_process_page", render_ctx)
         #return request.render("beneficiaries_process_page", render_ctx)
-                         
-    
-    
+
+
+
 class OdooWebsiteSearchCity(http.Controller):
 
     @http.route(['/search/suggestion_city'],  methods=['GET'], type='http', auth="public", website=True)

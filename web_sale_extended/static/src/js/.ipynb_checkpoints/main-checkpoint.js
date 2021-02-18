@@ -94,17 +94,41 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
             }
         });
+        
+        
+        $.validator.addMethod("formMovilFijoLength", function (value, element) {
+           if(element.value.length == 7 || element.value.length == 10){
+              return true;
+           } else {
+              return false;
+           }
+        }, "¡Upss! debe tener 7 ó 10 digitos");
+
+
+        $.validator.addMethod("lettersonly", function(value, element) {
+            return this.optional(element) || /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g.test(value);
+        }, "¡Upss! deben ser ser solo letras");
+        
+        
         $("#terminos").hide();
         $("#politica").hide();
         $("#shop").validate({
             rules: {
                 name: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
                 },
                 lastname: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
+                },
+                othernames: {
+                    lettersonly: true,
+                },
+                lastname2: {
+                    lettersonly: true,
                 },
                 email: {
                     required: true,
@@ -113,8 +137,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 phone: {
                     required: true,
                     number: true,
-                    minlength:7,
-                    maxlength:10,
+                    formMovilFijoLength: true,
                 },
                 document: {
                     required: true
@@ -199,8 +222,8 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 phone: {
                     required: "¡Upss! tu telefono es requerido",
                     number: "¡Upss! este campo solo es numérico",
-                    minlength: "¡Upss! debe tener mínimo 7 digitos",
-                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                    minlength: "¡Upss! debe tener 10 digitos",
+                    maxlength: "¡Upss! debe tener 10 digitos"
 
                 },
                 document: {
@@ -598,6 +621,22 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
       window.location.href = url;
     });
     
+
+      $.validator.addMethod("formMovilFijoLength", function (value, element) {
+           if(element.value.length == 7 || element.value.length == 10){
+              return true;
+           } else {
+              return false;
+           }
+        }, "¡Upss! debe tener 7 ó 10 digitos");
+
+    
+    $.validator.addMethod("lettersonly", function(value, element) {
+        return this.optional(element) || /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g.test(value);
+    }, "¡Upss! deben ser ser solo letras");
+
+
+    
     $("#beneficiary").validate({
             rules: {
                 name: {
@@ -608,6 +647,12 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: true,
                     minlength: 3
                 },
+                othernames: {
+                    lettersonly: true,
+                },
+                lastname2: {
+                    lettersonly: true,
+                },
                 email: {
                     required: true,
                     email: true
@@ -615,8 +660,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 phone: {
                     required: true,
                     number: true,
-                    minlength:7,
-                    maxlength:10,
+                    formMovilFijoLength: true,
                 },
                 fijo: {
                     required: false,
@@ -680,11 +724,19 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 // beneficiario1 ///////////////////////////
                 bfirstname1: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
                 },
                 bflastname1: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
+                },
+                bfothername1: {
+                    lettersonly: true,
+                },
+                bflastname12: {
+                    lettersonly: true,
                 },
                 bfemail1: {
                     required: true,
@@ -693,7 +745,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfphone1: {
                     required: true,
                     number: true,
-                    minlength:7,
+                    minlength:10,
                     maxlength:10,
                 },
                 bffijo1: {
@@ -736,6 +788,12 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: true,
                     minlength: 3
                 },
+                bfothername2: {
+                    lettersonly: true,
+                },
+                bflastname22: {
+                    lettersonly: true,
+                },
                 bfemail2: {
                     required: true,
                     email: true
@@ -743,7 +801,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfphone2: {
                     required: true,
                     number: true,
-                    minlength:7,
+                    minlength:10,
                     maxlength:10,
                 },
                 bffijo2: {
@@ -786,6 +844,12 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: true,
                     minlength: 3
                 },
+                bfothername3: {
+                    lettersonly: true,
+                },
+                bflastname33: {
+                    lettersonly: true,
+                },
                 bfemail3: {
                     required: true,
                     email: true
@@ -793,7 +857,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfphone3: {
                     required: true,
                     number: true,
-                    minlength:7,
+                    minlength:10,
                     maxlength:10,
                 },
                 bffijo3: {
@@ -836,6 +900,12 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: true,
                     minlength: 3
                 },
+                bfothername4: {
+                    lettersonly: true,
+                },
+                bflastname44: {
+                    lettersonly: true,
+                },
                 bfemail4: {
                     required: true,
                     email: true
@@ -843,7 +913,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfphone4: {
                     required: true,
                     number: true,
-                    minlength:7,
+                    minlength:10,
                     maxlength:10,
                 },
                 bffijo4: {
@@ -886,6 +956,12 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: true,
                     minlength: 3
                 },
+                bfothername5: {
+                    lettersonly: true,
+                },
+                bflastname55: {
+                    lettersonly: true,
+                },
                 bfemail5: {
                     required: true,
                     email: true
@@ -893,7 +969,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfphone5: {
                     required: true,
                     number: true,
-                    minlength:7,
+                    minlength:10,
                     maxlength:10,
                 },
                 bffijo5: {
@@ -936,6 +1012,12 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: true,
                     minlength: 3
                 },
+                bfothername6: {
+                    lettersonly: true,
+                },
+                bflastname66: {
+                    lettersonly: true,
+                },
                 bfemail6: {
                     required: true,
                     email: true
@@ -943,7 +1025,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfphone6: {
                     required: true,
                     number: true,
-                    minlength:7,
+                    minlength:10,
                     maxlength:10,
                 },
                 bffijo6: {
@@ -995,8 +1077,6 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 phone: {
                     required: "¡Upss! un telefono es requerido",
                     number: "¡Upss! este campo solo es numérico",
-                    minlength: "¡Upss! debe tener mínimo 7 digitos",
-                    maxlength: "¡Upss! debe tener máximo 10 digitos"
                 },
                 fijo: {
                     number: "¡Upss! este campo solo es numérico",
@@ -1046,8 +1126,8 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfphone1: {
                     required: "¡Upss! un telefono es requerido",
                     number: "¡Upss! este campo solo es numérico",
-                    minlength: "¡Upss! debe tener mínimo 7 digitos",
-                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                    minlength: "¡Upss! debe tener 10 digitos",
+                    maxlength: "¡Upss! debe tener 10 digitos",
                 },
                 bffijo1: {
                     number: "¡Upss! este campo solo es numérico",
@@ -1095,8 +1175,8 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfphone2: {
                     required: "¡Upss! un telefono es requerido",
                     number: "¡Upss! este campo solo es numérico",
-                    minlength: "¡Upss! debe tener mínimo 7 digitos",
-                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                    minlength: "¡Upss! debe tener 10 digitos",
+                    maxlength: "¡Upss! debe tener 10 digitos",
                 },
                 bffijo2: {
                     number: "¡Upss! este campo solo es numérico",
@@ -1144,8 +1224,8 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfphone3: {
                     required: "¡Upss! tu telefono es requerido",
                     number: "¡Upss! este campo solo es numérico",
-                    minlength: "¡Upss! debe tener mínimo 7 digitos",
-                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                    minlength: "¡Upss! debe tener 10 digitos",
+                    maxlength: "¡Upss! debe tener 10 digitos",
                 },
                 bffijo3: {
                     number: "¡Upss! este campo solo es numérico",
@@ -1195,8 +1275,8 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfphone4: {
                     required: "¡Upss! tu telefono es requerido",
                     number: "¡Upss! este campo solo es numérico",
-                    minlength: "¡Upss! debe tener mínimo 7 digitos",
-                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                    minlength: "¡Upss! debe tener 10 digitos",
+                    maxlength: "¡Upss! debe tener 10 digitos",
                 },
                 bffijo4: {
                     number: "¡Upss! este campo solo es numérico",
@@ -1246,8 +1326,8 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfphone5: {
                     required: "¡Upss! tu telefono es requerido",
                     number: "¡Upss! este campo solo es numérico",
-                    minlength: "¡Upss! debe tener mínimo 7 digitos",
-                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                    minlength: "¡Upss! debe tener 10 digitos",
+                    maxlength: "¡Upss! debe tener 10 digitos",
                 },
                 bffijo5: {
                     number: "¡Upss! este campo solo es numérico",
@@ -1298,8 +1378,8 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfphone6: {
                     required: "¡Upss! tu telefono es requerido",
                     number: "¡Upss! este campo solo es numérico",
-                    minlength: "¡Upss! debe tener mínimo 7 digitos",
-                    maxlength: "¡Upss! debe tener máximo 10 digitos"
+                    minlength: "¡Upss! debe tener 10 digitos",
+                    maxlength: "¡Upss! debe tener 10 digitos"
                 },
                 bffijo6: {
                     number: "¡Upss! este campo solo es numérico",

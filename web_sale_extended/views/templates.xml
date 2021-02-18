@@ -15,13 +15,13 @@
 			<script src="/web_sale_extended/static/src/js/main.js" type="text/javascript"></script>
 		</xpath>
 	</template>
-    
-    
-    
+
+
+
 	<!--<template id="header_inherit" inherit_id="website_sale.header" name="Header Shop My Cart Link">
         <xpath expr="//li[@class='o_wsale_my_cart']" position="replace"/>
 	</template>-->
-    
+
     <template id="wizard_checkout_inherit" name="Wizard Checkout" inherit_id="website_sale.wizard_checkout">
         <xpath expr="//div[@class='progress-wizard']" position="replace">
             <div class="progress-wizard">
@@ -49,10 +49,10 @@
                     </div>
         </xpath>
     </template>
-    
-    
-    
-    
+
+
+
+
     <template id="cart_summary_inherit" name="Cart right column" inherit_id="website_sale.cart_summary">
         <xpath expr="//div[@class='card']" position="replace">
             <div class="card">
@@ -107,13 +107,29 @@
                             <t t-set="redirect" t-value="redirect or '/shop/payment'"/>
                         </t>
                     </div>
+
+
+                    <form t-att-action="'/shop/pricelist%s' % (redirect and '?r=' + redirect or '')" method="post" name="coupon_code">
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+            <div class="input-group w-100">
+                <input name="promo" class="form-control" type="text" placeholder="Código..." t-att-value="website_sale_order.pricelist_id.code or None"/>
+                <div class="input-group-append">
+                    <a href="#" role="button" class="btn btn-primary a-submit">Aplicar</a>
+                </div>
+            </div>
+        </form>
+        <t t-if="request.params.get('code_not_available')" name="code_not_available">
+            <div class="alert alert-danger text-left" role="alert">Este código no es valido.</div>
+        </t>
+
+
                 </div>
             </div>
         </xpath>
-        
-        
+
+
         <xpath expr="//div[@class='card']" position="after">
-            
+
            <t t-foreach="website_sale_order.website_order_line[0]" t-as="line">
             <div align="center" style="padding-top:15px;">
                 <h5>Si eres una empresa y deseas dar este<br/>beneficio a tus empleados, contáctanos.</h5>
@@ -137,16 +153,16 @@
                                 <t t-set="combination_info" t-value="alt_product._get_combination_info()"/>
                                 <t t-set="product_variant" t-value="alt_product.env['product.product'].browse(combination_info['product_id'])"/>
                                 <a t-att-href="alt_product.website_url" style="display: block">
-                                    
-                                    
-                                <div class="product_image" t-if="product_variant" 
-                                     t-field="product_variant.image_256" 
-                                     t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_alternative_product o_image_256_max' }" 
+
+
+                                <div class="product_image" t-if="product_variant"
+                                     t-field="product_variant.image_256"
+                                     t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_alternative_product o_image_256_max' }"
                                      style=""/>
-                                    
-                                <div class="product_image" t-else="" 
-                                     t-field="alt_product.image_256" 
-                                     t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_alternative_product o_image_256_max' }"  
+
+                                <div class="product_image" t-else=""
+                                     t-field="alt_product.image_256"
+                                     t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_alternative_product o_image_256_max' }"
                                      style=""/><!--<div t-else="" t-field="alt_product.image_256" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_alternative_product o_image_256_max' }"/>-->
                                 </a>
                                 <h6>
@@ -160,7 +176,7 @@
                 </div>
             </div>
             </t>
-            
+
             <div>
               <div>
                 <h5 align="center">Un producto de:</h5>
@@ -176,18 +192,18 @@
             </div>
         </xpath>
     </template>
-    
-    
+
+
     <template id="tusdatos_request_confirmation">
         <t t-call="website.layout">
             <t t-set="additional_title">Tusdatos - Confirmed</t>
             <div id="wrap">
                 <div class="container oe_website_sale py-2">
                     <br/>
-                    <h1><span>Orden</span> <em t-field="order.name" /> <t t-if="order.state == 'sale'"><span>Confirmed</span></t></h1>
-                    
-                    
-                    
+                    <!--<h1><span>Orden</span> <em t-field="order.name" /> <t t-if="order.state == 'sale'"><span>Confirmed</span></t></h1>-->
+
+
+
 
                     <div class="row">
                         <div class="col-12 col-xl">
@@ -204,7 +220,7 @@
                                                     <div style="text-align: left;">
                                                         <font color="#3333cc">
                                                         <b style="font-size: 18px;">Danos un momento, en unos instantes te llegará un correo para continuar con tu compra.</b>
-                        
+
                                                         </font>
                                                         <br/>
                                                     </div>
@@ -218,9 +234,9 @@
                                         </div>
                                     </div>
                                 </section>
-                                    
-                                
-   
+
+
+
                             </div>
                         </div>
                         <div class="col-12 col-xl-auto">
@@ -235,8 +251,8 @@
             </div>
         </t>
     </template>
-    
-    
+
+
 
     <template id="portal_my_subscriptions_inherit" name="My Subscriptions" inherit_id="sale_subscription.portal_my_subscriptions">
         <xpath expr="//t[@t-if='accounts']" position="replace">
@@ -274,9 +290,9 @@
             </t>
         </xpath>
     </template>
-    
 
-    
+
+
     <template id="subscription_inherit" name="My Subscriptions" inherit_id="sale_subscription.subscription">
         <xpath expr="//div[@class='card-header bg-white pb-2 pt-3']" position="replace">
             <div class="card-header bg-white pb-2 pt-3">
@@ -307,21 +323,21 @@
             </div>
         </xpath>
     </template>
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
     <!-- Complete page of the sale_order -->
     <template id="sale_order_portal_template_inherit" name="Sales Order Portal Template" inherit_id="sale.sale_order_portal_template" primary="True">
         <xpath expr="//div[hasclass('o_portal_sale_sidebar')]" position="replace">
             sss
         </xpath>
     </template>
-        
-    
-    
+
+
+
 </odoo>

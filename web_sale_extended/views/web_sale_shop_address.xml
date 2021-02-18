@@ -321,8 +321,8 @@
                                         <!--<label class="col-form-label fa fa-question-circle rounded s_features_grid_icon" for="fiscal_position_id" style="width:100%">-->
                                         
                                         <div id="posicion_fiscal_help" 
-                                             style="display:none;color:#FFF;padding:5px;font-weight:100;float:right;margin-right:35%;font-weight:noset;font-size:12px;background-color: #1e1f24;border-radius: 5px;">
-                                            <span>No Declarantes: Personas que no declara Renta</span><!--<span>No Declarantes: Personas no Declarantes de Renta</span>-->
+                                             style="display:none;color:#FFF;padding:5px;font-weight:100;float:right;margin-right:5%;font-weight:noset;font-size:12px;background-color: #1e1f24;border-radius: 5px;">
+                                            <span>No Declarantes: Personas que no declaran Renta</span><!--<span>No Declarantes: Personas no Declarantes de Renta</span>-->
                                             <br/>
                                             <span>No Responsable: Personas que no son responsables ante la DIAN por ningún impuesto (ej. IVA, ICA, Retencion)</span><br/>
                                             <span>Declarantes: Personas que declaran renta</span>

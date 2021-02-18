@@ -30,9 +30,6 @@ class SaleSubscription(models.Model):
     def create(self, vals):
         res = super(SaleSubscription, self).create(vals)
         sequence_id = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.categ_id.sequence_id
-        _logger.error('***************************************crteando subscription +++++++++++++++++++++++++++++++++++++++')
-        _logger.error(sequence_id)
-        _logger.error(res.id)
         res.write({
             'policy_number': sequence_id.number_next_actual,
         })
@@ -40,13 +37,13 @@ class SaleSubscription(models.Model):
             'number_next_actual': int(sequence_id.number_next_actual) + 1,
         })
         
+        '''
         order_line = self.env['sale.order.line'].search([('subscription_id','=',res.id)], limit=1)
-        _logger.error(order_line)
         order = self.env['sale.order'].browse(order_line.id)
-        _logger.error(order)
         order.write({
             'subscription_id': order.id,
         })
+        '''
         
         return res
     
