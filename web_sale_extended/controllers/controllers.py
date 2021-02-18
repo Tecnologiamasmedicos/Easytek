@@ -640,7 +640,7 @@ class WebsiteSaleExtended(WebsiteSale):
             if not qs or qs.lower() in loc:
                 yield {'loc': loc}
 
-
+    """
     @http.route([
         '''/shop''',
         '''/shop/page/<int:page>''',
@@ -650,6 +650,7 @@ class WebsiteSaleExtended(WebsiteSale):
     def shop(self, page=0, category=None, search='', ppg=False, **post):
         # quitando acceso y funcionalidad a /shop*
         return request.redirect(request.httprequest.referrer or '/web/login')
+    """
 
     @http.route(['/shop/confirmation'], type='http', auth="public", website=True, sitemap=False)
     def payment_confirmation(self, **post):
