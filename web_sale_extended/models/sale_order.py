@@ -26,6 +26,7 @@ class SaleOrder(models.Model):
     beneficiary5_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
     beneficiary6_id = fields.Many2one('res.partner', compute="_compute_beneficiary_partner", store=True)
 
+    """
     @api.depends('order_line.write_date')
     def _compute_beneficiary_partner(self):
 
@@ -48,6 +49,7 @@ class SaleOrder(models.Model):
                         rec.beneficiary5_id = partner
                     if partner.beneficiary_number == 7:
                         rec.beneficiary6_id = partner
+    """
 
 
 
