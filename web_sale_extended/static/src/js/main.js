@@ -641,13 +641,15 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
             rules: {
                 name: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
                 },
                 lastname: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
                 },
-                othernames: {
+                othername: {
                     lettersonly: true,
                 },
                 lastname2: {
@@ -782,11 +784,13 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 // beneficiario2 //////////////////////////////////////////
                 bfirstname2: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
                 },
                 bflastname2: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
                 },
                 bfothername2: {
                     lettersonly: true,
@@ -838,11 +842,13 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 // beneficiario3 //////////////////////////////////////////
                 bfirstname3: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
                 },
                 bflastname3: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
                 },
                 bfothername3: {
                     lettersonly: true,
@@ -894,11 +900,13 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 // beneficiario4 //////////////////////////////////////////
                 bfirstname4: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
                 },
                 bflastname4: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
                 },
                 bfothername4: {
                     lettersonly: true,
@@ -950,11 +958,13 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 // beneficiario5 //////////////////////////////////////////
                 bfirstname5: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
                 },
                 bflastname5: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
                 },
                 bfothername5: {
                     lettersonly: true,
@@ -1006,11 +1016,13 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 // beneficiario6 //////////////////////////////////////////
                 bfirstname6: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
                 },
                 bflastname6: {
                     required: true,
-                    minlength: 3
+                    minlength: 3,
+                    lettersonly: true,
                 },
                 bfothername6: {
                     lettersonly: true,

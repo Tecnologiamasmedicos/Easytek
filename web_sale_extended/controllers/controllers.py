@@ -176,11 +176,11 @@ class WebsiteSaleExtended(WebsiteSale):
                         expedition_date = kw["expedition_date"]
                         expedition_date = '/'.join(expedition_date.split('-')[::-1])
                         _logger.info("\n****TUS DATOS*****\n")
-                        #tusdatos_validation = request.env['api.tusdatos'].launch_query_tusdatos(str(kw["identification_document"]),
-                        #                                                                        document_types[str(kw["document"])],
-                        #                                                                        expedition_date)
+                        tusdatos_validation = request.env['api.tusdatos'].launch_query_tusdatos(str(kw["identification_document"]),
+                                                                                                document_types[str(kw["document"])],
+                                                                                                expedition_date)
                         #_logger.info(tusdatos_validation)
-                        #order.write({'tusdatos_request_id': tusdatos_validation['process_id']})
+                        order.write({'tusdatos_request_id': tusdatos_validation['process_id']})
                         # TODO: add to queue! @Jhair The process in queue is order.tusdatos_approval()
                         # TODO: fix the redirection
                         _logger.info("\n****TUS DATOS ORDER*****\n")
@@ -639,6 +639,7 @@ class WebsiteSaleExtended(WebsiteSale):
             loc = '/shop/category/%s' % slug(cat)
             if not qs or qs.lower() in loc:
                 yield {'loc': loc}
+
 
     """
     @http.route([

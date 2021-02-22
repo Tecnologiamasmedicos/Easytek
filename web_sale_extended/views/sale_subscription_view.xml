@@ -35,29 +35,58 @@
             <field name="model">report.sftp</field>
             <field name="arch" type="xml">
                 <tree string="SFTP lines" create="0" edit="0">
-                    <field name="policy_number"/>
-                    <field name="certificate_number"/>
-                    <field name="firstname"/>
-                    <field name="othernames"/>
-                    <field name="lastname"/>
-                    <field name="lastname2"/>
-                    <field name="birthdate_date"/>
-                    <field name="date_start"/>
-                    <field name="gender"/>
-                    <field name="identification_document"/>
-                    <field name="default_code"/>
-                    <field name="recurring_interval"/>
-                    <field name="sponsor_name"/>
-                    <field name="sponsor_nit"/>
-                    <field name="sponsor_payment_url"/>
-                    <field name="country"/>
-                    <field name="email"/>
-                    <field name="phone"/>
-                    <field name="mobile"/>
-                    <field name="street"/>
-                    <field name="state_id"/>
-                    <field name="zip_id"/>
-                    <field name="ocupation"/>
+                    <field name="policy_number" string="Número de Grupo / Póliza"/>
+                    <field name="certificate_number" string="Certificado"/>
+                    <field name="firstname" string="Primer Nombre"/>
+                    <field name="othernames" string="Segundo Nombre"/>
+                    <field name="lastname" string="Apellidos"/>
+                    <!--<field name="lastname2" string=""/>-->
+                    <field name="birthdate_date" string="Fecha de Nacimiento"/>
+                    <field name="date_start" string="Fecha Efectiva"/>
+                    <field name="gender" string="Sexo"/>
+                    <field name="identification_document" string="Número de Seguro Social / Cédula"/>
+                    <field name="date_start" string="Fecha de Empleo"/>
+                    <field name="date_start" string="Fecha de Cambio"/>
+                    <field name="date_start" string="Tipo de Cambio"/>
+                    <field name="street" string="Dirección 1"/>
+                    <field name="street2" string="Dirección 2"/>
+                    <field name="zip_id" string="Ciudad"/>
+                    <field name="state_id" string="Estado"/>
+                    <field name="country" string="País"/>
+                    <field name="zip_id" string="Código Postal"/>
+                    <field name="phone" string="Teléfono"/>
+                    <field name="email" string="E-Mail"/>
+                    <field name="localization" string="Lozalización"/>
+                    <field name="email" string="Código Clase-inf por Palig"/>
+                    <field name="recurring_interval" string="Tipo de Inscripción-inf por Palig"/>
+                    <field name="salary" string="Salario"/>
+                    <field name="salary_mode" string="Modo de Salario"/>
+                    <field name="lifevolume" string="Lifevolume"/>
+                    <field name="email" string="Dirección de Correo 1"/>
+                    <field name="email2" string="Dirección de Correo 2"/>
+                    <field name="email_state" string="Estado de correo"/>
+                    <field name="email_country" string="País de Correo"/>
+                    <field name="default_code" string="Código de Plan"/>
+                    <field name="commentaries" string="Comentarios"/>
+                    <field name="first_due" string="Primer Vencimiento"/>
+                    <field name="aniversary" string="Aniversario"/>
+                    <field name="sponsor_name" string="Compañía"/>
+                    <field name="country" string="País"/>
+                    <field name="second_identification" string="Segunda Indentificación"/>
+                    <field name="second_type_identification" string="Tipo Segunda Identificación"/>
+                    <field name="ocupation" string="Ocupación"/>
+                    <field name="reference_initial" string="Inicial de Referencia / Título"/>
+                    <field name="second_identification" string="Segunda Indentificación"/>
+                    <field name="insegurability_test" string="Prueba de Asegurabilidad"/>
+                    <field name="subsidiary" string="Subsidiaria"/>
+                    <field name="phone" string="Teléfono Fijo"/>
+                    <field name="ocupation" string="Ocupación"/>
+                    
+                    <!--<field name="sponsor_nit" string=""/>
+                    <field name="sponsor_payment_url" string=""/>
+                    <field name="phone" string=""/>
+                    <field name="mobile" string=""/>
+                    <field name="ocupation" string=""/>-->
                 </tree>
             </field>
         </record>
@@ -66,9 +95,58 @@
             <field name="res_model">report.sftp</field>
             <field name="view_mode">tree</field>
         </record>
+         
+         
+         
+         <record id="sftp_report_view_beneficiary_tree" model="ir.ui.view">
+            <field name="name">sftp.report.subscription.line.view.beneficiary.tree</field>
+             <field name="type">tree</field>
+            <field name="model">report.beneficiary.sftp</field>
+            <field name="arch" type="xml">
+                <tree string="SFTP lines" create="0" edit="0">
+                    <field name="policy_number" string="Número de Grupo / Póliza"/>
+                    <field name="certificate_number" string="Certificado"/>
+                    <field name="firstname" string="Primer Nombre"/>
+                    <field name="othernames" string="Segundo Nombre"/>
+                    <field name="lastname" string="Apellidos"/>
+                    <!--<field name="lastname2" string=""/>-->
+                    <field name="birthdate_date" string="Fecha de Nacimiento"/>
+                    <field name="date_start" string="Fecha Efectiva"/>
+                    <field name="gender" string="Sexo"/>
+                    <field name="identification_document" string="Número de Seguro Social / Cédula"/>
+                    <field name="relationship" string="Relación"/>
+                    <field name="id" string="Código de Dependiente"/>
+                    <field name="change_date" string="Fecha de Cambio"/>
+                    <field name="change_type" string="Tipo de Cambio"/>
+                    <field name="date_end" string="Fecha Terminación"/>
+                    <field name="default_code" string="Código de Plan"/>
+                    <field name="recurring_interval" string="Tipo de Inscripción"/>
+                    <field name="date_start" string="Inicial de Referencia / Título"/>
+                    <field name="insegurability_test" string="Prueba de Asegurabilidad"/>
+                    <field name="sponsor_name" string="Compañía"/>
+                    <field name="country" string="País"/>
+                    <field name="email" string="Correo Electrónico"/>
+                    <field name="phone" string="Teléfono Móvil"/>
+                    <field name="birthdate_date" string="Fecha de Nacimiento"/>
+                    <field name="street" string="Dirección de Residencia"/>
+                    <field name="phone" string="Teléfono Fijo"/>
+                    <field name="country" string="País"/>
+                    <field name="state_id" string="Estado"/>
+                    <field name="zip_id" string="Ciudad"/>
+                    <field name="ocupation" string="Ocupación"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_report_sftp_beneficiary_tree">
+            <field name="name">SFTP Beneficiary Report</field>
+            <field name="res_model">report.beneficiary.sftp</field>
+            <field name="view_mode">tree</field>
+        </record>
     </data>
 
 
-        <menuitem id="sale_subscription_sftp_report" name="Reporte SFTP" parent="sale_subscription.menu_sale_subscription_config" sequence="5" action="web_sale_extended.action_report_sftp_tree" groups="sale_subscription.group_sale_subscription_view"/>
+        <menuitem id="sale_subscription_sftp_report" name="Reporte SFTP Asegurado" parent="sale_subscription.menu_sale_subscription_config" sequence="5" action="web_sale_extended.action_report_sftp_tree" groups="sale_subscription.group_sale_subscription_view"/>
+    
+    <menuitem id="sale_subscription_sftp_beneficiary_report" name="Reporte SFTP Beneficiarios" parent="sale_subscription.menu_sale_subscription_config" sequence="6" action="web_sale_extended.action_report_sftp_beneficiary_tree" groups="sale_subscription.group_sale_subscription_view"/>
 
 </odoo>
