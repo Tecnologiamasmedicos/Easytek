@@ -37,18 +37,23 @@ class SftpReportLine(models.Model):
     street = fields.Char('Dirección',readonly=True)
     street2 = fields.Char('Dirección2',readonly=True)
     state_id = fields.Char('Departamento',readonly=True)
-    zip_id = fields.Char('Ciudad',readonly=True)
+    city_name = fields.Char('Ciudad',readonly=True)
+    partner_zip_code = fields.Char('Ciudad',readonly=True)
     ocupation = fields.Char('Ocupación',readonly=True)
     localization = fields.Char('Lozalización',readonly=True)
     salary = fields.Char('Lozalización',readonly=True)
     salary_mode = fields.Char('Lozalización',readonly=True)
-    lifevolume = fields.Char('Lozalización',readonly=True)
+    lifevolume = fields.Char('Lifevolume',readonly=True)
+    addvolume = fields.Char('addvolume',readonly=True)
     email2 = fields.Char('Email',readonly=True)
     email_state = fields.Char('Email',readonly=True)
+    email_city = fields.Char('Email',readonly=True)
     email_country = fields.Char('Email',readonly=True)
+    zip_code = fields.Char('Email',readonly=True)
     commentaries = fields.Char('Comentarios',readonly=True)
     aniversary = fields.Char('Aniversario',readonly=True)
     first_due = fields.Char('Primer Vencimiento',readonly=True)
+    change_type = fields.Char('Ocupación',readonly=True)
     second_identification = fields.Char('Segunda Indentificación',readonly=True)
     second_type_identification = fields.Char('Tipo Segunda Identificación',readonly=True)
     ocupation = fields.Char('Ocupación',readonly=True)
@@ -78,10 +83,10 @@ class SftpReportLine(models.Model):
         p.identification_document,
         pro.default_code,
         subtmpl.recurring_interval,
-        seq.sponsor_name,
+        '009'::varchar as sponsor_name,
         seq.sponsor_nit,
         seq.sponsor_payment_url,
-        'COLOMBIA'::text as country,
+        '79'::varchar as country,
         p.email,
 
         p.phone,
@@ -89,7 +94,8 @@ class SftpReportLine(models.Model):
         p.street,
         p.street2,
         p.state_id,
-        p.zip_id,
+        city.name as city_name,
+        rcz.name as partner_zip_code,
         p.ocupation,
         ''::text as email2,
         ''::text as email_country,
@@ -98,13 +104,17 @@ class SftpReportLine(models.Model):
         ''::text as aniversary,
         sub.recurring_next_date as first_due,
         ''::text as second_identification,
-        ''::text as second_type_identification,
+        rpdt.name as second_type_identification,
         ''::text as insegurability_test,
         ''::text as subsidiary,
         ''::text as lifevolume,
+        ''::text as addvolume,
         ''::text as email_state,
+        ''::text as zip_code,
+        ''::text as email_city,
         ''::text as salary_mode,
         ''::text as salary,
+        'A'::text as change_type,
         ''::text as localization
         
         
@@ -112,6 +122,9 @@ class SftpReportLine(models.Model):
         
         from sale_subscription sub
         left join res_partner p on p.subscription_id = sub.id
+        left join res_partner_document_type rpdt on rpdt.id = p.document_type_id
+        left join res_city_zip rcz on rcz.id = p.zip_id
+        left join res_city city on rcz.city_id = city.id
         left join sale_subscription_line line on line.analytic_account_id = sub.id
         left join product_product pro on pro.id = line.product_id
         left join product_template tmpl on tmpl.id = pro.product_tmpl_id
@@ -143,6 +156,8 @@ class SftpReportBeneficiaryLine(models.Model):
     birthdate_date = fields.Date('Fecha de Nacimiento',readonly=True)
     date_start = fields.Date('Fecha de Inicio',readonly=True)
     gender = fields.Char('Sexo',readonly=True)
+    city_name = fields.Char('Ciudad',readonly=True)
+    partner_zip_code = fields.Char('Ciudad',readonly=True)
     identification_document = fields.Char('Número de Identificación',readonly=True)
     default_code = fields.Char('Código Producto',readonly=True)
     recurring_interval = fields.Char('Subscripción',readonly=True)
@@ -156,7 +171,7 @@ class SftpReportBeneficiaryLine(models.Model):
     street = fields.Char('Dirección',readonly=True)
     street2 = fields.Char('Dirección2',readonly=True)
     state_id = fields.Char('Departamento',readonly=True)
-    zip_id = fields.Char('Ciudad',readonly=True)
+    city_name = fields.Char('Ciudad',readonly=True)
     ocupation = fields.Char('Ocupación',readonly=True)
     change_date = fields.Char('Ocupación',readonly=True)
     change_type = fields.Char('Ocupación',readonly=True)
@@ -184,17 +199,18 @@ class SftpReportBeneficiaryLine(models.Model):
         p.identification_document,
         pro.default_code,
         subtmpl.recurring_interval,
-        seq.sponsor_name,
+        '009'::varchar as sponsor_name,
         seq.sponsor_nit,
         seq.sponsor_payment_url,
-        'COLOMBIA'::text as country,
+        '79'::varchar as country,
         p.email,
         p.phone,
         p.mobile,
         p.street,
         p.street2,
         p.state_id,
-        p.zip_id,
+        city.name as city_name,
+        rcz.name as partner_zip_code,
         p.ocupation,
         p.relationship,
         ''::text as email2,
@@ -204,22 +220,28 @@ class SftpReportBeneficiaryLine(models.Model):
         ''::text as aniversary,
         sub.recurring_next_date as first_due,
         ''::text as second_identification,
-        ''::text as second_type_identification,
+        rpdt.name as second_type_identification,
         ''::text as insegurability_test,
         ''::text as subsidiary,
         ''::text as lifevolume,
+        ''::text as addvolume,
         ''::text as email_state,
+        ''::text as email_city,
+        ''::text as zip_code,
         ''::text as salary_mode,
         ''::text as salary,
         ''::text as localization,
         ''::text as change_date,
-        ''::text as change_type,
+        'A'::text as change_type,
         ''::text as date_end
         
         
         
         from sale_subscription sub
         left join res_partner p on p.subscription_id = sub.id
+        left join res_partner_document_type rpdt on rpdt.id = p.document_type_id
+        left join res_city_zip rcz on rcz.id = p.zip_id
+        left join res_city city on rcz.city_id = city.id
         left join sale_subscription_line line on line.analytic_account_id = sub.id
         left join product_product pro on pro.id = line.product_id
         left join product_template tmpl on tmpl.id = pro.product_tmpl_id

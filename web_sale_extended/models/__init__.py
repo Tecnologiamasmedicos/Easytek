@@ -10,4 +10,5 @@ from . import res_country
 from . import tusdatos_api
 from . import sale_subscription
 from . import ir_sequence
+from . import payu_latam_api
 #from . import website

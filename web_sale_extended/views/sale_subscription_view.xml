@@ -47,25 +47,28 @@
                     <field name="identification_document" string="Número de Seguro Social / Cédula"/>
                     <field name="date_start" string="Fecha de Empleo"/>
                     <field name="date_start" string="Fecha de Cambio"/>
-                    <field name="date_start" string="Tipo de Cambio"/>
+                    <field name="change_type" string="Tipo de Cambio"/>
                     <field name="street" string="Dirección 1"/>
                     <field name="street2" string="Dirección 2"/>
-                    <field name="zip_id" string="Ciudad"/>
+                    <field name="city_name" string="Ciudad"/>
                     <field name="state_id" string="Estado"/>
                     <field name="country" string="País"/>
-                    <field name="zip_id" string="Código Postal"/>
+                    <field name="partner_zip_code" string="Código Postal"/>
                     <field name="phone" string="Teléfono"/>
                     <field name="email" string="E-Mail"/>
-                    <field name="localization" string="Lozalización"/>
-                    <field name="email" string="Código Clase-inf por Palig"/>
-                    <field name="recurring_interval" string="Tipo de Inscripción-inf por Palig"/>
+                    <field name="localization" string="Localización"/>
+                    <field name="email" string="Código Clase PALIG"/>
+                    <field name="recurring_interval" string="Tipo de Inscripción PALIG"/>
                     <field name="salary" string="Salario"/>
                     <field name="salary_mode" string="Modo de Salario"/>
                     <field name="lifevolume" string="Lifevolume"/>
+                    <field name="addvolume" string="Addvolume"/>
                     <field name="email" string="Dirección de Correo 1"/>
                     <field name="email2" string="Dirección de Correo 2"/>
+                    <field name="email_city" string="Ciudad de correo"/>
                     <field name="email_state" string="Estado de correo"/>
                     <field name="email_country" string="País de Correo"/>
+                    <field name="zip_code" string="Código Postal de Correo"/>
                     <field name="default_code" string="Código de Plan"/>
                     <field name="commentaries" string="Comentarios"/>
                     <field name="first_due" string="Primer Vencimiento"/>
@@ -76,7 +79,7 @@
                     <field name="second_type_identification" string="Tipo Segunda Identificación"/>
                     <field name="ocupation" string="Ocupación"/>
                     <field name="reference_initial" string="Inicial de Referencia / Título"/>
-                    <field name="second_identification" string="Segunda Indentificación"/>
+                    <!--<field name="second_identification" string="Segunda Indentificación"/>-->
                     <field name="insegurability_test" string="Prueba de Asegurabilidad"/>
                     <field name="subsidiary" string="Subsidiaria"/>
                     <field name="phone" string="Teléfono Fijo"/>
@@ -132,7 +135,7 @@
                     <field name="phone" string="Teléfono Fijo"/>
                     <field name="country" string="País"/>
                     <field name="state_id" string="Estado"/>
-                    <field name="zip_id" string="Ciudad"/>
+                    <field name="city_name" string="Ciudad"/>
                     <field name="ocupation" string="Ocupación"/>
                 </tree>
             </field>

@@ -15,3 +15,8 @@ class ResCompany(models.Model):
 
     mail_tusdatos = fields.Char("E-mail TusDatos")
     password_tusdatos = fields.Char("Password TusDatos")
+    
+    payulatam_merchant_id = fields.Char(string="PayU Latam Merchant ID", groups='base.group_user')
+    payulatam_account_id = fields.Char(string="PayU Latam Account ID", groups='base.group_user')
+    payulatam_api_key = fields.Char(string="PayU Latam API Key", groups='base.group_user')
+    payulatam_api_login = fields.Char(string="PayU Latam API Login", groups='base.group_user')

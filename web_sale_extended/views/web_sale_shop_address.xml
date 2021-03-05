@@ -32,7 +32,7 @@
                     </div>
                     <div class="col-12 col-xl order-xl-1 oe_cart">
                         <div>
-                            <t t-if="mode == ('new', 'billing')">
+                            <!--<t t-if="mode == ('new', 'billing')">-->
                                 
                                 <section class="s_text_block pt0 pb0" data-name="Text block" style="">
                                     <div class="container">
@@ -70,8 +70,8 @@
                                     <a role="button" href='/web/login?redirect=/shop/checkout' 
                                     class='btn btn-primary' style="margin-top: -11px">Inicia Sesión</a>
                                 </h2>-->
-                            </t>
-                            <t t-if="mode == ('edit', 'billing')">
+                            <!--</t>-->
+                            <!--<t t-if="mode == ('edit', 'billing')">
                                 <h2 class="o_page_header mt8">Dirección</h2>
                             </t>
                             <t t-if="mode[1] == 'shipping'">
@@ -85,9 +85,17 @@
                                         If you want to modify your shipping address, create a <a href='/shop/address'>new address</a>.
                                     </p>
                                 </div>
-                            </t>
-                            <t t-if="error" t-foreach="error.get('error_message', [])" t-as="err">
-                                <h5 class="text-danger" t-esc="err" />
+                            </t>-->
+                            <!--<t t-if="error" t-foreach="error.get('error_message', [])" t-as="err">-->
+                            <t t-if="error">
+                                <div class="alert alert-success alert-dismissable d-print-none" role="status" style="text-align:center;">
+                                    <t t-if="error.get('error_message') == 'document_invalid'">
+                                        <h4 class="text-danger">¡Upss! has registrado un documento que no es valido</h4>
+                                    </t>
+                                    <t t-else="">
+                                        <h5 class="text-danger" t-esc="error.get('error_message')" />
+                                    </t>
+                                </div>
                             </t>
                             <form id="shop" action="/shop/address" method="post" class="checkout_autoformat">
                                 <div class="form-row">
@@ -136,7 +144,7 @@
                                                 <input type="text" name="second_name"  />
                                             </div> -->
                                     <div class="w-100"/>
-                                    <t t-if="mode[1] == 'billing'">
+                                    <!--<t t-if="mode[1] == 'billing'">-->
                                         <div t-attf-class="form-group #{error.get('email') and 'o_has_error' or ''} col-lg-6" 
                                         id="div_email">
                                             <label class="col-form-label" for="email">Email</label>
@@ -144,7 +152,7 @@
                                             t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}" 
                                             t-att-value="'email' in checkout and checkout['email']" />
                                         </div>
-                                    </t>
+                                    <!--</t>-->
                                     <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-lg-6" 
                                     id="div_phone">
                                         <label class="col-form-label" for="phone">Teléfono</label>

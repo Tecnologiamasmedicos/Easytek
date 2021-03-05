@@ -106,3 +106,15 @@ header .navbar-brand.logo img {
     background-color: #FFF !important;
     /* color: #8c8c8c; */
 }
+
+.nav-tabs .nav-link.active {
+    background-color: #0837ba;
+}
+
+.nav-tabs .nav-link.active {
+    border: 0 solid transparent;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-radius: 5px;
+    
+}

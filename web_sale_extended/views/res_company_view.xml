@@ -30,6 +30,12 @@
                         <field name="mail_tusdatos"/>
                         <field name="password_tusdatos"/>
                     </group>
+                    <group string="PayU Latam" groups="base.group_no_one">
+                        <field name="payulatam_merchant_id"/>
+                        <field name="payulatam_account_id"/>
+                        <field name="payulatam_api_key"/>
+                        <field name="payulatam_api_login"/>
+                    </group>
                 </xpath>
             </field>
         </record>

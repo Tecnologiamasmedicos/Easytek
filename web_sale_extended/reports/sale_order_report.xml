@@ -19,13 +19,58 @@
           <field name="header_spacing">20</field>
           <field name="dpi">90</field>
 	</record>
+        
+        
         <template id="report_customreport_customeasytek_template">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
+                    <div id="general">
                   <div class="watermark" style="position:absolute; opacity:0.12; width: 100%; height: 500px; text-align: center; padding: 50px; margin-top: 300px;">
                     <img t-att-src="image_data_uri(doc.company_id.logo)" style="width:80%;"/>
-                </div>
+                  </div>
+                  <div>
+                  	<!--<p class="vertical-1">Prueba Vertical Pater</p>-->
+                  
+                  	<!--<div class="vertical-1-->
+                  	<h1 style="position: abosolute; left: -2px; top: 1100px;"><img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/></h1>
+                  	<h1 style="position: abosolute; lefggt: -2px; top: 2550px;"><img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/></h1>	
+                  	<h1 style="position: abosolute; left: -2px; top: 4000px;"><img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/></h1>	
+                  		<!--<h2>Paternina Vital</h2>-->
+                  		<!--<h3>Ingeniero de Sistemas</h3-->
+                  	<!--</div>-->
+                  </div> 
+                  <!--<div>-->
+                  	
+                  	<!--<h1 class="float-right"><img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_website_pdf)" width="10" height="1000"/></h1>-->
+                  	<!--<h1 style="position: abosolute; left: -2px; top: 2550px;"><img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_website_pdf)" width="50" height="140"/></h1>	
+                  	<h1 style="position: abosolute; left: -2px; top: 4000px;"><img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_website_pdf)" width="50" height="140"/></h1>-->	
+                  <!--</div>--> 
+                  <!--<div>
+                  	<h1 style="position: abosolute; left: -2px; top: 1100px;"><img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/></h1>
+                  	<h1 style="position: abosolute; left: -2px; top: 1100px;"><img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/></h1>	
+                  	<h1 style="position: abosolute; left: -2px; top: 1100px;"><img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/></h1>	
+                  		
+                  </div>-->
+                  <!--<div>
+                  	<h1 style="position: abosolute; left: -2px; top: 1100px;"><img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/></h1>
+                  	<h1 style="position: abosolute; left: -2px; top: 1100px;"><img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/></h1>	
+                  	<h1 style="position: abosolute; left: -2px; top: 1100px;"><img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/></h1>	
+                  	
+                  </div>--> 
+                
                               <style>
+                                #general{
+                                  widht: 100%;
+                                }
+                                #izquierda{
+                                  width: 50px;
+                                  position: abosolute; 
+                                  left: -80px; 
+                                  top: 1100px;
+                                }
+                                #derecha{
+                                  width: 7%;
+                                }
                                 table{
                                 font-family: montserrat;
                                 }
@@ -62,35 +107,32 @@
                                     float: left;
                                     margin-left:60px;
                                     }
+                                    
+                                .vertical-1 {
+                                        writing-mode: vertical-lr;
+                                    }
+                                    
+                                    .texto-vertical-3 {
+                                      width:1px;
+                                      word-wrap: break-word;
+                                      text-align:center;
+                                    }
+                                    
+                                    .texto-vertical-2 {
+                                        writing-mode: vertical-lr;
+                                        
+                                    }
+                                    h1 {
+                                       width: 50px;
+                                       font-size: 15px;
+                                       word-wrap: break-word;
+                                       position: absolute;
+                                       left: 1px;
+                                       top: 110px;
+                                    }
+                                    
                              </style>
-                        <div class="header">
-                          <div>
-                            <!--<p align="center" style="color:#1A015D;font-size:11px">COMPAÑIA DE SEGUROS S.A</p>-->
-                          </div>
-                            <!--<t t-foreach="doc.partner_id" t-as="p"> 
-                             <table style="width:100%;">
-                                  <thead>
-                                    <tr>
-                                      <th>
-                                         <img t-att-src="'data:image/png;base64,%s' % to_text(doc.logo)" width="150" height="100"/>
-                                      </th>
-                                      <th style="padding: 0px;" colspan="2"/>
-                                      <td style="padding: 0px;" colspan="2"><p style="color:#1A015D;"><strong>CERTIFICADO INDIVIDUAL DE SEGURO DE ACCIDENTES PERSONALES</strong></p></td>
-                                    </tr>-->
-                                    <!--<tr>
-                                      <th style="padding: 0px;" scope="col"/>
-                                      <th/>
-                                      <th/>
-                                        <th><p style="color:#1A015D;">TOMADOR:</p></th>
-                                        <th><p style="color:#1A015D;">NIT:<span> </span><span t-field="p.vat"/></p></th>
-                                    </tr>-->
-                                  <!--</thead>
-                             </table>   
-                            </t>-->
-                        </div>
-                        <br/>
-                        <div class="page">
-                            
+                        <div class="page" style="width: 93%; margin: auto;">
                           <p align="center" style="color:#1A015D;font-size:13px">COMPAÑIA DE SEGUROS S.A</p>
                           <t t-foreach="doc.partner_id" t-as="p"> 
                              <table style="width:100%;">
@@ -106,8 +148,8 @@
                                       <th style="padding: 0px;" scope="col"/>
                                       <th/>
                                       <th/>
-                                        <th><p style="color:#1A015D;">TOMADOR:</p></th>
-                                        <th><p style="color:#1A015D;">NIT:<span> </span><span t-field="p.vat"/></p></th>
+                                        <th style="paddin: -5px;"><p style="color:#1A015D;">TOMADOR: <span t-esc="doc.order_line.product_template_id[0].categ_id.sequence_id.sponsor_name"/></p></th>
+                                        <th><p style="color:#1A015D;">NIT:<span t-esc="doc.order_line.product_template_id[0].categ_id.sequence_id.sponsor_nit"/><!--<span t-field="p.vat"/>--></p></th>
                                     </tr>
                                   </thead>
                              </table>   
@@ -132,35 +174,35 @@
                                   <td><p style="color:#1A015D;font-size:12px;">Nombres</p></td>
                               </tr>
                             <tr>
-                                  <td><p style="color:#1A015D;font-size:12px;"><t t-esc="doc.partner_id.lastname"/></p></td>
-                                  <td><p style="color:#1A015D;font-size:12px;"><t t-esc="doc.partner_id.lastname2"/></p></td> 
-                                  <td><p style="color:#1A015D;font-size:12px;"><t t-esc="doc.partner_id.firstname"/></p></td>
+                                  <td><p style="color:#1A015D;font-size:12px;"><t t-esc="doc.beneficiary0_id.name"/></p></td>
+                                  <td><p style="color:#1A015D;font-size:12px;"><t t-esc="doc.beneficiary0_id.lastname2"/></p></td> 
+                                  <td><p style="color:#1A015D;font-size:12px;"><t t-esc="doc.beneficiary0_id.firstname"/></p></td>
                               </tr>
                             </table>
                                  <table style="width:100%">
                                   <tr>
                                       <td><p style="color:#1A015D;font-size:16px;width:150px;">Número de Cédula</p></td>
-                                      <td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;">CC</p></td> 
-                                      <td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;">CE</p></td>
-                                      <td><p style="color:#1A015D;font-size:16px;margin-right: 58px; padding: 5px;">OTRO</p></td>
-                                      <td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;width:180px;">Fecha de Expedición</p></td> 
-                                      <td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;">Sexo</p></td>
-                                      <td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;">F</p></td>
-                                      <td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;">M</p></td> 
+                        <!--CC>-->    <td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;"></p> <t t-esc="doc.beneficiary0_id.identification_document"/></td> 
+                        <!--CE>-->    <td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;">CE</p> <!--<t t-esc="doc.beneficiary0_id."/>--></td>
+                                      <td><p style="color:#1A015D;font-size:16px;margin-right: 58px; padding: 5px;">OTRO</p> <!--<t t-esc="doc.beneficiary0_id."/>--></td>
+                                      <td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;width:180px;">Fecha de Expedición</p> <!--<t t-esc="doc.beneficiary0_id."/>--></td> 
+                                      <td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;">Sexo</p> <t t-esc="doc.beneficiary0_id.gender"/></td>
+                                      <!--<td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;">F</p> <t t-esc="doc.beneficiary0_id."/></td>-->
+                                      <!--<td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;">M</p> <t t-esc="doc.beneficiary0_id."/></td> -->
                                   </tr>
                                 </table>
                                  <table style="width:100%">
                                   <tr>
-                                      <td><p style="color:#1A015D;font-size:16px; padding: 5px;">Fecha de Nacimiento</p></td>
-                                      <td><p style="color:#1A015D;font-size:16px; padding: 5px;">Estado Civil</p></td> 
+                                      <td><p style="color:#1A015D;font-size:16px; padding: 5px;">Fecha de Nacimiento</p> <t t-esc="doc.beneficiary0_id.birthdate_date"/></td>
+                                      <td><p style="color:#1A015D;font-size:16px; padding: 5px;">Estado Civil</p> <t t-esc="doc.beneficiary0_id.relationship"/></td> 
                                       <td><p style="color:#1A015D;font-size:16px; padding: 5px;">Dirección de Residencia</p></td> 
                                   </tr>
                                 </table>
                                  <table style="width:100%">
                                   <tr>
-                                      <td><p style="color:#1A015D;font-size:16px; padding: 5px;">Telefono(s)</p></td>
-                                      <td><p style="color:#1A015D;font-size:16px; padding: 5px;">Celular</p></td> 
-                                      <td><p style="color:#1A015D;font-size:16px; padding: 5px;">Email</p></td> 
+                                      <td><p style="color:#1A015D;font-size:16px; padding: 5px;">Telefono(s)</p> <t t-esc="doc.beneficiary0_id.phone"/></td>
+                   <!--Pregunta-->    <td><p style="color:#1A015D;font-size:16px; padding: 5px;">Celular</p> <t t-esc="doc.beneficiary0_id.mobile"/></td><!--Duda sobre cómo llamar esta información porque no sé si es desde el contacto en el tercero o en lo que se regista como empresa-->
+                                      <td><p style="color:#1A015D;font-size:16px; padding: 5px;">Email</p> <!--<t t-esc="doc.beneficiary0_id.email"/>--></td> 
                                   </tr>
                                 </table>
                                 <p align="justify" style="color:#1A015D;font-size:16px; font-family: montserrat;">
@@ -171,9 +213,9 @@
                                 <!--<t-foreach="doc.partnet_id.child_ids" t-as="a">-->
                                   <table style="width:100%">
                                     <tr>
-                                        <td><p style="color:#1A015D;font-size:12px; padding: 5px;">1er Apellido</p></td>
-                                        <td><p style="color:#1A015D;font-size:12px; padding: 5px;">2do Apellido</p></td> 
-                                        <td><p style="color:#1A015D;font-size:12px; padding: 5px;">Nombres</p></td>
+                                        <td><p style="color:#1A015D;font-size:12px; padding: 5px;">1er Apellido</p> <t t-esc="doc.beneficiary1_id.name"/></td>
+                                        <td><p style="color:#1A015D;font-size:12px; padding: 5px;">2do Apellido</p> <t t-esc="doc.beneficiary1_id.lastname2"/></td> 
+                                        <td><p style="color:#1A015D;font-size:12px; padding: 5px;">Nombres</p> <t t-esc="doc.beneficiary1_id.firstname"/></td>
                                     </tr>
                                     <tr>
                                       <td style="widht: 50px;"><p style="color:#1A015D; font-size:12px;">Parentesco: $CAMPO_Parentesco</p></td>
@@ -185,9 +227,9 @@
                                  <hr/>
                                 <table style="width:100%">
                                   <tr>
-                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">1er Apellido</p></td>
-                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">2do Apellido</p></td> 
-                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">Nombres</p></td>
+                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">1er Apellido</p> <t t-esc="doc.beneficiary2_id.name"/></td>
+                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">2do Apellido</p> <t t-esc="doc.beneficiary2_id.lastname2"/></td> 
+                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">Nombres</p> <t t-esc="doc.beneficiary2_id.firstname"/></td>
                                   </tr>
                                   <tr>
                                     <td style="widht: 50px;"><p style="color:#1A015D; font-size:12px;">Parentesco: $CAMPO_Parentesco</p></td>
@@ -198,9 +240,9 @@
                                  <hr/>
                                 <table style="width:100%">
                                   <tr>
-                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">1er Apellido</p></td>
-                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">2do Apellido</p></td> 
-                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">Nombres</p></td>
+                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">1er Apellido</p> <t t-esc="doc.beneficiary3_id.name"/></td>
+                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">2do Apellido</p> <t t-esc="doc.beneficiary3_id.lastname2"/></td> 
+                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">Nombres</p> <t t-esc="doc.beneficiary3_id.firstname"/></td>
                                   </tr>
                                   <tr>
                                     <td style="widht: 50px;"><p style="color:#1A015D; font-size:12px;">Parentesco: $CAMPO_Parentesco</p></td>
@@ -211,9 +253,9 @@
                                  <hr/>
                                 <table style="width:100%">
                                   <tr>
-                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">1er Apellido</p></td>
-                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">2do Apellido</p></td> 
-                                      <td><p style="color:#1A015D;font-size:12px; v">Nombres</p></td>
+                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">1er Apellido</p> <t t-esc="doc.beneficiary4_id.name"/></td>
+                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">2do Apellido</p> <t t-esc="doc.beneficiary4_id.lastname2"/></td> 
+                                      <td><p style="color:#1A015D;font-size:12px; v">Nombres</p> <t t-esc="doc.beneficiary4_id.firstname"/></td>
                                   </tr>
                                   <tr>
                                     <td style="widht: 50px;"><p style="color:#1A015D; font-size:12px;">Parentesco: $CAMPO_Parentesco</p></td>
@@ -224,9 +266,9 @@
                                  <hr/>
                                 <table style="width:100%">
                                   <tr>
-                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">1er Apellido</p></td>
-                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">2do Apellido</p></td> 
-                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">Nombres</p></td>
+                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">1er Apellido</p> <t t-esc="doc.beneficiary5_id.name"/></td>
+                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">2do Apellido</p> <t t-esc="doc.beneficiary5_id.lastname2"/></td> 
+                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">Nombres</p></td> <t t-esc="doc.beneficiary5_id.firstname"/>
                                   </tr>
                                   <tr>
                                     <td style="widht: 50px;"><p style="color:#1A015D; font-size:12px;">Parentesco: $CAMPO_Parentesco</p></td>
@@ -237,9 +279,9 @@
                                  <hr/>
                                 <table style="width:100%">
                                   <tr>
-                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">1er Apellido</p></td>
-                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">2do Apellido</p></td> 
-                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">Nombres</p></td>
+                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">1er Apellido</p> <t t-esc="doc.beneficiary6_id.name"/></td>
+                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">2do Apellido</p> <t t-esc="doc.beneficiary6_id.lastname2"/></td> 
+                                      <td><p style="color:#1A015D;font-size:12px; padding: 5px;">Nombres</p> <t t-esc="doc.beneficiary6_id.firstname"/></td>
                                   </tr>
                                   <tr>
                                     <td style="widht: 50px;"><p style="color:#1A015D; font-size:12px;">Parentesco: $CAMPO_Parentesco</p></td>
@@ -253,7 +295,7 @@
                               como consecuencia directa e inmediata de un accidente de acuerdo a la definición incluida en las condiciones generales de la póliza.</p>
                             </div>
                             <p align="justify" style="color:#1A015D; font-family: montserrat;">
-                                <strong>Valor asegurado:</strong> $ CAMPO_valorasegurado, pesos Colombianos.
+                                <strong>Valor asegurado:</strong>  <span t-field="doc.amount_total"/>CAMPO_valorasegurado, pesos Colombianos.
                             </p>
                             
                             
@@ -266,36 +308,32 @@
                                       </th>
                                       <th style="padding: 0px;" colspan="2"/>
                                        <td style="padding: 0px;" colspan="2">
-                                          <img t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.logo_website_pdf)" width="180" height="70"/>
+                                          <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].product_id.logo_header_website_sponsor)" width="180" height="70"/><!--<img t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.logo_website_pdf)" width="180" height="70"/>-->
                                       </td>
                                       <th style="padding: 0px;" colspan="2"/>
-                                      <td style="padding: 0px;border-style:none solid none none;" colspan="2"><p><strong>PÓLIZA N°</strong></p></td>
-                                      <td style="padding: 0px;"><p><strong>CERTIFICADO</strong></p></td>
+                                      <td style="padding: 0px;border-style:none solid none none;" colspan="2"><p><strong>PÓLIZA N°</strong> <span t-esc="doc.order_line[0].subscription_id.policy_number"/></p></td>
+                                      <td style="padding: 0px;"><p><strong>CERTIFICADO</strong> <t t-esc="doc.order_line.product_template_id[0].categ_id.sequence_id.code"/></p></td>
                                     </tr>
-                                    <!--<tr>
-                                      <th style="padding: 0px;" scope="col"/>
-                                      <th/>
-                                      <th/>
-                                        <th><p style="color:#1A015D;">TOMADOR:</p></th>
-                                        <th><p style="color:#1A015D;">NIT:<span> </span><span t-field="p.vat"/></p></th>
-                                    </tr>-->
+                                    
                                   </thead>
                              </table>
+                             <br/>
+                             <br/>
+                             <br/>
                              <div style="font-family: montserrat;">
+                          
                               <strong><i style="color:#1A015D;">3. Cobertura: Asistencia Médica</i></strong>
                               <br/>
                               <div style="padding-top:20px;">
                                   <!--<img src="/web_sale_extended/static/src/images/MM_marcadeagua_20.png" width="800" height="1000"/>-->
                                   <center>
-                                      <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].product_id.product_tmpl_id.logo_website_pdf)" width="600" height="800"/>
+                                      <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].product_id.product_tmpl_id.logo_website_pdf)" width="100%" height="1200"/>
                                   </center>
                               </div>
+                              
+                           
                             </div>
-                            <br/>
-                            <br/>
-                            <br/>
-                            <br/>
-                            <br/>
+                           
                             <div style="page-break-after: always;"/>
                             <div><!-- style="background-image: url('MM_marcadeagua_20%.png');"-->
                               
@@ -307,34 +345,29 @@
                                       </th>
                                       <th style="padding: 0px;" colspan="2"/>
                                       <td style="padding: 0px;" colspan="2">
-                                          <img t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.logo_website_pdf)" width="180" height="70"/>
+                                          <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].product_id.logo_header_website_sponsor)" width="180" height="70"/>
                                       </td>
                                       <th style="padding: 0px;" colspan="2"/>
-                                      <td style="padding: 0px;border-style:none solid none none;" colspan="2"><p><strong>PÓLIZA N°</strong></p></td>
-                                      <td style="padding: 0px;"><p><strong>CERTIFICADO</strong></p></td>
+                                      <td style="padding: 0px;border-style:none solid none none;" colspan="2"><p><strong>PÓLIZA N°</strong> <span t-esc="doc.order_line[0].subscription_id.policy_number"/><!--<span t-esc="doc.order_id.id"/>--></p></td>
+                                      <td style="padding: 0px;"><p><strong>CERTIFICADO</strong> <t t-esc="doc.order_line.product_template_id[0].categ_id.sequence_id.code"/></p></td>
                                     </tr>
-                                    <!--<tr>
-                                      <th style="padding: 0px;" scope="col"/>
-                                      <th/>
-                                      <th/>
-                                        <th><p style="color:#1A015D;">TOMADOR:</p></th>
-                                        <th><p style="color:#1A015D;">NIT:<span> </span><span t-field="p.vat"/></p></th>
-                                    </tr>-->
+                                    
                                   </thead>
                              </table>
                              <br/>
-                             <br/>
-                             <br/>
-                             <br/>
+                            
                             <div class="watermark" style="position:absolute; opacity:0.12; width: 100%; height: 500px; text-align: center; padding: 50px; margin-top: 300px;">
                                 <img t-att-src="image_data_uri(doc.company_id.logo)" style="width:80%;"/>
                             </div>
+                            <center>
+                              <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].product_id.product_tmpl_id.logo_body_website_sponsor)" width="100%" height="420"/>
+                            </center>
                             <div style="font-family: montserrat;">
-                              <strong><i style="color:#1A015D;">4. Prima mensual: $__________________________, Pesos Colombianos.</i></strong>
+                              <strong><i style="color:#1A015D;">4. Prima mensual: <span t-field="doc.amount_total"/>, Pesos Colombianos.</i></strong>
                             </div>
                             <br/>
                             <div style="font-family: montserrat;">
-                              <p align="justify" style="color:#1A015D;"><strong>5.</strong> &#160; La póliza terminará según lo establecido en las condiciones generales o particulares de la misma o cualquiera de sus anexos, por
+                              <p align="justify" style="color:#1A015D;"><strong>5.</strong>   La póliza terminará según lo establecido en las condiciones generales o particulares de la misma o cualquiera de sus anexos, por
                               incumplimiento en el pago de cualquier prima al expirar el periodo de gracia otorgado para tal pago, y por cualquier otra circunstancia 
                               especificada en la legislación vigente. Esta póliza se expide y se acepta con el entendimiento que la misma está sujeta a todos los privilegios
                               y condiciones expuestas en esta carátula y en la solicitud, las cuales forman parte integrante de la póliza. Esta carátula podrá utulizarse como
@@ -379,8 +412,10 @@
                             <p align="justify"><strong><i>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A</i></strong> que en adelante se denominará PALIC conviene
                             otorgar las coberturas incorporadas en el presente Certificado individual con sujeción a los términos y condiciones de esta póliza y sus anexos.</p>
                         </div>
-                  </t>
-              </t>
+                    </div>
+                  
+            </t>        
+                </t>        
         </template> 
         
         

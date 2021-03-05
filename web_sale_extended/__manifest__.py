@@ -35,12 +35,13 @@
         'views/account.xml',
         'views/beneficiary.xml',
         'views/beneficiary_detail.xml',
+        'views/sale_order_view.xml',
         'views/sale_subscription_view.xml',
         'views/ir_sequence_view.xml',
         'reports/sale_order_report.xml',
         'reports/res_partner_report.xml',
         'data/shop_address.xml',
-        'data/shop_address.xml',
+        'data/tus_datos_bot.xml',
         'data/beneficiary_confirm_template.xml'
     ],
     # only loaded in demonstration mode

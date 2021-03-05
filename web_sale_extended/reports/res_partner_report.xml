@@ -4,7 +4,7 @@
         
         
         
-	  <!--<record id="paperformat_sale_order_report_easytek" model="report.paperformat">
+	  <record id="paperformat_sale_order_report_easytek" model="report.paperformat">
           <field name="name">Formato de Papel 3ros easytek</field>
           <field name="default" eval="True"/>
           <field name="format">A4</field>
@@ -18,7 +18,7 @@
           <field name="header_line" eval="False"/>
           <field name="header_spacing">20</field>
           <field name="dpi">90</field>
-	  </record>-->
+	  </record>
 
         
         <template id="report_customreport_customeasytek_template_res_partner">
@@ -132,32 +132,6 @@
                                     }
                                     
                              </style>
-                        <!--<div class="header">
-                          <div>-->
-                            <!--<p align="center" style="color:#1A015D;font-size:11px">COMPAÑIA DE SEGUROS S.A</p>-->
-                          <!--</div>-->
-                            <!--<t t-foreach="doc.partner_id" t-as="p"> 
-                             <table style="width:100%;">
-                                  <thead>
-                                    <tr>
-                                      <th>
-                                         <img t-att-src="'data:image/png;base64,%s' % to_text(doc.logo)" width="150" height="100"/>
-                                      </th>
-                                      <th style="padding: 0px;" colspan="2"/>
-                                      <td style="padding: 0px;" colspan="2"><p style="color:#1A015D;"><strong>CERTIFICADO INDIVIDUAL DE SEGURO DE ACCIDENTES PERSONALES</strong></p></td>
-                                    </tr>-->
-                                    <!--<tr>
-                                      <th style="padding: 0px;" scope="col"/>
-                                      <th/>
-                                      <th/>
-                                        <th><p style="color:#1A015D;">TOMADOR:</p></th>
-                                        <th><p style="color:#1A015D;">NIT:<span> </span><span t-field="p.vat"/></p></th>
-                                    </tr>-->
-                                  <!--</thead>
-                             </table>   
-                            </t>-->
-                        <!--</div>
-                        <br/>-->
                         <div class="page" style="width: 93%; margin: auto;">
                           <p align="center" style="color:#1A015D;font-size:13px">COMPAÑIA DE SEGUROS S.A</p>
                           <t t-foreach="doc.partner_id" t-as="p"> 
@@ -174,8 +148,8 @@
                                       <th style="padding: 0px;" scope="col"/>
                                       <th/>
                                       <th/>
-                                        <th style="paddin: -5px;"><p style="color:#1A015D;">TOMADOR: <t t-esc="doc.order_line.product_template_id[0].categ_id.sequence_id.sponsor_name"/></p></th>
-                                        <th><p style="color:#1A015D;">NIT: <span><t t-esc="doc.order_line.product_template_id[0].categ_id.sequence_id.sponsor_nit"/></span></p></th>
+                                        <th style="paddin: -5px;"><p style="color:#1A015D;">TOMADOR: <span t-esc="doc.order_line.product_template_id[0].categ_id.sequence_id.sponsor_name"/></p></th>
+                                        <th><p style="color:#1A015D;">NIT:<span t-esc="doc.order_line.product_template_id[0].categ_id.sequence_id.sponsor_nit"/><!--<span t-field="p.vat"/>--></p></th>
                                     </tr>
                                   </thead>
                              </table>   
@@ -208,7 +182,7 @@
                                  <table style="width:100%">
                                   <tr>
                                       <td><p style="color:#1A015D;font-size:16px;width:150px;">Número de Cédula</p></td>
-                        <!--CC>-->    <td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;"><t t-esc="doc.beneficiary0_id.document_type_id"/></p> <t t-esc="doc.beneficiary0_id.identification_document"/></td> 
+                        <!--CC>-->    <td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;"></p> <t t-esc="doc.beneficiary0_id.identification_document"/></td> 
                         <!--CE>-->    <td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;">CE</p> <!--<t t-esc="doc.beneficiary0_id."/>--></td>
                                       <td><p style="color:#1A015D;font-size:16px;margin-right: 58px; padding: 5px;">OTRO</p> <!--<t t-esc="doc.beneficiary0_id."/>--></td>
                                       <td><p style="color:#1A015D;font-size:16px;margin-right: 50px; padding: 5px;width:180px;">Fecha de Expedición</p> <!--<t t-esc="doc.beneficiary0_id."/>--></td> 
@@ -340,28 +314,14 @@
                                       <td style="padding: 0px;border-style:none solid none none;" colspan="2"><p><strong>PÓLIZA N°</strong> <span t-esc="doc.order_line[0].subscription_id.policy_number"/></p></td>
                                       <td style="padding: 0px;"><p><strong>CERTIFICADO</strong> <t t-esc="doc.order_line.product_template_id[0].categ_id.sequence_id.code"/></p></td>
                                     </tr>
-                                    <!--<tr>
-                                      <th style="padding: 0px;" scope="col"/>
-                                      <th/>
-                                      <th/>
-                                        <th><p style="color:#1A015D;">TOMADOR:</p></th>
-                                        <th><p style="color:#1A015D;">NIT:<span> </span><span t-field="p.vat"/></p></th>
-                                    </tr>-->
+                                    
                                   </thead>
                              </table>
                              <br/>
                              <br/>
                              <br/>
                              <div style="font-family: montserrat;">
-                          <!--<div>-->
-                          	<!--<p class="vertical-1">Prueba Vertical Pater</p>-->
                           
-                          	<!--<div class="vertical-1-->
-                          	
-                          		<!--<h2>Paternina Vital</h2>-->
-                          		<!--<h3>Ingeniero de Sistemas</h3-->
-                          	<!--</div>-->
-                          <!--</div>-->
                               <strong><i style="color:#1A015D;">3. Cobertura: Asistencia Médica</i></strong>
                               <br/>
                               <div style="padding-top:20px;">
@@ -371,16 +331,9 @@
                                   </center>
                               </div>
                               
-                              <!--<div>-->
-                                  <!--<img src="/web_sale_extended/static/src/images/MM_marcadeagua_20.png" width="800" height="1000"/>-->
-                                  <!--<center>
-                                      <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].product_id.product_tmpl_id.logo_body_website_sponsor)" width="600" height="300"/>
-                                  </center>
-                                  
-                              </div>-->
+                           
                             </div>
-                            <!--<h1 style="position: relative; left: -50px; top: -300px; border: 1px solid black;"><img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/></h1>-->
-                            <!--<br/>-->
+                           
                             <div style="page-break-after: always;"/>
                             <div><!-- style="background-image: url('MM_marcadeagua_20%.png');"-->
                               
@@ -398,24 +351,16 @@
                                       <td style="padding: 0px;border-style:none solid none none;" colspan="2"><p><strong>PÓLIZA N°</strong> <span t-esc="doc.order_line[0].subscription_id.policy_number"/><!--<span t-esc="doc.order_id.id"/>--></p></td>
                                       <td style="padding: 0px;"><p><strong>CERTIFICADO</strong> <t t-esc="doc.order_line.product_template_id[0].categ_id.sequence_id.code"/></p></td>
                                     </tr>
-                                    <!--<tr>
-                                      <th style="padding: 0px;" scope="col"/>
-                                      <th/>
-                                      <th/>
-                                        <th><p style="color:#1A015D;">TOMADOR:</p></th>
-                                        <th><p style="color:#1A015D;">NIT:<span> </span><span t-field="p.vat"/></p></th>
-                                    </tr>-->
+                                    
                                   </thead>
                              </table>
                              <br/>
-                             <!--<br/>-->
-                             <!--<br/>-->
-                             <!--<br/>-->
+                            
                             <div class="watermark" style="position:absolute; opacity:0.12; width: 100%; height: 500px; text-align: center; padding: 50px; margin-top: 300px;">
                                 <img t-att-src="image_data_uri(doc.company_id.logo)" style="width:80%;"/>
                             </div>
                             <center>
-                              <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].product_id.product_tmpl_id.logo_body_website_sponsor)" width="100%" height="410"/>
+                              <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].product_id.product_tmpl_id.logo_body_website_sponsor)" width="100%" height="420"/>
                             </center>
                             <div style="font-family: montserrat;">
                               <strong><i style="color:#1A015D;">4. Prima mensual: <span t-field="doc.amount_total"/>, Pesos Colombianos.</i></strong>

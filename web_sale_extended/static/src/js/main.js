@@ -1429,3 +1429,443 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
         });
 
 });
+
+
+
+
+/*
+odoo.define('web_sale_extended.payment_method_process', function(require) {
+    'use strict';
+    
+    $(function() {
+        $('#payment_method_tabs').tabs();
+    });
+});
+*/
+
+odoo.define('web_sale_extended.welcome_masmedicos', function(require) {
+    'use strict';
+    
+    $(function() {
+        $('#poliza_download_btn').on('click', function() {
+            let order_id = $("input[name='order_id']").val();
+            var route= '/report/pdf/web_sale_extended.report_customreport_customeasytek_template/'
+            var url = route + order_id;
+            window.location.href = url;
+        });
+    });
+});
+
+
+
+
+
+
+odoo.define('web_sale_extended.payment_process', function(require) {
+    'use strict';
+
+    $(function() {
+        $('#pse_country_id').selectpicker();
+        $('#pse_state_id').selectpicker('val', '');
+        $('#pse_city').selectpicker();
+        
+        $('#cash_country_id').selectpicker();
+        $('#cash_state_id').selectpicker('val', '');
+        $('#cash_city').selectpicker();
+        
+        $('#submit_beneficiaries_add').on('click', function() {
+            let order_id = $("input[name='order_id']").val();
+            var route = '/my/order/beneficiaries/'
+            var url = route + order_id;
+            window.location.href = url;
+        });
+        
+        
+        
+        function consultarZipcode(ciudad){
+            $.ajax({
+                data: { 'city_id': ciudad },
+                url: "/search/zipcodes",
+                type: 'get',
+                success: function(data) {
+                    let decode_data = JSON.parse(data);
+                    document.querySelector("input[name='pse_zip']").value = decode_data['data'].zipcode;
+                    document.querySelector("input[name='pse_zip_id']").value = decode_data['data'].zipid;
+                }
+            });
+        }
+        
+        function consultarZipcodeCash(ciudad){
+            $.ajax({
+                data: { 'city_id': ciudad },
+                url: "/search/zipcodes",
+                type: 'get',
+                success: function(data) {
+                    let decode_data = JSON.parse(data);
+                    document.querySelector("input[name='cash_zip']").value = decode_data['data'].zipcode;
+                    document.querySelector("input[name='cash_zip_id']").value = decode_data['data'].zipid;
+                }
+            });
+        }
+
+        $('#pse_city').change(function() {
+            let data_select = $("#pse_city option:selected").val();
+            consultarZipcode(data_select);
+        });
+        
+        $('#cash_city').change(function() {
+            let data_select = $("#cash_city option:selected").val();
+            consultarZipcodeCash(data_select);
+        });
+
+        function consultarCiudades(estado, elemento) {
+            $.ajax({
+                data: { 'departamento': estado },
+                url: "/search/cities",
+                type: 'get',
+                success: function(data) {
+                    let decode_data = JSON.parse(data);
+                    let elemento_completo = $(elemento);
+                    $('#pse_city').selectpicker('destroy');
+                    $('#pse_city').empty();
+                    decode_data.data.cities.forEach(function(obj) {
+                        $('#pse_city').append($("<option></option>")
+                            .attr("value", obj.city_id).text(obj.city));
+                    });
+                    $('#pse_city').selectpicker();
+                    let data_select = $("#pse_city option:selected").val();
+                    consultarZipcode(data_select);
+                }
+            });
+        }
+        
+        function consultarCiudadesCash(estado, elemento) {
+            $.ajax({
+                data: { 'departamento': estado },
+                url: "/search/cities",
+                type: 'get',
+                success: function(data) {
+                    let decode_data = JSON.parse(data);
+                    let elemento_completo = $(elemento);
+                    $('#cash_city').selectpicker('destroy');
+                    $('#cash_city').empty();
+                    decode_data.data.cities.forEach(function(obj) {
+                        $('#cash_city').append($("<option></option>")
+                            .attr("value", obj.city_id).text(obj.city));
+                    });
+                    $('#pse_city').selectpicker();
+                    let data_select = $("#cash_city option:selected").val();
+                    consultarZipcodeCash(data_select);
+                }
+            });
+        }
+
+        $("select[name='pse_state_id']").on('change', function cambiarEstado() {
+            let estado = $(this).val();
+            let elemento = "select[name='pse_city']";
+            if (estado != ''){
+                consultarCiudadesCash(estado, elemento);
+            } else {
+                $('#pse_city').selectpicker('destroy');
+                $('#pse_city').empty();
+                $('#pse_city').append($("<option></option>")
+                            .attr("value", '').text('Ciudad...'));
+                $('#pse_city').selectpicker();
+            }
+        });
+        
+        $("select[name='cash_state_id']").on('change', function cambiarEstado() {
+            let estado = $(this).val();
+            let elemento = "select[name='cash_city']";
+            if (estado != ''){
+                consultarCiudadesCash(estado, elemento);
+            } else {
+                $('#cash_city').selectpicker('destroy');
+                $('#cash_city').empty();
+                $('#cash_city').append($("<option></option>")
+                            .attr("value", '').text('Ciudad...'));
+                $('#cash_city').selectpicker();
+            }
+        });
+        
+        
+        
+        
+        $("#payulatam-payment-form").validate({
+            rules: {
+                credit_card_number: {
+                    required: true,
+                    minlength: 16,
+                    number: true,
+                },
+                credit_card_code: {
+                    required: true,
+                    minlength: 1,
+                    maxlength: 4,
+                    number: true,
+                },
+                credit_card_name: {
+                    required: true,
+                    minlength: 3,
+                    lettersonly: true,
+                },
+                credit_card_billing_firstname: {
+                    required: true,
+                    lettersonly: true,
+                },
+                credit_card_billing_lastname: {
+                    required: true,
+                    lettersonly: true,
+                },
+                credit_card_billing_email: {
+                    required: true,
+                    email: true,
+                },
+                credit_card_partner_phone: {
+                    required: true,
+                    number: true,
+                    formMovilFijoLength: true,
+                },
+                credit_card_partner_document: {
+                    required: true,
+                    number: true,
+                },
+                identification_document: {
+                    required: true,
+                    number: true,
+                },
+                credit_card_partner_street: {
+                    required: true,
+                },
+                city: {
+                    required: true,
+                },
+                country_id: {
+                    required: true,
+                },
+                state_id: {
+                    required: true,
+                },
+                
+                
+                cash_billing_firstname: {
+                    required: true,
+                    lettersonly: true,
+                },
+                cash_card_billing_lastname: {
+                    required: true,
+                    lettersonly: true,
+                },
+                
+            },
+            messages: {
+                credit_card_number: {
+                    required: "¡Upss! tu número de tarjeta es requerido",
+                    minlength: "¡Upss! debe contener 16 digitos"
+                },
+                credit_card_code: {
+                    required: "¡Upss! el código de seguridad es requerido",
+                    maxlength: "¡Upss! máximo 4 digitos"
+                },
+                credit_card_name: {
+                    required: "¡Upss! el nombre de tajeta es requerido",
+                    minlength: "¡Upss! debe contener 3 o más caracteres",
+                    lettersonly: "¡Upss! debe contener solo letras"
+                },
+                credit_card_partner_phone: {
+                    required: "¡Upss! tu telefono es requerido",
+                    number: "¡Upss! este campo solo es numérico",
+                    minlength: "¡Upss! debe tener 10 digitos",
+                    maxlength: "¡Upss! debe tener 10 digitos"
+
+                },
+                credit_card_billing_email: {
+                    email: "¡Upss! debe registrar un correo valido",
+
+                },
+                credit_card_billing_firstname: {
+                    required: "¡Upss! tu(s) nombre(s) es requerido",
+
+                },
+                credit_card_billing_lastname: {
+                    required: "¡Upss! tu(s) apellido(s) es requerido",
+
+                },
+                credit_card_partner_document: {
+                    required: "¡Upss! tu numero de documento es requerido",
+                    number: "¡Upss! este campo solo es numérico"
+                },
+                identification_document: {
+                    required: "¡Upss! tu numero de documento es requerido",
+                    number: "¡Upss! este campo solo es numérico"
+
+                },
+                credit_card_partner_street: {
+                    required: "¡Upss! tu dirección es requerida",
+
+                },
+                city: {
+                    required: "¡Upss! tu ciudad es requerida",
+
+                },
+                country_id: {
+                    required: "¡Upss! tu país es requerido",
+                },
+                state_id: {
+                    required: "¡Upss! tu departamento es requerido",
+
+                },
+                
+                
+                
+                
+                cash_billing_firstname: {
+                    required: "¡Upss! tu(s) nombre(s) es requerido",
+
+                },
+                cash_billing_lastname: {
+                    required: "¡Upss! tu(s) apellido(s) es requerido",
+
+                },
+
+
+            }
+        });
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        $("#payulatam-payment-form-cash").validate({
+            rules: {
+                
+                cash_billing_firstname: {
+                    required: true,
+                    lettersonly: true,
+                },
+                cash_card_billing_lastname: {
+                    required: true,
+                    lettersonly: true,
+                },
+                cash_partner_document: {
+                    required: true,
+                    number: true,
+                },
+                cash_billing_email: {
+                    required: true,
+                    email: true,
+                },
+                cash_partner_street: {
+                    required: true,
+                },
+                
+                
+                
+                
+            },
+            messages: {
+                
+                cash_billing_firstname: {
+                    required: "¡Upss! tu(s) nombre(s) es requerido",
+                    lettersonly: "¡Upss! debe contener solo letras"
+                },
+                cash_billing_lastname: {
+                    required: "¡Upss! tu(s) apellido(s) es requerido",
+                    lettersonly: "¡Upss! debe contener solo letras"
+                },
+                
+                cash_partner_document: {
+                    required: "¡Upss! tu No. de documento es requerido",
+                    number: "¡Upss! debe contener solo números"
+                },
+                
+                cash_billing_email: {
+                    required: "¡Upss! tu email es requerido",
+                    email: "¡Upss! debe contener un correo valido"
+                },
+                
+                cash_partner_street: {
+                    required: "¡Upss! tu documento es requerido",
+                },
+
+
+            }
+        });
+        
+        
+        
+        
+        $("#payulatam-payment-form-pse").validate({
+            rules: {
+                
+                pse_owner: {
+                    required: true,
+                    lettersonly: true,
+                },
+                
+                pse_billing_firstname: {
+                    required: true,
+                    lettersonly: true,
+                },
+                pse_card_billing_lastname: {
+                    required: true,
+                    lettersonly: true,
+                },
+                pse_partner_document: {
+                    required: true,
+                    number: true,
+                },
+                pse_billing_email: {
+                    required: true,
+                    email: true,
+                },
+                pse_partner_street: {
+                    required: true,
+                },
+                
+                
+                
+                
+            },
+            messages: {
+                
+                pse_owner: {
+                    required: "¡Upss! el titular de la cuenta es requerido",
+                    lettersonly: "¡Upss! debe contener solo letras"
+
+                },
+                pse_billing_firstname: {
+                    required: "¡Upss! tu(s) nombre(s) es requerido",
+                    lettersonly: "¡Upss! debe contener solo letras"
+                },
+                pse_billing_lastname: {
+                    required: "¡Upss! tu(s) apellido(s) es requerido",
+                    lettersonly: "¡Upss! debe contener solo letras"
+                },
+                
+                pse_partner_document: {
+                    required: "¡Upss! tu No. de documento es requerido",
+                    number: "¡Upss! debe contener solo números"
+                },
+                
+                pse_billing_email: {
+                    required: "¡Upss! tu email es requerido",
+                    email: "¡Upss! debe contener un correo valido"
+                },
+                
+                pse_partner_street: {
+                    required: "¡Upss! tu documento es requerido",
+                },
+
+
+            }
+        });
+        
+        
+    });
+});

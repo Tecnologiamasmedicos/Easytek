@@ -123,11 +123,15 @@ class TusDatosAPI(models.TransientModel):
         else:
             _logger.error(f"****** ERROR: Invalid query {query}. ******")
             raise ValidationError(f"ERROR: Invalid query {query}.")
-
+        
+        
+        _logger.error(f"****** PROCCESS: process detail {response}. ******")
         if response and response.get('jobid'):
             response.update({'process_id': response['jobid']})
         elif response and response.get('id'):
             response.update({'process_id': response['id']})
+        elif response and response.get('error'):
+            response.update({'error': response['error']})
         return response
 
     def personal_data_approval(self, process_id: str) -> bool:
@@ -150,19 +154,29 @@ class TusDatosAPI(models.TransientModel):
         query_type = '-' in process_id
 
         if query_type:
+            _logger.error('results')
             endpoint = 'results'
             results_query = {'jobid': process_id}
             validation = self.request_tusdatos_api(endpoint, results_query)
         else:
+            _logger.error('report_json')
             endpoint = 'report_json'
             results_query = {'id': process_id}
             validation = self.request_tusdatos_api(endpoint, results_query)
 
         if validation:
-            if endpoint == 'results':
-                approval = not (validation['ONU'] or validation['OFAC'])
-            elif endpoint == 'report_json':
-                approval = not (validation['ofac'] or validation['lista_onu'] or validation['lista_ofac'])
+            
+            if 'estado' in validation and validation['estado'] == 'error, tarea no valida':
+                _logger.error("****** ERROR: tarea no valida. ******")
+            else:
+                _logger.error("****** REALIZANDO VALIDACIÓN EN LISTAS. ******")
+                #_logger.error(validation)
+                #_logger.error(process_id)
+                if endpoint == 'results':
+                    approval = not (validation['LISTA_ONU'] or validation['OFAC'])
+                elif endpoint == 'report_json':
+                    #approval = not (validation['ofac'] or validation['lista_onu'] or validation['lista_ofac'])
+                    approval = not (validation['ofac'] or validation['lista_onu'])
         else:
             # TODO: add id to sale_order for queue validation process
             _logger.error("****** ERROR: Approbation not processed. ******")

@@ -13,6 +13,7 @@ class ResPartner(models.Model):
     logo = fields.Binary(related="company_id.logo")
     website_partner_type = fields.Char(string='partner_type', compute='_get_website_partner_type', store=False)
     birthdate_date = fields.Date("Birthdate")
+    expedition_date = fields.Date("Birthdate")
     ocupation = fields.Char("Ocupation")
     #age = fields.Integer(string="Age", readonly=True, compute="_compute_age")
     gender = fields.Selection(
@@ -28,7 +29,6 @@ class ResPartner(models.Model):
 
     subscription_id = fields.Many2one('sale.subscription', 'ID de Subscripción')
     beneficiary_number = fields.Integer('Número de Beneficiario')
-
 
 
     @api.depends('zip','city_id')

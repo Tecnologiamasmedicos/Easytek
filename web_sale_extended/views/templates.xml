@@ -326,18 +326,926 @@
 
 
 
-
-
-
-
-
-    <!-- Complete page of the sale_order -->
-    <template id="sale_order_portal_template_inherit" name="Sales Order Portal Template" inherit_id="sale.sale_order_portal_template" primary="True">
-        <xpath expr="//div[hasclass('o_portal_sale_sidebar')]" position="replace">
-            sss
+    <template id="sale_order_portal_content_inherit" name="Sales Order Portal Content" inherit_id="sale.sale_order_portal_content">
+        <xpath expr="//div[@id='introduction']" position="replace">
+            <!--<div id="introduction" t-attf-class="pb-2 pt-3 #{'card-header bg-white' if report_type == 'html' else ''}">-->
+            <div id="introduction" t-attf-class="#{'bg-white' if report_type == 'html' else ''}">
+                <!--<h2 class="my-0">
+                    <t t-esc="sale_order.type_name"/>
+                    <em t-esc="sale_order.name"/>
+                </h2>-->
+                <section class="s_text_block pt0 pb0" data-name="Text block" style="">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 pb0 pt0">
+                                <div 
+                                    class="s_alert clearfix s_alert_sm w-100" 
+                                    data-name="Alert" 
+                                    style="background: #FFFFFF; border: 1px solid #3333CC; box-sizing: border-box; 
+                                                            box-shadow: 0px 0px 10px rgba(51, 51, 204, 0.5); border-radius: 5px;">
+                                    <img class="img-fluid o_we_custom_image float-left" 
+                                        src="/web_sale_extended/static/src/images/Img_tip.png" 
+                                        data-original-title="" title="" 
+                                        aria-describedby="tooltip561547"/>
+                                    <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip831158"/>
+                                    <div class="s_alert_content" style="">
+                                        <p/>
+                                        <div style="text-align: left;">
+                                            <font color="#3333cc">
+                                                <b style="font-size: 18px;">
+                                                    Terminemos con el proceso de pago de tu nombre
+                                                    <t t-esc="sale_order.order_line[0].product_template_id.name"/> 
+                                                    para ti y tu grupo familiar, es seguro y muy rápido, gracias a PayU.</b>
+                                            </font>
+                                            <br/>
+                                        </div>
+                                        <div style="text-align: left;">
+                                            <b>Esta es la información del pagador del plan, así como la información
+                                                de facturación. Una ves terminado éste proceso, de una generamos tu poliza.</b>
+                                        </div>
+                                        <p/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+        
+        <xpath expr="//div[@id='informations']" position="replace">
+            <div id="informations">
+                <nav>
+                  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" 
+                       id="nav-home-tab" 
+                       data-toggle="tab" 
+                       href="#nav-home" 
+                       role="tab" 
+                       aria-controls="nav-home" 
+                       aria-selected="true">
+                        TARJETA DE CRÉDITO
+                    </a>
+                    <a class="nav-item nav-link" 
+                       id="nav-profile-tab" 
+                       data-toggle="tab" 
+                       href="#nav-profile" 
+                       role="tab" 
+                       aria-controls="nav-profile" 
+                       aria-selected="false">
+                        EFECTIVO
+                    </a>
+                    <a class="nav-item nav-link" 
+                       id="nav-contact-tab" 
+                       data-toggle="tab" 
+                       href="#nav-contact" 
+                       role="tab" 
+                       aria-controls="nav-contact" 
+                       aria-selected="false">
+                        TRANSFERENCIA PSE
+                    </a>
+                  </div>
+                </nav>
+            </div>
+            
+            <div class="tab-content" id="nav-tabContent">
+              
+              <div class="container">
+              <form id="beneficiary" action="/beneficiary-detail" method="post" class="checkout_autoformat">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                  <div class="row">
+                      <img class="img-fluid o_we_custom_image float-left" style="padding-top:10px;" 
+                          src="/web_sale_extended/static/src/img/payment_credit_card.png" 
+                          data-original-title="" title="" 
+                          aria-describedby="tooltip561548"/>
+                  </div>
+                  <h4>Información de la Tarjeta</h4>
+                  <div class="row">
+                      <div class="col-lg-3 col-md-4">
+                          <div class="form-group">
+                              <label class="col-form-label" for="sex">Tipo</label>-->
+                              <select name="credit_card_type" class="form-control">
+                                  <option value="visa">VISA</option>
+                                  <option value="mastercard">MASTERCARD</option>
+                                  <option value="dinners" style="">DINNERS</option>
+                              </select>
+                          </div>
+                      </div>
+                  
+                      <div class="col-lg-3 col-md-4">
+                          <div class="form-group">
+                              <label class="col-form-label" for="credit_card_number">Número</label>
+                              <input class="form-control" type="text" name="credit_card_number"  />
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </form>
+              </div>
+                                
+              <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                  ...
+              </div>
+              <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                  ...
+              </div>
+                
+                
+            </div>
+        </xpath>
+        
+        <xpath expr="//section[@id='signature']" position="replace"> 
+        </xpath>
+        
+        <xpath expr="//section[@id='terms']" position="replace"> 
+        </xpath>
+        
+        <xpath expr="//section[@id='details']" position="replace"> 
+        </xpath>
+        
+        <xpath expr="//section[@t-if='sale_order.payment_term_id']" position="replace"> 
         </xpath>
     </template>
 
-
+    
+    <!--<template id="sale_order_portal_template_inherit" name="Sales Order Portal Template" inherit_id="sale.sale_order_portal_template">
+       <xpath expr="//div[@id='sale_order_communication']" position="replace"> 
+        </xpath>
+    </template>-->
+    
+    <!--<template id="portal_breadcrumbs_inherit" name="Portal Breadcrumbs" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//li[hasclass('breadcrumb-item')]" position="replace">
+                
+                <li t-if="page_name == 'my_details'" class="breadcrumb-item" invisible="1">Details</li>
+          
+        </xpath>
+    </template>-->
+    
+    
+     <template id="payulatam_success_process" name="PayU Latam Payment Process">
+         
+         <t t-set="no_footer" t-value="1"/>
+            <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container oe_website_sale py-2">
+                <div class="row">
+                 
+                    <div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block">
+                        <div class="card">
+                            <div class="card-body p-xl-0">
+                                <div class="col-lg-auto d-print-none">
+                                    <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
+                                        <div class="card-body text-center pb-2 pt-3">
+                                            <h2 class="mb-0"><b data-id="total_amount">$ <span class="oe_currency_value">48.400,00</span></b> </h2>
+                                        </div>
+                                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                                            <li class="list-group-item flex-grow-1">
+                                                <a role="button" 
+                                                   id="o_sale_portal_paynow" 
+                                                   data-toggle="modal" 
+                                                   data-target="#modalaccept" 
+                                                   href="#" 
+                                                   class="btn-block mb8 btn btn-primary disabled">
+                                                    <i class="fa fa-check"></i> Pago Realizado
+                                                </a>
+                                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_download_btn" 
+                                                           title="Descargar" 
+                                                           href="">
+                                                            <i class="fa fa-download"></i> Descargar
+                                                        </a>
+                                                    </div>
+                                                    <div class="btn-group flex-grow-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" 
+                                                            id="print_invoice_report" 
+                                                            title="Imprimir" 
+                                                            target="_blank" 
+                                                            href="">
+                                                            <i class="fa fa-print"></i> Imprimir
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="navspy list-group-item pl-0 flex-grow-1" role="complementary">
+                                                <ul class="nav flex-column bs-sidenav"></ul>
+                                            </li>
+                                        </ul>
+                                        <div class="card-footer small text-center text-muted border-top-0 pt-1 pb-1 d-none d-lg-block">
+                                            Con tecnología de 
+                                            <a target="_blank" 
+                                               href="" 
+                                               title="odoo">
+                                                <img src="/web_sale_extended/static/src/img/PayU.png" alt="Logo de Odoo" height="15"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="quote_content" class="col-12 col-xl order-xl-1 oe_cart">
+                        <section class="s_text_block pt0 pb0" data-name="Text block">
+                            <div class="col-lg-12 pt0 pb0">
+                                <div class="s_alert clearfix w-100 s_alert_md" data-name="Alert" style="border:none;">
+                                    <i class="fa-2x s_alert_icon"></i>
+                                    <div class="s_alert_content">
+                                        <p></p>
+                                        <div style="text-align:center;">
+                                            <font color="#39b54a">
+                                            </font>
+                                            <img class="img-fluid o_we_custom_image" 
+                                                 src="/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be" 
+                                                 style="width:auto;"/><br/>
+                                            <font color="#39b54a">
+                                              <span style="font-size:36px;">Proceso de pago terminado exitosamente gracias a PayU</span>
+                                            </font>
+                                            <br/>
+                                        </div>
+                                        <div style="text-align:center;">
+                                            <span style="font-size:18px;">Para continuar con el registro del asegurado principal y los beneficiarios:</span>
+                                        </div>
+                                        <!--<p></p>-->
+                                    </div>
+                                </div>
+                                
+                                <div class="s_btn text-center pt16 pb16" data-name="Button">
+                                    <a class="btn btn-primary" 
+                                       id="submit_beneficiaries_add" 
+                                       data-original-title="" 
+                                       title="" 
+                                       aria-describedby="tooltip188699"
+                                       style="color:#FFF;">Registra tus Beneficiarios
+                                       <i class="fa fa-chevron-right"/>
+                                    </a>
+                                    <input type="hidden" name="order_id" t-att-value="order_id"/>
+                                  </div>
+                                <!--<div style="margin: 32px 0px 32px 0px; text-align: center;">
+                                    <button class="btn btn-custom mb32" id="submit_beneficiaries_add">
+                                        <span>Registrar Beneficiarios</span>
+                                        <i class="fa fa-chevron-right"/>
+                                    </button>
+                                </div>-->
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                </div>
+                
+                
+            </div>
+         </t>
+         
+     </template>
+    
+    
+    
+    
+    
+    <template id="payulatam_rejected_process" name="PayU Latam Payment Rejected">
+         
+         <t t-set="no_footer" t-value="1"/>
+            <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container oe_website_sale py-2">
+                <div class="row">
+                 
+                    <div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block">
+                        <div class="card">
+                            <div class="card-body p-xl-0">
+                                <div class="col-lg-auto d-print-none">
+                                    <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
+                                        <div class="card-body text-center pb-2 pt-3">
+                                            <h2 class="mb-0"><b data-id="total_amount">$ <span class="oe_currency_value">48.400,00</span></b> </h2>
+                                        </div>
+                                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                                            <li class="list-group-item flex-grow-1">
+                                                <a role="button" 
+                                                   id="o_sale_portal_paynow" 
+                                                   data-toggle="modal" 
+                                                   data-target="#modalaccept" 
+                                                   href="#" 
+                                                   class="btn-block mb8 btn btn-primary disabled">
+                                                    <i class="fa fa-check"></i> Pago NO Realizado
+                                                </a>
+                                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_download_btn" 
+                                                           title="Descargar" 
+                                                           href="">
+                                                            <i class="fa fa-download"></i> Descargar
+                                                        </a>
+                                                    </div>
+                                                    <div class="btn-group flex-grow-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" 
+                                                            id="print_invoice_report" 
+                                                            title="Imprimir" 
+                                                            target="_blank" 
+                                                            href="">
+                                                            <i class="fa fa-print"></i> Imprimir
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="navspy list-group-item pl-0 flex-grow-1" role="complementary">
+                                                <ul class="nav flex-column bs-sidenav"></ul>
+                                            </li>
+                                        </ul>
+                                        <div class="card-footer small text-center text-muted border-top-0 pt-1 pb-1 d-none d-lg-block">
+                                            Con tecnología de 
+                                            <a target="_blank" 
+                                               href="" 
+                                               title="odoo">
+                                                <img src="/web/static/src/img/PayU.png" alt="Logo de Odoo" height="15"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="quote_content" class="col-12 col-xl order-xl-1 oe_cart">
+                        <section class="s_text_block pt0 pb0" data-name="Text block">
+                            <div class="col-lg-12 pt0 pb0">
+                                <div class="s_alert clearfix w-100 s_alert_md" data-name="Alert" style="border:none;">
+                                    <i class="fa-2x s_alert_icon"></i>
+                                    <div class="s_alert_content">
+                                        <p></p>
+                                        <div style="text-align:center;">
+                                            <font color="#39b54a">
+                                            </font>
+                                            <img class="img-fluid o_we_custom_image" 
+                                                 src="/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be" 
+                                                 style="width:auto;"/><br/>
+                                            <font color="#39b54a">
+                                              <span style="font-size:36px;">Proceso de pago terminado exitosamente gracias a PayU</span>
+                                            </font>
+                                            <br/>
+                                        </div>
+                                        <div style="text-align:center;">
+                                            <span style="font-size:18px;">Para continuar con el registro del asegurado principal y los beneficiarios:</span>
+                                        </div>
+                                        <!--<p></p>-->
+                                    </div>
+                                </div>
+                                
+                                <div class="s_btn text-center pt16 pb16" data-name="Button">
+                                    <a class="btn btn-primary" 
+                                       id="submit_payment_rejected" 
+                                       data-original-title="" 
+                                       title="" 
+                                       aria-describedby="tooltip188699">Regresar al Proceso de Pago
+                                       <i class="fa fa-chevron-right"/>
+                                    </a>
+                                  </div>
+                                <!--<div style="margin: 32px 0px 32px 0px; text-align: center;">
+                                    <button class="btn btn-custom mb32" id="submit_beneficiaries_add">
+                                        <span>Registrar Beneficiarios</span>
+                                        <i class="fa fa-chevron-right"/>
+                                    </button>
+                                </div>-->
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                </div>
+                
+                
+            </div>
+         </t>
+         
+     </template>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <template id="payulatam_success_process_cash" name="PayU Latam Payment Process Cash">
+         
+         <t t-set="no_footer" t-value="1"/>
+            <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container oe_website_sale py-2">
+                <div class="row">
+                 
+                    <div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block">
+                        <div class="card">
+                            <div class="card-body p-xl-0">
+                                <div class="col-lg-auto d-print-none">
+                                    <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
+                                        <div class="card-body text-center pb-2 pt-3">
+                                            <h2 class="mb-0"><b data-id="total_amount">$ <span class="oe_currency_value">48.400,00</span></b> </h2>
+                                        </div>
+                                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                                            <li class="list-group-item flex-grow-1">
+                                                <a role="button" 
+                                                   id="o_sale_portal_paynow" 
+                                                   data-toggle="modal" 
+                                                   data-target="#modalaccept" 
+                                                   href="#" 
+                                                   class="btn-block mb8 btn btn-primary disabled">
+                                                    <i class="fa fa-check"></i> Pago Realizado
+                                                </a>
+                                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_download_btn" 
+                                                           title="Descargar" 
+                                                           href="">
+                                                            <i class="fa fa-download"></i> Descargar
+                                                        </a>
+                                                    </div>
+                                                    <div class="btn-group flex-grow-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" 
+                                                            id="print_invoice_report" 
+                                                            title="Imprimir" 
+                                                            target="_blank" 
+                                                            href="">
+                                                            <i class="fa fa-print"></i> Imprimir
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="navspy list-group-item pl-0 flex-grow-1" role="complementary">
+                                                <ul class="nav flex-column bs-sidenav"></ul>
+                                            </li>
+                                        </ul>
+                                        <div class="card-footer small text-center text-muted border-top-0 pt-1 pb-1 d-none d-lg-block">
+                                            Con tecnología de 
+                                            <a target="_blank" 
+                                               href="" 
+                                               title="odoo">
+                                                <img src="/web_sale_extended/static/src/img/PayU.png" alt="Logo de Odoo" height="15"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="quote_content" class="col-12 col-xl order-xl-1 oe_cart">
+                        <section class="s_text_block pt0 pb0" data-name="Text block">
+                            <div class="col-lg-12 pt0 pb0">
+                                <div class="s_alert clearfix w-100 s_alert_md" data-name="Alert" style="border:none;">
+                                    <i class="fa-2x s_alert_icon"></i>
+                                    <div class="s_alert_content">
+                                        <p></p>
+                                        <div style="text-align:center;">
+                                            <font color="#39b54a">
+                                            </font>
+                                            <img class="img-fluid o_we_custom_image" 
+                                                 src="/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be" 
+                                                 style="width:auto;"/><br/>
+                                            <font color="#39b54a">
+                                              <span style="font-size:36px;">Proceso de pago terminado exitosamente gracias a PayU</span>
+                                            </font>
+                                            <br/>
+                                        </div>
+                                        <div style="text-align:center;">
+                                            <span style="font-size:18px;">Para continuar con el registro del asegurado principal y los beneficiarios:</span>
+                                        </div>
+                                        <!--<p></p>-->
+                                    </div>
+                                </div>
+                                
+                                <div class="s_btn text-center pt16 pb16" data-name="Button">
+                                    <a class="btn btn-primary" 
+                                       id="submit_beneficiaries_add" 
+                                       data-original-title="" 
+                                       title="" 
+                                       aria-describedby="tooltip188699"
+                                       style="color:#FFF;">Registra tus Beneficiarios
+                                       <i class="fa fa-chevron-right"/>
+                                    </a>
+                                    <input type="hidden" name="order_id" t-att-value="order_id"/>
+                                  </div>
+                                <!--<div style="margin: 32px 0px 32px 0px; text-align: center;">
+                                    <button class="btn btn-custom mb32" id="submit_beneficiaries_add">
+                                        <span>Registrar Beneficiarios</span>
+                                        <i class="fa fa-chevron-right"/>
+                                    </button>
+                                </div>-->
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                </div>
+                
+                
+            </div>
+         </t>
+         
+     </template>
+    
+    
+    
+    
+    
+    <template id="payulatam_rejected_process_cash" name="PayU Latam Payment Process Cash">
+         
+         <t t-set="no_footer" t-value="1"/>
+            <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container oe_website_sale py-2">
+                <div class="row">
+                 
+                    <div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block">
+                        <div class="card">
+                            <div class="card-body p-xl-0">
+                                <div class="col-lg-auto d-print-none">
+                                    <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
+                                        <div class="card-body text-center pb-2 pt-3">
+                                            <h2 class="mb-0"><b data-id="total_amount">$ <span class="oe_currency_value">48.400,00</span></b> </h2>
+                                        </div>
+                                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                                            <li class="list-group-item flex-grow-1">
+                                                <a role="button" 
+                                                   id="o_sale_portal_paynow" 
+                                                   data-toggle="modal" 
+                                                   data-target="#modalaccept" 
+                                                   href="#" 
+                                                   class="btn-block mb8 btn btn-primary disabled">
+                                                    <i class="fa fa-check"></i> Pago NO Realizado
+                                                </a>
+                                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_download_btn" 
+                                                           title="Descargar" 
+                                                           href="">
+                                                            <i class="fa fa-download"></i> Descargar
+                                                        </a>
+                                                    </div>
+                                                    <div class="btn-group flex-grow-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" 
+                                                            id="print_invoice_report" 
+                                                            title="Imprimir" 
+                                                            target="_blank" 
+                                                            href="">
+                                                            <i class="fa fa-print"></i> Imprimir
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="navspy list-group-item pl-0 flex-grow-1" role="complementary">
+                                                <ul class="nav flex-column bs-sidenav"></ul>
+                                            </li>
+                                        </ul>
+                                        <div class="card-footer small text-center text-muted border-top-0 pt-1 pb-1 d-none d-lg-block">
+                                            Con tecnología de 
+                                            <a target="_blank" 
+                                               href="" 
+                                               title="odoo">
+                                                <img src="/web_sale_extended/static/src/img/PayU.png" alt="Logo de Odoo" height="15"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="quote_content" class="col-12 col-xl order-xl-1 oe_cart">
+                        <section class="s_text_block pt0 pb0" data-name="Text block">
+                            <div class="col-lg-12 pt0 pb0">
+                                <div class="s_alert clearfix w-100 s_alert_md" data-name="Alert" style="border:none;">
+                                    <i class="fa-2x s_alert_icon"></i>
+                                    <div class="s_alert_content">
+                                        <p></p>
+                                        <div style="text-align:center;">
+                                            <font color="#39b54a">
+                                            </font>
+                                            <img class="img-fluid o_we_custom_image" 
+                                                 src="/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be" 
+                                                 style="width:auto;"/><br/>
+                                            <font color="#39b54a">
+                                              <span style="font-size:36px;">Proceso de pago rechazado</span>
+                                            </font>
+                                            <br/>
+                                        </div>
+                                        <div style="text-align:center;">
+                                            <span style="font-size:18px;">Por favor vuelva a intentar</span>
+                                        </div>
+                                        <!--<p></p>-->
+                                    </div>
+                                </div>
+                                
+                                <div class="s_btn text-center pt16 pb16" data-name="Button">
+                                    <a class="btn btn-primary" 
+                                       id="submit_beneficiaries_add" 
+                                       data-original-title="" 
+                                       title="" 
+                                       aria-describedby="tooltip188699"
+                                       style="color:#FFF;">Ir al proceso de Pago
+                                       <i class="fa fa-chevron-right"/>
+                                    </a>
+                                    <input type="hidden" name="order_id" t-att-value="order_id"/>
+                                  </div>
+                                <!--<div style="margin: 32px 0px 32px 0px; text-align: center;">
+                                    <button class="btn btn-custom mb32" id="submit_beneficiaries_add">
+                                        <span>Registrar Beneficiarios</span>
+                                        <i class="fa fa-chevron-right"/>
+                                    </button>
+                                </div>-->
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                </div>
+                
+                
+            </div>
+         </t>
+         
+     </template>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+     <template id="payulatam_success_process_pse" name="PayU Latam Payment Process PSE">
+         
+         <t t-set="no_footer" t-value="1"/>
+            <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container oe_website_sale py-2">
+                <div class="row">
+                 
+                    <div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block">
+                        <div class="card">
+                            <div class="card-body p-xl-0">
+                                <div class="col-lg-auto d-print-none">
+                                    <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
+                                        <div class="card-body text-center pb-2 pt-3">
+                                            <h2 class="mb-0"><b data-id="total_amount">$ <span class="oe_currency_value">48.400,00</span></b> </h2>
+                                        </div>
+                                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                                            <li class="list-group-item flex-grow-1">
+                                                <a role="button" 
+                                                   id="o_sale_portal_paynow" 
+                                                   data-toggle="modal" 
+                                                   data-target="#modalaccept" 
+                                                   href="#" 
+                                                   class="btn-block mb8 btn btn-primary disabled">
+                                                    <i class="fa fa-check"></i> Pago Realizado
+                                                </a>
+                                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_download_btn" 
+                                                           title="Descargar" 
+                                                           href="">
+                                                            <i class="fa fa-download"></i> Descargar
+                                                        </a>
+                                                    </div>
+                                                    <div class="btn-group flex-grow-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" 
+                                                            id="print_invoice_report" 
+                                                            title="Imprimir" 
+                                                            target="_blank" 
+                                                            href="">
+                                                            <i class="fa fa-print"></i> Imprimir
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="navspy list-group-item pl-0 flex-grow-1" role="complementary">
+                                                <ul class="nav flex-column bs-sidenav"></ul>
+                                            </li>
+                                        </ul>
+                                        <div class="card-footer small text-center text-muted border-top-0 pt-1 pb-1 d-none d-lg-block">
+                                            Con tecnología de 
+                                            <a target="_blank" 
+                                               href="" 
+                                               title="odoo">
+                                                <img src="/web_sale_extended/static/src/img/PayU.png" alt="Logo de Odoo" height="15"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="quote_content" class="col-12 col-xl order-xl-1 oe_cart">
+                        <section class="s_text_block pt0 pb0" data-name="Text block">
+                            <div class="col-lg-12 pt0 pb0">
+                                <div class="s_alert clearfix w-100 s_alert_md" data-name="Alert" style="border:none;">
+                                    <i class="fa-2x s_alert_icon"></i>
+                                    <div class="s_alert_content">
+                                        <p></p>
+                                        <div style="text-align:center;">
+                                            <font color="#39b54a">
+                                            </font>
+                                            <img class="img-fluid o_we_custom_image" 
+                                                 src="/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be" 
+                                                 style="width:auto;"/><br/>
+                                            <font color="#39b54a">
+                                              <span style="font-size:36px;">Proceso de pago procesado exitosamente gracias a PayU</span>
+                                            </font>
+                                            <br/>
+                                        </div>
+                                        <div style="text-align:center;">
+                                            <span style="font-size:18px;">Para continuar enviaremos un correo electrónico que le permitirá registrar sus beneficiarios. Este correo llegará tan proto recibamos la confirmación del banco debitando la transacción.</span>
+                                        </div>
+                                        <!--<p></p>-->
+                                    </div>
+                                </div>
+                                
+                                <div class="s_btn text-center pt16 pb16" data-name="Button">
+                                    <a class="btn btn-primary" 
+                                       id="submit_pse_end" 
+                                       data-original-title="" 
+                                       title="" 
+                                       aria-describedby="tooltip188699"
+                                       style="color:#FFF;">Terminar
+                                       <i class="fa fa-chevron-right"/>
+                                    </a>
+                                    <input type="hidden" name="order_id" t-att-value="order_id"/>
+                                  </div>
+                                <!--<div style="margin: 32px 0px 32px 0px; text-align: center;">
+                                    <button class="btn btn-custom mb32" id="submit_beneficiaries_add">
+                                        <span>Registrar Beneficiarios</span>
+                                        <i class="fa fa-chevron-right"/>
+                                    </button>
+                                </div>-->
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                </div>
+                
+                
+            </div>
+         </t>
+         
+     </template>
+    
+    
+    
+    
+    
+    <template id="payulatam_rejected_process_pse" name="PayU Latam Payment Process PSE">
+         
+         <t t-set="no_footer" t-value="1"/>
+            <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container oe_website_sale py-2">
+                <div class="row">
+                 
+                    <div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block">
+                        <div class="card">
+                            <div class="card-body p-xl-0">
+                                <div class="col-lg-auto d-print-none">
+                                    <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
+                                        <div class="card-body text-center pb-2 pt-3">
+                                            <h2 class="mb-0"><b data-id="total_amount">$ <span class="oe_currency_value">48.400,00</span></b> </h2>
+                                        </div>
+                                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                                            <li class="list-group-item flex-grow-1">
+                                                <a role="button" 
+                                                   id="o_sale_portal_paynow" 
+                                                   data-toggle="modal" 
+                                                   data-target="#modalaccept" 
+                                                   href="#" 
+                                                   class="btn-block mb8 btn btn-primary disabled">
+                                                    <i class="fa fa-check"></i> Pago NO Realizado
+                                                </a>
+                                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_download_btn" 
+                                                           title="Descargar" 
+                                                           href="">
+                                                            <i class="fa fa-download"></i> Descargar
+                                                        </a>
+                                                    </div>
+                                                    <div class="btn-group flex-grow-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" 
+                                                            id="print_invoice_report" 
+                                                            title="Imprimir" 
+                                                            target="_blank" 
+                                                            href="">
+                                                            <i class="fa fa-print"></i> Imprimir
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="navspy list-group-item pl-0 flex-grow-1" role="complementary">
+                                                <ul class="nav flex-column bs-sidenav"></ul>
+                                            </li>
+                                        </ul>
+                                        <div class="card-footer small text-center text-muted border-top-0 pt-1 pb-1 d-none d-lg-block">
+                                            Con tecnología de 
+                                            <a target="_blank" 
+                                               href="" 
+                                               title="odoo">
+                                                <img src="/web_sale_extended/static/src/img/PayU.png" alt="Logo de Odoo" height="15"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="quote_content" class="col-12 col-xl order-xl-1 oe_cart">
+                        <section class="s_text_block pt0 pb0" data-name="Text block">
+                            <div class="col-lg-12 pt0 pb0">
+                                <div class="s_alert clearfix w-100 s_alert_md" data-name="Alert" style="border:none;">
+                                    <i class="fa-2x s_alert_icon"></i>
+                                    <div class="s_alert_content">
+                                        <p></p>
+                                        <div style="text-align:center;">
+                                            <font color="red">
+                                            </font>
+                                            <img class="img-fluid o_we_custom_image" 
+                                                 src="/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be" 
+                                                 style="width:auto;"/><br/>
+                                            <font color="red">
+                                              <span style="font-size:36px;">Proceso de pago rechazado</span>
+                                            </font>
+                                            <br/>
+                                        </div>
+                                        <div style="text-align:center;">
+                                            <span style="font-size:18px;">Por favor vuelva a intentar</span>
+                                        </div>
+                                        <!--<p></p>-->
+                                    </div>
+                                </div>
+                                
+                                <div class="s_btn text-center pt16 pb16" data-name="Button">
+                                    <a class="btn btn-primary" 
+                                       id="submit_beneficiaries_add" 
+                                       data-original-title="" 
+                                       title="" 
+                                       aria-describedby="tooltip188699"
+                                       style="color:#FFF;">Ir al proceso de Pago
+                                       <i class="fa fa-chevron-right"/>
+                                    </a>
+                                    <input type="hidden" name="order_id" t-att-value="order_id"/>
+                                  </div>
+                                <!--<div style="margin: 32px 0px 32px 0px; text-align: center;">
+                                    <button class="btn btn-custom mb32" id="submit_beneficiaries_add">
+                                        <span>Registrar Beneficiarios</span>
+                                        <i class="fa fa-chevron-right"/>
+                                    </button>
+                                </div>-->
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                </div>
+                
+                
+            </div>
+         </t>
+         
+     </template>
+    
+    
+    
 
 </odoo>

@@ -4,17 +4,11 @@
         <t t-call="website.layout">
             <br/>
             
-            
-            
-            <div class="alert alert-success alert-dismissable d-print-none" role="status" style="text-align:center;">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">x</button>
-                        <strong>¡Gracias!</strong><br/>
-                        <span>Su pedido ha sido confirmado y pagado.</span>
-                
-                
-                </div>
-            
-            
+            <!--<div class="alert alert-success alert-dismissable d-print-none" role="status" style="text-align:center;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">x</button>
+                <strong>¡Gracias!</strong><br/>
+                <span>Su pedido ha sido confirmado y pagado.</span>
+            </div>-->
             
             <div class="container">
                 <form id="beneficiary" action="/beneficiary-detail" method="post" class="checkout_autoformat">
@@ -89,21 +83,26 @@
                                 </div>
                             </div>
                             <div class="col-lg-3">
+                                <label class="col-form-label" for="expedition_date">Fecha de exp del documento</label>
+                                            <input type="date" name="expedition_date" 
+                                            t-attf-class="form-control" 
+                                             />
+                            </div>
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="email">Email*</label>
                                     <input class="form-control" type="email"  name="email" placeholder='ejemplo@ejemplo.com'  t-att-value="partner.email"/>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="phone">Teléfono Móvil*</label>
                                     <input class="form-control" type="text" name="phone" t-att-value="partner.phone" />
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="sex">Sexo</label>
                                     <select name="sex" class="form-control">
@@ -116,7 +115,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="estado_civil">Estado Civil*</label>
                                     <select id="estado_civil" name="estado_civil" class="form-control">
@@ -132,7 +131,7 @@
                                 </div>
                             </div>
                             
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="ocupacion">Ocupación</label>
                                     <input class="form-control" type="text" name="ocupation"  />
