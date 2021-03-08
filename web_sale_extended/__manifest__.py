@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'website_sale', 'portal'],
+    'depends': ['base', 'website_sale', 'portal', 'product', 'sale', 'sale_subscription', 'mail'],
 
     # always loaded
     'data': [
@@ -28,12 +28,21 @@
         'views/views.xml',
         'views/templates.xml',
         'views/web_sale_shop_address.xml',
+        'views/payulatam_payment_process.xml',
+        'views/product_view.xml',
+        'views/res_company_view.xml',
         'views/res_partner_view.xml',
+        'views/mail_template_view.xml',
+        'views/account.xml',
         'views/beneficiary.xml',
         'views/beneficiary_detail.xml',
-        'reports/sale_order_report.xml',
-        'reports/res_partner_report.xml',
+        'views/sale_order_view.xml',
+        'views/sale_subscription_view.xml',
+        'views/ir_sequence_view.xml',
+        #'reports/sale_order_report.xml',
+        #'reports/res_partner_report.xml',
         'data/shop_address.xml',
+        'data/tus_datos_bot.xml',
         'data/beneficiary_confirm_template.xml'
     ],
     # only loaded in demonstration mode
