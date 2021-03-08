@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     
-    <!--<template id="portal_my_home_my_subscription" name="Portal My Home: Subscription Entries" inherit_id="portal.portal_my_home" priority="40">
+    <template id="portal_my_home_add_beneficiary" name="Portal My Home: beneficiary entries" inherit_id="portal.portal_my_home" priority="40">
           <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
               <t t-call="portal.portal_docs_entry">
-                  <t t-set="title">Subscripciones</t>
-                  <t t-set="url" t-value="'/my/subscription'"/>
+                  <t t-set="title">Beneficiarios</t>
+                  <t t-set="url" t-value="'/add/beneficiary'"/>
                   <t t-set="count" t-value="beneficiary_count"/>
               </t>
           </xpath>
-      </template>-->
+      </template>
     
     <template id="address" name="Address Management">
         <t t-set="no_footer" t-value="1"/>
@@ -32,37 +32,32 @@
                     </div>
                     <div class="col-12 col-xl order-xl-1 oe_cart">
                         <div>
-                            <!--<t t-if="mode == ('new', 'billing')">-->
+                            <t t-if="mode == ('new', 'billing')">
                                 
                                 <section class="s_text_block pt0 pb0" data-name="Text block" style="">
                                     <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-12 pb0 pt0">
-                                                <div class="s_alert clearfix s_alert_sm w-100" data-name="Alert" style="background: #FFFFFF; border: 1px solid #3333CC; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(51, 51, 204, 0.5); border-radius: 5px;">
-                                                    <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Img_tip.png" data-original-title="" title="" aria-describedby="tooltip561547"/>
-                                                    <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip831158"/>
-                                                    <div class="s_alert_content" style="">
-                                                    <p/>
-                                                    <div style="text-align: left;">
-                                                        <font color="#3333cc">
-                                                        <b style="font-size: 18px;">¡Genial que quieras ser parte de Más Médicos! </b>
-                                                        <span style="font-size: 18px;">
-                                                            <b>Llenemos</b>
-                                                        </span>
-                                                        <b style="font-size: 18px;">&amp;nbsp;la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/>, es fácil y rápido.</b>
-                                                        </font>
-                                                        <br/>
-                                                    </div>
-                                                        <div style="text-align: left;">
-                                                            <span style="font-size: 14px;">Ésta es la información del comprador del plan, ¡comencemos!</span>
-                                                        </div>
-                                                    <p/>
-                                                    </div>
-                                                </div>
+                                      <div class="row">
+                                        <div class="col-lg-12 pb0 pt0">
+                                          <div class="s_alert clearfix w-100 s_alert_sm" data-name="Alert" style="border: 1px solid #3333CC; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(51, 51, 204, 0.5); border-radius: 5px;">
+                                            <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Img_tip_(1).png" data-original-title="" title="" aria-describedby="tooltip561547"/>
+                                            <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip831158"/>
+                                            <div class="s_alert_content">
+                                              <p/>
+                                              <div style="text-align: left;">
+                                                <span style="color: rgb(51,51,204,1); font-size: 18px;">
+                                                  <b>!Genial que quieras ser parte de Más Médicos! Llenemos la siguiente información para adquirir tu Plan, es fácil y rápido.</b>
+                                                </span>
+                                              </div>
+                                              <div style="text-align: left;">
+                                                <span style="font-size: 14px;">Ésta es la información del asegurador principal del plan, luego llenaremos la información extra y la de tus beneficiarios o familiares.</span>
+                                              </div>
+                                              <p/>
                                             </div>
+                                          </div>
                                         </div>
+                                      </div>
                                     </div>
-                                </section>
+                                  </section>
                                 
                                 
                                 <!--<h2 class="o_page_header mt8">Dirección
@@ -70,8 +65,8 @@
                                     <a role="button" href='/web/login?redirect=/shop/checkout' 
                                     class='btn btn-primary' style="margin-top: -11px">Inicia Sesión</a>
                                 </h2>-->
-                            <!--</t>-->
-                            <!--<t t-if="mode == ('edit', 'billing')">
+                            </t>
+                            <t t-if="mode == ('edit', 'billing')">
                                 <h2 class="o_page_header mt8">Dirección</h2>
                             </t>
                             <t t-if="mode[1] == 'shipping'">
@@ -85,17 +80,9 @@
                                         If you want to modify your shipping address, create a <a href='/shop/address'>new address</a>.
                                     </p>
                                 </div>
-                            </t>-->
-                            <!--<t t-if="error" t-foreach="error.get('error_message', [])" t-as="err">-->
-                            <t t-if="error">
-                                <div class="alert alert-success alert-dismissable d-print-none" role="status" style="text-align:center;">
-                                    <t t-if="error.get('error_message') == 'document_invalid'">
-                                        <h4 class="text-danger">¡Upss! has registrado un documento que no es valido</h4>
-                                    </t>
-                                    <t t-else="">
-                                        <h5 class="text-danger" t-esc="error.get('error_message')" />
-                                    </t>
-                                </div>
+                            </t>
+                            <t t-if="error" t-foreach="error.get('error_message', [])" t-as="err">
+                                <h5 class="text-danger" t-esc="err" />
                             </t>
                             <form id="shop" action="/shop/address" method="post" class="checkout_autoformat">
                                 <div class="form-row">
@@ -144,7 +131,7 @@
                                                 <input type="text" name="second_name"  />
                                             </div> -->
                                     <div class="w-100"/>
-                                    <!--<t t-if="mode[1] == 'billing'">-->
+                                    <t t-if="mode[1] == 'billing'">
                                         <div t-attf-class="form-group #{error.get('email') and 'o_has_error' or ''} col-lg-6" 
                                         id="div_email">
                                             <label class="col-form-label" for="email">Email</label>
@@ -152,7 +139,7 @@
                                             t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}" 
                                             t-att-value="'email' in checkout and checkout['email']" />
                                         </div>
-                                    <!--</t>-->
+                                    </t>
                                     <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-lg-6" 
                                     id="div_phone">
                                         <label class="col-form-label" for="phone">Teléfono</label>
@@ -165,9 +152,9 @@
                                         <select name="document" class="selectpicker" id="document" 
                                         t-attf-class="form-control #{error.get('') and 'is-invalid' or ''}" 
                                         t-att-mode="mode[1]">
-                                            <option value="" selected="True">Tipo documento...</option>
+                                            <option value="">Tipo documeno...</option>
                                             <t t-foreach="document_types" t-as="dt">
-                                                <option t-att-value="dt.id">
+                                                <option t-att-value="dt.id" t-att-selected="dt.name">
                                                     <t t-esc="dt.name" /> 
                                                 </option>
                                             </t>
@@ -186,17 +173,18 @@
                                     <div t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6">
                                         <label class="col-form-label" for="birthdate_date">Fecha nacimiento</label>
                                             <input type="date" name="birthdate_date" 
-                                            t-attf-class="form-control #{error.get('birthdate_date') and 'is-invalid' or ''}" 
+                                            t-attf-class="form-control #{error.get('identification_document') and 'is-invalid' or ''}" 
                                             t-att-value="'identification_document' in checkout and checkout['birthdate_date']" />
-
-                                        
-                                    </div>
-                                    <div t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6">
-
-                                        <label class="col-form-label" for="expedition_date">Fecha de exp del documento</label>
-                                            <input type="date" name="expedition_date" 
-                                            t-attf-class="form-control #{error.get('expedition_date') and 'is-invalid' or ''}" 
-                                             />
+                                       <!-- <select name="fiscal_position" class="selectpicker" id="fiscal_position" 
+                                        t-attf-class="form-control #{error.get('') and 'is-invalid' or ''}" 
+                                        t-att-mode="mode[1]">
+                                            <option value="">Seleccione una...</option>
+                                            <t t-foreach="fiscal_position" t-as="fp">
+                                                <option t-att-value="fp.id" t-att-selected="fp.name">
+                                                    <t t-esc="fp.name" /> 
+                                                </option>
+                                            </t>      
+                                        </select>-->
                                     </div>
                                     <div class="w-100"/>
                                     <div t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-lg-12 div_street">
@@ -213,52 +201,17 @@
                                                 t-attf-class="form-control #{error.get('street2') and 'is-invalid' or ''}" 
                                                 t-att-value="'street2' in checkout and checkout['street2']" />
                                             </div> -->
-                                    
-                                    
-                                    
-                                    <div class="w-100"/>
-                                    <div t-attf-class="form-group #{error.get('country_id') and 'o_has_error' or ''} col-lg-6 div_country">
-                                        <label class="col-form-label" for="country_id">País</label>
-                                        <select class="selectpicker" data-size="5" data-live-search="true"  id="country_id" name="country_id" 
-                                        t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}" t-att-mode="mode[1]">
-                                            <option value="">País...</option>
-                                            <t t-foreach="countries" t-as="c">
-                                                <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
-                                                    <t t-esc="c.name" />
-                                                </option>
-                                            </t>
-                                        </select>
-                                    </div>
-                                    <div t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-lg-6 div_state" 
-                                    t-att-style="(not country or not country.state_ids) and 'display: none'">
-                                        <label class="col-form-label" for="state_id">Departamento</label>
-                                        <select class="selectpicker" data-size="4" id="state_id" data-live-search="true" name="state_id" 
-                                        t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}" data-init="1">
-                                            <option value="">Departamento</option>
-                                            <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id" 
-                                                        t-att-selected="s.id == ('state_id' in checkout and country and checkout['state_id'] != '' 
-                                                                        and int(checkout['state_id']))">
-                                                    <t t-esc="s.name" />
-                                                </option>
-                                            </t>
-                                        </select>
-                                    </div>
-                                    
-                                    
                                     <div class="w-100"></div>
-                                    <t t-set='zip_city' />
-                                    <!--t-value='country and [x for x in country.get_address_fields() if x in ["zip", "city"]] or ["city", "zip"]'-->
-                                    <!--<t t-if="'zip' in zip_city and zip_city.index('zip') &lt; zip_city.index('city')">-->
+                                    <t t-set='zip_city' 
+                                    t-value='country and [x for x in country.get_address_fields() if x in ["zip", "city"]] or ["city", "zip"]'/>
+                                    <t t-if="'zip' in zip_city and zip_city.index('zip') &lt; zip_city.index('city')">
                                         <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip">
                                             <label class="col-form-label label-optional" for="zip">Código postal</label>
-                                            <input type="text"  name="zip"
+                                            <input type="text"  name="zip" 
                                             t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" 
                                             t-att-value="'zip' in checkout and checkout['zip']" readonly="true" />
-                                            
-                                            <input type="hidden"  name="zip_id"/>
                                         </div>
-                                    <!--</t>-->
+                                    </t>
                                             <!-- <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-8 div_city">
                                                 <label class="col-form-label" for="city">Ciudad</label>
                                                 <input type="text" name="city" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" 
@@ -266,16 +219,8 @@
                                             </div> -->
                                     <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-8 div_city">
                                         <label class="col-form-label" for="city">Ciudad</label>
-                                        <select 
-                                                class="selectpicker"
-                                                data-size="10" 
-                                                data-live-search="true"
-                                                id="city"
-                                                name="city" 
-                                                t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" 
-                                                t-att-value="'city' in checkout and checkout['city']"
-                                                t-att-style="(not country or not country.state_ids) and 'display: none'"
-                                                >
+                                        <select class="selectpicker" data-size="5" data-live-search="true"  id="city" name="city" 
+                                        t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" t-att-value="'city' in checkout and checkout['city']" >
                                             <option value="">Ciudad...</option>
                                             <t t-foreach="cities" t-as="c">
                                                 <option t-att-value="c.city_id.name" t-att-selected="c.name">
@@ -308,71 +253,55 @@
                                                   </t>
                                             </div> -->
 
-                                    <!--<t t-if="'zip' in zip_city and zip_city.index('zip') &gt; zip_city.index('city')">
+                                    <t t-if="'zip' in zip_city and zip_city.index('zip') &gt; zip_city.index('city')">
                                         <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip">
                                             <label class="col-form-label label-optional" for="zip">Código postal</label>
                                             <input type="text" name="zip" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" 
                                             t-att-value="'zip' in checkout and checkout['zip']"  readonly="true"/>
                                         </div>
-                                    </t>-->
-                                    
-                                    
-                                    
-                                    <div t-attf-class="form-group #{error.get('fiscal_position_id') and 'o_has_error' or ''} col-lg-12 div_fiscal_position">
-                                        <span style="font-weight: bold;">Posición Fiscal</span>
-                                        <i class="fa fa-question-circle rounded"
-                                           id="posicion_fiscal_help_icon"
-                                           data-original-title="" title="" aria-describedby="tooltip725291" 
-                                           style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 255); height:32px; width:32px; valign:middle;margin-top:-2vh;"/>
-                                        
-                                        
-                                        <!--<label class="col-form-label fa fa-question-circle rounded s_features_grid_icon" for="fiscal_position_id" style="width:100%">-->
-                                        
-                                        <div id="posicion_fiscal_help" 
-                                             style="display:none;color:#FFF;padding:5px;font-weight:100;float:right;margin-right:5%;font-weight:noset;font-size:12px;background-color: #1e1f24;border-radius: 5px;">
-                                            <span>No Declarantes: Personas que no declaran Renta</span><!--<span>No Declarantes: Personas no Declarantes de Renta</span>-->
-                                            <br/>
-                                            <span>No Responsable: Personas que no son responsables ante la DIAN por ningún impuesto (ej. IVA, ICA, Retencion)</span><br/>
-                                            <span>Declarantes: Personas que declaran renta</span>
-                                        </div>
-                                        <!--</label>-->
-                                        <select class="selectpicker" data-size="4" id="fiscal_position_id" data-live-search="true" name="fiscal_position_id" 
-                                        t-attf-class="form-control #{error.get('fiscal_position_id') and 'is-invalid' or ''}" data-init="1">
-                                            <option value="">Posición Fiscal</option>
-                                            <t t-foreach="fiscal_position_ids" t-as="s">
-                                                <option t-att-value="s.id">
+                                    </t>
+                                    <div class="w-100"/>
+                                    <div t-attf-class="form-group #{error.get('country_id') and 'o_has_error' or ''} col-lg-6 div_country">
+                                        <label class="col-form-label" for="country_id">País</label>
+                                        <select class="selectpicker" data-size="5" data-live-search="true"  id="country_id" name="country_id" 
+                                        t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}" t-att-mode="mode[1]">
+                                            <option value="">País...</option>
+                                            <t t-foreach="countries" t-as="c">
+                                                <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
+                                                    <t t-esc="c.name" />
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-lg-6 div_state" 
+                                    t-att-style="(not country or not country.state_ids) and 'display: none'">
+                                        <label class="col-form-label" for="state_id">Estado / Provincia</label>
+                                        <select class="selectpicker" data-size="4" id="state_id" data-live-search="true" name="state_id" 
+                                        t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}" data-init="1">
+                                            <option value="">Estado / Provincia</option>
+                                            <t t-foreach="country_states" t-as="s">
+                                                <option t-att-value="s.id" t-att-selected="s.id == ('state_id' in checkout and country and checkout['state_id'] != '' and int(checkout['state_id']))">
                                                     <t t-esc="s.name" />
                                                 </option>
                                             </t>
                                         </select>
                                     </div>
-                                    
-                                    
-                                    
-                                    
                                     <div class="col-lg-6">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" name="tyc" id="defaultCheck1"/>
                                             <label class="form-check-label" for="tyc">
                                                 Acepto términos y condiciones
-                                                <a href="#terminos" id="btn_terminos"> (leer)</a>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" name="aceptacion_datos" id="defaultCheck2"/>
-                                            <label class="form-check-label" for="aceptacion_datos" style="text-size:10px;">
+                                            <label class="form-check-label" for="aceptacion_datos">
                                                 Acepto política de tratamiento de datos
-                                                <a href="#politica" id="btn_politica"> (leer)</a>
+                                                <a href="javascript:window.open('https://drive.google.com/file/d/1Ssha64EwsnK9Y1zEfJwJl9sD_GbF6c1Y/view?usp=sharing');"> (leer)</a>
                                             </label>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-12" id="terminos">
-                                        <iframe src="/web_sale_extended/static/src/files/terminos.pdf" width="100%" height="680px">Acepto términos y condiciones</iframe>
-                                    </div>
-                                    <div class="col-lg-12" id="politica">
-                                        <iframe src="/web_sale_extended/static/src/files/tratamiento_de_datos.pdf" width="100%" height="680px">Acepto política de tratamiento de datos</iframe>
                                     </div>
                                     <div class="w-100"/>
                                     <t t-if="mode == ('new', 'billing') and not only_services">
@@ -393,12 +322,12 @@
                                     <input type="hidden" name="callback" t-att-value="callback" />
                                         <!-- Example -->
                                     <input type="hidden" name="field_required" t-att-value="'phone,name'" />
-                                    <p/>
-                                    <div class="d-flex justify-content-end">
-                                        <!--<a role="button" t-att-href="mode == ('new', 'billing') and '/shop/cart' or '/shop/checkout'" class="btn btn-secondary mb32">
+
+                                    <div class="d-flex justify-content-between">
+                                        <a role="button" t-att-href="mode == ('new', 'billing') and '/shop/cart' or '/shop/checkout'" class="btn btn-secondary mb32">
                                             <i class="fa fa-chevron-left"/>
                                             <span>Atrás</span>
-                                        </a>-->
+                                        </a>
                                         <button class="btn btn-custom mb32">
                                             <span>Guardar</span>
                                             <i class="fa fa-chevron-right"/>
@@ -407,9 +336,7 @@
                                             
                                     </div>
                                 </form>
-                            
-
-                        </div>
+                            </div>
                         </div>
                     </div>
                 </div>
