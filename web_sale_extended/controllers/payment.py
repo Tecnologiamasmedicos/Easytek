@@ -195,7 +195,7 @@ class WebsiteSaleExtended(WebsiteSale):
             #"billingAddress": post['credit_card_partner_street']
         }
         
-        without_token = 0
+        without_token = 1
         if without_token:
             credit_card = {
                 "number": post['credit_card_number'],
