@@ -783,7 +783,7 @@
                                         <div class="container">
                                           <div class="row">
                                             <div class="col-lg-2">
-                                              <img src="/web/image/1397/tdc-codensa.png" 
+						    <img src="/web_sale_extended/static/src/img/tdc-codensa.png" 
                                                    class="img img-fluid" 
                                                    alt="Logo Demo" 
                                                    data-original-title="" 
@@ -792,7 +792,7 @@
                                                    style=""/>
                                             </div>
                                             <div class="col-lg-2">
-                                              <img src="/web/image/1399/tdc-visa.png" 
+						    <img src="/web_sale_extended/static/src/img/tdc-visa.png" 
                                                    class="img img-fluid" 
                                                    alt="Logo Demo" 
                                                    data-original-title="" 
@@ -800,7 +800,7 @@
                                                    aria-describedby="tooltip997456"/>
                                             </div>
                                             <div class="col-lg-2">
-                                              <img src="/web/image/1400/tdc-empty.png" 
+						    <img src="/web_sale_extended/static/src/img/tdc-empty.png" 
                                                    class="img img-fluid" 
                                                    alt="Logo Demo" 
                                                    data-original-title="" 
@@ -808,7 +808,7 @@
                                                    aria-describedby="tooltip684457"/>
                                             </div>
                                             <div class="col-lg-2">
-                                              <img src="/web/image/1401/tdc-mastercard.png" 
+						    <img src="/web_sale_extended/static/src/img/tdc-mastercard.png" 
                                                    class="img img-fluid" 
                                                    alt="Logo Demo" 
                                                    data-original-title="" 
@@ -817,7 +817,7 @@
                                                    style=""/>
                                             </div>
                                             <div class="col-lg-2">
-                                              <img src="/web/image/1402/tdc-amex.png" 
+						    <img src="/web_sale_extended/static/src/img/tdc-amex.png" 
                                                    class="img img-fluid" 
                                                    alt="Logo Demo" 
                                                    data-original-title="" 
@@ -825,7 +825,7 @@
                                                    aria-describedby="tooltip211355"/>
                                             </div>
                                             <div class="col-lg-2">
-                                              <img src="/web/image/1403/tdc-diners.png" 
+						    <img src="/web_sale_extended/static/src/img/tdc-diners.png" 
                                                    class="img img-fluid" 
                                                    alt="Logo Demo" 
                                                    data-original-title="" 
