@@ -272,6 +272,7 @@ class WebsiteSaleExtended(WebsiteSale):
             return request.render("web_sale_extended.payulatam_success_process", render_values)
         elif response['transactionResponse']['state'] == 'PENDING':
             _logger.info('Notificación Recibida para el pago de PayU Latam: %s: establecido como PENDIENTE' % (response['transactionResponse']['orderId']))
+            order.action_confirm()
             error = 'Se recibió un estado no reconocido para el pago de PayU Latam %s: %s, set as error' % (
                 response['transactionResponse']['transactionId'],response['status']
             )
@@ -287,6 +288,7 @@ class WebsiteSaleExtended(WebsiteSale):
         elif response['transactionResponse']['state'] in ['EXPIRED', 'DECLINED']:
             _logger.info('Notificación recibida para el pago PayU Latam %s: Orden Cancelada' % (response['transactionResponse']['transactionId']))
             render_values = {'error': '',}
+            order.action_confirm()
             if response['transactionResponse']['paymentNetworkResponseErrorMessage']:
                 render_values.update({'error': response['transactionResponse']['paymentNetworkResponseErrorMessage']})
             render_values.update({
@@ -406,6 +408,7 @@ class WebsiteSaleExtended(WebsiteSale):
             return request.render("web_sale_extended.payulatam_success_process_cash", render_values)
         elif response['transactionResponse']['state'] == 'PENDING':
             _logger.info('Notificación Recibida para el pago de PayU Latam: %s: establecido como PENDIENTE' % (response['transactionResponse']['orderId']))
+            order.action_confirm()
             error = 'Se recibió un estado no reconocido para el pago de PayU Latam %s: %s, set as error' % (
                 response['transactionResponse']['transactionId'],response['transactionResponse']['state']
             )
@@ -421,6 +424,7 @@ class WebsiteSaleExtended(WebsiteSale):
         elif response['transactionResponse']['state'] in ['EXPIRED', 'DECLINED']:
             _logger.info('Notificación recibida para el pago PayU Latam %s: Orden Cancelada' % (response['transactionResponse']['transactionId']))
             render_values = {'error': '',}
+            order.action_confirm()
             if response['transactionResponse']['paymentNetworkResponseErrorMessage']:
                 render_values.update({'error': response['transactionResponse']['paymentNetworkResponseErrorMessage']})
             render_values.update({
@@ -590,6 +594,7 @@ class WebsiteSaleExtended(WebsiteSale):
             return request.render("web_sale_extended.payulatam_success_process_pse", render_values)
         elif response['transactionResponse']['state'] == 'PENDING':
             _logger.info('Notificación recibida para el pago de PayU Latam: %s: establecido como PENDIENTE' % (response['transactionResponse']['orderId']))
+            order.action_confirm()
             error = ''
             render_values = {'error': error}
             render_values.update({
@@ -604,6 +609,7 @@ class WebsiteSaleExtended(WebsiteSale):
             })
             return request.render("web_sale_extended.payulatam_success_process_pse", render_values)
         elif response['transactionResponse']['state'] in ['EXPIRED', 'DECLINED']:
+            order.action_confirm()
             _logger.info('Notificación recibida para el pago PayU Latam %s: Orden Cancelada' % (response['transactionResponse']['transactionId']))
             
             render_values = {}
