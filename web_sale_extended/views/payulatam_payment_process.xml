@@ -410,6 +410,7 @@
                     </div>
                     <div id="quote_content" class="col-12 col-xl order-xl-1 oe_cart">
                         <section class="s_text_block pt0 pb0" data-name="Text block">
+			    <input type="hidden" name="url_payment_receipt_pdf" id="url_payment_receipt_pdf" t-att-value="url_payment_receipt_pdf"/>
                             <div class="col-lg-12 pt0 pb0">
                                 <div class="s_alert clearfix w-100 s_alert_md" data-name="Alert" style="border:none;">
                                     <i class="fa-2x s_alert_icon"></i>
