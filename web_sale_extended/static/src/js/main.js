@@ -106,7 +106,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
 
         $.validator.addMethod("lettersonly", function(value, element) {
-            return this.optional(element) || /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g.test(value);
+            return this.optional(element) || /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]/g.test(value);
         }, "¡Upss! deben ser ser solo letras");
 
 

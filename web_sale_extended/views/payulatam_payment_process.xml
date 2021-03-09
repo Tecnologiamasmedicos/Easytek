@@ -92,7 +92,7 @@
                                             <font color="#39b54a">
                                               <span style="font-size:36px;">Proceso de pago terminado exitosamente gracias a PayU</span>
                                             </font><br/>
-                                            <font color="#39b54a" t-if="state">
+					    <!--<font color="#39b54a" t-if="state">
                                               <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
                                             </font><br/>
                                             <font color="#39b54a" t-if="error">
@@ -107,7 +107,7 @@
                                             <font color="#39b54a" t-if="order_Id">
                                               <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
                                             </font>
-                                            <br/>
+					    <br/>-->
                                         </div>
                                         <div style="text-align:center;">
                                             <span style="font-size:18px;">Para continuar con el registro del asegurado principal y los beneficiarios:</span>
@@ -320,7 +320,7 @@
                                             <font color="#39b54a">
                                               <span style="font-size:36px;">Recibo de Pago generado exitosamente gracias a PayU</span>
                                             </font><br/>
-                                            <font color="#39b54a" t-if="state">
+					    <!--<font color="#39b54a" t-if="state">
                                               <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
                                             </font><br/>
                                             <font color="#39b54a" t-if="error">
@@ -335,7 +335,7 @@
                                             <font color="#39b54a" t-if="order_Id">
                                               <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
                                             </font>
-                                            <br/>
+					    <br/>-->
                                         </div>
                                         <div style="text-align:center;">
                                             <span style="font-size:18px;">Para continuar con el registro del asegurado principal y los beneficiarios enviareamos un correo electrónico tan pronto tengamos confirmación del pago por parte de PayU. En este correo tendrá las indicaciones para que finalices tú proceso de afiliación:</span>
@@ -551,7 +551,7 @@
                                             <font color="#39b54a">
                                               <span style="font-size:36px;">Proceso de pago PSE procesado exitosamente gracias a PayU</span>
                                             </font><br/>
-                                            <font color="#39b54a" t-if="state">
+					    <!--<font color="#39b54a" t-if="state">
                                               <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
                                             </font><br/>
                                             <font color="#39b54a" t-if="error">
@@ -566,7 +566,7 @@
                                             <font color="#39b54a" t-if="order_Id">
                                               <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
                                             </font>
-                                            <br/>
+					    <br/>-->
                                         </div>
                                         <div style="text-align:center;">
                                             <span style="font-size:18px;">Para continuar enviaremos un correo electrónico que le permitirá registrar el aegurado principal y sus beneficiarios. Este correo llegará tan proto recibamos la confirmación final del banco.</span>
