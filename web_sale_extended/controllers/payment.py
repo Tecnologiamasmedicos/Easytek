@@ -297,7 +297,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 'order_id': order
             })
             _logger.error('************************************99999999999999999999999999999**********************************++1')
-            return request.render("web_sale_extended.payulatam_rejected_process", render_values)
+            return request.render("web_sale_extended.payulatam_success_process", render_values)
         else:
             error = 'Se recibió un estado no reconocido para el pago de PayU Latam %s: %s, set as error' % (
                 response['transactionResponse']['transactionId'],response['status']
@@ -311,7 +311,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 'order_Id': response['transactionResponse']['orderId'],
                 'order_id': order
             })
-            return request.render("web_sale_extended.payulatam_rejected_process", render_values)
+            return request.render("web_sale_extended.payulatam_success_process", render_values)
 
 
 
@@ -431,7 +431,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 'order_id': order
             })
             _logger.error('************************************99999999999999999999999999999**********************************++1')
-            return request.render("web_sale_extended.payulatam_rejected_process_cash", render_values)
+            return request.render("web_sale_extended.payulatam_success_process_cash", render_values)
         else:
             error = 'Se recibió un estado no reconocido para el pago de PayU Latam %s: %s, set as error' % (
                 response['transactionResponse']['transactionId'],response['status']
@@ -445,7 +445,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 'order_Id': response['transactionResponse']['orderId'],
                 'order_id': order
             })
-            return request.render("web_sale_extended.payulatam_rejected_process_cash", render_values)
+            return request.render("web_sale_extended.payulatam_success_process_cash", render_values)
         
         
         
@@ -619,7 +619,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 'order_Id': response['transactionResponse']['orderId'],
                 'order_id': order
             })
-            return request.render("web_sale_extended.payulatam_rejected_process_pse", render_values)
+            return request.render("web_sale_extended.payulatam_success_process_pse", render_values)
         else:
             error = 'Se recibió un estado no reconocido para el pago de PayU Latam %s: %s, set as error' % (
                 response['transactionResponse']['transactionId'],response['status']
