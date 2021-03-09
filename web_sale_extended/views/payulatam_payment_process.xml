@@ -1071,7 +1071,12 @@
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="credit_card_billing_lastname">Apellidos</label>
+						<t t-if="order.partner_id.lastname2">
+                                                <input class="form-control" type="text" name="credit_card_billing_lastname" t-att-value="order.partner_id.lastname"/>
+						</t>
+						<t t-if="not order.partner_id.lastname2">
                                                 <input class="form-control" type="text" name="credit_card_billing_lastname" t-att-value="order.partner_id.lastname + ' ' + order.partner_id.lastname2"/>
+						</t>
                                             </div>
                                         </div>
                                       </div>
