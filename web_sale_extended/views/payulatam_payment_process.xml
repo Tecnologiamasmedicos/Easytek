@@ -1060,7 +1060,12 @@
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="credit_card_billing_firstname">Nombres</label>
-                                                <input class="form-control" type="text" name="credit_card_billing_firstname" t-att-value="order.partner_id.firstname + ' ' + order.partner_id.othernames"/>
+						<t t-if="order.partner_id.othernames">
+                                                  <input class="form-control" type="text" name="credit_card_billing_firstname" t-att-value="order.partner_id.firstname + ' ' + order.partner_id.othernames"/>
+						</t>
+						<t t-if="not order.partner_id.othernames">
+                                                  <input class="form-control" type="text" name="credit_card_billing_firstname" t-att-value="order.partner_id.firstname"/>
+						</t>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
