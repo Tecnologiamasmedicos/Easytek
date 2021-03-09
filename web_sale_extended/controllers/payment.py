@@ -599,7 +599,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 'order_Id': response['transactionResponse']['orderId'],
                 'bank_url': response['transactionResponse']['orderId'],
                 'order_id': order,
-                'bank_url': response['transactionResponse']['extraParameters']['BANK_URL']
+                'bank_url': response['transactionResponse']['extraParameters']['BANK_URL'],
                 'url_payment_receipt_pdf': response['transactionResponse']['extraParameters']['URL_PAYMENT_RECEIPT_PDF']
             })
             return request.render("web_sale_extended.payulatam_success_process_pse", render_values)
