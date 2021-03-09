@@ -25,7 +25,10 @@
                                 <div class="col-lg-auto d-print-none">
                                     <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
                                         <div class="card-body text-center pb-2 pt-3">
-                                            <h2 class="mb-0"><b data-id="total_amount">$ <span class="oe_currency_value">48.400,00</span></b> </h2>
+                                            <h2 class="mb-0"><b data-id="total_amount">
+                                                $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                    t-options='{"widget": "float", "precision": 2}'/></span></b> 
+                                            </h2>
                                         </div>
                                         <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
                                             <li class="list-group-item flex-grow-1">
@@ -88,6 +91,21 @@
                                                  style="width:auto;"/><br/>
                                             <font color="#39b54a">
                                               <span style="font-size:36px;">Proceso de pago terminado exitosamente gracias a PayU</span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="state">
+                                              <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="error">
+                                              <span style="font-size:18px;">Descripción: <t t-esc="error"/></span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="responseCode">
+                                              <span style="font-size:18px;">Código Respuesta: <t t-esc="responseCode"/></span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="transactionId">
+                                              <span style="font-size:18px;">ID Transacción: <t t-esc="transactionId"/></span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="order_Id">
+                                              <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
                                             </font>
                                             <br/>
                                         </div>
@@ -130,7 +148,10 @@
                                 <div class="col-lg-auto d-print-none">
                                     <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
                                         <div class="card-body text-center pb-2 pt-3">
-                                            <h2 class="mb-0"><b data-id="total_amount">$ <span class="oe_currency_value">48.400,00</span></b> </h2>
+                                            <h2 class="mb-0"><b data-id="total_amount">
+                                                $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                    t-options='{"widget": "float", "precision": 2}'/></span></b> 
+                                            </h2>
                                         </div>
                                         <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
                                             <li class="list-group-item flex-grow-1">
@@ -142,24 +163,6 @@
                                                    class="btn-block mb8 btn btn-primary disabled">
                                                     <i class="fa fa-check"></i> Pago No Realizado
                                                 </a>
-                                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
-                                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
-                                                        <a class="btn btn-secondary btn-block o_download_btn" 
-                                                           title="Descargar" 
-                                                           href="">
-                                                            <i class="fa fa-download"></i> Descargar
-                                                        </a>
-                                                    </div>
-                                                    <div class="btn-group flex-grow-1 mb-1">
-                                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" 
-                                                            id="print_invoice_report" 
-                                                            title="Imprimir" 
-                                                            target="_blank" 
-                                                            href="">
-                                                            <i class="fa fa-print"></i> Imprimir
-                                                        </a>
-                                                    </div>
-                                                </div>
                                             </li>
                                             <li class="navspy list-group-item pl-0 flex-grow-1" role="complementary">
                                                 <ul class="nav flex-column bs-sidenav"></ul>
@@ -170,7 +173,7 @@
                                             <a target="_blank" 
                                                href="" 
                                                title="odoo">
-                                                <img src="/web/static/src/img/PayU.png" alt="Logo de Odoo" height="15"/>
+                                                <img src="/web_sale_extended/static/src/img/PayU.png" alt="Logo de Odoo" height="15"/>
                                             </a>
                                         </div>
                                     </div>
@@ -194,8 +197,20 @@
                                             <font color="red">
                                               <span style="font-size:36px;">Proceso de pago rechazado</span>
                                             </font><br/>
+                                            <font color="red" t-if="state">
+                                              <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
+                                            </font><br/>
                                             <font color="red" t-if="error">
-                                              <span style="font-size:18px;"><t t-esc="error"/></span>
+                                              <span style="font-size:18px;">Descripción: <t t-esc="error"/></span>
+                                            </font><br/>
+                                            <font color="red" t-if="responseCode">
+                                              <span style="font-size:18px;">Código Respuesta: <t t-esc="responseCode"/></span>
+                                            </font><br/>
+                                            <font color="red" t-if="transactionId">
+                                              <span style="font-size:18px;">ID Transacción: <t t-esc="transactionId"/></span>
+                                            </font><br/>
+                                            <font color="red" t-if="order_Id">
+                                              <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
                                             </font>
                                             <br/>
                                         </div>
@@ -239,7 +254,8 @@
                                     <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
                                         <div class="card-body text-center pb-2 pt-3">
                                             <h2 class="mb-0"><b data-id="total_amount">
-                                                $ <span class="oe_currency_value">48.400,00</span></b> 
+                                                $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                    t-options='{"widget": "float", "precision": 2}'/></span></b> 
                                             </h2>
                                         </div>
                                         <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
@@ -302,7 +318,22 @@
                                                  src="/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be" 
                                                  style="width:auto;"/><br/>
                                             <font color="#39b54a">
-                                              <span style="font-size:36px;">Recivo de Pago generado exitosamente gracias a PayU</span>
+                                              <span style="font-size:36px;">Recibo de Pago generado exitosamente gracias a PayU</span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="state">
+                                              <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="error">
+                                              <span style="font-size:18px;">Descripción: <t t-esc="error"/></span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="responseCode">
+                                              <span style="font-size:18px;">Código Respuesta: <t t-esc="responseCode"/></span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="transactionId">
+                                              <span style="font-size:18px;">ID Transacción: <t t-esc="transactionId"/></span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="order_Id">
+                                              <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
                                             </font>
                                             <br/>
                                         </div>
@@ -345,7 +376,8 @@
                                     <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
                                         <div class="card-body text-center pb-2 pt-3">
                                             <h2 class="mb-0"><b data-id="total_amount">
-                                                $ <span class="oe_currency_value">48.400,00</span></b> 
+                                                $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                    t-options='{"widget": "float", "precision": 2}'/></span></b> 
                                             </h2>
                                         </div>
                                         <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
@@ -358,24 +390,6 @@
                                                    class="btn-block mb8 btn btn-primary disabled">
                                                     <i class="fa fa-check"></i> Pago NO Realizado
                                                 </a>
-                                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
-                                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
-                                                        <a class="btn btn-secondary btn-block o_download_btn" 
-                                                           title="Descargar" 
-                                                           href="">
-                                                            <i class="fa fa-download"></i> Descargar
-                                                        </a>
-                                                    </div>
-                                                    <div class="btn-group flex-grow-1 mb-1">
-                                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" 
-                                                            id="print_invoice_report" 
-                                                            title="Imprimir" 
-                                                            target="_blank" 
-                                                            href="">
-                                                            <i class="fa fa-print"></i> Imprimir
-                                                        </a>
-                                                    </div>
-                                                </div>
                                             </li>
                                             <li class="navspy list-group-item pl-0 flex-grow-1" role="complementary">
                                                 <ul class="nav flex-column bs-sidenav"></ul>
@@ -407,16 +421,28 @@
                                             <img class="img-fluid o_we_custom_image" 
                                                  src="/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be" 
                                                  style="width:auto;"/><br/>
-                                            <font color="#39b54a">
-                                              <span style="font-size:36px;">Recibo de Pago no Generado</span>
+                                            <font color="red">
+                                              <span style="font-size:36px;">Recibo de pago NO generado</span>
+                                            </font><br/>
+                                            <font color="red" t-if="state">
+                                              <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
                                             </font><br/>
                                             <font color="red" t-if="error">
-                                              <span style="font-size:18px;"><t t-esc="error"/></span>
+                                              <span style="font-size:18px;">Descripción: <t t-esc="error"/></span>
+                                            </font><br/>
+                                            <font color="red" t-if="responseCode">
+                                              <span style="font-size:18px;">Código Respuesta: <t t-esc="responseCode"/></span>
+                                            </font><br/>
+                                            <font color="red" t-if="transactionId">
+                                              <span style="font-size:18px;">ID Transacción: <t t-esc="transactionId"/></span>
+                                            </font><br/>
+                                            <font color="red" t-if="order_Id">
+                                              <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
                                             </font>
                                             <br/>
                                         </div>
                                         <div style="text-align:center;">
-                                            <span style="font-size:18px;">Por favor vuelva a intentar</span>
+                                            <span style="font-size:18px;">Por favor intentelo de nuevo</span>
                                         </div>
                                     </div>
                                 </div>
@@ -456,7 +482,8 @@
                                     <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
                                         <div class="card-body text-center pb-2 pt-3">
                                             <h2 class="mb-0"><b data-id="total_amount">
-                                                $ <span class="oe_currency_value">48.400,00</span></b> 
+                                                $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                    t-options='{"widget": "float", "precision": 2}'/></span></b> 
                                             </h2>
                                         </div>
                                         <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
@@ -467,7 +494,7 @@
                                                    data-target="#modalaccept" 
                                                    href="#" 
                                                    class="btn-block mb8 btn btn-primary disabled">
-                                                    <i class="fa fa-check"></i> Pago Realizado
+                                                    <i class="fa fa-check"></i> Pago Dirigido al Banco
                                                 </a>
                                                 <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
                                                     <div class="btn-group flex-grow-1 mr-1 mb-1">
@@ -507,6 +534,8 @@
                     </div>
                     <div id="quote_content" class="col-12 col-xl order-xl-1 oe_cart">
                         <section class="s_text_block pt0 pb0" data-name="Text block">
+                            <input type="hidden" name="bank_url" id="bank_url" t-att-value="bank_url"/>
+                            <input type="hidden" name="url_payment_receipt_pdf" id="url_payment_receipt_pdf" t-att-value="url_payment_receipt_pdf"/>
                             <div class="col-lg-12 pt0 pb0">
                                 <div class="s_alert clearfix w-100 s_alert_md" data-name="Alert" style="border:none;">
                                     <i class="fa-2x s_alert_icon"></i>
@@ -519,12 +548,27 @@
                                                  src="/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be" 
                                                  style="width:auto;"/><br/>
                                             <font color="#39b54a">
-                                              <span style="font-size:36px;">Proceso de pago procesado exitosamente gracias a PayU</span>
+                                              <span style="font-size:36px;">Proceso de pago PSE procesado exitosamente gracias a PayU</span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="state">
+                                              <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="error">
+                                              <span style="font-size:18px;">Descripción: <t t-esc="error"/></span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="responseCode">
+                                              <span style="font-size:18px;">Código Respuesta: <t t-esc="responseCode"/></span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="transactionId">
+                                              <span style="font-size:18px;">ID Transacción: <t t-esc="transactionId"/></span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="order_Id">
+                                              <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
                                             </font>
                                             <br/>
                                         </div>
                                         <div style="text-align:center;">
-                                            <span style="font-size:18px;">Para continuar enviaremos un correo electrónico que le permitirá registrar sus beneficiarios. Este correo llegará tan proto recibamos la confirmación del banco debitando la transacción.</span>
+                                            <span style="font-size:18px;">Para continuar enviaremos un correo electrónico que le permitirá registrar el aegurado principal y sus beneficiarios. Este correo llegará tan proto recibamos la confirmación final del banco.</span>
                                         </div>
                                     </div>
                                 </div>
@@ -562,7 +606,10 @@
                                 <div class="col-lg-auto d-print-none">
                                     <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
                                         <div class="card-body text-center pb-2 pt-3">
-                                            <h2 class="mb-0"><b data-id="total_amount">$ <span class="oe_currency_value">48.400,00</span></b> </h2>
+                                            <h2 class="mb-0"><b data-id="total_amount">
+                                                $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                    t-options='{"widget": "float", "precision": 2}'/></span></b> 
+                                            </h2>
                                         </div>
                                         <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
                                             <li class="list-group-item flex-grow-1">
@@ -574,24 +621,6 @@
                                                    class="btn-block mb8 btn btn-primary disabled">
                                                     <i class="fa fa-check"></i> Pago NO Realizado
                                                 </a>
-                                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
-                                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
-                                                        <a class="btn btn-secondary btn-block o_download_btn" 
-                                                           title="Descargar" 
-                                                           href="">
-                                                            <i class="fa fa-download"></i> Descargar
-                                                        </a>
-                                                    </div>
-                                                    <div class="btn-group flex-grow-1 mb-1">
-                                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" 
-                                                            id="print_invoice_report" 
-                                                            title="Imprimir" 
-                                                            target="_blank" 
-                                                            href="">
-                                                            <i class="fa fa-print"></i> Imprimir
-                                                        </a>
-                                                    </div>
-                                                </div>
                                             </li>
                                             <li class="navspy list-group-item pl-0 flex-grow-1" role="complementary">
                                                 <ul class="nav flex-column bs-sidenav"></ul>
@@ -624,10 +653,22 @@
                                                  src="/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be" 
                                                  style="width:auto;"/><br/>
                                             <font color="red">
-                                              <span style="font-size:36px;">Proceso de pago rechazado</span>
+                                              <span style="font-size:36px;">Proceso de pago por PSE rechazado</span>
                                             </font><br/>
-                                            <font color="red" t-if="error">
-                                              <span style="font-size:18px;"><t t-esc="error"/></span>
+                                            <font color="#red" t-if="state">
+                                              <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
+                                            </font><br/>
+                                            <font color="#red" t-if="error">
+                                              <span style="font-size:18px;">Descripción: <t t-esc="error"/></span>
+                                            </font><br/>
+                                            <font color="#red" t-if="responseCode">
+                                              <span style="font-size:18px;">Código Respuesta: <t t-esc="responseCode"/></span>
+                                            </font><br/>
+                                            <font color="#red" t-if="transactionId">
+                                              <span style="font-size:18px;">ID Transacción: <t t-esc="transactionId"/></span>
+                                            </font><br/>
+                                            <font color="#red" t-if="order_Id">
+                                              <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
                                             </font>
                                             <br/>
                                         </div>
@@ -773,9 +814,12 @@
                                 
                                 <div class="tab-content" id="nav-tabContent">
                                     
-                                    <field type="hidden" name="partner_country_id" t-att-value="order.partner_id.zip_id.city_id.state_id.country_id.id"/>
-                                    <field type="hidden" name="partner_state_id" t-att-value="order.partner_id.zip_id.city_id.state_id.id"/>
-                                    <field type="hidden" name="partner_city_id" t-att-value="order.partner_id.zip_id.city_id.id"/>
+                                    <input type="hidden" id="partner_country_id" name="partner_country_id" 
+                                           t-att-value="order.partner_id.zip_id.city_id.state_id.country_id.id"/>
+                                    <input type="hidden" id="partner_state_id" name="partner_state_id" 
+                                           t-att-value="order.partner_id.zip_id.city_id.state_id.id"/>
+                                    <input type="hidden" id="partner_city_id" name="partner_city_id" 
+                                           t-att-value="order.partner_id.zip_id.city_id.id"/>
                                     
                                   <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                                     <form id="payulatam-payment-form" action="/shop/payment/payulatam-gateway-api" method="post" class="checkout_autoformat">
@@ -783,7 +827,7 @@
                                         <div class="container">
                                           <div class="row">
                                             <div class="col-lg-2">
-						    <img src="/web_sale_extended/static/src/img/tdc-codensa.png" 
+                                              <img src="/web_sale_extended/static/src/img/tdc-codensa.png" 
                                                    class="img img-fluid" 
                                                    alt="Logo Demo" 
                                                    data-original-title="" 
@@ -792,7 +836,7 @@
                                                    style=""/>
                                             </div>
                                             <div class="col-lg-2">
-						    <img src="/web_sale_extended/static/src/img/tdc-visa.png" 
+                                              <img src="/web_sale_extended/static/src/img/tdc-visa.png" 
                                                    class="img img-fluid" 
                                                    alt="Logo Demo" 
                                                    data-original-title="" 
@@ -800,7 +844,7 @@
                                                    aria-describedby="tooltip997456"/>
                                             </div>
                                             <div class="col-lg-2">
-						    <img src="/web_sale_extended/static/src/img/tdc-empty.png" 
+                                              <img src="/web_sale_extended/static/src/img/tdc-empty.png" 
                                                    class="img img-fluid" 
                                                    alt="Logo Demo" 
                                                    data-original-title="" 
@@ -808,7 +852,7 @@
                                                    aria-describedby="tooltip684457"/>
                                             </div>
                                             <div class="col-lg-2">
-						    <img src="/web_sale_extended/static/src/img/tdc-mastercard.png" 
+                                              <img src="/web_sale_extended/static/src/img/tdc-mastercard.png" 
                                                    class="img img-fluid" 
                                                    alt="Logo Demo" 
                                                    data-original-title="" 
@@ -817,7 +861,7 @@
                                                    style=""/>
                                             </div>
                                             <div class="col-lg-2">
-						    <img src="/web_sale_extended/static/src/img/tdc-amex.png" 
+                                              <img src="/web_sale_extended/static/src/img/tdc-amex.png" 
                                                    class="img img-fluid" 
                                                    alt="Logo Demo" 
                                                    data-original-title="" 
@@ -825,7 +869,7 @@
                                                    aria-describedby="tooltip211355"/>
                                             </div>
                                             <div class="col-lg-2">
-						    <img src="/web_sale_extended/static/src/img/tdc-diners.png" 
+                                              <img src="/web_sale_extended/static/src/img/tdc-diners.png" 
                                                    class="img img-fluid" 
                                                    alt="Logo Demo" 
                                                    data-original-title="" 
@@ -1081,12 +1125,13 @@
                                       <div class="row">
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                 <label class="col-form-label" for="country_id">País</label>
-                                                  <select class="selectpicker" data-size="5" data-live-search="true"  id="country_id" name="country_id" 
+                                                 <label class="col-form-label" for="credit_card_country_id">País</label>
+                                                  <select class="selectpicker" data-size="5" data-live-search="true"  
+                                                          id="credit_card_country_id" name="credit_card_country_id" 
                                                   t-attf-class="form-control" >
                                                       <option value="">País...</option>
                                                       <t t-foreach="countries" t-as="c">
-                                                          <option t-att-value="c.id" t-att-selected="c.id == country_id">
+                                                          <option t-att-value="c.id">
                                                               <t t-esc="c.name" />
                                                           </option>
                                                       </t>
@@ -1096,7 +1141,8 @@
                                         <div class="col-lg-6 col-md-6">
                                               <div class="form-group">
                                                 <label class="col-form-label" for="state_id">Departamento</label>
-                                                <select class="selectpicker" data-size="4" id="state_id" data-live-search="true" name="state_id" 
+                                                <select class="selectpicker" data-size="4" 
+                                                        id="credit_card_state_id" data-live-search="true" name="credit_card_state_id" 
                                                 t-attf-class="form-control" data-init="1">
                                                     <option value="">Departamento</option>
                                                     <t t-foreach="country_states" t-as="s">
@@ -1116,10 +1162,9 @@
                                                 class="selectpicker"
                                                 data-size="10" 
                                                 data-live-search="true"
-                                                id="city"
-                                                name="city" 
+                                                id="credit_card_city"
+                                                name="credit_card_city" 
                                                 t-attf-class="form-control" 
-                                                
                                                 t-att-style="(not country or not country.state_ids) and 'display: none'"
                                                 >
                                             <option value="">Ciudad...</option>
@@ -1131,11 +1176,11 @@
                                             </select>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
-                                          <label class="col-form-label label-optional" for="zip">Código postal</label>
-                                            <input type="text"  name="zip"
+                                          <label class="col-form-label label-optional" for="credit_card_zip">Código postal</label>
+                                            <input type="text"  name="credit_card_zip"
                                             t-attf-class="form-control" 
                                             readonly="true" />
-                                            <input type="hidden"  name="zip_id"/>
+                                            <input type="hidden"  name="credit_card_zip_id"/>
                                           </div>
                                       </div>
                                       
@@ -1191,7 +1236,8 @@
                                   
                                   
                                   <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                      <form id="payulatam-payment-form-cash" action="/shop/payment/payulatam-gateway-api/cash_process" method="post" class="checkout_autoformat">
+                                      <form id="payulatam-payment-form-cash" 
+                                            action="/shop/payment/payulatam-gateway-api/cash_process" method="post" class="checkout_autoformat">
                                         <section class="s_references pt32 pb40 bg-white" data-name="References" style="">
                                         <div class="container">
                                           <div class="row">
@@ -1244,25 +1290,23 @@
                                             <h4>Información Adicional para Facturación</h4>
                                         </div>
                                       </div>
-                                      
 
-                                      
                                       <div class="row">
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="cash_billing_firstname">Nombres</label>
-                                                <input class="form-control" type="text" name="cash_billing_firstname" t-att-value="order.partner_id.firstname + ' ' + order.partner_id.othernames"/>
+                                                <input class="form-control" type="text" name="cash_billing_firstname" 
+                                                       t-att-value="order.partner_id.firstname + ' ' + order.partner_id.othernames"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="cash_billing_lastname">Apellidos</label>
-                                                <input class="form-control" type="text" name="cash_billing_lastname" t-att-value="order.partner_id.lastname + ' ' + order.partner_id.lastname2"/>
+                                                <input class="form-control" type="text" name="cash_billing_lastname" 
+                                                       t-att-value="order.partner_id.lastname + ' ' + order.partner_id.lastname2"/>
                                             </div>
                                         </div>
                                       </div>
-                                      
-                                      
                                       
                                       <div class="row">
                                         <div class="col-lg-2 col-md-2">
@@ -1284,13 +1328,16 @@
                                         <div class="col-lg-4 col-md-4">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="cash_partner_document">Número de Documento</label>
-                                                <input class="form-control" type="text" name="cash_partner_document" t-att-value="order.partner_id.identification_document"/>
+                                                <input class="form-control" 
+                                                       type="text" name="cash_partner_document" 
+                                                       t-att-value="order.partner_id.identification_document"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="cash_billing_email">Email</label>
-                                                <input class="form-control" type="email"  name="cash_billing_email" t-att-value="order.partner_id.email" placeholder='ejemplo@ejemplo.com' />
+                                                <input class="form-control" type="email"  name="cash_billing_email" 
+                                                       t-att-value="order.partner_id.email" placeholder='ejemplo@ejemplo.com' />
                                             </div>
                                         </div>
                                       </div>
@@ -1335,7 +1382,7 @@
                                                 <select class="selectpicker" data-size="4" id="cash_state_id" data-live-search="true" name="cash_state_id" 
                                                 t-attf-class="form-control" data-init="1">
                                                     <option value="">Departamento</option>
-                                                    <t t-foreach="country_states" t-as="s">
+                                                    <t t-foreach="country_states" t-as="s" t-att-selected="s.id == order.partner_id.zip_id.city_id.state_id.id">
                                                         <option t-att-value="s.id">
                                                             <t t-esc="s.name" />
                                                         </option>
@@ -1361,7 +1408,10 @@
                                             <option value="">Ciudad...</option>
                                             <t t-foreach="cities" t-as="c">
                                                 <option t-att-value="c.city_id.name" t-att-selected="c.name">
-                                                    <t t-esc="c.name" /> <t t-esc="c.city_id.name" /> <t t-esc="c.city_id.state_id.name" /> <t t-esc="c.city_id.state_id.country_id.name" />
+                                                    <t t-esc="c.name" /> 
+                                                    <t t-esc="c.city_id.name" /> 
+                                                    <t t-esc="c.city_id.state_id.name" /> 
+                                                    <t t-esc="c.city_id.state_id.country_id.name" />
                                                 </option>
                                             </t>
                                             </select>
@@ -1374,42 +1424,19 @@
                                             <input type="hidden"  name="cash_zip_id"/>
                                           </div>
                                       </div>
-                                      
-                                      <!--<div class="row">
-                                        <div class="col-lg-12 col-md-12" style="padding-top:20px;">
-                                            <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="" name="credit_card_recurring" id="credit_card_save"/>
-                                              <label class="form-check-label" for="credit_card_recurring" style="text-size:10px;">
-                                                  Hacer pagos recurrentes cada mes.
-                                              </label>
-                                            </div>
-                                        </div>
-                                      </div>-->
-                                      
-                                      
+                                          
                                       <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
                                       <input type="hidden" name="submitted" value="1" />
                                       <input type="hidden" name="partner_id" t-att-value="partner_id or '0'" />
                                       <input type="hidden" name="callback" t-att-value="callback" />
-                                          <!-- Example -->
-                                      <input type="hidden" name="field_required" t-att-value="'phone,name'" />
                                       <p/>
                                       <div class="d-flex justify-content-end">
-                                          <!--<a role="button" t-att-href="mode == ('new', 'billing') and '/shop/cart' or '/shop/checkout'" class="btn btn-secondary mb32">
-                                              <i class="fa fa-chevron-left"/>
-                                              <span>Atrás</span>
-                                          </a>-->
-                                          <button id="payment_btn_cash" class="btn btn-primary mb32 a-submit a-submit-disable a-submit-loading">
+                                          <button id="payment_btn_cash" class="btn btn-primary mb32">
                                               <span>Generar Recibo de Pago</span>
                                               <i class="fa fa-chevron-right"/>
                                           </button>
-                                         <!--<a role="button" href="#" class="btn btn-primary mb32 a-submit a-submit-disable a-submit-loading">-->
-                                              
                                       </div>
-                                      
-
                                     </form>
-                                      
                                   </div>
                                   
                                   
@@ -1471,6 +1498,7 @@
                                                     <option value="1012">BANCO GNB SUDAMERIS</option>
                                                     <option value="1060">BANCO PICHINCHA S.A.</option>
                                                     <option value="1002">BANCO POPULAR</option>
+                                                    <option value="1101">BANCO PSE</option>
                                                     <option value="1065">BANCO SANTANDER COLOMBIA</option>
                                                     <option value="1069">BANCO SERFINANZA</option>
                                                     <option value="1035">BANCO TEQUENDAMA</option>
@@ -1657,7 +1685,6 @@
                                           </div>
                                       </div>
                                       
-                                      
                                       <!--<div class="row">
                                         <div class="col-lg-12 col-md-12" style="padding-top:20px;">
                                             <div class="form-check">
@@ -1668,7 +1695,6 @@
                                             </div>
                                         </div>
                                       </div>-->
-                                      
                                       
                                       <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
                                       <input type="hidden" name="submitted" value="1" />
@@ -1689,52 +1715,9 @@
                                          <!-- <a role="button" href="#" class="btn btn-primary mb32 a-submit a-submit-disable a-submit-loading">-->
                                               
                                       </div>
-                                      
-
                                     </form>
-                                      
-                                      
-                                      
                                   </div>
-                                
                                 </div>
-                              
-                            
-
-                            <!--<div id="payment_method" class="mt-3" t-if="(acquirers or tokens) and website_sale_order.amount_total">
-                                <h3 class="mb24">Pay with </h3>
-                                <t t-call="payment.payment_tokens_list">
-                                    <t t-set="mode" t-value="'payment'"/>
-                                    <t t-set="submit_txt">Pay Now</t>
-                                    <t t-set="icon_right" t-value="1"/>
-                                    <t t-set="icon_class" t-value="'fa-chevron-right'"/>
-                                    <t t-set="submit_class" t-value="'btn btn-primary'"/>
-                                    <t t-set="pms" t-value="tokens"/>
-                                    <t t-set="form_action" t-value="'/shop/payment/token'"/>
-                                    <t t-set="prepare_tx_url" t-value="'/shop/payment/transaction/'"/>
-                                    <t t-set="partner_id" t-value="partner"/>
-
-                                    <t t-set="back_button_icon_class" t-value="'fa-chevron-left'"/>
-                                    <t t-set="back_button_txt">Return to Cart</t>
-                                    <t t-set="back_button_class" t-value="'btn btn-secondary'"/>
-                                    <t t-set="back_button_link" t-value="'/shop/cart'"/>
-                                </t>
-                            </div>-->
-
-                            <!--<div t-if="not acquirers" class="mt-2">
-                                <a role="button" class="btn-link" groups="base.group_system" t-attf-href="/web#action=#{payment_action_id}">
-                                        <i class="fa fa-arrow-right"/> Add payment acquirers
-                                </a>
-                            </div>
-                            <div class="js_payment mt-3" t-if="not website_sale_order.amount_total" id="payment_method">
-                                <form target="_self" action="/shop/payment/validate" method="post" class="float-right">
-                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                    <a role="button" class="btn btn-primary a-submit" href="#">
-                                        <span t-if="order.amount_total &gt; 0">Pay Now <span class="fa fa-chevron-right"/></span>
-                                        <span t-if="order.amount_total == 0">Confirm Order <span class="fa fa-chevron-right"/></span>
-                                    </a>
-                                </form>
-                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -1743,7 +1726,6 @@
         </t>
     
     </template>
-    
     
 
 </odoo>

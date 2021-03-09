@@ -115,6 +115,13 @@ class PayULatamApi(models.TransientModel):
         query.update(values)
         response = self.request_payulatam_api(command, query)
         return response
+    
+    def payulatam_cash_payment_request(self, values):
+        command = 'AUTHORIZATION_AND_CAPTURE'
+        query = {"command": command}
+        query.update(values)
+        response = self.request_payulatam_api(command, query)
+        return response
         
         
 

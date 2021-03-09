@@ -621,15 +621,13 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
       window.location.href = url;
     });
 
-
-      $.validator.addMethod("formMovilFijoLength", function (value, element) {
-           if(element.value.length == 7 || element.value.length == 10){
-              return true;
-           } else {
-              return false;
-           }
-        }, "¡Upss! debe tener 7 ó 10 digitos");
-
+    $.validator.addMethod("formMovilFijoLength", function (value, element) {
+        if(element.value.length == 7 || element.value.length == 10){
+            return true;
+        } else {
+            return false;
+        }
+    }, "¡Upss! debe tener 7 ó 10 digitos");
 
     $.validator.addMethod("lettersonly", function(value, element) {
         return this.optional(element) || /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g.test(value);
@@ -1465,12 +1463,16 @@ odoo.define('web_sale_extended.payment_process', function(require) {
     'use strict';
 
     $(function() {
+        $('#credit_card_country_id').selectpicker();
+        $('#credit_card_state_id').selectpicker();
+        $('#credit_card_city').selectpicker();
+        
         $('#pse_country_id').selectpicker();
         $('#pse_state_id').selectpicker('val', '');
         $('#pse_city').selectpicker();
         
         $('#cash_country_id').selectpicker();
-        $('#cash_state_id').selectpicker('val', '');
+        $('#cash_state_id').selectpicker();
         $('#cash_city').selectpicker();
         
         $('#submit_beneficiaries_add').on('click', function() {
@@ -1492,21 +1494,24 @@ odoo.define('web_sale_extended.payment_process', function(require) {
         });
         
         
-        
-        $('#payment_btn_cash').on('click', function() {
-            alert('payulatam-payment-form-cash');
-            $('#payulatam-payment-form-cash').attr('action', '/shop/payment/payulatam-gateway-api/cash_process');
-            $('#payulatam-payment-form-cash').submit();
-        });
-        
-        //let partner_country_id = $("input[name='partner_country_id']").text();
-        //alert(partner_country_id);
-        //$("#country_id :selected").attr('value') = partner_country_id;
-        
-        
-        
-        
-        function consultarZipcode(ciudad){
+        //$('#payment_btn_cash').on('click', function() {
+        //    alert('payulatam-payment-form-cash');
+        //    $('#payulatam-payment-form-cash').attr('action', '/shop/payment/payulatam-gateway-api/cash_process');
+        //    $('#payulatam-payment-form-cash').submit();
+        //});
+        function consultarZipcodeCreditCard(ciudad){
+            $.ajax({
+                data: { 'city_id': ciudad },
+                url: "/search/zipcodes",
+                type: 'get',
+                success: function(data) {
+                    let decode_data = JSON.parse(data);
+                    document.querySelector("input[name='credit_card_zip']").value = decode_data['data'].zipcode;
+                    document.querySelector("input[name='credit_card_zip_id']").value = decode_data['data'].zipid;
+                }
+            });
+        }
+        function consultarZipcodePSE(ciudad){
             $.ajax({
                 data: { 'city_id': ciudad },
                 url: "/search/zipcodes",
@@ -1518,7 +1523,6 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 }
             });
         }
-        
         function consultarZipcodeCash(ciudad){
             $.ajax({
                 data: { 'city_id': ciudad },
@@ -1531,18 +1535,41 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 }
             });
         }
-
+        
+        $('#credit_card_city').change(function() {
+            let data_select = $("#credit_card_city option:selected").val();
+            consultarZipcodeCreditCard(data_select);
+        });
         $('#pse_city').change(function() {
             let data_select = $("#pse_city option:selected").val();
-            consultarZipcode(data_select);
+            consultarZipcodePSE(data_select);
         });
-        
         $('#cash_city').change(function() {
             let data_select = $("#cash_city option:selected").val();
             consultarZipcodeCash(data_select);
         });
-
-        function consultarCiudades(estado, elemento) {
+        
+        function consultarCiudadesCreditCard(estado, elemento) {
+            $.ajax({
+                data: { 'departamento': estado },
+                url: "/search/cities",
+                type: 'get',
+                success: function(data) {
+                    let decode_data = JSON.parse(data);
+                    let elemento_completo = $(elemento);
+                    $('#credit_card_city').selectpicker('destroy');
+                    $('#credit_card_city').empty();
+                    decode_data.data.cities.forEach(function(obj) {
+                        $('#credit_card_city').append($("<option></option>")
+                            .attr("value", obj.city_id).text(obj.city));
+                    });
+                    $('#credit_card_city').selectpicker();
+                    let data_select = $("#credit_card_city option:selected").val();
+                    consultarZipcodeCreditCard(data_select);
+                }
+            });
+        }
+        function consultarCiudadesPSE(estado, elemento) {
             $.ajax({
                 data: { 'departamento': estado },
                 url: "/search/cities",
@@ -1558,11 +1585,10 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                     });
                     $('#pse_city').selectpicker();
                     let data_select = $("#pse_city option:selected").val();
-                    consultarZipcode(data_select);
+                    consultarZipcodePSE(data_select);
                 }
             });
         }
-        
         function consultarCiudadesCash(estado, elemento) {
             $.ajax({
                 data: { 'departamento': estado },
@@ -1583,12 +1609,25 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 }
             });
         }
-
+        
+        $("select[name='credit_card_state_id']").on('change', function cambiarEstado() {
+            let estado = $(this).val();
+            let elemento = "select[name='credit_card_city']";
+            if (estado != ''){
+                consultarCiudadesCreditCard(estado, elemento);
+            } else {
+                $('#credit_card_city').selectpicker('destroy');
+                $('#credit_card_city').empty();
+                $('#credit_card_city').append($("<option></option>")
+                            .attr("value", '').text('Ciudad...'));
+                $('#credit_card_city').selectpicker();
+            }
+        });
         $("select[name='pse_state_id']").on('change', function cambiarEstado() {
             let estado = $(this).val();
             let elemento = "select[name='pse_city']";
             if (estado != ''){
-                consultarCiudadesCash(estado, elemento);
+                consultarCiudadesPSE(estado, elemento);
             } else {
                 $('#pse_city').selectpicker('destroy');
                 $('#pse_city').empty();
@@ -1597,7 +1636,6 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 $('#pse_city').selectpicker();
             }
         });
-        
         $("select[name='cash_state_id']").on('change', function cambiarEstado() {
             let estado = $(this).val();
             let elemento = "select[name='cash_city']";
@@ -1612,23 +1650,71 @@ odoo.define('web_sale_extended.payment_process', function(require) {
             }
         });
         
+        var partner_country_id = $("input[name='partner_country_id']").val();
+        var partner_state_id = $("input[name='partner_state_id']").val();
+        var partner_city_id = $("input[name='partner_city_id']").val();
+        //$("input[select='partner_country_id'] option:selected").val(partner_country_id);
+        $("select[name='credit_card_country_id']").val(partner_country_id);
+        $("select[name='credit_card_state_id']").val(partner_state_id);
+        $("select[name='credit_card_city_id']").val(partner_state_id);
+        $("select[name='pse_country_id']").val(partner_country_id);
+        $("select[name='pse_state_id']").val(partner_state_id);
+        $("select[name='pse_city_id']").val(partner_state_id);
+        $("select[name='cash_country_id']").val(partner_country_id);
+        $("select[name='cash_state_id']").val(partner_state_id);
+        $("select[name='cash_city_id']").val(partner_state_id);
+        $('#credit_card_country_id').selectpicker('refresh')
+        $('#credit_card_state_id').selectpicker('refresh')
+        $('#credit_card_city_id').selectpicker('refresh')
+        $('#pse_country_id').selectpicker('refresh')
+        $('#pse_state_id').selectpicker('refresh')
+        $('#pse_city_id').selectpicker('refresh')
+        $('#cash_country_id').selectpicker('refresh')
+        $('#cash_state_id').selectpicker('refresh')
+        $('#cash_city_id').selectpicker('refresh')
+        
+        var credit_city = "select[name='credit_card_city']";
+        consultarCiudadesCreditCard(partner_state_id, credit_city);
+        var pse_city = "select[name='pse_city']";
+        consultarCiudadesPSE(partner_state_id, pse_city);
+        var cash_city = "select[name='cash_city']";
+        consultarCiudadesCash(partner_state_id, cash_city);
+       
+        $.validator.addMethod("creditCardfechaVencimiento", function (value, element) {
+            var lastYear = new Date().getFullYear();
+            var lastMonth = new Date.getMonth();
+            var selectYear = "select[name='credit_card_due_year']".val();
+            var selectMonth = "select[name='credit_card_due_month']".val()
+            
+            if (lastYear == selectYear){
+                if (int(lastMonth) > int(selectMonth)){
+                    return false;
+                }
+            }
+            return true;
+            
+        }, "¡Upss! Fecha de Vencimiento Invalida");
 
+        
+        
         $("#payulatam-payment-form").validate({
             rules: {
                 credit_card_number: {
                     required: true,
-                    minlength: 16,
+                    minlength: 13,
+                    maxlength: 16,
                     number: true,
                 },
                 credit_card_code: {
                     required: true,
-                    minlength: 1,
-                    maxlength: 4,
+                    minlength: 3,
+                    maxlength: 3,
                     number: true,
                 },
                 credit_card_name: {
                     required: true,
                     minlength: 3,
+                    maxlength: 15,
                     lettersonly: true,
                 },
                 credit_card_billing_firstname: {
@@ -1659,13 +1745,13 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 credit_card_partner_street: {
                     required: true,
                 },
-                city: {
+                credit_card_city: {
                     required: true,
                 },
-                country_id: {
+                credit_card_country_id: {
                     required: true,
                 },
-                state_id: {
+                credit_card_state_id: {
                     required: true,
                 },
                 cash_billing_firstname: {
@@ -1680,7 +1766,8 @@ odoo.define('web_sale_extended.payment_process', function(require) {
             messages: {
                 credit_card_number: {
                     required: "¡Upss! tu número de tarjeta es requerido",
-                    minlength: "¡Upss! debe contener 16 digitos"
+                    minlength: "¡Upss! debe contener entre 13y 16 digitos",
+                    maxlength: "¡Upss! debe contener entre 13y 16 digitos"
                 },
                 credit_card_code: {
                     required: "¡Upss! el código de seguridad es requerido",
@@ -1689,6 +1776,7 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 credit_card_name: {
                     required: "¡Upss! el nombre de tajeta es requerido",
                     minlength: "¡Upss! debe contener 3 o más caracteres",
+                    maxlength: "¡Upss! debe contener máximo 15 caracteres",
                     lettersonly: "¡Upss! debe contener solo letras"
                 },
                 credit_card_partner_phone: {
@@ -1718,13 +1806,13 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 credit_card_partner_street: {
                     required: "¡Upss! tu dirección es requerida",
                 },
-                city: {
+                credit_card_city: {
                     required: "¡Upss! tu ciudad es requerida",
                 },
-                country_id: {
+                credit_card_country_id: {
                     required: "¡Upss! tu país es requerido",
                 },
-                state_id: {
+                credit_card_state_id: {
                     required: "¡Upss! tu departamento es requerido",
                 },
                 cash_billing_firstname: {
@@ -1834,6 +1922,17 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 },
             }
         });
-
+        
+        var bank_url = $("#bank_url").val();
+        var url_payment_receipt_pdf = $("#url_payment_receipt_pdf").val();
+        if (bank_url) {
+            window.open(bank_url);
+        }
+        if (url_payment_receipt_pdf) {
+            window.open(url_payment_receipt_pdf);
+        }
     });
+   
 });
+
+ 
