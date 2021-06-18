@@ -92,22 +92,22 @@
                                             <font color="#39b54a">
                                               <span style="font-size:36px;">Proceso de pago terminado exitosamente gracias a PayU</span>
                                             </font><br/>
-					    <!--<font color="#39b54a" t-if="state">
-                                              <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
+                                            <!--<font color="white" t-if="state">--><!--<font color="#39b54a" t-if="state">-->
+                                              <!--<span style="font-size:18px;">Estado: <t t-esc="state"/></span>
                                             </font><br/>
-                                            <font color="#39b54a" t-if="error">
+                                            <font color="white" t-if="error">
                                               <span style="font-size:18px;">Descripción: <t t-esc="error"/></span>
                                             </font><br/>
-                                            <font color="#39b54a" t-if="responseCode">
+                                            <font color="white" t-if="responseCode">
                                               <span style="font-size:18px;">Código Respuesta: <t t-esc="responseCode"/></span>
                                             </font><br/>
                                             <font color="#39b54a" t-if="transactionId">
                                               <span style="font-size:18px;">ID Transacción: <t t-esc="transactionId"/></span>
                                             </font><br/>
-                                            <font color="#39b54a" t-if="order_Id">
+                                            <font color="white" t-if="order_Id">
                                               <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
-                                            </font>
-					    <br/>-->
+                                            </font>-->
+                                            <br/>
                                         </div>
                                         <div style="text-align:center;">
                                             <span style="font-size:18px;">Para continuar con el registro del asegurado principal y los beneficiarios:</span>
@@ -134,6 +134,138 @@
             </div>
          </t>
      </template>
+    
+    
+    
+    
+    <!-- Plantilla pendiente de aprobación con tarjeta crédito -->
+     <template id="payulatam_success_process_pending" name="PayU Latam Payment Process Pending">
+         <t t-set="no_footer" t-value="1"/>
+            <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container oe_website_sale py-2">
+                <div class="row">
+                 
+                    <div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block">
+                        <div class="card">
+                            <div class="card-body p-xl-0">
+                                <div class="col-lg-auto d-print-none">
+                                    <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
+                                        <div class="card-body text-center pb-2 pt-3">
+                                            <h2 class="mb-0"><b data-id="total_amount">
+                                                $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                    t-options='{"widget": "float", "precision": 2}'/></span></b> 
+                                            </h2>
+                                        </div>
+                                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                                            <li class="list-group-item flex-grow-1">
+                                                <a role="button" 
+                                                   id="o_sale_portal_paynow" 
+                                                   data-toggle="modal" 
+                                                   data-target="#modalaccept" 
+                                                   href="#" 
+                                                   class="btn-block mb8 btn btn-primary disabled">
+                                                    <i class="fa fa-check"></i> Pago Dirigido al Banco
+                                                </a>
+                                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_download_btn" 
+                                                           title="Descargar" 
+                                                           href="">
+                                                            <i class="fa fa-download"></i> Descargar
+                                                        </a>
+                                                    </div>
+                                                    <div class="btn-group flex-grow-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" 
+                                                            id="print_invoice_report" 
+                                                            title="Imprimir" 
+                                                            target="_blank" 
+                                                            href="">
+                                                            <i class="fa fa-print"></i> Imprimir
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="navspy list-group-item pl-0 flex-grow-1" role="complementary">
+                                                <ul class="nav flex-column bs-sidenav"></ul>
+                                            </li>
+                                        </ul>
+                                        <div class="card-footer small text-center text-muted border-top-0 pt-1 pb-1 d-none d-lg-block">
+                                            Con tecnología de 
+                                            <a target="_blank" 
+                                               href="" 
+                                               title="odoo">
+                                                <img src="/web_sale_extended/static/src/img/PayU.png" alt="Logo de Odoo" height="15"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="quote_content" class="col-12 col-xl order-xl-1 oe_cart">
+                        <section class="s_text_block pt0 pb0" data-name="Text block">
+                            <input type="hidden" name="bank_url" id="bank_url" t-att-value="bank_url"/>
+                            <div class="col-lg-12 pt0 pb0">
+                                <div class="s_alert clearfix w-100 s_alert_md" data-name="Alert" style="border:none;">
+                                    <i class="fa-2x s_alert_icon"></i>
+                                    <div class="s_alert_content">
+                                        <p></p>
+                                        <div style="text-align:center;">
+                                            <font color="#39b54a">
+                                            </font>
+                                            <img class="img-fluid o_we_custom_image" 
+                                                 src="/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be" 
+                                                 style="width:auto;"/><br/>
+                                            <font color="#FF7800">
+                                              <span style="font-size:36px;">Estamos procesando tu pago con tarjeta de crédito gracias a la tecnología de PayU</span>
+                                            </font><br/>
+                                            <!--<font color="#39b54a" t-if="state">
+                                              <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
+                                            </font><br/>-->
+                                            <!--<font color="#39b54a" t-if="error">
+                                              <span style="font-size:18px;">Descripción: <t t-esc="error"/></span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="responseCode">
+                                              <span style="font-size:18px;">Código Respuesta: <t t-esc="responseCode"/></span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="transactionId">
+                                              <span style="font-size:18px;">ID Transacción: <t t-esc="transactionId"/></span>
+                                            </font><br/>
+                                            <font color="#39b54a" t-if="order_Id">
+                                              <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
+                                            </font>-->
+                                            <br/>
+                                        </div>
+                                        <div style="text-align:center;">
+                                            <span style="font-size:18px;">Para continuar enviaremos un correo electrónico que te permitirá registrar el asegurado principal y sus beneficiarios. Este correo llegará tan proto recibamos la confirmación final del banco.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="s_btn text-center pt16 pb16" data-name="Button">
+                                    <a class="btn btn-primary" 
+                                       id="submit_credit_card_end" 
+                                       data-original-title="" 
+                                       title="" 
+                                       aria-describedby="tooltip188699"
+                                       style="color:#FFF;">Volver a la página de Inicio
+                                       <i class="fa fa-chevron-right"/>
+                                    </a>
+                                    <input type="hidden" name="order_id" t-att-value="order_id.id"/>
+                                  </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                </div>
+            </div>
+         </t> 
+     </template>
+    
+    
+    
+    
     
     <!-- Plantilla enviada luego del pago rechazado con tarjeta de crédito de payu -->
     <template id="payulatam_rejected_process" name="PayU Latam Payment Rejected">     
@@ -200,23 +332,23 @@
                                             <font color="red" t-if="state">
                                               <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
                                             </font><br/>
-                                            <font color="red" t-if="error">
-                                              <span style="font-size:18px;">Descripción: <t t-esc="error"/></span>
+                                            <!--<font color="white" t-if="error">--><!--<font color="red" t-if="error">-->
+                                              <!--<span style="font-size:18px;">Descripción: <t t-esc="error"/></span>
                                             </font><br/>
-                                            <font color="red" t-if="responseCode">
+                                            <font color="white" t-if="responseCode">
                                               <span style="font-size:18px;">Código Respuesta: <t t-esc="responseCode"/></span>
                                             </font><br/>
-                                            <font color="red" t-if="transactionId">
+                                            <font color="white" t-if="transactionId">
                                               <span style="font-size:18px;">ID Transacción: <t t-esc="transactionId"/></span>
                                             </font><br/>
-                                            <font color="red" t-if="order_Id">
+                                            <font color="white" t-if="order_Id">
                                               <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
-                                            </font>
+                                            </font>-->
                                             <br/>
                                         </div>
-                                        <div style="text-align:center;">
+                                        <!--<div style="text-align:center;">
                                             <span style="font-size:18px;color:#FFF;">Por favor intentelo de nuevo:</span>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                                 
@@ -272,7 +404,7 @@
                                                     <div class="btn-group flex-grow-1 mr-1 mb-1">
                                                         <a class="btn btn-secondary btn-block o_download_btn" 
                                                            title="Descargar" 
-                                                           href="">
+                                                           t-att-href="url_payment_receipt_pdf">
                                                             <i class="fa fa-download"></i> Descargar
                                                         </a>
                                                     </div>
@@ -281,7 +413,7 @@
                                                             id="print_invoice_report" 
                                                             title="Imprimir" 
                                                             target="_blank" 
-                                                            href="">
+                                                            t-att-href="url_payment_receipt_html">
                                                             <i class="fa fa-print"></i> Imprimir
                                                         </a>
                                                     </div>
@@ -306,6 +438,8 @@
                     </div>
                     <div id="quote_content" class="col-12 col-xl order-xl-1 oe_cart">
                         <section class="s_text_block pt0 pb0" data-name="Text block">
+                            <input type="hidden" name="url_payment_receipt_pdf" id="url_payment_receipt_pdf" t-att-value="url_payment_receipt_pdf"/>
+                            <input type="hidden" name="url_payment_receipt_html" id="url_payment_receipt_html" t-att-value="url_payment_receipt_html"/>
                             <div class="col-lg-12 pt0 pb0">
                                 <div class="s_alert clearfix w-100 s_alert_md" data-name="Alert" style="border:none;">
                                     <i class="fa-2x s_alert_icon"></i>
@@ -320,10 +454,11 @@
                                             <font color="#39b54a">
                                               <span style="font-size:36px;">Recibo de Pago generado exitosamente gracias a PayU</span>
                                             </font><br/>
-					    <!--<font color="#39b54a" t-if="state">
-                                              <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
+                                            <font color="#39b54a" t-if="state">
+                                              <!--<span style="font-size:18px;">Estado: <t t-esc="state"/></span>-->
+                                                <span style="font-size:18px;">Estado: PENDIENTE DE PAGO</span>
                                             </font><br/>
-                                            <font color="#39b54a" t-if="error">
+                                            <!--<font color="#39b54a" t-if="error">
                                               <span style="font-size:18px;">Descripción: <t t-esc="error"/></span>
                                             </font><br/>
                                             <font color="#39b54a" t-if="responseCode">
@@ -331,24 +466,29 @@
                                             </font><br/>
                                             <font color="#39b54a" t-if="transactionId">
                                               <span style="font-size:18px;">ID Transacción: <t t-esc="transactionId"/></span>
-                                            </font><br/>
-                                            <font color="#39b54a" t-if="order_Id">
+                                            </font><br/>-->
+                                            <!--<font color="#39b54a" t-if="order_Id">
                                               <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
-                                            </font>
-					    <br/>-->
+                                            </font>-->
+                                            <br/>
                                         </div>
                                         <div style="text-align:center;">
-                                            <span style="font-size:18px;">Para continuar con el registro del asegurado principal y los beneficiarios enviareamos un correo electrónico tan pronto tengamos confirmación del pago por parte de PayU. En este correo tendrá las indicaciones para que finalices tú proceso de afiliación:</span>
+                                            <span style="font-size:18px;">
+                                                Una vez confirmado el pago te enviareamos un correo electrónico a 
+                                                <b><t t-esc="order_id.partner_id.email"/></b> 
+                                                con las indicaciones para finalizar tú proceso de afiliación y registrar la información 
+                                                del asegurado principal y los beneficiarios del plan elegido. 
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="s_btn text-center pt16 pb16" data-name="Button">
                                     <a class="btn btn-primary" 
-                                       id="submit_beneficiaries_add" 
+                                       id="submit_payment_cash_success" 
                                        data-original-title="" 
                                        title="" 
                                        aria-describedby="tooltip188699"
-                                       style="color:#FFF;">Registra tus Beneficiarios
+                                       style="color:#FFF;">Volver a la página principal
                                        <i class="fa fa-chevron-right"/>
                                     </a>
                                     <input type="hidden" name="order_id" t-att-value="order_id.id"/>
@@ -362,7 +502,7 @@
          </t>
      </template>
     
-    <!-- Plantilla enviada luego del pago rechazado con metodo efectivo de payu -->
+    <!--Plantilla enviada luego del pago rechazado con metodo efectivo de payu-->
     <template id="payulatam_rejected_process_cash" name="PayU Latam Payment Process Cash">
          <t t-set="no_footer" t-value="1"/>
             <t t-call="website.layout">
@@ -410,7 +550,6 @@
                     </div>
                     <div id="quote_content" class="col-12 col-xl order-xl-1 oe_cart">
                         <section class="s_text_block pt0 pb0" data-name="Text block">
-			    <input type="hidden" name="url_payment_receipt_pdf" id="url_payment_receipt_pdf" t-att-value="url_payment_receipt_pdf"/>
                             <div class="col-lg-12 pt0 pb0">
                                 <div class="s_alert clearfix w-100 s_alert_md" data-name="Alert" style="border:none;">
                                     <i class="fa-2x s_alert_icon"></i>
@@ -425,7 +564,7 @@
                                             <font color="red">
                                               <span style="font-size:36px;">Recibo de pago NO generado</span>
                                             </font><br/>
-                                            <font color="red" t-if="state">
+                                            <!--<font color="red" t-if="state">
                                               <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
                                             </font><br/>
                                             <font color="red" t-if="error">
@@ -439,7 +578,7 @@
                                             </font><br/>
                                             <font color="red" t-if="order_Id">
                                               <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
-                                            </font>
+                                            </font>-->
                                             <br/>
                                         </div>
                                         <div style="text-align:center;">
@@ -449,14 +588,14 @@
                                 </div>
                                 <div class="s_btn text-center pt16 pb16" data-name="Button">
                                     <a class="btn btn-primary" 
-                                       id="submit_beneficiaries_add" 
+                                       id="submit_payment_rejected" 
                                        data-original-title="" 
                                        title="" 
                                        aria-describedby="tooltip188699"
                                        style="color:#FFF;">Ir al proceso de Pago
                                        <i class="fa fa-chevron-right"/>
                                     </a>
-                                    <input type="hidden" name="order_id" t-att-value="order_id"/>
+                                    <input type="hidden" name="order_id" t-att-value="order_id.id"/>
                                   </div>
                             </div>
                         </section>
@@ -536,7 +675,6 @@
                     <div id="quote_content" class="col-12 col-xl order-xl-1 oe_cart">
                         <section class="s_text_block pt0 pb0" data-name="Text block">
                             <input type="hidden" name="bank_url" id="bank_url" t-att-value="bank_url"/>
-                            <input type="hidden" name="url_payment_receipt_pdf" id="url_payment_receipt_pdf" t-att-value="url_payment_receipt_pdf"/>
                             <div class="col-lg-12 pt0 pb0">
                                 <div class="s_alert clearfix w-100 s_alert_md" data-name="Alert" style="border:none;">
                                     <i class="fa-2x s_alert_icon"></i>
@@ -548,13 +686,13 @@
                                             <img class="img-fluid o_we_custom_image" 
                                                  src="/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be" 
                                                  style="width:auto;"/><br/>
-                                            <font color="#39b54a">
-                                              <span style="font-size:36px;">Proceso de pago PSE procesado exitosamente gracias a PayU</span>
+                                            <font color="#FF7800">
+                                              <span style="font-size:36px;">Estamos procesando tu pago por PSE gracias a la tecnología de PayU</span>
                                             </font><br/>
-					    <!--<font color="#39b54a" t-if="state">
+                                            <!--<font color="#39b54a" t-if="state">
                                               <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
-                                            </font><br/>
-                                            <font color="#39b54a" t-if="error">
+                                            </font><br/>-->
+                                            <!--<font color="#39b54a" t-if="error">
                                               <span style="font-size:18px;">Descripción: <t t-esc="error"/></span>
                                             </font><br/>
                                             <font color="#39b54a" t-if="responseCode">
@@ -565,11 +703,11 @@
                                             </font><br/>
                                             <font color="#39b54a" t-if="order_Id">
                                               <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
-                                            </font>
-					    <br/>-->
+                                            </font>-->
+                                            <br/>
                                         </div>
                                         <div style="text-align:center;">
-                                            <span style="font-size:18px;">Para continuar enviaremos un correo electrónico que le permitirá registrar el aegurado principal y sus beneficiarios. Este correo llegará tan proto recibamos la confirmación final del banco.</span>
+                                            <span style="font-size:18px;">Para continuar enviaremos un correo electrónico que te permitirá registrar el asegurado principal y sus beneficiarios. Este correo llegará tan proto recibamos la confirmación final del banco.</span>
                                         </div>
                                     </div>
                                 </div>
@@ -580,10 +718,10 @@
                                        data-original-title="" 
                                        title="" 
                                        aria-describedby="tooltip188699"
-                                       style="color:#FFF;">Terminar
+                                       style="color:#FFF;">Volver a la página de Inicio
                                        <i class="fa fa-chevron-right"/>
                                     </a>
-                                    <input type="hidden" name="order_id" t-att-value="order_id"/>
+                                    <input type="hidden" name="order_id" t-att-value="order_id.id"/>
                                   </div>
                             </div>
                         </section>
@@ -595,7 +733,174 @@
      </template>
     
     
-    <template id="payulatam_rejected_process_pse" name="PayU Latam Payment Process PSE">
+    <!-- Plantilla enviada luego de la respuesta del proceso PSE de payu -->
+     <template id="web_sale_extended_payment_response_process" name="PayU Latam Payment Response Process PSE">
+         <t t-set="no_footer" t-value="1"/>
+            <t t-call="website.layout">
+            <div id="wrap">
+                <div class="container oe_website_sale py-2">
+                <div class="row">
+                 
+                    <div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block">
+                        <div class="card">
+                            <div class="card-body p-xl-0">
+                                <div class="col-lg-auto d-print-none">
+                                    <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
+                                        <div class="card-body text-center pb-2 pt-3">
+                                            <h2 class="mb-0"><b data-id="total_amount">
+                                                $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                    t-options='{"widget": "float", "precision": 2}'/></span></b> 
+                                            </h2>
+                                        </div>
+                                        <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                                            <li class="list-group-item flex-grow-1">
+                                                <a role="button" 
+                                                   id="o_sale_portal_paynow" 
+                                                   data-toggle="modal" 
+                                                   data-target="#modalaccept" 
+                                                   href="#" 
+                                                   class="btn-block mb8 btn btn-primary disabled">
+                                                    <i class="fa fa-check"></i> 
+                                                    <span t-if="response.get('lapTransactionState') == 'APPROVED'">PSE - Pago Aprobado</span>
+                                                    <span t-if="response.get('lapTransactionState') != 'APPROVED'">PSE - Aprobación en Curso</span>
+                                                </a>
+                                                <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                                    <div class="btn-group flex-grow-1 mr-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_download_btn" 
+                                                           title="Descargar" 
+                                                           href="">
+                                                            <i class="fa fa-download"></i> Descargar
+                                                        </a>
+                                                    </div>
+                                                    <div class="btn-group flex-grow-1 mb-1">
+                                                        <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" 
+                                                            id="print_invoice_report" 
+                                                            title="Imprimir" 
+                                                            target="_blank" 
+                                                            href="">
+                                                            <i class="fa fa-print"></i> Imprimir
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="navspy list-group-item pl-0 flex-grow-1" role="complementary">
+                                                <ul class="nav flex-column bs-sidenav"></ul>
+                                            </li>
+                                        </ul>
+                                        <div class="card-footer small text-center text-muted border-top-0 pt-1 pb-1 d-none d-lg-block">
+                                            Con tecnología de 
+                                            <a target="_blank" 
+                                               href="" 
+                                               title="odoo">
+                                                <img src="/web_sale_extended/static/src/img/PayU.png" alt="Logo de Odoo" height="15"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="quote_content" class="col-12 col-xl order-xl-1 oe_cart">
+                        <section class="s_text_block pt0 pb0" data-name="Text block">
+                            <input type="hidden" name="bank_url" id="bank_url" t-att-value="bank_url"/>
+                            <div class="col-lg-12 pt0 pb0">
+                                <div class="s_alert clearfix w-100 s_alert_md" data-name="Alert" style="border:none;">
+                                    <i class="fa-2x s_alert_icon"></i>
+                                    <div class="s_alert_content">
+                                        <p></p>
+                                        <div style="text-align:center;">
+                                            <font color="#39b54a">
+                                            </font>
+                                            <img class="img-fluid o_we_custom_image" 
+                                                 src="/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be" 
+                                                 style="width:auto;"/><br/>
+                                            <t t-if="response.get('lapTransactionState') == 'APPROVED'">
+                                                <font color="#39b54a">
+                                                  <span style="font-size:36px;">Proceso de pago PSE Aprobado</span>
+                                                </font><br/>
+                                                <!--<font color="#39b54a" t-if="response.get('message')">
+                                                  <span style="font-size:18px;">Mensaje de la Entidad: <t t-esc="response.get('message')"/></span>
+                                                </font><br/>
+                                                <font color="#39b54a" t-if="response.get('lapResponseCode')">
+                                                  <span style="font-size:18px;">Código Respuesta: <t t-esc="response.get('lapResponseCode')"/></span>
+                                                </font><br/>
+                                                <font color="#39b54a" t-if="response.get('transactionId')">
+                                                  <span style="font-size:18px;">ID Transacción: <t t-esc="response.get('transactionId')"/></span>
+                                                </font><br/>-->
+                                            </t>
+                                            <t t-if="response.get('lapTransactionState') != 'APPROVED'">
+                                                <font color="#39b54a">
+                                                  <span style="font-size:36px;">Proceso de pago PSE en espera</span>
+                                                </font><br/>
+                                                <!--<font color="#39b54a" t-if="response.get('message')">
+                                                  <span style="font-size:18px;">Mensaje de la Entidad: <t t-esc="response.get('message')"/></span>
+                                                </font><br/>
+                                                <font color="#39b54a" t-if="response.get('lapResponseCode')">
+                                                  <span style="font-size:18px;">Código Respuesta: <t t-esc="response.get('lapResponseCode')"/></span>
+                                                </font><br/>
+                                                <font color="#39b54a" t-if="response.get('transactionId')">
+                                                  <span style="font-size:18px;">ID Transacción: <t t-esc="response.get('transactionId')"/></span>
+                                                </font><br/>-->
+                                            </t>
+                                            <br/>
+                                        </div>
+                                        <t t-if="response.get('lapTransactionState') == 'APPROVED'">
+                                            <div style="text-align:center;">
+                                                <span style="font-size:18px;">
+                                                    Ahora debes registrar el asegurado principal y los beneficiarios de tú 
+                                                    <!--<t t-esc="order_detail[0].product_template_id.name"/>-->
+                                                    <t t-esc="order_id.main_product_id.name"/>.
+                                                </span>
+                                            </div>
+                                        </t>
+                                        <t t-if="response.get('lapTransactionState') != 'APPROVED'">
+                                            <div style="text-align:center;">
+                                                <span style="font-size:18px;">
+                                                    Para continuar enviaremos un correo electrónico que le permitirá registrar el asegurado principal y sus beneficiarios.
+                                                    Este correo llegará tan proto recibamos la aprobación final del banco.
+                                                </span>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                                
+                                <div class="s_btn text-center pt16 pb16" data-name="Button">
+                                    <t t-if="response.get('lapTransactionState') == 'APPROVED'">
+                                        <a class="btn btn-primary" 
+                                           id="submit_pse_end_add_beneficiaries" 
+                                           data-original-title="" 
+                                           title="" 
+                                           aria-describedby="tooltip188699"
+                                           style="color:#FFF;">Registrar Beneficiarios
+                                           <i class="fa fa-chevron-right"/>
+                                        </a>
+                                    </t>
+                                    <t t-if="response.get('lapTransactionState') != 'APPROVED'">
+                                        <!--Cambio de texto del boton cuando el pago por pse es rechazado-->
+                                        <a class="btn btn-primary" 
+                                           id="submit_pse_end" 
+                                           data-original-title="" 
+                                           title="" 
+                                           aria-describedby="tooltip188699"
+                                           style="color:#FFF;">Volver a la página de Inicio<!-- style="color:#FFF;">Intentalo de nuevo-->
+                                           <i class="fa fa-chevron-right"/>
+                                        </a>
+                                        <!--FIN Cambio de texto del boton cuando el pago por pse es rechazado-->
+                                    </t>
+                                    <input type="hidden" name="order_id" t-att-value="order_id.id"/>
+                                  </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                </div>
+            </div>
+         </t> 
+     </template>
+    
+    
+    
+    <template id="payulatam_rejected_process_pse" name="PayU Latam Payment Rejected Process PSE">
          <t t-set="no_footer" t-value="1"/>
             <t t-call="website.layout">
             <div id="wrap">
@@ -659,7 +964,7 @@
                                             <font color="#red" t-if="state">
                                               <span style="font-size:18px;">Estado: <t t-esc="state"/></span>
                                             </font><br/>
-                                            <font color="#red" t-if="error">
+                                           <!-- <font color="#red" t-if="error">
                                               <span style="font-size:18px;">Descripción: <t t-esc="error"/></span>
                                             </font><br/>
                                             <font color="#red" t-if="responseCode">
@@ -670,25 +975,29 @@
                                             </font><br/>
                                             <font color="#red" t-if="order_Id">
                                               <span style="font-size:18px;">ID Orden: <t t-esc="order_Id"/></span>
-                                            </font>
+                                            </font>-->
                                             <br/>
                                         </div>
+                                        <!---+++++++Comienzo de mensaje PSE de pago rechazado+++++++-->
                                         <div style="text-align:center;">
-                                            <span style="font-size:18px;">Por favor vuelva a intentar</span>
+                                            <span style="font-size:18px;">Por favor vuelve a intentarlo</span>
                                         </div>
+                                        <!---+++++++Fin de mensaje PSE de pago rechazado+++++++-->
                                     </div>
                                 </div>
                                 
                                 <div class="s_btn text-center pt16 pb16" data-name="Button">
+                                    <!--cambio de texto del boton cuando el pago de pse es rechazado segundo comentariado-->
                                     <a class="btn btn-primary" 
                                        id="submit_pse_payment_process" 
                                        data-original-title="" 
                                        title="" 
                                        aria-describedby="tooltip188699"
-                                       style="color:#FFF;">Ir al proceso de Pago
+                                       style="color:#FFF;">Volver a la Página de inicio<!-- style="color:#FFF;">Intentalo de nuevo-->
                                        <i class="fa fa-chevron-right"/>
                                     </a>
-                                    <input type="hidden" name="order_id" t-att-value="order_id"/>
+                                    <!--FIN cambio de texto del boton cuando el pago de pse es rechazado segundo comentariado-->
+                                    <input type="hidden" name="order_id" t-att-value="order_id.id"/>
                                   </div>
                             </div>
                         </section>
@@ -742,10 +1051,34 @@
                                                 <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip831158"/>
                                                 <div class="s_alert_content" style="">
                                                     <p/>
+                                                    <t t-if="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 1 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                        <t t-set="forma_pago" t-value="'Mensual'" />
+                                                    </t>
+                                                    <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 3 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                        <t t-set="forma_pago" t-value="'Trimestral'" />
+                                                    </t>
+                                                    <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 6 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                        <t t-set="forma_pago" t-value="'Semestral'" />
+                                                    </t>
+                                                    <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 12 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                        <t t-set="forma_pago" t-value="'Anual'" />
+                                                    </t>
+                                                    <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 1 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly'">
+                                                        <t t-set="forma_pago" t-value="'Anual'" />
+                                                    </t>
+                                                    <t t-else="">
+                                                        <t t-if="order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly'">
+                                                            <t t-set="tiempo" t-value="' Años'" />
+                                                        </t>
+                                                        <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                            <t t-set="tiempo" t-value="' Meses'" />
+                                                        </t>
+                                                        <t t-set="forma_pago" t-value="'cada ' + str(order.order_line[0].product_template_id.subscription_template_id.recurring_interval) + tiempo" />
+                                                    </t>
                                                     <div style="text-align: left;">
                                                         <font color="#3333cc">
                                                             <b style="font-size: 18px;">
-                                                                Terminemos con el proceso de pago de tu 
+                                                                Realicemos el pago <t t-esc="forma_pago"/> de tu 
                                                                 <t t-esc="order.order_line[0].product_template_id.name"/> 
                                                                 para ti y tu grupo familiar, es seguro y muy rápido, gracias a PayU.</b>
                                                         </font>
@@ -765,15 +1098,19 @@
                           
                             <div class="card">
                                 <div class="card-body" id="shipping_and_billing">
-                                    <a class="float-right no-decoration" href="/shop/checkout"><i class="fa fa-edit"/> Edit</a>
+                                    <a class="float-right no-decoration" href="/shop/checkout"><i class="fa fa-edit"/> Editar</a>
                                     <t t-set="same_shipping" t-value="bool(order.partner_shipping_id==order.partner_id or only_services)"/>
                                     <div>
                                       <b>Comprador:
                                       </b>
                                         <span t-esc="order.partner_id.name"/>
-                                        <span t-esc="order.partner_id" 
+                                        <span t-esc="order.partner_id.street" class="address-inline"/>
+                                        <span t-esc="order.partner_id.zip_id.city_id.name" class="address-inline"/>
+                                        <span t-esc="order.partner_id.zip_id.name" class="address-inline"/>, 
+                                        <span t-esc="order.partner_id.zip_id.city_id.country_id.name" class="address-inline"/>
+                                        <!--<span t-esc="order.partner_id" 
                                               t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')" 
-                                              class="address-inline"/>
+                                              class="address-inline"/>-->
                                     </div>
                                 </div>
                             </div>
@@ -821,6 +1158,8 @@
                                            t-att-value="order.partner_id.zip_id.city_id.state_id.id"/>
                                     <input type="hidden" id="partner_city_id" name="partner_city_id" 
                                            t-att-value="order.partner_id.zip_id.city_id.id"/>
+                                    <input type="hidden" id="partner_document_type" name="partner_document_type" 
+                                           t-att-value="order.partner_id.document_type_id.id"/>
                                     
                                   <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                                     <form id="payulatam-payment-form" action="/shop/payment/payulatam-gateway-api" method="post" class="checkout_autoformat">
@@ -844,14 +1183,14 @@
                                                    title="" 
                                                    aria-describedby="tooltip997456"/>
                                             </div>
-                                            <div class="col-lg-2">
+                                            <!--<div class="col-lg-2">
                                               <img src="/web_sale_extended/static/src/img/tdc-empty.png" 
                                                    class="img img-fluid" 
                                                    alt="Logo Demo" 
                                                    data-original-title="" 
                                                    title="" 
                                                    aria-describedby="tooltip684457"/>
-                                            </div>
+                                            </div>-->
                                             <div class="col-lg-2">
                                               <img src="/web_sale_extended/static/src/img/tdc-mastercard.png" 
                                                    class="img img-fluid" 
@@ -1060,23 +1399,31 @@
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="credit_card_billing_firstname">Nombres</label>
-						<t t-if="order.partner_id.othernames">
-                                                  <input class="form-control" type="text" name="credit_card_billing_firstname" t-att-value="order.partner_id.firstname + ' ' + order.partner_id.othernames"/>
-						</t>
-						<t t-if="not order.partner_id.othernames">
-                                                  <input class="form-control" type="text" name="credit_card_billing_firstname" t-att-value="order.partner_id.firstname"/>
-						</t>
+                                                <t t-if="order.partner_id.othernames">
+                                                    <input class="form-control" type="text" 
+                                                       name="credit_card_billing_firstname" 
+                                                       t-att-value="order.partner_id.firstname + ' ' + order.partner_id.othernames"/>
+                                                </t>
+                                                <t t-if="not order.partner_id.othernames">
+                                                    <input class="form-control" type="text" 
+                                                       name="credit_card_billing_firstname" 
+                                                       t-att-value="order.partner_id.firstname"/>
+                                                </t>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="credit_card_billing_lastname">Apellidos</label>
-						<t t-if="order.partner_id.lastname2">
-                                                <input class="form-control" type="text" name="credit_card_billing_lastname" t-att-value="order.partner_id.lastname"/>
-						</t>
-						<t t-if="not order.partner_id.lastname2">
-                                                <input class="form-control" type="text" name="credit_card_billing_lastname" t-att-value="order.partner_id.lastname + ' ' + order.partner_id.lastname2"/>
-						</t>
+                                                <t t-if="order.partner_id.lastname2">
+                                                    <input class="form-control" type="text" 
+                                                           name="credit_card_billing_lastname" 
+                                                           t-att-value="order.partner_id.lastname + ' ' + order.partner_id.lastname2"/>
+                                                </t>
+                                                <t t-if="not order.partner_id.lastname2">
+                                                    <input class="form-control" type="text" 
+                                                           name="credit_card_billing_lastname" 
+                                                           t-att-value="order.partner_id.lastname"/>
+                                                </t>
                                             </div>
                                         </div>
                                       </div>
@@ -1087,7 +1434,7 @@
                                         <div class="col-lg-2 col-md-2">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="credit_card_partner_type" style="color:#FFF !important;">.</label>
-                                                <select name="credit_card_due_day" class="form-control">
+                                                <select name="credit_card_partner_type" class="form-control">
                                                     <option value="CC">C.C.</option>
                                                     <option value="CE">CE</option>
                                                     <option value="NIT">NIT</option>
@@ -1142,7 +1489,7 @@
                                                   t-attf-class="form-control" >
                                                       <option value="">País...</option>
                                                       <t t-foreach="countries" t-as="c">
-                                                          <option t-att-value="c.id">
+                                                          <option t-att-value="c.id" t-att-selected="c.id == order.partner_id.country_id">
                                                               <t t-esc="c.name" />
                                                           </option>
                                                       </t>
@@ -1150,50 +1497,60 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
-                                              <div class="form-group">
-                                                <label class="col-form-label" for="state_id">Departamento</label>
-                                                <select class="selectpicker" data-size="4" 
-                                                        id="credit_card_state_id" data-live-search="true" name="credit_card_state_id" 
-                                                t-attf-class="form-control" data-init="1">
-                                                    <option value="">Departamento</option>
-                                                    <t t-foreach="country_states" t-as="s">
-                                                        <option t-att-value="s.id">
-                                                            <t t-esc="s.name" />
-                                                        </option>
-                                                    </t>
-                                                </select>
-                                              </div>
+                                        <div class="form-group">
+                                            <div t-attf-class="div_state_text">
+                                                <label class="col-form-label" for="credit_card_state_id_text">Departamento / Provincia / Estado</label>
+                                                <input type="text" name="credit_card_state_id_text" id="credit_card_state_id_text" t-attf-class="form-control" t-att-value="order.partner_id.state_2" />
+                                            </div>
+                                            <div class="div_state">
+                                                <label class="col-form-label" for="state_id">Departamento / Provincia / Estado</label>
+                                                    <select class="selectpicker" data-size="4" 
+                                                            id="credit_card_state_id" data-live-search="true" name="credit_card_state_id" 
+                                                    t-attf-class="form-control" data-init="1">
+                                                        <option value="">Departamento</option>
+                                                        <t t-foreach="country_states" t-as="s">
+                                                            <option t-att-value="s.id">
+                                                                <t t-esc="s.name" />
+                                                            </option>
+                                                        </t>
+                                                    </select>                                              
+                                            </div>                                                
                                         </div>
+                                    </div>
                                       </div>
                                       
                                       <div class="row">
                                         <div class="col-lg-6 col-md-6">
-                                            <label class="col-form-label" for="city">Ciudad</label>
-                                            <select 
-                                                class="selectpicker"
-                                                data-size="10" 
-                                                data-live-search="true"
-                                                id="credit_card_city"
-                                                name="credit_card_city" 
-                                                t-attf-class="form-control" 
-                                                t-att-style="(not country or not country.state_ids) and 'display: none'"
-                                                >
-                                            <option value="">Ciudad...</option>
-                                            <t t-foreach="cities" t-as="c">
-                                                <option t-att-value="c.city_id.name" t-att-selected="c.name">
-                                                    <t t-esc="c.name" /> <t t-esc="c.city_id.name" /> <t t-esc="c.city_id.state_id.name" /> <t t-esc="c.city_id.state_id.country_id.name" />
-                                                </option>
-                                            </t>
-                                            </select>
+                                            <div class="div_city_text">
+                                                <label class="col-form-label" for="credit_card_city_text">Ciudad</label>         
+                                                <input type="text" name="credit_card_city_text" id="credit_card_city_text" t-attf-class="form-control" t-att-value="order.partner_id.city_2" />
+                                            </div>
+                                            <div class="div_city">
+                                                <label class="col-form-label" for="city">Ciudad</label>
+                                                <select 
+                                                    class="selectpicker"
+                                                    data-size="10" 
+                                                    data-live-search="true"
+                                                    id="credit_card_city"
+                                                    name="credit_card_city" 
+                                                    t-attf-class="form-control" 
+                                                    t-att-style="(not country or not country.state_ids) and 'display: none'"
+                                                    >
+                                                <option value="">Ciudad...</option>
+                                                <t t-foreach="cities" t-as="c">
+                                                    <option t-att-value="c.city_id.name" t-att-selected="c.name">
+                                                        <t t-esc="c.name" /> <t t-esc="c.city_id.name" /> <t t-esc="c.city_id.state_id.name" /> <t t-esc="c.city_id.state_id.country_id.name" />
+                                                    </option>
+                                                </t>
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6">
-                                          <label class="col-form-label label-optional" for="credit_card_zip">Código postal</label>
-                                            <input type="text"  name="credit_card_zip"
-                                            t-attf-class="form-control" 
-                                            readonly="true" />
+                                        <div class="col-lg-6 col-md-6" style="color: transparent">
+                                            <label class="col-form-label label-optional" for="credit_card_zip">Código postal</label>
+                                            <input style="visibility: hidden;" type="text"  name="credit_card_zip" t-attf-class="form-control" readonly="true" />
                                             <input type="hidden"  name="credit_card_zip_id"/>
-                                          </div>
-                                      </div>
+                                        </div>
+                                    </div>
                                       
                                       
                                       <!--<div class="row">
@@ -1215,20 +1572,45 @@
                                           <!-- Example -->
                                       <input type="hidden" name="field_required" t-att-value="'phone,name'" />
                                       <p/>
+                                    <!--++++++++Código del mensaje nuevo antes del botón de ralizar pago++++++++-->
+                                    <!--<div class="row">
+                                        <div class="col-lg-8 col-md-8">
+                                            <div class="form-group">
+                                                 <label class="col-form-label" for="cash_partner_street">Dirección de Residencia
+                                                  <span class="d-none d-md-inline"> </span></label>
+                                                  <input class="form-control" type="text" name="cash_partner_street" t-att-value="order.partner_id.street"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4">
+                                              <div class="form-group">
+                                                <label class="col-form-label" for="cash_partner_phone">Teléfono</label>
+                                                <input class="form-control" type="text" name="cash_partner_phone" t-att-value="order.partner_id.phone"/>
+                                              </div>
+                                        </div>
+                                      </div>-->
+                                    
+                                                 <!--<div class="d-flex justify-content-end">
+                                                  <button class="btn btn-custom mb32">
+                                                      <span>Paga el primer mes</span>
+                                                      <i class="fa fa-chevron-right"/>
+                                                  </button>
+                                              </div>-->
+                                        
+                                        <!--</div>-->
+                                    <!--++++++++Fin Código del mensaje nuevo antes del botón de ralizar pago+++++++-->
                                       <div class="d-flex justify-content-end">
                                           <!--<a role="button" t-att-href="mode == ('new', 'billing') and '/shop/cart' or '/shop/checkout'" class="btn btn-secondary mb32">
                                               <i class="fa fa-chevron-left"/>
                                               <span>Atrás</span>
                                           </a>-->
                                           <button class="btn btn-custom mb32">
-                                              <span>Realizar Pago</span>
+                                              <span>Pagar</span>
                                               <i class="fa fa-chevron-right"/>
                                           </button>
                                          <!-- <a role="button" href="#" class="btn btn-primary mb32 a-submit a-submit-disable a-submit-loading">-->
                                               
                                       </div>
-                                      
-
+                                    <!--</div>-->
                                     </form>
                                   </div>
                                   
@@ -1295,6 +1677,36 @@
                                           </div>
                                         </div>
                                       </section>
+                                          
+                                      <div class="row">
+                                        <div class="col-lg-12 col-md-12">
+                                            <separator/><br/>
+                                            <h4>Medio de Pago</h4>
+                                        </div>
+                                      </div>
+                                          
+                                      <div class="row">
+                                        <div class="col-lg6 col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="cash_bank" style="color:#FFF !important;">.</label>
+                                                <select name="cash_bank" id="cash_bank"
+                                                        t-attf-class="form-control">
+                                                    <option value="">Seleccione su Medio de Pago</option>
+                                                    <option value="BALOTO">BALOTO</option>
+                                                    <option value="BALOTO">EFECTY</option>
+                                                    <option value="BANK_REFERENCED">REFERENCIA BANCARIA</option>
+                                                    <option value="OTHERS_CASH">APUESTAS CUCUTA</option>
+                                                    <option value="OTHERS_CASH">GANA GANA</option>
+                                                    <option value="OTHERS_CASH">SU CHANCE</option>
+                                                    <option value="OTHERS_CASH">ACERTAMOS</option>
+                                                    <option value="OTHERS_CASH">LA PERLA</option>
+                                                    <option value="OTHERS_CASH">APUESTAS UNIDAS</option>
+                                                    <option value="OTHERS_CASH">PAGA TODO</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                      </div>
+
                                       <div class="row">
                                         <div class="col-lg-12 col-md-12">
                                             <separator/><br/>
@@ -1306,15 +1718,27 @@
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="cash_billing_firstname">Nombres</label>
-                                                <input class="form-control" type="text" name="cash_billing_firstname" 
+                                                <t t-if="order.partner_id.othernames">
+                                                    <input class="form-control" type="text" name="cash_billing_firstname" 
                                                        t-att-value="order.partner_id.firstname + ' ' + order.partner_id.othernames"/>
+                                                </t>
+                                                <t t-if="not order.partner_id.othernames">
+                                                    <input class="form-control" type="text" name="cash_billing_firstname" 
+                                                       t-att-value="order.partner_id.firstname"/>
+                                                </t>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="cash_billing_lastname">Apellidos</label>
-                                                <input class="form-control" type="text" name="cash_billing_lastname" 
+                                                <t t-if="order.partner_id.lastname2">
+                                                    <input class="form-control" type="text" name="cash_billing_lastname" 
                                                        t-att-value="order.partner_id.lastname + ' ' + order.partner_id.lastname2"/>
+                                                </t>
+                                                <t t-if="not order.partner_id.lastname2">
+                                                    <input class="form-control" type="text" name="cash_billing_lastname" 
+                                                       t-att-value="order.partner_id.lastname"/>
+                                                </t>
                                             </div>
                                         </div>
                                       </div>
@@ -1375,67 +1799,68 @@
                                       <div class="row">
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                 <label class="col-form-label" for="cash_country_id">País</label>
-                                                  <select class="selectpicker" data-size="5" data-live-search="true"  id="cash_country_id" name="cash_country_id" 
-                                                  t-attf-class="form-control" >
-                                                      <option value="">País...</option>
-                                                      <t t-foreach="countries" t-as="c">
-                                                          <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
-                                                              <t t-esc="c.name" />
-                                                          </option>
-                                                      </t>
-                                                  </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                              <div class="form-group">
-                                                <label class="col-form-label" for="cash_state_id">Departamento</label>
-                                                <select class="selectpicker" data-size="4" id="cash_state_id" data-live-search="true" name="cash_state_id" 
-                                                t-attf-class="form-control" data-init="1">
-                                                    <option value="">Departamento</option>
-                                                    <t t-foreach="country_states" t-as="s" t-att-selected="s.id == order.partner_id.zip_id.city_id.state_id.id">
-                                                        <option t-att-value="s.id">
-                                                            <t t-esc="s.name" />
+                                                <label class="col-form-label" for="cash_country_id">País</label>
+                                                <select class="selectpicker" data-size="5" data-live-search="true" id="cash_country_id" name="cash_country_id" t-attf-class="form-control">
+                                                    <option value="">País...</option>
+                                                    <t t-foreach="countries" t-as="c">
+                                                        <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
+                                                            <t t-esc="c.name" />
                                                         </option>
                                                     </t>
                                                 </select>
-                                              </div>
-                                        </div>
-                                      </div>
-                                      
-                                      <div class="row">
-                                        <div class="col-lg-6 col-md-6">
-                                            <label class="col-form-label" for="cash_city">Ciudad</label>
-                                            <select 
-                                                class="selectpicker"
-                                                data-size="10" 
-                                                data-live-search="true"
-                                                id="cash_city"
-                                                name="cash_city" 
-                                                t-attf-class="form-control" 
-                                                
-                                                t-att-style="(not country or not country.state_ids) and 'display: none'"
-                                                >
-                                            <option value="">Ciudad...</option>
-                                            <t t-foreach="cities" t-as="c">
-                                                <option t-att-value="c.city_id.name" t-att-selected="c.name">
-                                                    <t t-esc="c.name" /> 
-                                                    <t t-esc="c.city_id.name" /> 
-                                                    <t t-esc="c.city_id.state_id.name" /> 
-                                                    <t t-esc="c.city_id.state_id.country_id.name" />
-                                                </option>
-                                            </t>
-                                            </select>
+                                            </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
-                                          <label class="col-form-label label-optional" for="zip">Código postal</label>
-                                            <input type="text"  name="cash_zip"
-                                            t-attf-class="form-control" 
-                                            readonly="true" />
-                                            <input type="hidden"  name="cash_zip_id"/>
-                                          </div>
-                                      </div>
-                                          
+                                            <div class="form-group">
+                                                <div t-attf-class="div_state_text">
+                                                    <label class="col-form-label" for="cash_state_id_text">Departamento / Provincia / Estado</label>
+                                                    <input type="text" name="cash_state_id_text" id="cash_state_id_text" t-attf-class="form-control" t-att-value="order.partner_id.state_2" />
+                                                </div>
+                                                <div class="div_state">
+                                                    <label class="col-form-label" for="cash_state_id">Departamento / Provincia / Estado</label>
+                                                    <select class="selectpicker" data-size="4" id="cash_state_id" data-live-search="true" name="cash_state_id" t-attf-class="form-control" data-init="1">
+                                                        <option value="">Departamento / Provincia / Estado</option>
+                                                        <t t-foreach="country_states" t-as="s" t-att-selected="s.id == order.partner_id.zip_id.city_id.state_id.id">
+                                                            <option t-att-value="s.id">
+                                                                <t t-esc="s.name" />
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="div_city_text">
+                                                <label class="col-form-label" for="cash_city_text">Ciudad</label>
+                                                <input type="text" name="cash_city_text" id="cash_city_text" t-attf-class="form-control" t-att-value="order.partner_id.city_2" />
+                                            </div>
+                                            <div class="div_city">
+                                                <label class="col-form-label" for="cash_city">Ciudad</label>
+                                                <select class="selectpicker" data-size="10" data-live-search="true" id="cash_city" name="cash_city" t-attf-class="form-control" t-att-style="(not country or not country.state_ids) and 'display: none'">
+                                                    <option value="">Ciudad...</option>
+                                                    <t t-foreach="cities" t-as="c">
+                                                        <option t-att-value="c.city_id.name" t-att-selected="c.name">
+                                                            <t t-esc="c.name" />
+                                                            <t t-esc="c.city_id.name" />
+                                                            <t t-esc="c.city_id.state_id.name" />
+                                                            <t t-esc="c.city_id.state_id.country_id.name" />
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--+++++++Inicio Código del código postal++++++++++++++-->
+                                        <div class="col-lg-6 col-md-6" style="color: transparent">
+                                            <label class="col-form-label label-optional" for="zip">Código postal</label>
+                                            <input style="visibility: hidden;" type="text" name="cash_zip" t-attf-class="form-control" readonly="true" />
+                                            <input style="visibility: hidden;" type="hidden" name="cash_zip_id"/>
+                                        </div>
+                                    </div>
+                                    <!--+++++++Fin Código del código postal++++++++++++++-->   
                                       <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
                                       <input type="hidden" name="submitted" value="1" />
                                       <input type="hidden" name="partner_id" t-att-value="partner_id or '0'" />
@@ -1532,12 +1957,6 @@
                                         </div>
                                       </div>
                                       
-                                      
-                                      
-                                      
-                                      
-                                      
-                                      
                                       <div class="row">
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
@@ -1558,7 +1977,6 @@
                                         
                                       </div>
                                       
-                                      
                                       <div class="row">
                                         <div class="col-lg-12 col-md-12">
                                             <separator/><br/>
@@ -1566,19 +1984,35 @@
                                         </div>
                                       </div>
                                       
-
-                                      
                                       <div class="row">
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="pse_billing_firstname">Nombres</label>
-                                                <input class="form-control" type="text" name="pse_billing_firstname" t-att-value="order.partner_id.firstname + ' ' + order.partner_id.othernames"/>
+                                                <t t-if="order.partner_id.othernames">
+                                                    <input class="form-control" type="text" 
+                                                           name="pse_billing_firstname" 
+                                                           t-att-value="order.partner_id.firstname + ' ' + order.partner_id.othernames"/>
+                                                </t>
+                                                <t t-if="not order.partner_id.othernames">
+                                                    <input class="form-control" type="text" 
+                                                           name="pse_billing_firstname" 
+                                                           t-att-value="order.partner_id.firstname"/>
+                                                </t>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="pse_billing_lastname">Apellidos</label>
-                                                <input class="form-control" type="text" name="pse_billing_lastname" t-att-value="order.partner_id.lastname + ' ' + order.partner_id.lastname2"/>
+                                                <t t-if="order.partner_id.lastname2">
+                                                    <input class="form-control" type="text" 
+                                                           name="pse_billing_lastname" 
+                                                           t-att-value="order.partner_id.lastname + ' ' + order.partner_id.lastname2"/>
+                                                </t>
+                                                <t t-if="not order.partner_id.lastname2">
+                                                    <input class="form-control" type="text" 
+                                                           name="pse_billing_lastname" 
+                                                           t-att-value="order.partner_id.lastname"/>
+                                                </t>
                                             </div>
                                         </div>
                                       </div>
@@ -1616,8 +2050,6 @@
                                         </div>
                                       </div>
                                       
-                                      
-                                      
                                       <div class="row">
                                         <div class="col-lg-8 col-md-8">
                                             <div class="form-group">
@@ -1638,63 +2070,66 @@
                                       <div class="row">
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                 <label class="col-form-label" for="pse_country_id">País</label>
-                                                  <select class="selectpicker" data-size="5" data-live-search="true"  id="pse_country_id" name="pse_country_id" 
-                                                  t-attf-class="form-control" >
-                                                      <option value="">País...</option>
-                                                      <t t-foreach="countries" t-as="c">
-                                                          <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
-                                                              <t t-esc="c.name" />
-                                                          </option>
-                                                      </t>
-                                                  </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6">
-                                              <div class="form-group">
-                                                <label class="col-form-label" for="pse_state_id">Departamento</label>
-                                                <select class="selectpicker" data-size="4" id="pse_state_id" data-live-search="true" name="pse_state_id" 
-                                                t-attf-class="form-control" data-init="1">
-                                                    <option value="">Departamento</option>
-                                                    <t t-foreach="country_states" t-as="s">
-                                                        <option t-att-value="s.id">
-                                                            <t t-esc="s.name" />
+                                                <label class="col-form-label" for="pse_country_id">País</label>
+                                                <select class="selectpicker" data-size="5" data-live-search="true" id="pse_country_id" name="pse_country_id" t-attf-class="form-control">
+                                                    <option value="">País...</option>
+                                                    <t t-foreach="countries" t-as="c">
+                                                        <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
+                                                            <t t-esc="c.name" />
                                                         </option>
                                                     </t>
                                                 </select>
-                                              </div>
-                                        </div>
-                                      </div>
-                                      
-                                      <div class="row">
-                                        <div class="col-lg-6 col-md-6">
-                                            <label class="col-form-label" for="pse_city">Ciudad</label>
-                                            <select 
-                                                class="selectpicker"
-                                                data-size="10" 
-                                                data-live-search="true"
-                                                id="pse_city"
-                                                name="pse_city" 
-                                                t-attf-class="form-control" 
-                                                
-                                                t-att-style="(not country or not country.state_ids) and 'display: none'"
-                                                >
-                                            <option value="">Ciudad...</option>
-                                            <t t-foreach="cities" t-as="c">
-                                                <option t-att-value="c.city_id.name" t-att-selected="c.name">
-                                                    <t t-esc="c.name" /> <t t-esc="c.city_id.name" /> <t t-esc="c.city_id.state_id.name" /> <t t-esc="c.city_id.state_id.country_id.name" />
-                                                </option>
-                                            </t>
-                                            </select>
+                                            </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
-                                          <label class="col-form-label label-optional" for="zip">Código postal</label>
-                                            <input type="text"  name="pse_zip"
-                                            t-attf-class="form-control" 
-                                            readonly="true" />
-                                            <input type="hidden"  name="pse_zip_id"/>
-                                          </div>
-                                      </div>
+                                            <div class="form-group">
+                                                <div t-attf-class="div_state_text">
+                                                    <label class="col-form-label" for="pse_state_id_text">Departamento / Provincia / Estado</label>
+                                                    <input type="text" name="pse_state_id_text" id="pse_state_id_text" t-attf-class="form-control" t-att-value="order.partner_id.state_2" />
+                                                </div>
+                                                <div class="div_state">
+                                                    <label class="col-form-label" for="pse_state_id">Departamento / Provincia / Estado</label>
+                                                    <select class="selectpicker" data-size="4" id="pse_state_id" data-live-search="true" name="pse_state_id" t-attf-class="form-control" data-init="1">
+                                                        <option value="">Departamento / Provincia / Estado</option>
+                                                        <t t-foreach="country_states" t-as="s">
+                                                            <option t-att-value="s.id">
+                                                                <t t-esc="s.name" />
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="div_city_text">
+                                                <label class="col-form-label" for="pse_city_text">Ciudad</label>
+                                                <input type="text" name="pse_city_text" id="pse_city_text" t-attf-class="form-control" t-att-value="order.partner_id.city_2" />
+                                            </div>
+                                            <div class="div_city">
+                                                <label class="col-form-label" for="pse_city">Ciudad</label>
+                                                <select class="selectpicker" data-size="10" data-live-search="true" id="pse_city" name="pse_city" t-attf-class="form-control" t-att-style="(not country or not country.state_ids) and 'display: none'">
+                                                    <option value="">Ciudad...</option>
+                                                    <t t-foreach="cities" t-as="c">
+                                                        <option t-att-value="c.city_id.name" t-att-selected="c.name">
+                                                            <t t-esc="c.name" />
+                                                            <t t-esc="c.city_id.name" />
+                                                            <t t-esc="c.city_id.state_id.name" />
+                                                            <t t-esc="c.city_id.state_id.country_id.name" />
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--++++Inicio del código postal++++-->
+                                        <div class="col-lg-6 col-md-6" style="color: transparent">
+                                            <label class="col-form-label label-optional" for="zip"></label>        <!--<label class="col-form-label label-optional" for="zip">Código postal</label>-->
+                                            <input style="visibility: hidden;" type="text" name="pse_zip" t-attf-class="form-control" readonly="true" />
+                                            <input style="visibility: hidden;" type="hidden" name="pse_zip_id"/>
+                                        </div>
+                                    </div>
                                       
                                       <!--<div class="row">
                                         <div class="col-lg-12 col-md-12" style="padding-top:20px;">

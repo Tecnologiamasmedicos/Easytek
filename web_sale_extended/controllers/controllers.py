@@ -15,20 +15,20 @@ from odoo.addons.payment.controllers.portal import PaymentProcessing
 from odoo.addons.sale.controllers.portal import CustomerPortal
 from odoo.osv import expression
 import time
-_logger = logging.getLogger(__name__)
 
+_logger = logging.getLogger(__name__)
 
 
 class WebsiteSaleExtended(WebsiteSale):
 
-
-    
     def _checkout_form_save(self, mode, checkout, all_values):
         Partner = request.env['res.partner']
         if mode[0] == 'new':
             _logger.info("****CREANDO TERCERO NUEVO*****")
             _logger.info(checkout)
             #zip_id = checkout.pop('zip_id')
+            if "name" in checkout:
+                checkout.pop('name')
             partner_id = Partner.sudo().with_context(tracking_disable=True, skip_check_zip=True).create(checkout)
             #partner_id.write({'zip_id': zip_id})
         elif mode[0] == 'edit':
@@ -41,8 +41,6 @@ class WebsiteSaleExtended(WebsiteSale):
                 shippings = Partner.sudo().search([("id", "child_of", order.partner_id.commercial_partner_id.ids)])
                 if partner_id not in shippings.mapped('id') and partner_id != order.partner_id.id:
                     return Forbidden()
-                
-                
                 if "zip" in checkout:
                     checkout.pop('zip')
                 if "city" in checkout:
@@ -52,22 +50,18 @@ class WebsiteSaleExtended(WebsiteSale):
                 if "name" in checkout:
                     checkout.pop('name')
                 if "zip_id" in checkout:
-                    checkout.pop('zip_id')
-                if "state_id" in checkout:
-                    checkout.pop('state_id')
+                    checkout.update({'zip_id': int(checkout['zip_id'])})
+                if "state_address_id" in checkout:
+                    checkout.update({'state_id': int(checkout['state_address_id'])})
                 Partner.browse(partner_id).sudo().write(checkout)
-
         return partner_id
-
 
     @http.route(['/shop/tusdatos_request_confirmation'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def tusdatos_request_confirmation(self, **kw):
         order = request.website.sale_get_order()
-
         #redirection = self.checkout_redirection(order)
         #if redirection:
         #    return redirection
-
         order.onchange_partner_shipping_id()
         order.order_line._compute_tax_id()
         request.session['sale_last_order_id'] = order.id
@@ -75,29 +69,97 @@ class WebsiteSaleExtended(WebsiteSale):
         extra_step = request.website.viewref('website_sale.extra_info_option')
         if extra_step.active:
             return request.redirect("/shop/extra_info")
-
-        #return request.redirect("/shop/payment")
-
-
         render_values = {
             'order': order,
         }
         return request.render("web_sale_extended.tusdatos_request_confirmation", render_values)
+    
+    
+    
+    def checkout_form_validate(self, mode, all_form_values, data):
+        # mode: tuple ('new|edit', 'billing|shipping')
+        # all_form_values: all values before preprocess
+        # data: values after preprocess
+        error = dict()
+        error_message = []
+        
+        
+        _logger.info("****ID Pais fieldname*****")
+        _logger.info(data.get('country_address_id'))
+        _logger.info("****Dataaa fieldname*****")
+        _logger.info(data)
+        
 
+        # Required fields from form
+        required_fields = [f for f in (all_form_values.get('field_required') or '').split(',') if f]
+        # Required fields from mandatory field function
+        required_fields += mode[1] == 'shipping' and self._get_mandatory_shipping_fields() or self._get_mandatory_billing_fields()
+        # Check if state required
+        country = request.env['res.country']
+        if data.get('country_address_id'):
+            country = country.browse(int(data.get('country_address_id')))
+            if 'state_code' in country.get_address_fields() and country.state_ids:
+                required_fields += ['state_address_id']
+
+        # error message for empty required fields
+        for field_name in required_fields:
+            if field_name == 'country_id':
+                field_name = 'country_address_id'
+            elif field_name == 'state_id':
+                if int(data.get('country_address_id')) == 49:
+                    field_name = 'state_address_id'
+                else:
+                    field_name = 'state_id_text'
+            elif field_name == 'city':
+                if int(data.get('country_address_id')) == 49:
+                    field_name = 'state_address_id'
+                else:
+                    field_name = 'city'
+            if not data.get(field_name):
+                error[field_name] = 'missing'
+                _logger.info("****Error fieldname*****")
+                _logger.info(field_name)
+
+        # email validation
+        if data.get('email') and not tools.single_email_re.match(data.get('email')):
+            error["email"] = 'error'
+            error_message.append(_('Invalid Email! Please enter a valid email address.'))
+
+        # vat validation
+        Partner = request.env['res.partner']
+        if data.get("vat") and hasattr(Partner, "check_vat"):
+            if data.get("country_address_id"):
+                data["vat"] = Partner.fix_eu_vat_number(data.get("country_address_id"), data.get("vat"))
+            partner_dummy = Partner.new({
+                'vat': data['vat'],
+                'country_id': (int(data['country_address_id'])
+                               if data.get('country_address_id') else False),
+            })
+            try:
+                partner_dummy.check_vat()
+            except ValidationError:
+                error["vat"] = 'error'
+
+        if [err for err in error.values() if err == 'missing']:
+            error_message.append(_('Some required fields are empty.'))
+
+        return error, error_message
+    
+    
+    
+    
+    
 
     # toma de datos de pago y se crea el asegurador principal
     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def address(self, errortusdatos= '', **kw):
-        
-        
         ''' Toma de datos de pago y se crea el asegurador principal '''
-
         Partner = request.env['res.partner'].with_context(show_address=1).sudo()
         order = request.website.sale_get_order()
         order_detail = request.env['sale.order.line'].sudo().search([('order_id', "=", int(order.id))])
-        #redirection = self.checkout_redirection(order)
-        #if redirection:
-        #    return redirection
+        redirection = self.checkout_redirection(order)
+        if redirection:
+            return redirection
 
         mode = (False, False)
         can_edit_vat = False
@@ -139,35 +201,49 @@ class WebsiteSaleExtended(WebsiteSale):
         if 'submitted' in kw:
             order.write({'tusdatos_email': kw['email']})
             _logger.info("****FORMULARIO*****")
-            _logger.info(kw)
-            _logger.info(' '.join([order.tusdatos_request_id, str(order.tusdatos_approved), order.tusdatos_email]))
             pre_values = self.values_preprocess(order, mode, kw)
             errors, error_msg = self.checkout_form_validate(mode, kw, pre_values)
+            _logger.info(errors)
             post, errors, error_msg = self.values_postprocess(order, mode, pre_values, errors, error_msg)
-
+            _logger.info(errors)
             if errors:
+                _logger.info("****con errores*****")
                 errors['error_message'] = error_msg
                 values = kw
             else:
+                _logger.info("****sin errores*****")
                 if kw['othernames'] == '':
-                    post['othernames'] = ' '
+                    post['othernames'] = ''
                 else:
-                    post['othernames'] = kw['othernames']
-
-                post['firstname'] = kw['name']
-                post['lastname'] = kw['lastname']
-                post['lastname2'] = kw['lastname2']
+                    post['othernames'] = kw['othernames'].strip()
+                
+                post['firstname'] = kw['name'].strip()
+                post['lastname'] = kw['lastname'].strip()
+                post['lastname2'] = kw['lastname2'].strip()
                 post['document_type_id'] = int(kw["document"])
                 post['person_type'] = "2"
                 post['identification_document'] = kw["identification_document"]
                 post["birthdate_date"] = kw["birthdate_date"]
                 #post["city_id"] = kw["city"]
-                post["zip"] = kw["zip"]
-                post["zip_id"] = kw["zip_id"]
-                post["state_id"] = kw["state_id"]
+                post["country_id"] = int(kw["country_address_id"])
+                
+                post["buyer"] = True
+                
+                if kw['country_address_id'] =='49':                    
+                    post["zip"] = kw["zip"]
+                    post["zip_id"] = kw["zip_id"]
+                    post["state_id"] = int(kw["state_address_id"])                    
+                else:
+                    post["state_2"] = kw["state_id_text"]
+                    post["city_2"] = kw["city_id_text"]
+                if 'estado_civil' in kw:
+                    post["marital_status"] = kw["estado_civil"]
+                if 'expedition_date' in kw:
+                    _logger.error(kw["expedition_date"])
+                    post["expedition_date"] = kw["expedition_date"]
+                if 'relationship' in kw:
+                    post["relationship"] = kw["relationship"]
 
-                _logger.info("\n****ZIP ID*****\n")
-                _logger.info(post["zip_id"])
                 partner_id = self._checkout_form_save(mode, post, kw)
                 if mode[1] == 'billing':
                     order.partner_id = partner_id
@@ -182,65 +258,24 @@ class WebsiteSaleExtended(WebsiteSale):
 
                 # TDE FIXME: don't ever do this
                 order.message_partner_ids = [(4, partner_id), (3, request.website.partner_id.id)]
-                order.write({
-                    'require_signature': False,
-                    'require_payment': True,
-                })
-
-                #send mail
-                #template = request.env['mail.template'].sudo().search([('tusdatos_process_send','=', True)], limit=1)
-
+                order.write({'require_signature': False, 'require_payment': True,})
                 if not errors:
                     if not order.tusdatos_request_id:
-                        document_types = {'3': 'CC', '5':'CE', '8':'PEP', '7':'PP'}
-                        expedition_date = kw["expedition_date"]
-                        expedition_date = '/'.join(expedition_date.split('-')[::-1])
-                        _logger.info("\n****TUS DATOS*****\n")
-                        tusdatos_validation = request.env['api.tusdatos'].launch_query_tusdatos(str(kw["identification_document"]),
-                                                                                                document_types[str(kw["document"])],
-                                                                                                expedition_date)
-                        #_logger.info(tusdatos_validation)
-                        if tusdatos_validation and tusdatos_validation.get('process_id'):
-                            order.write({'tusdatos_request_id': tusdatos_validation['process_id']})
-                        elif tusdatos_validation and tusdatos_validation.get('error'):
-                            #return request.render("web_sale_extended.address", kw)
-                            #return werkzeug.utils.redirect('/shop/address')
-                            #errors['error_message'] = tusdatos_validation.get('error')
-                            _logger.info("\n****OOOOOOOOOOOOOOOOOOOOOOOOOooTUS DATOS ORDER*****\n")
+                        document_types = {'3': 'CC', '5':'CE', '8':'PEP', '7':'PP'}                        
+                        order.write({'tusdatos_typedoc': document_types[str(kw["document"])]})  
                             
-                            #return request.redirect(kw.get('callback'))
-                            #order.action_cancel()
-                            return werkzeug.utils.redirect('/shop/address?errortusdatos=document_invalid')
-                            
-                           
-                            
-                        # TODO: add to queue! @Jhair The process in queue is order.tusdatos_approval()
-                        # TODO: fix the redirection
-                        _logger.info("\n****TUS DATOS ORDER*****\n")
-                        _logger.info(' '.join([order.tusdatos_request_id, order.tusdatos_email]))
-
-
-                        render_values = {
-                            'email': kw['email'],
-                        }
+                        render_values = {'email': kw['email'],}
                         return request.redirect(kw.get('callback') or '/shop/confirm_order')
                         #if not errors:
                         #    return request.redirect('/shop/tusdatos_request_confirmation')
                     elif not order.tusdatos_approved and order.tusdatos_request_id:
-                        # TODO: DELAY approval order
-                        # order.tusdatos_approval()
                         _logger.info("\n****TUS DATOS ORDER2*****\n")
-                        _logger.info(' '.join([order.tusdatos_request_id, str(order.tusdatos_approved)]))
-                        # TODO: fix redirection
-                        #return request.redirect("/web")
                         return request.redirect(kw.get('callback') or '/shop/confirm_order')
                         #return request.redirect('/shop/tusdatos_request_confirmation')
 
-
-
                     if not errors:
                         return request.redirect(kw.get('callback') or '/shop/confirm_order')
-
+                    
         country = 'country_id' in values and values['country_id'] != '' and request.env['res.country'].browse(int(values['country_id']))
         country = country and country.exists() or def_country_id
         fiscal_position_ids = request.env['account.fiscal.position'].sudo().search([
@@ -249,8 +284,25 @@ class WebsiteSaleExtended(WebsiteSale):
         ])
         
         if errortusdatos:
+            _logger.error(errortusdatos)
             errors['error_message'] = errortusdatos
         
+        if 'name' in values and values['name']:
+            values = values
+        elif order:
+            values.update({
+                'name': order.partner_id.firstname,
+                'firstname': order.partner_id.firstname,
+                'othernames': order.partner_id.othernames,
+                'lastname': order.partner_id.lastname,
+                'lastname2': order.partner_id.lastname2,
+                'email': order.partner_id.email,
+                'phone': order.partner_id.phone,
+                'birthdate_date': order.partner_id.birthdate_date,
+                'street': order.partner_id.street,
+                'expedition_date': order.partner_id.expedition_date,
+            })
+            
         render_values = {
             'website_sale_order': order,
             'partner_id': partner_id,
@@ -259,7 +311,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'can_edit_vat': can_edit_vat,
             'country': country,
             'country_states': country.get_website_sale_states(mode=mode[1]),
-            'countries': country.get_website_sale_countries(mode=mode[1]).filtered(lambda line: line.id == 49),
+            'countries': country.get_website_sale_countries(mode=mode[1]),
             'fiscal_position_ids': fiscal_position_ids,
             'error': errors,
             'callback': kw.get('callback'),
@@ -272,21 +324,51 @@ class WebsiteSaleExtended(WebsiteSale):
             'order_detail': order_detail,
         }
         return request.render("web_sale_extended.address", render_values)
+    
 
+    @http.route(['/shop/confirm_order'], type='http', auth="public", website=True, sitemap=False)
+    def confirm_order(self, **post):
+        order = request.website.sale_get_order()
 
+        redirection = self.checkout_redirection(order)
+        if redirection:
+            return redirection
+
+        order.onchange_partner_shipping_id()
+        order.order_line._compute_tax_id()
+        request.session['sale_last_order_id'] = order.id
+        request.website.sale_get_order(update_pricelist=True)
+        extra_step = request.website.viewref('website_sale.extra_info_option')
+        if extra_step.active:
+            return request.redirect("/shop/extra_info")
+        
+        
+        """ Evaluando si el producto tiene valor cero """
+        if order.main_product_id.list_price == 0:
+            order.write({
+                'payment_method_type': 'Product Without Price',
+            })
+            body_message = """
+                <b><span style='color:green;'>PayU Latam - Producto con precio cero</span></b><br/>
+                Se ha iniciado una transacción con Producto Precio Cero y el usuario ha sido redirigido al formulario 
+                para el registro de Asegurado y Beneficiarios<br/>
+            """
+            order.message_post(body=body_message, type="comment")
+            return request.redirect("/my/order/beneficiaries/" + str(order.id))
+
+        return request.redirect("/shop/payment")
+    
+    
     def get_cities(self, department=None):
         ''' LISTADOS DE TODAS LAS CIUDADES '''
         domain = []
         if department:
             domain.append(('city_id.state_id', '=', department))
         complete_cities_with_zip = request.env['res.city.zip'].sudo().search(domain)
-
         return complete_cities_with_zip
-        #return []
 
     def get_document_types(self, type='All'):
         ''' LISTADOS DE TODOS LOS TIPOS DE DOCUMENTO '''
-
         if type == "payment":
             document_type = request.env['res.partner.document.type'].sudo().search([
                 ('id','not in',[11,1,2,4,6,10,9]),
@@ -299,34 +381,33 @@ class WebsiteSaleExtended(WebsiteSale):
             document_type = request.env['res.partner.document.type'].sudo().search([], order='name')
         return document_type
 
-
-
-
     @http.route(['/my/order/beneficiaries/<int:order_id>'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def get_data_beneficiary(self, order_id, **kwargs):
-
         ''' Captura de datos del beneficiario más no guarda informacion '''
         _logger.info("**BENEFICIARY**")
-
-        #_logger.info(request.env.user.email)
-        #InsurerPartner = request.env['res.partner'].search([('email', '=', request.env.user.email)], limit=1)
-
-        #InsurerPartner_childs = request.env['res.partner'].search([
-        #    ('parent_id', '=', InsurerPartner[0].id),
-        #], limit=6)
-
-        #order = request.env['sale.order'].sudo().search([('partner_id', "=", InsurerPartner[0].id)])
-        #order_detail = request.env['sale.order.line'].sudo().search([('order_id', "=", int(order.id))])
-
         order = request.env['sale.order'].sudo().browse(order_id)
-        _logger.error(order)
+        #request.session['sale_order_id'] = None
+        #request.session['sale_transaction_id'] = None
+        
+        #redirection = self.checkout_redirection(order)
+        #if redirection:
+        #    return redirection
+        
         product = order.order_line[0].product_id
-        beneficiaries_number = product.product_tmpl_id.beneficiaries_number if product.product_tmpl_id.beneficiaries_number else 6
 
+        if product.sequence_id:
+            beneficiaries_number = product.sequence_id.beneficiaries_number
+        else:
+            beneficiaries_number = product.categ_id.sequence_id.beneficiaries_number
+        
+        if beneficiaries_number < 1 or beneficiaries_number > 6:
+            beneficiaries_number = 6
+        
         country = request.env['res.country'].browse(int(order.partner_id.country_id))
+        _logger.info(country)
         render_values = {
             "partner": order.partner_id,
-            'country_states': country.get_website_sale_states(),
+            'country_states': request.env['res.country'].browse(49).get_website_sale_states(),
             'cities': self.get_cities(order.partner_id.state_id.id if order.partner_id.state_id else None),
             'countries': country.get_website_sale_countries().filtered(lambda line: line.id == 49),
             'document_types': self.get_document_types('beneficiary'),
@@ -336,59 +417,95 @@ class WebsiteSaleExtended(WebsiteSale):
             'beneficiaries_number': beneficiaries_number,
             'order_id': order.id,
         }
+        _logger.info(render_values)
         return request.render("web_sale_extended.beneficiary", render_values)
 
 
     @http.route(['/beneficiary-detail'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def create_beneficiary(self, print_policy=0, **kwargs):
-        
-        if int(print_policy):
-            _logger.error('****************+PASANDO POR IMPRIMIR ==================================')
-            
-            
-            
-
         ''' Guarda datos de los beneficiarios y los deja inactivo  '''
         _logger.info("***INFORME BENEFICIARIO***")
         _logger.info(kwargs)
 
         order = request.website.sale_get_order()
-        #redirection = self.checkout_redirection(order)
-        #if redirection:
-        #    return redirection
-
+        if not order and kwargs['order_id']:
+            order = request.env['sale.order'].sudo().browse(int(kwargs['order_id']))
+            
+        """ si la orden esta en estado confirmado hay que reenviar a landpage"""
+        if order.state == 'sale':
+            redirection = self.checkout_redirection(order)
+            if redirection:
+                return redirection
         order_detail = order.order_line[0]
+
+        if order_detail.product_id.sequence_id.sponsor_id:
+            sponsor_id = order_detail.product_id.sequence_id.sponsor_id
+        else: 
+            sponsor_id = order_detail.product_id.categ_id.sequence_id.sponsor_id
+        
         Partner = order.partner_id
         BeneficiaryPartner = request.env['res.partner'].sudo()
         Subscription = order_detail.subscription_id
         beneficiary_list = []
-        #if len(InsurerPartner_childs)>6:
-        #    raise("Tienes muchos beneficiarios")
-        #_logger.info(kwargs['beneficiario'])
+                
+        if 'infoBuyer' in kwargs:
+            Partner.sudo().write({
+                'company_type': 'person',
+                'active': True,
+                'beneficiary_number': 1,
+                'ocupation': kwargs['ocupation'],
+                'gender' : kwargs['sex'],
+                'marital_status' : kwargs['estado_civil'],
+                'main_insured': True,
+                'sponsor_id': sponsor_id.id,
+                'subscription_id': Subscription.id
+            })
+        
+            beneficiary_list.append((4, Partner.id))
+            order.write({
+                'beneficiary0_id': Partner.id
+            })
+        else:
+            suggested_zipcode = request.env['res.city.zip'].sudo().search([('city_id', '=', int(kwargs['city']))], limit=1)
 
-        Partner.sudo().write({
-            'firstname': kwargs['name'],
-            'lastname': kwargs['lastname'],
-            'lastname2':kwargs['lastname2'],
-            'othernames': kwargs['othername'],
-            'email': kwargs['email'],
-            'mobile': kwargs['phone'],
-            #'document_type_id': kwargs[document_type],
-            'identification_document': kwargs['numero_documento'],
-            'company_type': 'person',
-            'active': True,
-            'beneficiary_number': 1,
-            'birthdate_date' : kwargs['date'],
-            'gender' : kwargs['sex'],
-            'marital_status' : kwargs['estado_civil'],
-            #'parent_id': InsurerPartner
-            'expedition_date' : kwargs['expedition_date']
-        })
-        beneficiary_list.append((4, Partner.id))
-        order.write({
-            'beneficiary0_id': Partner.id
-        })
+            Partner.sudo().write({                
+                'sponsor_id': sponsor_id.id,                
+            })
 
+            NewBeneficiaryPartner = BeneficiaryPartner.create({
+                    'firstname': kwargs['name'],
+                    'lastname': kwargs['lastname'],
+                    'lastname2':kwargs['lastname2'],
+                    'othernames': kwargs['othername'],
+                    'email': kwargs['email'],
+                    'person_type': "2",
+                    "mobile": kwargs['phone'],  
+                    'phone': kwargs['fijo'],
+                    'document_type_id': int(kwargs['document_type']),
+                    'identification_document': kwargs['numero_documento'],
+                    'company_type': 'person',
+                    'active': True,
+                    'parent_id': Partner.id,
+                    'beneficiary_country_id': int(kwargs['country_id']),
+                    'beneficiary_state_id': int(kwargs['deparment']),
+                    'beneficiary_zip_id': suggested_zipcode.id,
+                    'birthdate_date': kwargs['date'],
+                    'expedition_date' : kwargs['expedition_date'],
+                    'marital_status' : kwargs['estado_civil'],
+                    'ocupation': kwargs['ocupation'],
+                    'gender': kwargs['sex'],
+                    'address_beneficiary': kwargs['address'],
+                    'beneficiary_number': 1,
+                    'main_insured': True,
+                    'sponsor_id': sponsor_id.id,
+                    'subscription_id': Subscription.id,
+                })
+            beneficiary_list.append((4, NewBeneficiaryPartner.id))
+            order.write({
+                'beneficiary0_id': NewBeneficiaryPartner.id
+            })
+            
+        cont_d, cont_h, cont_c, cont_m, cont_s = 0,0,0,0,0
         for i in range(int(kwargs['beneficiario'])):
             firtst_name = "bfirstname"+str(i+1)
             other_name = "bfothername"+str(i+1)
@@ -400,6 +517,7 @@ class WebsiteSaleExtended(WebsiteSale):
             country_id =  "bfcountry_id"+str(i+1)
             state_id = "bfdeparment"+str(i+1)
             city = "bfcity"+str(i+1)
+            zip_id = "bfcity"+str(i+1)
             birthdate = "bfdate"+str(i+1)
             ocupation = "bfocupacion"+str(i+1)
             gender = "bfsex"+str(i+1)
@@ -408,9 +526,29 @@ class WebsiteSaleExtended(WebsiteSale):
             phone = "bffijo"+str(i+1)
             mobile = "bfphone"+str(i+1)
 
+            clerk_code = ''
+            if kwargs[relationship] == 'C':
+                cont_c+=1
+                clerk_code = 'C' + str(cont_c)
+            elif kwargs[relationship] == 'D':
+                cont_d+=1
+                clerk_code = 'D' + str(cont_d)
+            elif kwargs[relationship] == 'H':
+                cont_h+=1
+                clerk_code = 'H' + str(cont_h)
+            elif kwargs[relationship] == 'M':
+                cont_m+=1
+                clerk_code = 'M' + str(cont_m)
+            elif kwargs[relationship] == 'S':
+                cont_s+=1
+                clerk_code = 'S' + str(cont_s)
+
 
             if kwargs[other_name] == '':
                 kwargs[other_name] = ' '
+            
+            suggested_zipcode = request.env['res.city.zip'].sudo().search([('city_id', '=', int(kwargs[city]))], limit=1)
+
             NewBeneficiaryPartner = BeneficiaryPartner.create({
                 'firstname': kwargs[firtst_name],
                 'lastname': kwargs[last_name],
@@ -425,9 +563,9 @@ class WebsiteSaleExtended(WebsiteSale):
                 'company_type': 'person',
                 'active': True,
                 'parent_id': Partner.id,
-                'country_id': int(kwargs[country_id]),
-                'state_id': int(kwargs[state_id]),
-                'city': kwargs[city],
+                'beneficiary_country_id': int(kwargs[country_id]),
+                'beneficiary_state_id': int(kwargs[state_id]),
+                'beneficiary_zip_id': suggested_zipcode.id,
                 'birthdate_date': kwargs[birthdate],
                 #'marital_status': kwargs[marital_status],
                 'ocupation': kwargs[ocupation],
@@ -435,8 +573,12 @@ class WebsiteSaleExtended(WebsiteSale):
                 'relationship': kwargs[relationship],
                 'address_beneficiary': kwargs[address_beneficiary],
                 'beneficiary_number': i+2,
+                'beneficiary': True,
+                'clerk_code': clerk_code,
+                'sponsor_id': sponsor_id.id,
+                'subscription_id': Subscription.id,
             })
-            beneficiary_list.append((4, NewBeneficiaryPartner.id))
+            beneficiary_list.append((4, NewBeneficiaryPartner.id))                
             if i == 0:
                 order.write({
                     'beneficiary1_id': NewBeneficiaryPartner.id
@@ -461,22 +603,28 @@ class WebsiteSaleExtended(WebsiteSale):
                 order.write({
                     'beneficiary6_id': NewBeneficiaryPartner.id
                 })
-
-
-        Subscription.write({
-            'subscription_partner_ids': beneficiary_list,
-        })
+            
+                
+                
+        
         kwargs['order_detail'] = order_detail
         kwargs['partner'] = Partner
+        
+        """ Confirmando Orden de Venta luego del proceso exitoso de beneficiarios """
+        order.action_confirm()
+        order._send_order_confirmation_mail()
 
+        order.subscription_id.write({
+            'subscription_partner_ids': beneficiary_list,
+        })
+        request.session['sale_order_id'] = None
+        request.session['sale_transaction_id'] = None
         return request.render("web_sale_extended.beneficiary_detail", kwargs)
 
 
     @http.route(['/beneficiary-submit'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def beneficiary_submit(self, **kwargs):
-
         ''' Actualiza el estado de los beneficiarios a true '''
-
         InsurerPartner = request.env['res.partner'].search([('email', '=', request.env.user.email)], limit=1)
         InsurerPartner_childs = request.env['res.partner'].search([
             ('parent_id', '=', InsurerPartner[0].id), ('active', '=', False),
@@ -485,46 +633,9 @@ class WebsiteSaleExtended(WebsiteSale):
         for beneficiary in InsurerPartner_childs:
             BeneficiaryPartner = request.env['res.partner'].browse(beneficiary.id)
             BeneficiaryPartner.sudo().write({'active': True})
-            _logger.info("Beneficiario Activo")
-            _logger.info(BeneficiaryPartner.firstname)
 
-        #punto ideal para enviar el correo
-        _logger.info('2****************************************\n\n++++++++++++++++++++++++++++++++++++')
-        # Send Mail
         confirm_mail_template = request.env.ref('web_sale_extended.email_beneficiary_confirm_template')
         confirm_mail_template.sudo().send_mail(InsurerPartner[0].id)
-        #if 1=1:
-        #    context = dict(request.env.context)
-        #    if confirm_mail_template:
-        #        report_obj = request.env['ir.actions.report']
-        #        report = report_obj._get_report_from_name('web_sale_extended.report_customreport_customeasytek_template_res_partner')
-        #        pdf = report.render_qweb_pdf(InsurerPartner.id)[0]
-        #        file_name = InsurerPartner.name
-        #        b64_pdf = base64.b64encode(pdf)
-        #        report_file = request.env['ir.attachment'].create({
-        #            'name': file_name,
-        #            'type': 'binary',
-        #            'datas': b64_pdf,
-        #            'datas_fname': file_name + '.pdf',
-        #            'store_fname': file_name,
-        #           'res_model': 'res.partner',
-        #            'res_id': InsurerPartner.id,
-         #           'mimetype': 'application/x-pdf'
-         #       })
-         #       values = confirm_mail_template.generate_email(InsurerPartner.id, fields=None)
-
-          #      values['email_to'] = addr_to
-           #     values['email_from'] = ''
-           #     values['res_id'] = InsurerPartner.id
-           #     values['attachment_ids'] = [(4, report_file.id)]
-           #     if not values['email_to'] and not values['email_from']:
-            #        pass
-             #   mail_mail_obj = request.env['mail.mail']
-              #  msg_id = mail_mail_obj.create(values)
-               # if msg_id:
-                #    mail_mail_obj.send(msg_id)
-                 #   sendmail_ok = True
-
         return "Datos eviados correctamente"
 
 
@@ -561,7 +672,6 @@ class WebsiteSaleExtended(WebsiteSale):
 
         #for city in suggested_cities:
         for city in complete_cities_with_zip:
-            _logger.info(city.city_id.name)
             if city.city_id.state_id.id == int(kwargs['departamento']):
                 cities.append({
                     'city': city.city_id.name.lower().title(),
@@ -571,6 +681,27 @@ class WebsiteSaleExtended(WebsiteSale):
         data['status'] = True,
         data['error'] = None,
         data['data'] = {'cities': cities}
+        return json.dumps(data)
+    
+    
+    # search states by ajax peticion
+    @http.route(['/search/states'],  methods=['GET'], type='http', auth="public", website=True)
+    def search_states(self, city_id=None, **kwargs):
+        ''' Busca los estados del pais en peticiones ajax retorna un json '''
+        states = []
+        suggested_states = request.env['res.country'].browse(49).get_website_sale_states()
+
+         #for states in suggested_states:
+        for state in suggested_states: 
+            states.append({
+                    'state': state.name.lower().title(),
+                    'state_id': state.id,
+                })
+        
+        data = {}
+        data['status'] = True,
+        data['error'] = None,
+        data['data'] = {'states': states}
         return json.dumps(data)
 
 
@@ -582,6 +713,42 @@ class WebsiteSaleExtended(WebsiteSale):
         data['status'] = True,
         data['error'] = None,
         data['data'] = {'zipcode': suggested_zipcode.name, 'zipid': suggested_zipcode.id}
+        return json.dumps(data)
+    
+    # search phone code country by ajax peticion
+    @http.route(['/search/phonecode'],  methods=['GET'], type='http', auth="public", website=True)
+    def search_phonecodes(self, **kwargs):
+        suggested_phonecode = request.env['res.country'].sudo().search([('id', '=', int(kwargs['id']))], limit=1)
+        data = {}
+        data['status'] = True,
+        data['error'] = None,
+        data['data'] = {'phonecode': suggested_phonecode.phone_code, 'countryid': suggested_phonecode.id}
+        return json.dumps(data)
+    
+    
+    # search buyer information by order_id by ajax peticion
+    @http.route(['/search/buyer/info'],  methods=['GET'], type='http', auth="public", website=True)
+    def search_buyer_info(self, **kwargs):
+        order = request.env['sale.order'].sudo().browse(int(kwargs['order_id']))
+        data = {}
+        data['status'] = True,
+        data['error'] = None,
+        data['data'] = {            
+            'firstname': order.partner_id.firstname,
+            'othernames': order.partner_id.othernames,
+            'lastname': order.partner_id.lastname,
+            'lastname2':order.partner_id.lastname2,            
+            'email': order.partner_id.email,
+            "phone": order.partner_id.phone,
+            'document_type_id': order.partner_id.document_type_id.id,
+            'identification_document': order.partner_id.identification_document,
+            'birthdate_date': order.partner_id.birthdate_date.strftime("%Y-%m-%d"),
+            'expedition_date': order.partner_id.expedition_date.strftime("%Y-%m-%d"),
+            'address': order.partner_id.street,
+            'country_id': order.partner_id.country_id.id,
+            'state_id': order.partner_id.state_id.id,
+            'city_id': order.partner_id.zip_id.city_id.id
+        }
         return json.dumps(data)
 
 
@@ -615,35 +782,12 @@ class WebsiteSaleExtended(WebsiteSale):
         return values
 
 
-    """
-    @http.route(['/shop/payment'], type='http', auth="public", website=True, sitemap=False)
-    def payment(self, **post):
-        order = request.website.sale_get_order()
-        
-        
-        redirection = self.checkout_redirection(order)
-        if redirection:
-            return redirection
-
-        render_values = self._get_shop_payment_values(order, **post)
-        render_values['only_services'] = order and order.only_services or False
-
-        render_values['product'] = request.env['product.product'].sudo().browse(3),
-
-        if render_values['errors']:
-            render_values.pop('acquirers', '')
-            render_values.pop('tokens', '')
-
-        return request.render("website_sale.payment", render_values)
-    """
-
-
     @http.route(['/shop/product/<model("product.template"):product>'], type='http', auth="public", website=True)
     def product(self, product, category='', search='', **kwargs):
         if not product.can_access_from_current_website():
             raise NotFound()
-            
-        if product.id in (1,2,3):
+        #if product.id in (1,2,3):
+        if product.is_product_landpage:
             """This route is called when adding a product to cart (no options)."""
             sale_order = request.website.sale_get_order(force_create=True)
             if sale_order.state != 'draft':
@@ -668,16 +812,23 @@ class WebsiteSaleExtended(WebsiteSale):
                 no_variant_attribute_values=no_variant_attribute_values
             )
             #request.website.sale_reset()
-            return request.redirect("/shop/address")
             #return request.redirect("/shop/checkout?express=1&product_id=" + str(product.id))
+            """ 
+                Redireccionando al formulario de datos del comprador.
+                1er Paso, lanzado desde landpage(no hay proceso de token para saber si la petición es valida),
+                de esta manera se puede iniciar una compra directamente en la página de odoo apuntando
+                a /shop/ + el nombre de un producto publicado para venta en landpage
+            """
+            return request.redirect("/shop/address")
+            
+        checkout_landpage_redirect = request.env.user.company_id.checkout_landpage_redirect
+        if checkout_landpage_redirect:
+            return request.redirect(checkout_landpage_redirect)
         return request.redirect("/web/login")
-
-
 
     def sitemap_shop(env, rule, qs):
         if not qs or qs.lower() in '/shop':
             yield {'loc': '/shop'}
-
         Category = env['product.public.category']
         dom = sitemap_qs2dom(qs, '/shop/category', Category._rec_name)
         dom += env['website'].get_current_website().website_domain()
@@ -685,8 +836,7 @@ class WebsiteSaleExtended(WebsiteSale):
             loc = '/shop/category/%s' % slug(cat)
             if not qs or qs.lower() in loc:
                 yield {'loc': loc}
-
-
+    
     """
     @http.route([
         '''/shop''',
@@ -695,8 +845,11 @@ class WebsiteSaleExtended(WebsiteSale):
         '''/shop/category/<model("product.public.category"):category>/page/<int:page>'''
     ], type='http', auth="public", website=True, sitemap=sitemap_shop)
     def shop(self, page=0, category=None, search='', ppg=False, **post):
-        # quitando acceso y funcionalidad a /shop*
-        return request.redirect(request.httprequest.referrer or '/web/login')
+        checkout_landpage_redirect = request.env.user.company_id.checkout_landpage_redirect
+        if checkout_landpage_redirect:
+            #return request.redirect(request.httprequest.referrer or '/web/login')
+            return request.redirect(checkout_landpage_redirect)
+        raise UserError('Landpage de Productos sin definir. Revise la configuración de PayU Latam')
     """
 
     @http.route(['/shop/confirmation'], type='http', auth="public", website=True, sitemap=False)
@@ -707,8 +860,6 @@ class WebsiteSaleExtended(WebsiteSale):
          - take a sale.order id, because we request a sale.order and are not
            session dependant anymore
         """
-        _logger.error('3********************************\n+++++++++++++++++++++++++++++++++++++')
-        _logger.error('order')
         sale_order_id = request.session.get('sale_last_order_id')
         if sale_order_id:
             order = request.env['sale.order'].sudo().browse(sale_order_id)
@@ -716,10 +867,6 @@ class WebsiteSaleExtended(WebsiteSale):
                 return request.render("website_sale.confirmation", {'order': order})
         else:
             return request.redirect('/shop')
-
-
-
-
 
     @http.route('/shop/payment/token', type='http', auth='public', website=True, sitemap=False)
     def payment_token(self, pm_id=None, **kwargs):
@@ -750,13 +897,7 @@ class WebsiteSaleExtended(WebsiteSale):
         return request.redirect('/payment/process')
 
 
-
-
-
-
 class SalePortalExtended(CustomerPortal):
-
-
 
     # note dbo: website_sale code
     @http.route(['/my/orders/<int:order_id>/transaction/'], type='json', auth="public", website=True)
@@ -768,8 +909,6 @@ class SalePortalExtended(CustomerPortal):
         :param int acquirer_id: id of a payment.acquirer record. If not set the
                                 user is redirected to the checkout page
         """
-        _logger.error('*****************************2222oeeeeeeeeeeeeeeeeeeeeeeeeeeeee ++++++++++++++++++++++++++++++++++')
-        _logger.error('order_sudo.state')
         # Ensure a payment acquirer is selected
         if not acquirer_id:
             return False
@@ -803,13 +942,9 @@ class SalePortalExtended(CustomerPortal):
             }
         )
 
-
-
     @http.route(['/my/orders/<int:order_id>/accept'], type='json', auth="public", website=True)
     def portal_quote_accept(self, order_id, access_token=None, name=None, signature=None):
-        time.sleep(4)
-        _logger.error('*****************************oeeeeeeeeeeeeeeeeeeeeeeeeeeeee ++++++++++++++++++++++++++++++++++')
-        _logger.error('order_sudo.state')
+        
         # get from query string if not on json param
         access_token = access_token or request.httprequest.args.get('access_token')
         try:
@@ -847,9 +982,6 @@ class SalePortalExtended(CustomerPortal):
         if order_sudo.has_to_be_paid(True):
             query_string += '#allow_payment=yes'
 
-
-
-
         return {
             'force_refresh': True,
             'redirect_url': order_sudo.get_portal_url(query_string=query_string),
@@ -857,8 +989,6 @@ class SalePortalExtended(CustomerPortal):
 
 
 class WebsitePaymentExtended(PaymentProcessing):
-
-
 
     @http.route(['/payment/process'], type="http", auth="public", website=True, sitemap=False)
     def payment_status_page(self, **kwargs):
@@ -878,9 +1008,6 @@ class WebsitePaymentExtended(PaymentProcessing):
 
         order.action_confirm()
         return request.redirect(url)
-        #return request.render("payment.payment_process_page", render_ctx)
-        #return request.render("beneficiaries_process_page", render_ctx)
-
 
 
 class OdooWebsiteSearchCity(http.Controller):

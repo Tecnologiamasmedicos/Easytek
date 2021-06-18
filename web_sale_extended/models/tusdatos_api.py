@@ -62,9 +62,10 @@ class TusDatosAPI(models.TransientModel):
         # TODO: change strings to fields from config module
         username = self.env.user.company_id.mail_tusdatos
         passwrd = self.env.user.company_id.password_tusdatos
+        hostname = self.env.user.company_id.hostname_tusdatos
         api_post = ['launch', 'launch/verify', 'launch/car']
         api_get = ['retry', 'results', 'report_json', 'plans', 'querys']
-        hostname = 'https://dash-board.tusdatos.co/api/'
+        #hostname = 'https://dash-board.tusdatos.co/api/'
 
         if endpoint in api_post:
             headers = {'accept': 'application/json', 'Content-Type': 'application/json'}
@@ -72,7 +73,11 @@ class TusDatosAPI(models.TransientModel):
             response = requests.post(url, json=query, auth=HTTPBasicAuth(username, passwrd), headers=headers)
         elif endpoint in api_get:
             headers = {'accept': 'application/json'}
-            if query.get('jobid'):
+            if endpoint == 'retry':
+                endpoint = f'{endpoint}/{query["id"]}?typedoc={query["typedoc"]}'
+                url = f'{hostname}{endpoint}'
+                response = requests.get(url, auth=HTTPBasicAuth(username, passwrd), headers=headers)
+            elif query.get('jobid'):
                 endpoint = f'{endpoint}/{query["jobid"]}'
                 url = f'{hostname}{endpoint}'
                 response = requests.get(url, auth=HTTPBasicAuth(username, passwrd), headers=headers)
@@ -99,7 +104,6 @@ class TusDatosAPI(models.TransientModel):
     def launch_query_tusdatos(self, document: str, document_type: str,
                               expedition_date: str = None) -> dict:
         """
-
         Args:
             document: número de documento.
             document_type: tipo de documento.
@@ -111,9 +115,9 @@ class TusDatosAPI(models.TransientModel):
         query, response = None, None
 
         if document_type in ['CC', 'CE']:
-            query = {"doc": document, "typedoc": document_type, "fechaE": expedition_date}
+            query = {"doc": document, "typedoc": document_type, "fechaE": expedition_date, "force": 1}
         elif document_type in ['PP', 'PEP']:
-            query = {"doc": document, "typedoc": document_type}
+            query = {"doc": document, "typedoc": document_type, "force": 1}
         else:
             _logger.error("****** ERROR: Invalid document type. ******")
             raise ValidationError(f"ERROR: Document type {document_type} not allowed.")
@@ -165,20 +169,24 @@ class TusDatosAPI(models.TransientModel):
             validation = self.request_tusdatos_api(endpoint, results_query)
 
         if validation:
-            
+            _logger.error('validationnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn')
+            #_logger.error(validation)
             if 'estado' in validation and validation['estado'] == 'error, tarea no valida':
                 _logger.error("****** ERROR: tarea no valida. ******")
+            elif 'estado' in validation and validation['estado'] == 'procesando':
+                _logger.error("****** La tarea todavia se esta procesando ******")                
             else:
                 _logger.error("****** REALIZANDO VALIDACIÓN EN LISTAS. ******")
-                #_logger.error(validation)
-                #_logger.error(process_id)
                 if endpoint == 'results':
-                    approval = not (validation['LISTA_ONU'] or validation['OFAC'])
+                    _logger.error("****** endpoint = a result. ******")
+                    approval = not ( ('LISTA_ONU' in validation or 'OFAC' in validation) and (validation['OFAC'] or validation['LISTA_ONU']) )
                 elif endpoint == 'report_json':
-                    #approval = not (validation['ofac'] or validation['lista_onu'] or validation['lista_ofac'])
-                    approval = not (validation['ofac'] or validation['lista_onu'])
+                    _logger.error("****** endpoint = a report_json. ******")
+                    approval = not ( ('ofac' in validation or 'lista_onu' in validation) and (validation['ofac'] or validation['lista_onu']) )
+                    _logger.error(approval)
         else:
             # TODO: add id to sale_order for queue validation process
             _logger.error("****** ERROR: Approbation not processed. ******")
         approval_data = (approval, validation)
+        _logger.error(approval_data)
         return approval_data

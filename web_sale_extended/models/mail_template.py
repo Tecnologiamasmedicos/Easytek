@@ -14,3 +14,6 @@ class MailTemplate(models.Model):
     #tusdatos_process_send = fields.Boolean('Proceso de Verificación en Tusdatos.co')
     tusdatos_confirmation_accept = fields.Boolean('Proceso de Confirmación Exitoso en Tusdatos.co')
     tusdatos_confirmation_reject = fields.Boolean('Proceso de Confirmación Rechazado en Tusdatos.co')
+    payulatam_approved_process = fields.Boolean('Proceso de Confirmación de Pago Aprobada')
+    payulatam_rejected_process = fields.Boolean('Proceso de Confirmación de Pago Rechazado')
+    payulatam_welcome_process = fields.Boolean('Proceso de Bienvenida')
