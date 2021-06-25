@@ -764,8 +764,16 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                         $("input[name='expedition_date']").prop('disabled', true);  
                         document.querySelector("input[name='email']").value = decode_data['data'].email;
                         $("input[name='email']").prop('readonly', true); 
-                        document.querySelector("input[name='phone']").value = decode_data['data'].phone;
-                        $("input[name='phone']").prop('readonly', true); 
+                        
+                        if(decode_data['data'].mobile.length > 0){
+                            document.querySelector("input[name='phone']").value = decode_data['data'].mobile;
+                            $("input[name='phone']").prop('readonly', true); 
+                        }
+                        if(decode_data['data'].phone.length > 0){
+                            document.querySelector("input[name='fijo']").value = decode_data['data'].phone;
+                            $("input[name='fijo']").prop('readonly', true);                             
+                        }
+                                                
                         document.querySelector("input[name='address']").value = decode_data['data'].address;
                         $("input[name='address']").prop('readonly', true); 
                         document.querySelector("input[name='date']").value = decode_data['data'].birthdate_date;    
@@ -807,6 +815,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             document.querySelector("input[name='expedition_date']").value = "";
             document.querySelector("input[name='email']").value = "";
             document.querySelector("input[name='phone']").value = "";
+            document.querySelector("input[name='fijo']").value = "";
             document.querySelector("input[name='address']").value = "";
             document.querySelector("input[name='date']").value = "";
             $('#bfdeparment0').val('');
@@ -821,6 +830,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             $("input[name='expedition_date']").prop('disabled', false);  
             $("input[name='email']").prop('readonly', false); 
             $("input[name='phone']").prop('readonly', false); 
+            $("input[name='fijo']").prop('readonly', false); 
             $("input[name='address']").prop('readonly', false); 
             $("input[name='date']").prop('disabled', false);     
             $("#document_type").prop('disabled', false); 
@@ -1152,16 +1162,27 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
       window.location.href = url;
     });
 
-    $.validator.addMethod("formMovilFijoLength", function (value, element) {
+    $.validator.addMethod("formMovilLength", function (value, element) {
         let number = element.value;
-            number = number.split(')');
-            number = number[number.length - 1].trim();
-        if(number.length == 7 || number.length == 10){
-            return true;
-        } else {
-            return false;
-        }
-    }, "¡Upss! debe tener 7 ó 10 digitos");
+        number = number.split(')');
+        number = number[number.length - 1].trim();
+       if(number.length == 10){
+          return true;
+       } else {
+          return false;
+       }
+    }, "¡Upss! debe tener 10 digitos");
+    
+    $.validator.addMethod("formFijoLength", function (value, element) {
+        let number = element.value;
+        number = number.split(')');
+        number = number[number.length - 1].trim();
+       if(number.length == 7 || number.length == 0){
+          return true;
+       } else {
+          return false;
+       }
+    }, "¡Upss! debe tener 7 digitos");
 
     $.validator.addMethod("lettersonly", function(value, element) {
         return this.optional(element) || /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g.test(value.replace(/^\s+|\s+$/g, ''));
@@ -1545,13 +1566,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 phone: {
                     required: true,
-                    formMovilFijoLength: true,
+                    formMovilLength: true,
                 },
                 fijo: {
                     required: false,
-                    number: true,
-                    minlength:7,
-                    maxlength:7,
+                    formFijoLength: true,
                 },
                 document_type: {
                     required: true
@@ -1664,13 +1683,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfphone1: {
                     required: true,
-                    formMovilFijoLength: true,
+                    formMovilLength: true,
                 },
                 bffijo1: {
                     required: false,
-                    number: true,
-                    minlength:7,
-                    maxlength:7,
+                    formFijoLength: true,
                 },
                 bfparentesco1: {
                     required: true,
@@ -1748,13 +1765,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfphone2: {
                     required: true,
-                    formMovilFijoLength: true,
+                    formMovilLength: true,
                 },
                 bffijo2: {
                     required: false,
-                    number: true,
-                    minlength:7,
-                    maxlength:7,
+                    formFijoLength: true,
                 },
                 bfparentesco2: {
                     required: true,
@@ -1832,13 +1847,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfphone3: {
                     required: true,
-                    formMovilFijoLength: true,
+                    formMovilLength: true,
                 },
                 bffijo3: {
                     required: false,
-                    number: true,
-                    minlength:7,
-                    maxlength:7,
+                    formFijoLength: true,
                 },
                 bfparentesco3: {
                     required: true,
@@ -1916,13 +1929,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfphone4: {
                     required: true,
-                    formMovilFijoLength: true,
+                    formMovilLength: true,
                 },
                 bffijo4: {
                     required: false,
-                    number: true,
-                    minlength:7,
-                    maxlength:7,
+                    formFijoLength: true,
                 },
                 bfparentesco4: {
                     required: true,
@@ -2000,13 +2011,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfphone5: {
                     required: true,
-                    formMovilFijoLength: true,
+                    formMovilLength: true,
                 },
                 bffijo5: {
                     required: false,
-                    number: true,
-                    minlength:7,
-                    maxlength:7,
+                    formFijoLength: true,
                 },
                 bfparentesco5: {
                     required: true,
@@ -2084,13 +2093,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfphone6: {
                     required: true,
-                    formMovilFijoLength: true,
+                    formMovilLength: true,
                 },
                 bffijo6: {
                     required: false,
-                    number: true,
-                    minlength:7,
-                    maxlength:7,
+                    formFijoLength: true,
                 },
                 bfparentesco6: {
                     required: true,
@@ -2162,7 +2169,6 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "¡Upss! un telefono es requerido",                    
                 },
                 fijo: {
-                    number: "¡Upss! este campo solo es numérico",
                     minlength: "¡Upss! debe tener 7 digitos",
                     maxlength: "¡Upss! debe tener 7 digitos"
                 },
@@ -2222,8 +2228,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfphone1: {
                     required: "¡Upss! un telefono es requerido",
                 },
-                bffijo1: {
-                    number: "¡Upss! este campo solo es numérico",
+                bffijo1: {                    
                     minlength: "¡Upss! debe tener 7 digitos",
                     maxlength: "¡Upss! debe tener 7 digitos"
                 },
@@ -2274,7 +2279,6 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "¡Upss! un telefono es requerido",                    
                 },
                 bffijo2: {
-                    number: "¡Upss! este campo solo es numérico",
                     minlength: "¡Upss! debe tener 7 digitos",
                     maxlength: "¡Upss! debe tener 7 digitos"
                 },
@@ -2325,7 +2329,6 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "¡Upss! tu telefono es requerido", 
                 },
                 bffijo3: {
-                    number: "¡Upss! este campo solo es numérico",
                     minlength: "¡Upss! debe tener 7 digitos",
                     maxlength: "¡Upss! debe tener 7 digitos"
                 },
@@ -2376,7 +2379,6 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "¡Upss! tu telefono es requerido",
                 },
                 bffijo4: {
-                    number: "¡Upss! este campo solo es numérico",
                     minlength: "¡Upss! debe tener 7 digitos",
                     maxlength: "¡Upss! debe tener 7 digitos"
                 },
@@ -2425,7 +2427,6 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "¡Upss! tu telefono es requerido", 
                 },
                 bffijo5: {
-                    number: "¡Upss! este campo solo es numérico",
                     minlength: "¡Upss! debe tener 7 digitos",
                     maxlength: "¡Upss! debe tener 7 digitos"
                 },
@@ -2476,7 +2477,6 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "¡Upss! tu telefono es requerido",
                 },
                 bffijo6: {
-                    number: "¡Upss! este campo solo es numérico",
                     minlength: "¡Upss! debe tener 7 digitos",
                     maxlength: "¡Upss! debe tener 7 digitos"
                 },

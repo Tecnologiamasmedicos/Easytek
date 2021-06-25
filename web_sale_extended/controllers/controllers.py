@@ -228,6 +228,17 @@ class WebsiteSaleExtended(WebsiteSale):
                 post["country_id"] = int(kw["country_address_id"])
                 
                 post["buyer"] = True
+
+                phone_form = kw['phone']
+                phone_form = phone_form.split(')')
+                number = phone_form[-1].strip()
+                
+                if len(number) == 7:
+                    post["phone"] = kw["phone"]
+                    post["mobile"] = ''
+                elif len(number) == 10:
+                    post["mobile"] = kw["phone"]
+                    post["phone"] = ''
                 
                 if kw['country_address_id'] =='49':                    
                     post["zip"] = kw["zip"]
@@ -460,6 +471,16 @@ class WebsiteSaleExtended(WebsiteSale):
                 'sponsor_id': sponsor_id.id,
                 'subscription_id': Subscription.id
             })
+
+            if 'phone' in kwargs:
+                Partner.sudo().write({
+                    'mobile' : kwargs['phone']
+                })
+            
+            if 'fijo' in kwargs:
+                 Partner.sudo().write({
+                    'phone' : kwargs['fijo']
+                })
         
             beneficiary_list.append((4, Partner.id))
             order.write({
@@ -639,24 +660,14 @@ class WebsiteSaleExtended(WebsiteSale):
         return "Datos eviados correctamente"
 
 
-    @http.route(['/report/beneficiary'],  methods=['GET'], type='http', auth="public", website=True)
-    def report_poliza(self, city_id=None, **kwargs):
+    @http.route(['/report/beneficiary/<int:order_id>'],  methods=['GET'], type='http', auth="public", website=True)
+    def report_poliza(self, order_id, **kwargs):
+        order = request.env['sale.order'].sudo().browse(order_id)
         report_obj = request.env['ir.actions.report']
-        report = report_obj.sudo()._get_report_from_name('web_sale_extended.report_customreport_customeasytek_template')
-        pdf = report.sudo().render_qweb_pdf()[0]
-        file_name = "prueba"
-        b64_pdf = base64.b64encode(pdf)
-        report_file = request.env['ir.attachment'].sudo().create({
-            'name': file_name,
-            'type': 'binary',
-            'datas': b64_pdf,
-            # 'datas_fname': file_name + '.pdf',
-            # 'store_fname': file_name,
-            'res_model': 'res.partner',
-            # 'res_id': 1,
-            'mimetype': 'application/x-pdf'
-        })
-        return request.render(report_file, kwargs)
+        report = report_obj.sudo()._get_report_from_name('sale.report_saleorder')
+        pdf = report.sudo().render_qweb_pdf(order_id)[0]
+        pdfhttpheaders = [ ('Content-Type', 'application/pdf'), ('Content-Length', len(pdf)), ('Content-Disposition', 'attachment; filename="Certificado Individual P%s C%s.pdf"'%(order.subscription_id.number, order.subscription_id.policy_number)), ]
+        return request.make_response(pdf, headers=pdfhttpheaders)
 
 
     # search cities by ajax peticion
@@ -740,6 +751,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'lastname2':order.partner_id.lastname2,            
             'email': order.partner_id.email,
             "phone": order.partner_id.phone,
+            'mobile': order.partner_id.mobile,
             'document_type_id': order.partner_id.document_type_id.id,
             'identification_document': order.partner_id.identification_document,
             'birthdate_date': order.partner_id.birthdate_date.strftime("%Y-%m-%d"),
