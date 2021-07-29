@@ -42,7 +42,7 @@ class SaleSubscription(models.Model):
             'policy_number': str(sequence_id.number_next_actual).zfill(10),
             'number': str(sequence_id.code),
             'recurring_next_date': datetime.date.today(),
-            'sponsor_id': sequence_id.sponsor_id,
+            'sponsor_id': res.recurring_invoice_line_ids[0].product_id.categ_id.sponsor_id,
         })
         sequence_id.write({
             'number_next_actual': int(sequence_id.number_next_actual) + 1,
@@ -61,8 +61,18 @@ class SaleSubscription(models.Model):
     
     def _prepare_invoice_data(self):
         res = super(SaleSubscription, self)._prepare_invoice_data()
+        if self.recurring_invoice_line_ids[0].product_id.categ_id.journal_id:
+            journal = self.recurring_invoice_line_ids[0].product_id.categ_id.journal_id
+        else:
+            journal = self.template_id.journal_id or self.env['account.journal'].search([('type', '=', 'sale'), ('company_id', '=', self.company_id.id)], limit=1)        
         res.update({
-            'sponsor_id': self.sponsor_id
+            'journal_id': journal.id,
+            'sponsor_id': self.sponsor_id,
+            'payment_mean_id': 1
         })
         return res
-    
+
+    def validate_and_send_invoice(self, invoice):
+        self.ensure_one()
+        if invoice.state != 'posted':
+            invoice.post()

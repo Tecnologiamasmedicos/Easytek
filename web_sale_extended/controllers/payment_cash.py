@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import logging, base64
-from datetime import datetime
+from datetime import datetime, timedelta
 from datetime import date
 from werkzeug.exceptions import Forbidden, NotFound
 import werkzeug.utils
@@ -51,6 +51,8 @@ class WebsiteSaleExtended(WebsiteSale):
         tx_value = {"value": order.amount_total, "currency": "COP"}
         tx_tax = {"value": 0,"currency": "COP"}
         tx_tax_return_base = {"value": 0, "currency": "COP"}
+        expiration_cash = request.env.user.company_id.payulatam_cash_expiration
+        expiration_date = str((fields.datetime.now() + timedelta(hours=expiration_cash))).replace(' ','T').split('.')[0]
         additionalValues = {
             "TX_VALUE": tx_value,
             "TX_TAX": tx_tax,
@@ -80,7 +82,7 @@ class WebsiteSaleExtended(WebsiteSale):
             "order": order_api,
             "type": "AUTHORIZATION_AND_CAPTURE",
             "paymentMethod": post['cash_bank'],
-            "expirationDate": "2021-05-10T00:00:00",
+            "expirationDate": expiration_date,
             "paymentCountry": "CO",
             "ipAddress": "127.0.0.1",
         }
@@ -97,7 +99,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 <b>Código:</b> %s<br/>
                 <b>Error:</b> %s
             """ % (
-                response['transactionResponse']['code'],
+                response['code'],
                 response['error'], 
             )
             order.message_post(body=body_message, type="comment")

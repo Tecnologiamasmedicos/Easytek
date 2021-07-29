@@ -25,8 +25,8 @@ class ResCompany(models.Model):
     payulatam_api_env = fields.Selection(
         [("test", "Sandbox - Test"), ("prod", "Producción")]
     )
-    payulatam_cash_expiration = fields.Integer(string="Días expiración pago efectivo", 
-        help="Días de Expiración para el método de pago de efectivo y durante los cuales es valido el recibo de pago",
+    payulatam_cash_expiration = fields.Integer(string="Horas expiración pago efectivo", 
+        help="Horas de Expiración para el método de pago de efectivo y durante los cuales es valido el recibo de pago",
         groups='base.group_user')
     payulatam_api_hostname = fields.Char(string="PayU Latam Hostname", groups='base.group_user')
     payulatam_api_report_hostname = fields.Char(string="PayU Latam Report Hostname", groups='base.group_user')
