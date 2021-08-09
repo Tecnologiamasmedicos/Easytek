@@ -59,8 +59,11 @@ class AccountMove(models.Model):
 
             move.message_subscribe([p.id for p in [move.partner_id] if p not in move.sudo().message_partner_ids])
             
-            if not move.sponsor_id.generates_accounting:
-                to_write = {'state': 'finalized'}
+            if move.sponsor_id:
+                if not move.sponsor_id.generates_accounting:
+                    to_write = {'state': 'finalized'}
+                else:
+                    to_write = {'state': 'posted'}
             else:
                 to_write = {'state': 'posted'}
 
