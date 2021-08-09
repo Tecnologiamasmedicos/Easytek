@@ -13,6 +13,7 @@ class AccountMove(models.Model):
     
     sponsor_id = fields.Many2one('res.partner')
     campo_vacio = fields.Boolean('Campo vacio', default=False)  
+    state =  fields.Selection(selection_add=[('finalized', 'Finalizado')], selection_remove=['payu_pending','payu_approved'])
         
     def post(self):
         # `user_has_group` won't be bypassed by `sudo()` since it doesn't change the user anymore.
