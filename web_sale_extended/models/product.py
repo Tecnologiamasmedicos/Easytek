@@ -12,7 +12,7 @@ class ProductCategory(models.Model):
 
     sequence_id = fields.Many2one('ir.sequence','Secuencia del Patrocinador')
     sponsor_id = fields.Many2one('res.partner', 'Sponsor', required=True, domain=[('company_type', '=', 'sponsor')])
-    journal_id = fields.Many2one('account.journal', string='Diario')
+    journal_id = fields.Many2one('account.journal', string='Diario', domain=[('type', '=', 'sale')])
     
     
 class ProductProduct(models.Model):

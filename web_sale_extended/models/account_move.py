@@ -26,7 +26,7 @@ class AccountMove(models.Model):
     
     
     def _cron_payment_invoice(self):
-        invoices_ids = self.env['account.move'].search([('amount_residual', '>', 0), ('type', '=', 'out_invoice'), ('state', '=', 'posted')])
+        invoices_ids = self.env['account.move'].search([('amount_residual', '>', 0), ('type', '=', 'out_invoice'), ('state', '=', 'posted'), ('journal_id', '=', 14)])
         for invoice in invoices_ids:
             Payment = self.env['account.payment'].with_context(active_ids=invoice.ids, active_model='account.move', active_id=invoice.id)
             payments_vals = {
