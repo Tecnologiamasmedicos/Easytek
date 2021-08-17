@@ -132,7 +132,15 @@
 		    <field name="city_id" ref="l10n_co_dian_data.res_city_co_05411"/>
         </record>
 
-
+		<record id="CO051810" model="res.city.zip">
+		    <field name="name">051810</field>
+		    <!--<field name="city">ANGOSTURA</field>-->
+		    <field name="dian_code">05038</field>
+		    <field name="phone_prefix">4</field>
+		    <!--<field name="state_id" ref="res_country_state_co_05"/>
+		    <field name="country_id" ref="base.co"/>-->
+		    <field name="city_id" ref="l10n_co_dian_data.res_city_co_05038"/>
+        </record>
 
 		<record id="CO051820" model="res.city.zip">
 		    <field name="name">051820</field>
