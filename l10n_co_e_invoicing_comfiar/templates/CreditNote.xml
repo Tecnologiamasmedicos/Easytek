@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<CreditNote xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" 
-		xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" 
-		xmlns:ds="http://www.w3.org/2000/09/xmldsig#" 
-		xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" 
-		xmlns:sts="dian:gov:co:facturaelectronica:Structures-2-1" 
-		xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" 
-		xmlns:xades141="http://uri.etsi.org/01903/v1.4.1#" 
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<CreditNote xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+		xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+		xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+		xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
+		xmlns:sts="dian:gov:co:facturaelectronica:Structures-2-1"
+		xmlns:xades="http://uri.etsi.org/01903/v1.3.2#"
+		xmlns:xades141="http://uri.etsi.org/01903/v1.4.1#"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2">
 
-<!-- xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2" 
-	xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" 
-	xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" 
-	xmlns:ds="http://www.w3.org/2000/09/xmldsig#" 
-	xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" 
-	xmlns:sts="http://www.dian.gov.co/contratos/facturaelectronica/v1/Structures" 
-	xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" 
-	xmlns:xades141="http://uri.etsi.org/01903/v1.4.1#" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<!-- xmlns="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2"
+	xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+	xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
+	xmlns:sts="http://www.dian.gov.co/contratos/facturaelectronica/v1/Structures"
+	xmlns:xades="http://uri.etsi.org/01903/v1.3.2#"
+	xmlns:xades141="http://uri.etsi.org/01903/v1.4.1#"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2    http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-CreditNote-2.1.xsd"> -->
 	<ext:UBLExtensions>
 		<ext:UBLExtension>
@@ -74,7 +74,7 @@
 	<cbc:UBLVersionID>UBL 2.1</cbc:UBLVersionID>
 	<cbc:CustomizationID>{{CustomizationID}}</cbc:CustomizationID>
 <!--TODO: anexo tecnico dice que va ": Nota Crédito de Factura Electrónica de Venta"-->
-	<cbc:ProfileID>DIAN 2.1</cbc:ProfileID>
+	<cbc:ProfileID>DIAN 2.1: Nota Crédito de Factura Electrónica de Venta</cbc:ProfileID>
 	<cbc:ProfileExecutionID>{{ProfileExecutionID}}</cbc:ProfileExecutionID>
 	<cbc:ID>{{ID}}</cbc:ID>
 	<cbc:UUID schemeID="{{ProfileExecutionID}}" schemeName="CUDE-SHA384">{{UUID}}</cbc:UUID>
@@ -82,13 +82,13 @@
 	<cbc:IssueTime>{{IssueTime}}</cbc:IssueTime>
 	<cbc:CreditNoteTypeCode>{{CreditNoteTypeCode}}</cbc:CreditNoteTypeCode>
 <!--TODO: Que nota colocar?-->
-	<cbc:Note>{{Note1}}</cbc:Note> <!--Información Tributaria-->
-	<cbc:Note>{{Note2}}</cbc:Note> <!--Terminos y condicinones-->
-	<cbc:Note>Note3</cbc:Note>
-	<cbc:Note>{{Note4}}</cbc:Note> <!--Comentarios adicionales-->
-	<cbc:Note>{{Note5}}</cbc:Note> <!--Fecha de vencimiento-->
-	<cbc:Note>Note6</cbc:Note> 
-	<cbc:Note>Note7</cbc:Note> <!---->
+	<cbc:Note>{{Note1}}</cbc:Note>
+	<cbc:Note>{{Note2}}</cbc:Note>
+	<cbc:Note>{{Note3}}</cbc:Note>
+	<cbc:Note>{{Note4}}</cbc:Note>
+	<cbc:Note>{{Note5}}</cbc:Note> <!--ReteFte-->
+	<cbc:Note>{{Note6}}</cbc:Note> <!--ReteIVA-->
+	<cbc:Note>{{Note7}}</cbc:Note> <!--ReteICA-->
 	<cbc:DocumentCurrencyCode listAgencyID="6"
 		listAgencyName="United Nations Economic Commission for Europe"
 		listID="ISO 4217 Alpha">{{DocumentCurrencyCode}}</cbc:DocumentCurrencyCode>
@@ -182,7 +182,7 @@ Especifación de este grupo igual a la del documento Invoice>
 					<cac:Country>
 						<cbc:IdentificationCode>{{AccountingSupplierParty.CountryIdentificationCode}}</cbc:IdentificationCode>
 					<!--TODO: languageID podria variar-->
-                        <cbc:Name languageID="es">{{AccountingSupplierParty.CountryName}}</cbc:Name>
+                        <cbc:Name languageID="es">{{AccountingCustomerParty.CountryName}}</cbc:Name>
 					</cac:Country>
 				</cac:RegistrationAddress>
 				<cac:TaxScheme>
@@ -200,6 +200,7 @@ Especifación de este grupo igual a la del documento Invoice>
                 <!--TODO: el anexo tecnico dice que va, pero no hay encabezado en esta factura>
                     <cbc:ID>{{Prefix}}</cbc:ID-->
                 <!--TODO: ideal desarrollar un modulo solo para esto registry partner-->
+					<cbc:ID>{{Prefix}}</cbc:ID>
 					<cbc:Name>{{AccountingSupplierParty.CorporateRegistrationSchemeName}}</cbc:Name>
 				</cac:CorporateRegistrationScheme>
             <!--Si se va a opera bajo modalidad de Consorcio, entonces este grupo de información debe ser informada.
@@ -224,26 +225,15 @@ Especifación de este grupo igual a la del documento Invoice>
 				</cac:ShareholderParty-->
 			</cac:PartyLegalEntity>
         <!-- TODO: opcional, Grupo de detalles con información de contacto del consorcio -->
-			{% if AccountingSupplierParty.Telephone or AccountingSupplierParty.Telefax or AccountingSupplierParty.ElectronicMail %}
-		<cac:Contact>
-				<!--TODO 3.0: opcional, de momento se manda  info de la empresa sin nombre de contacto>
-			<cbc:Name>Diana Cruz</cbc:Name-->
-			{% if AccountingSupplierParty.Telephone %}
-			<cbc:Telephone>{{AccountingSupplierParty.Telephone}}</cbc:Telephone>
-			{% endif %}
-			{% if AccountingSupplierParty.Telefax %}
-			<cbc:Telefax>{{AccountingSupplierParty.Telefax}}</cbc:Telefax>
-			{% endif %}
-			{% if AccountingSupplierParty.ElectronicMail %}
-			<cbc:ElectronicMail>{{AccountingSupplierParty.ElectronicMail}}</cbc:ElectronicMail>
-			{% endif %}
-		<!--TODO 2.0: opcional, de momento se manda info de la empresa no se sabe que mandar aca de momento>
-			<cbc:Note></cbc:Note-->
-		</cac:Contact>
-		{% endif %}
+			<cac:Contact>
+				<cbc:Name>Diana Cruz</cbc:Name>
+				<cbc:Telephone>31031031089</cbc:Telephone>
+                <cbc:Telefax>31031031089</cbc:Telefax>
+				<cbc:ElectronicMail>dcruz@empresa.org</cbc:ElectronicMail>  <!-- REQUERIDO-->
+                <cbc:Note>dcruz@empresa.org</cbc:Note>
+			</cac:Contact>
 		</cac:Party>
 	</cac:AccountingSupplierParty>
-	<!--EL RECEPTOR-->
 	<cac:AccountingCustomerParty>
 		<cbc:AdditionalAccountID>{{AccountingCustomerParty.AdditionalAccountID}}</cbc:AdditionalAccountID>
 		<cac:Party>
@@ -309,23 +299,14 @@ Especifación de este grupo igual a la del documento Invoice>
 					<cbc:Name>{{AccountingCustomerParty.CorporateRegistrationSchemeName}}</cbc:Name>
 				</cac:CorporateRegistrationScheme>
 			</cac:PartyLegalEntity>
-		<!--TODO: opcional, Grupo de detalles con información de contacto del receptor> -->
-			{% if AccountingCustomerParty.CompanyID != '2222222222' and (AccountingCustomerParty.Telephone or AccountingCustomerParty.Telefax or AccountingCustomerParty.ElectronicMail) %}
+		<!-- TODO: opcional, Grupo de detalles con información de contacto del receptor> -->
 			<cac:Contact>
-			<!--TODO 2.0: opcional, de momento se manda  info de la empresa sin nombre de contacto>-->
-				{% if AccountingCustomerParty.Telephone %}
-				<cbc:Telephone>{{AccountingCustomerParty.Telephone}}</cbc:Telephone>
-				{% endif %}
-				{% if AccountingCustomerParty.Telefax %}
-				<cbc:Telefax>{{AccountingCustomerParty.Telefax}}</cbc:Telefax>
-				{% endif %}
-				{% if AccountingCustomerParty.ElectronicMail %}
-				<cbc:ElectronicMail>{{AccountingCustomerParty.ElectronicMail}}</cbc:ElectronicMail>
-				{% endif %}
-			<!--TODO 2.0: opcional, de momento se manda info de la empresa no se sabe que mandar aca de momento>
-				<cbc:Note></cbc:Note-->
+				<cbc:Name>{{ReceiverName}}</cbc:Name>
+				<cbc:Telephone>{{ReceiverPhone}}</cbc:Telephone>
+                <cbc:Telefax>{{ReceiverFax}}</cbc:Telefax>
+				<cbc:ElectronicMail>eric.vanboxsom@gosocket.net</cbc:ElectronicMail>  <!--REQUERIDO-->
+                <cbc:Note>{{ReceiverNote}}</cbc:Note>
 			</cac:Contact>
-			{% endif %}
         <!-- TODO: Para informarse si AdditionalAccountID = 2  -->
 			<cac:Person>
 				<!-- <cbc:ID>{{AccountingCustomerParty.AdditionalAccountID}}</cbc:ID>
@@ -353,32 +334,31 @@ Especifación de este grupo igual a la del documento Invoice>
 				schemeID="{{TaxRepresentativeParty.IDschemeID}}"
 				schemeName="{{TaxRepresentativeParty.IDschemeName}}">{{TaxRepresentativeParty.ID}}</cbc:ID>
 		</cac:PartyIdentification>
+		<cac:PartyName>
+			<cbc:Name/>
+		</cac:PartyName>
 	</cac:TaxRepresentativeParty>
 	<cac:Delivery>
 		<cbc:ActualDeliveryDate>{{ActualDeliveryDate}}</cbc:ActualDeliveryDate>
 		<!--<cbc:ActualDeliveryTime>Bogotá, D.c. </cbc:ActualDeliveryTime-->
 	<!--TODO, direccion de entrega-->
-		{% if AccountingCustomerParty.CompanyID != '2222222222' %}
 		<cac:DeliveryAddress>
-			<cbc:ID>{{Delivery.AddressID}}</cbc:ID>
-			<cbc:CityName>{{Delivery.AddressCityName}}</cbc:CityName>
-			{% if Delivery.AddressPostalZone %}
-			<cbc:PostalZone>{{Delivery.AddressPostalZone}}</cbc:PostalZone>
-			{% endif %}
-			<cbc:CountrySubentity>{{Delivery.AddressCountrySubentity}}</cbc:CountrySubentity>
-			<cbc:CountrySubentityCode>{{Delivery.AddressCountrySubentityCode}}</cbc:CountrySubentityCode>
+			<cbc:ID>11001</cbc:ID>
+			<cbc:CityName>Bogotá, D.c. </cbc:CityName>
+			<cbc:PostalZone>Bogotá, D.c. </cbc:PostalZone>
+			<cbc:CountrySubentity>Bogotá, D.c. 11</cbc:CountrySubentity>
+			<cbc:CountrySubentityCode>11</cbc:CountrySubentityCode>
 			<cac:AddressLine>
-				<cbc:Line>{{Delivery.AddressLine}}</cbc:Line>
+				<cbc:Line>CARRERA 8 No 20-14/40</cbc:Line>
 			</cac:AddressLine>
 			<cac:Country>
-				<cbc:IdentificationCode>{{Delivery.CountryIdentificationCode}}</cbc:IdentificationCode>
-			<!--TODO 2.0: languageID podria variar, siguiente version revisar esto-->
-				<cbc:Name languageID="es">{{Delivery.CountryName}}</cbc:Name>
+				<cbc:IdentificationCode>CO</cbc:IdentificationCode>
+			<!--TODO: languageID podria variar-->
+				<cbc:Name languageID="es">Colombia</cbc:Name>
 			</cac:Country>
 		</cac:DeliveryAddress>
-		{% endif %}
 	<!--TODO, podria ser un fragmento no necesario siempre-->
-		<!--<cac:DeliveryParty>
+		<cac:DeliveryParty>
 			<cac:PartyName>
 				<cbc:Name>Empresa de transporte</cbc:Name>
 			</cac:PartyName>
@@ -394,7 +374,7 @@ Especifación de este grupo igual a la del documento Invoice>
 					</cac:AddressLine>
 					<cac:Country>
 						<cbc:IdentificationCode>CO</cbc:IdentificationCode>
-					TODO: languageID podria variar
+					<!--TODO: languageID podria variar-->
 						<cbc:Name languageID="es">Colombia</cbc:Name>
 					</cac:Country>
 				</cac:Address>
@@ -417,7 +397,7 @@ Especifación de este grupo igual a la del documento Invoice>
 					</cac:AddressLine>
 					<cac:Country>
 						<cbc:IdentificationCode>CO</cbc:IdentificationCode>
-					TODO: languageID podria variar
+					<!--TODO: languageID podria variar-->
 						<cbc:Name languageID="es">Colombia</cbc:Name>
 					</cac:Country>
 				</cac:RegistrationAddress>
@@ -443,22 +423,22 @@ Especifación de este grupo igual a la del documento Invoice>
 				<cbc:ElectronicMail>eric.vanboxsom@gosocket.net</cbc:ElectronicMail>
 				<cbc:Note>Test descripcion contacto</cbc:Note>
 			</cac:Contact>
-		</cac:DeliveryParty>-->
+		</cac:DeliveryParty>
 	</cac:Delivery>
 <!--TODO, falta definir que modulo del icoterms se elige-->
 	<cac:DeliveryTerms>
 		<cbc:SpecialTerms>Portes Pagados</cbc:SpecialTerms>
-		<cbc:LossRiskResponsibilityCode>{{DeliveryTerms.LossRiskResponsibilityCode}}</cbc:LossRiskResponsibilityCode>
-		<cbc:LossRisk>{{DeliveryTerms.LossRisk}}</cbc:LossRisk>
+		<cbc:LossRiskResponsibilityCode>CFR</cbc:LossRiskResponsibilityCode>
+		<cbc:LossRisk>Costo y Flete</cbc:LossRisk>
 	</cac:DeliveryTerms>
 <!--TODO, modulo payment means incompleto-->
-<!--VENCIMIENTO-->
+
 	<cac:PaymentMeans>
 		<cbc:ID>{{PaymentMeansID}}</cbc:ID>
 		<cbc:PaymentMeansCode>{{PaymentMeansCode}}</cbc:PaymentMeansCode>
 		<cbc:PaymentDueDate>{{PaymentDueDate}}</cbc:PaymentDueDate>
 	<!--TODO 2.0: Identificador del pago, pueden ir de cero a varios PaymentID-->
-		<!--<cbc:PaymentID>{{PaymentID}}</cbc:PaymentID-->
+		<!--cbc:PaymentID>{{PaymentID}}</cbc:PaymentID-->
 	</cac:PaymentMeans>
 
 
@@ -493,10 +473,11 @@ Especifación de este grupo igual a la del documento Invoice>
 		<cbc:Amount currencyID="{{DocumentCurrencyCode}}">1000.00</cbc:Amount>
 		<cbc:BaseAmount currencyID="{{DocumentCurrencyCode}}">1000.00</cbc:BaseAmount>
 	</cac:AllowanceCharge-->
-	<!--IMPUESTOS Y/O RETENCIONES-->
 	{% for TaxTotalID, TaxTotal in TaxesTotal.items() -%}
 	<cac:TaxTotal>
 		<cbc:TaxAmount currencyID="{{DocumentCurrencyCode}}">{{'{:.2f}'.format(TaxTotal.total)}}</cbc:TaxAmount>
+		<cbc:RoundingAmount currencyID="{{DocumentCurrencyCode}}">0.00</cbc:RoundingAmount>
+
 		{% for Percent, TaxSubtotal in TaxTotal.taxes.items() -%}
 		<cac:TaxSubtotal>
 			<cbc:TaxableAmount currencyID="{{DocumentCurrencyCode}}">{{'{:.2f}'.format(TaxSubtotal.base)}}</cbc:TaxableAmount>
@@ -516,7 +497,6 @@ Especifación de este grupo igual a la del documento Invoice>
 		{% endfor -%}
 	</cac:TaxTotal>
 	{% endfor -%}
-	<!-- Retenciones no van en Nota Credito -->
 	<cac:LegalMonetaryTotal>
 		<cbc:LineExtensionAmount currencyID="{{DocumentCurrencyCode}}">{{LineExtensionAmount}}</cbc:LineExtensionAmount>
 		<cbc:TaxExclusiveAmount currencyID="{{DocumentCurrencyCode}}">{{TaxExclusiveAmount}}</cbc:TaxExclusiveAmount>
@@ -532,7 +512,7 @@ Especifación de este grupo igual a la del documento Invoice>
     <!--TODO: Obligatorio de informar para el caso de facturas por contratos de servicio tipo AIU.
 	Para el ítem Adminsitración. En este caso la cbc:Note debe empezar por el texto: “Contrato de
 	servicios AIU por concepto de:” El contribuyente debe incluir el objeto del contrato facturado-->
-        <cbc:Note>{{CreditNoteLine.Note}}</cbc:Note>
+        <cbc:Note>Información Adicional: Texto libre para añadir información adicional al artículo.</cbc:Note>
     <!--TODO: unitCode debe ser dinamico-->
 		<cbc:CreditedQuantity unitCode="{{CreditNoteLine.unitCode}}">{{CreditNoteLine.Quantity}}</cbc:CreditedQuantity>
 		<cbc:LineExtensionAmount currencyID="{{DocumentCurrencyCode}}">{{CreditNoteLine.LineExtensionAmount}}</cbc:LineExtensionAmount>
@@ -543,7 +523,6 @@ Especifación de este grupo igual a la del documento Invoice>
 				<cbc:PriceTypeCode>03</cbc:PriceTypeCode>
 			</cac:AlternativeConditionPrice>
 		</cac:PricingReference-->
-		<!--IMPUESTOS Y/O RETENCIONES-->
         {% for TaxTotalID, TaxTotal in CreditNoteLine.TaxesTotal.items() -%}
 		<cac:TaxTotal>
 			<cbc:TaxAmount currencyID="{{DocumentCurrencyCode}}">{{'{:.2f}'.format(TaxTotal.total)}}</cbc:TaxAmount>
@@ -580,24 +559,18 @@ Especifación de este grupo igual a la del documento Invoice>
 		    <cbc:Description>{{CreditNoteLine.ItemDescription}}</cbc:Description>
 		<!--TODO, Cantidad de unidad de este artículo por empaque>
 			<cbc:PackSizeNumeric>{{CreditNoteLine.PackSizeNumeric}}</cbc:PackSizeNumeric-->
-		<!--TODO, Marca: Marca del artículo-->
-			<cbc:BrandName>{{CreditNoteLine.BrandName}}</cbc:BrandName>
-		<!--TODO, Modelo: Modelo del artículo-->
-			<cbc:ModelName>{{CreditNoteLine.ModelName}}</cbc:ModelName>
-			<cac:ManufacturersItemIdentification>
-				<cbc:ID>{{CreditNoteLine.SellersItemIdentification}}</cbc:ID>
-				<cbc:ExtendedID>{{CreditNoteLine.unitCode}}</cbc:ExtendedID>
-			</cac:ManufacturersItemIdentification>
+		<!--TODO, Marca: Marca del artículo>
+			<cbc:BrandName>{{CreditNoteLine.BrandName}}</cbc:BrandName-->
+		<!--TODO, Modelo: Modelo del artículo>
+			<cbc:ModelName>{{CreditNoteLine.BrandName}}</cbc:ModelName-->
 		<!--TODO, Grupo de datos de identificación del artículo o servicio de acuerdo con el vendedor-->
-			<!-- <cac:SellersItemIdentification>
+			<cac:SellersItemIdentification>
 				<cbc:ID>{{CreditNoteLine.SellersItemIdentification}}</cbc:ID>
 				<cbc:ExtendedID></cbc:ExtendedID>
-			</cac:SellersItemIdentification> -->
+			</cac:SellersItemIdentification>
 		<!--TODO, Grupo de datos de identificación del artículo o servicio de acuerdo con un estándar-->
 			<cac:StandardItemIdentification>
-				<cbc:ID schemeID="{{CreditNoteLine.StandardschemeID}}"
-						schemeName="{{CreditNoteLine.StandardschemeName}}"
-						{% if CreditNoteLine.StandardschemeAgencyID %}schemeAgencyID="{{CreditNoteLine.StandardschemeAgencyID}}"{% endif %}>{{CreditNoteLine.StandardItemIdentification}}</cbc:ID>
+				<cbc:ID schemeID="999">AOHV84-225</cbc:ID>
 				<!-- <cbc:ID schemeID="999">{{CreditNoteLine.SellersItemIdentification}}</cbc:ID> -->
 			</cac:StandardItemIdentification>
 		<!--TODO, opcional, Grupo de información para adicionar información específica del ítem que puede

@@ -2,14 +2,14 @@
 <Comprobantes>
 	<Comprobante>
 		<informacionOrganismo>
-			<DebitNote xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" 
-					xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" 
-					xmlns:ds="http://www.w3.org/2000/09/xmldsig#" 
-					xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" 
-					xmlns:sts="dian:gov:co:facturaelectronica:Structures-2-1" 
-					xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" 
-					xmlns:xades141="http://uri.etsi.org/01903/v1.4.1#" 
-					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			<DebitNote xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+					xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+					xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+					xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
+					xmlns:sts="dian:gov:co:facturaelectronica:Structures-2-1"
+					xmlns:xades="http://uri.etsi.org/01903/v1.3.2#"
+					xmlns:xades141="http://uri.etsi.org/01903/v1.4.1#"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 					xmlns="urn:oasis:names:specification:ubl:schema:xsd:DebitNote-2">
 			<!-- xmlns="urn:oasis:names:specification:ubl:schema:xsd:DebitNote-2"
 				xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
@@ -80,20 +80,20 @@
 				<cbc:UBLVersionID>UBL 2.1</cbc:UBLVersionID>
 				<cbc:CustomizationID>{{CustomizationID}}</cbc:CustomizationID>
 			<!--TODO 2.0: anexo tecnico dice que va ":Nota Débito de Factura Electrónica de Venta""-->
-				<cbc:ProfileID>DIAN 2.1</cbc:ProfileID>
+				<cbc:ProfileID>DIAN 2.1: Nota Débito de Factura Electrónica de Venta</cbc:ProfileID>
 				<cbc:ProfileExecutionID>{{ProfileExecutionID}}</cbc:ProfileExecutionID>
 				<cbc:ID>{{ID}}</cbc:ID>
 				<cbc:UUID schemeID="{{ProfileExecutionID}}" schemeName="CUDE-SHA384">{{UUID}}</cbc:UUID>
 				<cbc:IssueDate>{{IssueDate}}</cbc:IssueDate>
 				<cbc:IssueTime>{{IssueTime}}</cbc:IssueTime>
 			<!--TODO 1.0: Establecer opcional-->
-				<cbc:Note>{{Note1}}</cbc:Note> <!--Información Tributaria-->
-				<cbc:Note>{{Note2}}</cbc:Note> <!--Terminos y condicinones-->
-				<cbc:Note>Note3</cbc:Note>
-				<cbc:Note>{{Note4}}</cbc:Note> <!--Comentarios adicionales-->
-				<cbc:Note>{{Note5}}</cbc:Note> <!--Fecha de vencimiento-->
-				<cbc:Note>Note6</cbc:Note> 
-				<cbc:Note>Note7</cbc:Note> <!---->
+				<cbc:Note>{{Note1}}</cbc:Note>
+				<cbc:Note>{{Note2}}</cbc:Note>
+				<cbc:Note>{{Note3}}</cbc:Note>
+				<cbc:Note>{{Note4}}</cbc:Note>
+				<cbc:Note>{{Note5}}</cbc:Note> <!--ReteFte-->
+				<cbc:Note>{{Note6}}</cbc:Note> <!--ReteIVA-->
+				<cbc:Note>{{Note7}}</cbc:Note> <!--ReteICA-->
 				<cbc:DocumentCurrencyCode listAgencyID="6"
 					listAgencyName="United Nations Economic Commission for Europe"
 					listID="ISO 4217 Alpha">{{DocumentCurrencyCode}}</cbc:DocumentCurrencyCode>
@@ -146,9 +146,9 @@
 					<cbc:AdditionalAccountID>{{AccountingSupplierParty.AdditionalAccountID}}</cbc:AdditionalAccountID>
 					<cac:Party>
 						<cbc:IndustryClassificationCode>{{IndustryClassificationCode}}</cbc:IndustryClassificationCode>
-						{% if AccountingSupplierParty.Name %}
+						{% if AccountingSupplierParty.PartyName %}
 						<cac:PartyName>
-							<cbc:Name>{{AccountingSupplierParty.Name}}</cbc:Name>
+							<cbc:Name>{{AccountingSupplierParty.PartyName}}</cbc:Name>
 						</cac:PartyName>
 						{% endif %}
 						<cac:PhysicalLocation>
@@ -209,6 +209,7 @@
 								schemeName="{{AccountingSupplierParty.CompanyIDschemeName}}">{{AccountingSupplierParty.CompanyID}}</cbc:CompanyID>
 							{% if AccountingSupplierParty.CorporateRegistrationSchemeName %}
 							<cac:CorporateRegistrationScheme>
+								<cbc:ID>{{Prefix}}</cbc:ID>
 								<cbc:Name>{{AccountingSupplierParty.CorporateRegistrationSchemeName}}</cbc:Name>
 							</cac:CorporateRegistrationScheme>
 							{% endif %}
@@ -260,9 +261,9 @@
 							<cbc:ID {% if AccountingCustomerParty.CompanyIDschemeName == '31' %}schemeID="{{AccountingCustomerParty.CompanyIDschemeID}}"{% endif %}
 								schemeName="{{AccountingCustomerParty.CompanyIDschemeName}}">{{AccountingCustomerParty.CompanyID}}</cbc:ID>
 						</cac:PartyIdentification>
-						{% if AccountingCustomerParty.Name%}
+						{% if AccountingCustomerParty.PartyName%}
 						<cac:PartyName>
-							<cbc:Name>{{AccountingCustomerParty.Name}}</cbc:Name>
+							<cbc:Name>{{AccountingCustomerParty.PartyName}}</cbc:Name>
 						</cac:PartyName>
 						{% endif %}
 						{% if AccountingCustomerParty.CompanyID != '2222222222' %}
@@ -519,6 +520,7 @@
 				{% for TaxTotalID, TaxTotal in TaxesTotal.items() -%}
 				<cac:TaxTotal>
 					<cbc:TaxAmount currencyID="{{DocumentCurrencyCode}}">{{'{:.2f}'.format(TaxTotal.total)}}</cbc:TaxAmount>
+					<cbc:RoundingAmount currencyID="{{DocumentCurrencyCode}}">0.00</cbc:RoundingAmount>
 					{% for Percent, TaxSubtotal in TaxTotal.taxes.items() -%}
 					<cac:TaxSubtotal>
 						<cbc:TaxableAmount currencyID="{{DocumentCurrencyCode}}">{{'{:.2f}'.format(TaxSubtotal.base)}}</cbc:TaxableAmount>
@@ -574,8 +576,8 @@
 					<cbc:ID>{{DebitNoteLineID}}</cbc:ID>
 				<!--TODO 3.0: Obligatorio de informar para el caso de facturas por contratos de servicio tipo AIU.
 					Para el ítem Adminsitración. En este caso la cbc:Note debe empezar por el texto: “Contrato de
-					servicios AIU por concepto de:” El contribuyente debe incluir el objeto del contrato facturado-->
-					<cbc:Note>{{DebitNoteLine.Note}}</cbc:Note>
+					servicios AIU por concepto de:” El contribuyente debe incluir el objeto del contrato facturado>
+					<cbc:Note>Información Adicional: Texto libre para añadir información adicional al artículo.</cbc:Note-->
 					<cbc:DebitedQuantity unitCode="{{DebitNoteLine.unitCode}}">{{DebitNoteLine.Quantity}}</cbc:DebitedQuantity>
 					<cbc:LineExtensionAmount currencyID="{{DocumentCurrencyCode}}">{{DebitNoteLine.LineExtensionAmount}}</cbc:LineExtensionAmount>
 					{% if DebitNoteLine.LineExtensionAmount == 0 -%}
@@ -647,21 +649,15 @@
 						{% if DebitNoteLine.ModelName %}
 						<cbc:ModelName>{{DebitNoteLine.ModelName}}</cbc:ModelName>
 						{% endif %}
-						<cac:ManufacturersItemIdentification>
-							<cbc:ID>{{DebitNoteLine.SellersItemIdentification}}</cbc:ID>
-							<cbc:ExtendedID>{{DebitNoteLine.unitCode}}</cbc:ExtendedID>
-						</cac:ManufacturersItemIdentification>
 					<!--TODO 2.0, Grupo de datos de identificación del artículo o servicio de acuerdo con el vendedor-->
-						<!-- <cac:SellersItemIdentification>
+						<cac:SellersItemIdentification>
 							<cbc:ID>{{DebitNoteLine.SellersItemIdentification}}</cbc:ID>
 							<cbc:ExtendedID></cbc:ExtendedID>
-						</cac:SellersItemIdentification> -->
+						</cac:SellersItemIdentification>
 					<!--TODO 2.0, Grupo de datos de identificación del artículo o servicio de acuerdo con un estándar-->
 					<!--OPCIONAL schemeName="Estándar de adopción del contribuyente" schemeAgencyID="" schemeAgencyName=""-->
 						<cac:StandardItemIdentification>
-							<cbc:ID schemeID="{{DebitNoteLine.StandardschemeID}}"
-									schemeName="{{DebitNoteLine.StandardschemeName}}"
-									{% if DebitNoteLine.StandardschemeAgencyID %}schemeAgencyID="{{DebitNoteLine.StandardschemeAgencyID}}"{% endif %}>{{DebitNoteLine.StandardItemIdentification}}</cbc:ID>
+							<cbc:ID schemeID="999">AOHV84-225</cbc:ID>
 							<!-- <cbc:ID schemeID="999">{{DebitNoteLine.StandardItemIdentification}}</cbc:ID> -->
 						</cac:StandardItemIdentification>
 					<!--TODO 2.0, opcional, Grupo de información para adicionar información específica del ítem que puede
@@ -699,20 +695,15 @@
 			<prefixPtoVenta>{{Prefix}}</prefixPtoVenta>
 			<nroCbte>{{nroCbte}}</nroCbte>
 			<Receptores>
-				{% for ElectronicMail, Receptor in Receptores.items() -%}
 				<Receptor>
-					<Login>{{ElectronicMail}}</Login>
+					<Login>{{AccountingCustomerParty.ElectronicMail}}</Login>
 					<TipoUsuario>0</TipoUsuario>
-					<Nombre>{{Receptor.Name}}</Nombre>
-					<Mail>{{Receptor.Email}}</Mail>
-					<Contacto>{{Receptor.Telephone}}</Contacto>
+					<Nombre>{{AccountingCustomerParty.Name}}</Nombre>
+					<Mail>{{AccountingCustomerParty.ElectronicMail}}</Mail>
+					<Contacto>{{AccountingCustomerParty.Telephone}}</Contacto>
 					<Idioma>05</Idioma>
 					<Adjunto>ADJUNTO</Adjunto>
-					<!-- {% if Receptor.Rol %}
-					<Rol>{{Receptor.Rol}}</Rol>
-					{% endif %} -->
 				</Receptor>
-				{% endfor -%}
 			</Receptores>
 		</informacionComfiar>
 	</Comprobante>
