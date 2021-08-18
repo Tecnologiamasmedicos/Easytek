@@ -513,23 +513,23 @@ class AccountInvoice(models.Model):
 			taxes['01']['taxes']['0.00']['base'] = 0
 			taxes['01']['taxes']['0.00']['amount'] = 0
 
-		if '03' not in taxes:
-			taxes['03'] = {}
-			taxes['03']['total'] = 0
-			taxes['03']['name'] = 'ICA'
-			taxes['03']['taxes'] = {}
-			taxes['03']['taxes']['0.00'] = {}
-			taxes['03']['taxes']['0.00']['base'] = 0
-			taxes['03']['taxes']['0.00']['amount'] = 0
-
-		if '04' not in taxes:
-			taxes['04'] = {}
-			taxes['04']['total'] = 0
-			taxes['04']['name'] = 'INC'
-			taxes['04']['taxes'] = {}
-			taxes['04']['taxes']['0.00'] = {}
-			taxes['04']['taxes']['0.00']['base'] = 0
-			taxes['04']['taxes']['0.00']['amount'] = 0
+		# if '03' not in taxes:
+		# 	taxes['03'] = {}
+		# 	taxes['03']['total'] = 0
+		# 	taxes['03']['name'] = 'ICA'
+		# 	taxes['03']['taxes'] = {}
+		# 	taxes['03']['taxes']['0.00'] = {}
+		# 	taxes['03']['taxes']['0.00']['base'] = 0
+		# 	taxes['03']['taxes']['0.00']['amount'] = 0
+		#
+		# if '04' not in taxes:
+		# 	taxes['04'] = {}
+		# 	taxes['04']['total'] = 0
+		# 	taxes['04']['name'] = 'INC'
+		# 	taxes['04']['taxes'] = {}
+		# 	taxes['04']['taxes']['0.00'] = {}
+		# 	taxes['04']['taxes']['0.00']['base'] = 0
+		# 	taxes['04']['taxes']['0.00']['amount'] = 0
 
 
 		return {'TaxesTotal': taxes, 'WithholdingTaxesTotal': withholding_taxes}
@@ -861,23 +861,23 @@ class AccountInvoice(models.Model):
 				invoice_lines[count]['TaxesTotal']['01']['taxes']['0.00']['base'] = invoice_line.price_subtotal
 				invoice_lines[count]['TaxesTotal']['01']['taxes']['0.00']['amount'] = 0
 
-			if '03' not in invoice_lines[count]['TaxesTotal']:
-				invoice_lines[count]['TaxesTotal']['03'] = {}
-				invoice_lines[count]['TaxesTotal']['03']['total'] = 0
-				invoice_lines[count]['TaxesTotal']['03']['name'] = 'ICA'
-				invoice_lines[count]['TaxesTotal']['03']['taxes'] = {}
-				invoice_lines[count]['TaxesTotal']['03']['taxes']['0.00'] = {}
-				invoice_lines[count]['TaxesTotal']['03']['taxes']['0.00']['base'] = invoice_line.price_subtotal
-				invoice_lines[count]['TaxesTotal']['03']['taxes']['0.00']['amount'] = 0
-
-			if '04' not in invoice_lines[count]['TaxesTotal']:
-				invoice_lines[count]['TaxesTotal']['04'] = {}
-				invoice_lines[count]['TaxesTotal']['04']['total'] = 0
-				invoice_lines[count]['TaxesTotal']['04']['name'] = 'INC'
-				invoice_lines[count]['TaxesTotal']['04']['taxes'] = {}
-				invoice_lines[count]['TaxesTotal']['04']['taxes']['0.00'] = {}
-				invoice_lines[count]['TaxesTotal']['04']['taxes']['0.00']['base'] = invoice_line.price_subtotal
-				invoice_lines[count]['TaxesTotal']['04']['taxes']['0.00']['amount'] = 0
+			# if '03' not in invoice_lines[count]['TaxesTotal']:
+			# 	invoice_lines[count]['TaxesTotal']['03'] = {}
+			# 	invoice_lines[count]['TaxesTotal']['03']['total'] = 0
+			# 	invoice_lines[count]['TaxesTotal']['03']['name'] = 'ICA'
+			# 	invoice_lines[count]['TaxesTotal']['03']['taxes'] = {}
+			# 	invoice_lines[count]['TaxesTotal']['03']['taxes']['0.00'] = {}
+			# 	invoice_lines[count]['TaxesTotal']['03']['taxes']['0.00']['base'] = invoice_line.price_subtotal
+			# 	invoice_lines[count]['TaxesTotal']['03']['taxes']['0.00']['amount'] = 0
+			#
+			# if '04' not in invoice_lines[count]['TaxesTotal']:
+			# 	invoice_lines[count]['TaxesTotal']['04'] = {}
+			# 	invoice_lines[count]['TaxesTotal']['04']['total'] = 0
+			# 	invoice_lines[count]['TaxesTotal']['04']['name'] = 'INC'
+			# 	invoice_lines[count]['TaxesTotal']['04']['taxes'] = {}
+			# 	invoice_lines[count]['TaxesTotal']['04']['taxes']['0.00'] = {}
+			# 	invoice_lines[count]['TaxesTotal']['04']['taxes']['0.00']['base'] = invoice_line.price_subtotal
+			# 	invoice_lines[count]['TaxesTotal']['04']['taxes']['0.00']['amount'] = 0
 
 
 			invoice_lines[count]['BrandName'] = brand_name
