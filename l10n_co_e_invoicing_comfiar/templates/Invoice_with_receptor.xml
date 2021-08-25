@@ -612,10 +612,10 @@
 					<!--TODO, opcional, Grupo de información para adicionar información específica del ítem que puede
 					ser solicitada por autoridades o entidades diferentes a la DIAN-->
 
-						<cac:AdditionalItemProperty>
-							<cbc:Name>Doc. Referencia</cbc:Name>
-							<cbc:Value>{{InvoiceLine.DocOrigin}}</cbc:Value>
-						</cac:AdditionalItemProperty>
+<!--						<cac:AdditionalItemProperty>-->
+<!--							<cbc:Name>Doc. Referencia</cbc:Name>-->
+<!--							<cbc:Value>{{InvoiceLine.DocOrigin}}</cbc:Value>-->
+<!--						</cac:AdditionalItemProperty>-->
 
 					<!--TODO, Grupo de información que describen el Mandante de la operación de venta. Aplica
 					solo para mandatos, y se debe informar a nivel de ítem>
