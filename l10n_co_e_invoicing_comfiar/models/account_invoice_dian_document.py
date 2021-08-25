@@ -424,8 +424,6 @@ class AccountInvoiceDianDocument(models.Model):
             'xml_filename': xml_filename_prefix + nnnnnnnnnnpppaadddddddd + '.xml',
             'zipped_filename': 'z' + znnnnnnnnnnpppaadddddddd + '.zip'})
 
-
-
     def _get_xml_values(self, ClTec):
         msg7 = _('The Incoterm is not defined for this export type invoice')
 
@@ -467,11 +465,14 @@ class AccountInvoiceDianDocument(models.Model):
         RteIVA = impuestos['05']['amount'] if impuestos.get('05') else 0.0
         RteICA = impuestos['07']['amount'] if impuestos.get('07') else 0.0
 
-
         TipoAmbie = self.company_id.profile_execution_id
 
         ValFac = self.invoice_id.amount_untaxed
-        ValImp1 = einvoicing_taxes['TaxesTotal']['01']['total']
+
+        try:
+            ValImp1 = einvoicing_taxes['TaxesTotal']['01']['total']
+        except:
+            ValImp1 = 0
         try:
             ValImp2 = einvoicing_taxes['TaxesTotal']['04']['total']
         except:
@@ -481,22 +482,22 @@ class AccountInvoiceDianDocument(models.Model):
         except:
             ValImp3 = 0
         TaxInclusiveAmount = ValFac + ValImp1 + ValImp2 + ValImp3
-        #El valor a pagar puede verse afectado, por anticipos, y descuentos y
-        #cargos a nivel de factura
+        # El valor a pagar puede verse afectado, por anticipos, y descuentos y
+        # cargos a nivel de factura
         PayableAmount = TaxInclusiveAmount
-        
+
         _logger.info('lo q envia')
         _logger.info(self.invoice_id.payment_mean_code_id)
         return {
             'codDoc': self.type_account,
             'nroCbte': self._get_nroCbte()['nroCbte'],
             'puntoDeVentaId': active_dian_resolution['puntoDeVentaId'],
-            'DocOrigin': self.invoice_id.ref1_comfiar or '',
-            'Note1': self.company_id.tributary_information or '',
-            'Note2': self.invoice_id.narration or '',
-            'Note3': '',
-            'Note4': '\n' + (self.invoice_id.narration2 or ''),
-            'Note5': self.invoice_id.invoice_date_due.strftime("%d/%m/%Y") or '',
+            'DocOrigin': self.invoice_id.invoice_origin or '',
+            'Note1': self.invoice_id.ref1_comfiar or '',
+            'Note2': '{:.2f}'.format(self.invoice_id.amount_untaxed),
+            'Note3': '{:.2f}'.format(self.invoice_id.amount_total),
+            'Note4': self.invoice_id.narration or '',
+            'Note5': '{:.2f}'.format(RteFte),
             'Note6': '{:.2f}'.format(RteIVA),
             'Note7': '{:.2f}'.format(RteICA),
             'InvoiceAuthorization': active_dian_resolution['resolution_number'],
@@ -505,11 +506,11 @@ class AccountInvoiceDianDocument(models.Model):
             'Prefix': active_dian_resolution['prefix'],
             'From': active_dian_resolution['number_from'],
             'To': active_dian_resolution['number_to'],
-            'ProviderIDschemeID': ProviderIDschemeID, #supplier.check_digit,     
-            'ProviderIDschemeName': ProviderIDschemeName, #supplier.document_type_id.code,
-            'ProviderID': ProviderID, #NitOFE,
+            'ProviderIDschemeID': ProviderIDschemeID,  # supplier.check_digit,
+            'ProviderIDschemeName': ProviderIDschemeName,  # supplier.document_type_id.code,
+            'ProviderID': ProviderID,  # NitOFE,
             'NitAdquiriente': NitAdq,
-            'SoftwareID': '', #IdSoftware,
+            'SoftwareID': '',  # IdSoftware,
             # 'SoftwareSecurityCode': software_security_code['SoftwareSecurityCode'] or '',
             # 'QRCodeURL': QRCodeURL,
             'ProfileExecutionID': TipoAmbie,
@@ -517,7 +518,8 @@ class AccountInvoiceDianDocument(models.Model):
             # 'UUID': cufe_cude['CUFE/CUDE'],
             'IssueDate': IssueDate,
             'IssueTime': IssueTime,
-            'LineCountNumeric': len(self.invoice_id.invoice_line_ids.filtered(lambda x: x.display_type not in ('line_section', 'line_note'))),
+            'LineCountNumeric': len(self.invoice_id.invoice_line_ids.filtered(
+                lambda x: x.display_type not in ('line_section', 'line_note'))),
             'DocumentCurrencyCode': self.invoice_id.currency_id.name,
             'ActualDeliveryDate': ActualDeliveryDate,
             'Delivery': customer._get_delivery_values(),
@@ -528,8 +530,8 @@ class AccountInvoiceDianDocument(models.Model):
             'TaxRepresentativeParty': supplier._get_tax_representative_party_values(),
             'PaymentMeansID': self.invoice_id.payment_mean_id.code,
             'PaymentMeansCode': self.invoice_id.payment_mean_code_id.code or '10',
-            #'PaymentMeansCode': self.invoice_id.payment_mean_code_id,
-            #'PaymentDueDate': self.invoice_id.date_due,
+            # 'PaymentMeansCode': self.invoice_id.payment_mean_code_id,
+            # 'PaymentDueDate': self.invoice_id.date_due,
             'DueDate': self.invoice_id.invoice_date_due,
             'PaymentExchangeRate': self.invoice_id._get_payment_exchange_rate(),
             'PaymentDueDate': self.invoice_id.invoice_date_due,
@@ -537,11 +539,11 @@ class AccountInvoiceDianDocument(models.Model):
             'WithholdingTaxesTotal': einvoicing_taxes['WithholdingTaxesTotal'],
             'LineExtensionAmount': '{:.2f}'.format(self.invoice_id.amount_untaxed),
             'TaxExclusiveAmount': '{:.2f}'.format(self.invoice_id.amount_untaxed),
-            'TaxInclusiveAmount': '{:.2f}'.format(TaxInclusiveAmount),#ValTot
+            'TaxInclusiveAmount': '{:.2f}'.format(TaxInclusiveAmount),  # ValTot
             'PayableAmount': '{:.2f}'.format(PayableAmount),
-            
+
             'Receptores': customer._get_receptor_comfiar(self.company_id),
-            }
+        }
 
 
     def _get_invoice_values(self):
