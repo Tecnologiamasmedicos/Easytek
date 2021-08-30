@@ -27,7 +27,11 @@ class SaleSubscription(models.Model):
     number = fields.Char(string='Número de Póliza')
     recurring_next_date = fields.Date(string='Date of Next Invoice', help="The next invoice will be created on this date then the period will be extended.")
     sponsor_id = fields.Many2one('res.partner')
-    campo_vacio = fields.Boolean('Campo vacio', default=False)  
+    campo_vacio = fields.Boolean('Campo vacio', default=False) 
+    
+    policyholder = fields.Char('Tomador de Póliza')
+    
+    order_id = fields.Many2one('sale.order')
     
     
     @api.model
@@ -43,6 +47,7 @@ class SaleSubscription(models.Model):
             'number': str(sequence_id.code),
             'recurring_next_date': datetime.date.today(),
             'sponsor_id': res.recurring_invoice_line_ids[0].product_id.categ_id.sponsor_id,
+            'policyholder': str(sequence_id.sponsor_name),
         })
         sequence_id.write({
             'number_next_actual': int(sequence_id.number_next_actual) + 1,
@@ -64,15 +69,18 @@ class SaleSubscription(models.Model):
         if self.recurring_invoice_line_ids[0].product_id.categ_id.journal_id:
             journal = self.recurring_invoice_line_ids[0].product_id.categ_id.journal_id
         else:
-            journal = self.template_id.journal_id or self.env['account.journal'].search([('type', '=', 'sale'), ('company_id', '=', self.company_id.id)], limit=1)        
+            journal = self.template_id.journal_id or self.env['account.journal'].search([('type', '=', 'sale'), ('company_id', '=', self.company_id.id)], limit=1)
+        
         res.update({
             'journal_id': journal.id,
             'sponsor_id': self.sponsor_id,
             'payment_mean_id': 1
         })
         return res
-
+    
+    
     def validate_and_send_invoice(self, invoice):
         self.ensure_one()
         if invoice.state != 'posted':
             invoice.post()
+    

@@ -72,7 +72,7 @@ class PayULatamApi(models.TransientModel):
                     "apiKey": payulatam_api_key
                 },
             })
-            query.update({"test": True})
+            query.update({"test": False})
             if payulatam_api_env == 'prod':
                 query.update({"test": False})
             

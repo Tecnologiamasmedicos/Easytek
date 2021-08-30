@@ -45,9 +45,9 @@ class ResPartner(models.Model):
     beneficiary_state_id = fields.Many2one('res.country.state', 'Estado del beneficiario')
     beneficiary_zip_id = fields.Many2one('res.city.zip', 'Ciudad del beneficiario')
     
-    buyer = fields.Boolean(string='Comprador', copy=False)
-    beneficiary = fields.Boolean(string='Beneficiario', copy=False)
-    main_insured = fields.Boolean(string='Asegurado Principal', copy=False)
+    buyer = fields.Boolean(string='Comprador', copy=False, default=False)
+    beneficiary = fields.Boolean(string='Beneficiario', copy=False, default=False)
+    main_insured = fields.Boolean(string='Asegurado Principal', copy=False, default=False)
     
     company_type = fields.Selection(selection_add=[('sponsor', 'Sponsor')], compute=False, default='person')
     person_type = fields.Selection(compute=False)

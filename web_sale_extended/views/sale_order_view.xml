@@ -8,6 +8,8 @@
                 
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field name="sponsor_id" />
+                    <field name="assisted_purchase" />       
+<!--                     <button name="nueva_entrada" string="Entrada" type="object" states="sent,sale,payu_pending,payu_approved"/> -->
                 </xpath>
                 
                 <xpath expr="//notebook" position="inside">

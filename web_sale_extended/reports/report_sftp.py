@@ -57,7 +57,7 @@ class SftpReportLine(models.Model):
     zip_code = fields.Char('Código Postal de Correo',readonly=True)
     commentaries = fields.Char('Comentarios',readonly=True)
     aniversary = fields.Char('Aniversario',readonly=True)
-    first_due = fields.Char('Primer Vencimiento',readonly=True)
+    first_due = fields.Date('Primer Vencimiento',readonly=True)
     change_type = fields.Char('Tipo de Cambio',readonly=True)
     second_identification = fields.Char('Segunda Indentificación',readonly=True)
     second_type_identification = fields.Char('Tipo Segunda Identificación',readonly=True)
@@ -100,10 +100,10 @@ class SftpReportLine(models.Model):
 
         p.mobile as mobile,
         p.phone as phone,
-        p.street,
+        p.address_beneficiary as street,
         p.street2,
-        p.state_id,
-        city.name as city_name,
+        p.beneficiary_state_id,        
+        (case when city.name='BOGOTÁ, D.C.' then 'BOGOTÁ D.C.' else city.name end)as city_name,        
         rcz.name as partner_zip_code,
         p.ocupation as ocupation,
         p.ocupation as ocupation2,
@@ -137,7 +137,7 @@ class SftpReportLine(models.Model):
         from sale_subscription sub
         left join res_partner p on p.subscription_id = sub.id
         left join res_partner_document_type rpdt on rpdt.id = p.document_type_id
-        left join res_city_zip rcz on rcz.id = p.zip_id
+        left join res_city_zip rcz on rcz.id = p.beneficiary_zip_id
         left join res_city city on rcz.city_id = city.id
         left join sale_subscription_line line on line.analytic_account_id = sub.id
         left join product_product pro on pro.id = line.product_id
@@ -153,8 +153,7 @@ class SftpReportLine(models.Model):
         self.env.cr.execute(query)
         #(select to_char(mp.date_planned_start,'mm')) as month,
         
-        
-        
+    
         
 class SftpReportBeneficiaryLine(models.Model):
     _name = 'report.beneficiary.sftp'
@@ -193,7 +192,7 @@ class SftpReportBeneficiaryLine(models.Model):
 
     ocupation = fields.Char('Ocupación',readonly=True)
     #palig = fields.Char('Palig',readonly=True)
-    change_date = fields.Char('Ocupación',readonly=True)
+    change_date = fields.Date('Ocupación',readonly=True)
     change_type = fields.Char('Ocupación',readonly=True)
     date_end = fields.Char('Ocupación',readonly=True)
     relationship = fields.Char('Parentezco',readonly=True)
@@ -227,18 +226,13 @@ class SftpReportBeneficiaryLine(models.Model):
         seq.sponsor_payment_url,
         '79'::varchar as country,
         'CO'::varchar as country2,
-        p.email,
-        p.mobile as mobile,
+        p.email,        
+        p.mobile as mobile,        
         p.phone as phone,
-        p.street,
+        p.address_beneficiary as street,
         p.street2,
-        state.name as state_id,
-        case 
-            when city.name is not null then city.name 
-            when city2.name is not null then city2.name
-        else 
-            ''::text
-        end as city_name,
+        (case when state.name='Bogotá, D.C.' then 'Bogotá D.C.' else state.name end)as state_id,          
+        (case when city.name='BOGOTÁ, D.C.' then 'BOGOTÁ D.C.' else city.name end)as city_name,  
         rcz.name as partner_zip_code,
         p.ocupation,
         p.relationship,
@@ -271,10 +265,10 @@ class SftpReportBeneficiaryLine(models.Model):
         from sale_subscription sub
         left join res_partner p on p.subscription_id = sub.id
         left join res_partner_document_type rpdt on rpdt.id = p.document_type_id
-        left join res_city_zip rcz on rcz.id = p.zip_id
+        left join res_city_zip rcz on rcz.id = p.beneficiary_zip_id
         left join res_city city on rcz.city_id = city.id
         left join res_city city2 on p.city = city2.id::varchar
-        left join res_country_state state on p.state_id = state.id
+        left join res_country_state state on p.beneficiary_state_id = state.id
         left join sale_subscription_line line on line.analytic_account_id = sub.id
         left join product_product pro on pro.id = line.product_id
         left join product_template tmpl on tmpl.id = pro.product_tmpl_id

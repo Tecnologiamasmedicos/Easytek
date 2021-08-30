@@ -25,7 +25,7 @@ _logger = logging.getLogger(__name__)
 
 
 class WebsiteSaleExtended(WebsiteSale):
-
+    
     @http.route(['/shop/payment/payulatam-gateway-api/cash_process'], type='http', auth="public", website=True, sitemap=False, csrf=False)
     def payulatam_gateway_api_cash_payment(self, **post):
         order = request.website.sale_get_order()
@@ -91,6 +91,9 @@ class WebsiteSaleExtended(WebsiteSale):
             "transaction": transaction,
         }
         response = request.env['api.payulatam'].payulatam_cash_payment_request(cash_payment_values)
+        _logger.info("***RESPUESTA EN EFECTIVO***")
+        _logger.info(response)
+        
         render_values = {'error': response['error']}
         if response['code'] != 'SUCCESS':
             """ Retornando error manteniendo la misma orden y dando la oportunidad de intentar de nuevo """

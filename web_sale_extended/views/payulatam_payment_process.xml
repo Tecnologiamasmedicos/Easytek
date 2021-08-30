@@ -109,12 +109,14 @@
                                             </font>-->
                                             <br/>
                                         </div>
-                                        <div style="text-align:center;">
-                                            <span style="font-size:18px;">Para continuar con el registro del asegurado principal y los beneficiarios:</span>
-                                        </div>
+                                        <t t-if="not order_id.assisted_purchase">
+                                            <div style="text-align:center;">
+                                                <span style="font-size:18px;">Para continuar con el registro del asegurado principal y los beneficiarios:</span>
+                                            </div>
+                                        </t>
                                     </div>
                                 </div>
-                                
+                                <t t-if="not order_id.assisted_purchase">
                                 <div class="s_btn text-center pt16 pb16" data-name="Button">
                                     <a class="btn btn-primary" 
                                        id="submit_beneficiaries_add" 
@@ -126,6 +128,7 @@
                                     </a>
                                     <input type="hidden" name="order_id" t-att-value="order_id.id"/>
                                   </div>
+                                </t>
                             </div>
                         </section>
                     </div>
@@ -1479,7 +1482,8 @@
                                                 </t>
                                                 <t t-else="">
                                                     <input class="form-control" type="text" name="credit_card_partner_phone" t-att-value="order.partner_id.mobile"/>
-                                                </t>                                                
+                                                </t>
+                                                
                                               </div>
                                         </div>
                                       </div>
@@ -1608,7 +1612,7 @@
                                               <i class="fa fa-chevron-left"/>
                                               <span>Atrás</span>
                                           </a>-->
-                                          <button class="btn btn-custom mb32">
+                                          <button class="btn btn-custom mb32" id="submit_payment">
                                               <span>Pagar</span>
                                               <i class="fa fa-chevron-right"/>
                                           </button>

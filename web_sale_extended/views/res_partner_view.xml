@@ -84,7 +84,9 @@
                 <attribute name="invisible">0</attribute>
             </xpath>
             <xpath expr="//field[@name='vat']" position="after">
-                <field name='generates_accounting' />
+                <field name='generates_accounting'> 
+                    <attribute name="invisible">1</attribute>
+                </field>
             </xpath>
         </field>
     </record>

@@ -28,6 +28,7 @@
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="after">
                     <field name="sponsor_id"/>
+                    <field name="order_id" />
                 </xpath>
             </field>
         </record>
@@ -39,7 +40,7 @@
              <field name="type">tree</field>
             <field name="model">report.sftp</field>
             <field name="arch" type="xml">
-                <tree string="SFTP lines" create="0" edit="0">
+                <tree string="SFTP lines" create="0" edit="0">                    
                     <field name="policy_number" string="Número de Grupo / Póliza"/>
                     <field name="certificate_number" string="Certificado"/>
                     <field name="firstname" string="Primer Nombre"/>
@@ -150,7 +151,66 @@
             <field name="res_model">report.beneficiary.sftp</field>
             <field name="view_mode">tree</field>
         </record>
+         
+         
+         <record id="collections_report_view_tree" model="ir.ui.view">
+            <field name="name">collections.report.subscription.line.view.tree</field>
+<!--              <field name="type">tree</field> -->
+            <field name="model">report.collections</field>
+            <field name="arch" type="xml">                
+                    <tree string="Collections lines" create="0" edit="0">
+                        <field name="policy_number" />
+                        <field name="certificate_number" />
+                        <field name="firstname" />
+                        <field name="othernames" />
+                        <field name="lastname" />
+                        <field name="identification_document" />
+                        <field name="transaction_type" />
+                        <field name="clase" />
+                        <field name="change_date" widget="date" />
+                        <field name="collected_value" widget="monetary"/>
+                        <field name="number_of_installments" />
+                        <field name="payment_method" string="Metodo de pago" />
+                        <field name="number_of_plan_installments" />
+                        <field name="total_installments" />
+                        <field name="number_of_installments_arrears" />
+                        <field name="sponsor_id" />
+                        <field name="policyholder" />
+                        <field name="product_code" />
+                        <field name="product_name" />
+                    </tree>                 
+            </field>
+        </record>
+         
+         
+        <record id="collections_report_view_search" model="ir.ui.view">
+            <field name="name">collections.report.subscription.line.view.search</field>
+            <field name="model">report.collections</field>
+            <field name="arch" type="xml">                
+                <search>
+                    <filter string="Mes Actual" name="current_month" domain="[('change_date','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')), ('change_date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                    <filter string="Mes Anterior" name="prev_month" domain="[('change_date','&gt;=',(context_today()-relativedelta(months=1)).strftime('%%Y-%%m-01')),('change_date','&lt;',time.strftime('%%Y-%%m-01'))]"/>
+                    <separator/>
+                    <filter string="Fecha Cambio" name="filter_change_date" date="change_date"/>
+                    <filter string="Fecha Cambio" name="change_date" context="{'group_by': 'change_date'}"/>
+                </search>
+            </field>
+        </record>
+         
+         
+        <record model="ir.actions.act_window" id="action_report_collections_tree">
+            <field name="name">Reporte Recaudos</field>
+            <field name="res_model">report.collections</field>
+            <field name="view_mode">tree</field>
+        </record>
     </data>
-    <menuitem id="sale_subscription_sftp_report" name="Reporte SFTP Asegurado" parent="sale_subscription.menu_sale_subscription_config" sequence="5" action="web_sale_extended.action_report_sftp_tree" groups="sale_subscription.group_sale_subscription_view"/>
+
+
+        <menuitem id="sale_subscription_sftp_report" name="Reporte SFTP Asegurado" parent="sale_subscription.menu_sale_subscription_config" sequence="5" action="web_sale_extended.action_report_sftp_tree" groups="sale_subscription.group_sale_subscription_view"/>
+    
     <menuitem id="sale_subscription_sftp_beneficiary_report" name="Reporte SFTP Beneficiarios" parent="sale_subscription.menu_sale_subscription_config" sequence="6" action="web_sale_extended.action_report_sftp_beneficiary_tree" groups="sale_subscription.group_sale_subscription_view"/>
+    
+    <menuitem id="sale_subscription_collections_report" name="Reporte de recaudos" parent="sale_subscription.menu_sale_subscription_config" sequence="7" action="action_report_collections_tree" groups="sale_subscription.group_sale_subscription_view"/>
+    
+
 </odoo>

@@ -6,7 +6,6 @@ from odoo.exceptions import ValidationError
 import logging
 _logger = logging.getLogger(__name__)
 
-
 class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
     

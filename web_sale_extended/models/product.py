@@ -11,7 +11,7 @@ class ProductCategory(models.Model):
     _inherit = 'product.category'
 
     sequence_id = fields.Many2one('ir.sequence','Secuencia del Patrocinador')
-    sponsor_id = fields.Many2one('res.partner', 'Sponsor', required=True, domain=[('company_type', '=', 'sponsor')])
+    sponsor_id = fields.Many2one('res.partner', 'Sponsor', domain=[('company_type', '=', 'sponsor')])
     journal_id = fields.Many2one('account.journal', string='Diario', domain=[('type', '=', 'sale')])
     
     
@@ -36,6 +36,9 @@ class ProductTemplate(models.Model):
     sequence_id = fields.Many2one('ir.sequence','Secuencia del Producto')
     
     product_landpage_url = fields.Char('URL para Landpage')
+    
+    is_beneficiary = fields.Boolean('Es un beneficio')
+    
     
     
 #     logo_website_pdf  = fields.Binary(string="Image del Plan para el documento PDF", readonly=False)

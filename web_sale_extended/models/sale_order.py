@@ -22,6 +22,7 @@ class SaleOrder(models.Model):
     tusdatos_send = fields.Boolean('Solicitud enviada', default=False)  
     
     campo_vacio = fields.Boolean('Campo vacio', default=False)  
+    assisted_purchase = fields.Boolean('Venta Asistida', default=False)  
         
     subscription_id = fields.Many2one('sale.subscription', 'Suscription ID')
     beneficiary0_id = fields.Many2one('res.partner')
@@ -47,7 +48,7 @@ class SaleOrder(models.Model):
         ("Credit Card", "Tarjeta de Crédito"), 
         ("Cash", "Efectivo"), 
         ("PSE", "PSE"),
-        ("Product Without Price", "Producto con Precio $0"),
+        ("Product Without Price", "Beneficio"),
     ])
     
     @api.depends('order_line', 'state')
@@ -312,6 +313,14 @@ class SaleOrder(models.Model):
                                
                 else:
                     continue
+                    
+    def _prepare_subscription_data(self, template):
+        res = super(SaleOrder, self)._prepare_subscription_data(template)        
+        res.update({
+            'order_id': self.id
+        })
+        return res
+    
 
     def create_subscriptions(self):
         """
@@ -441,7 +450,79 @@ class SaleOrder(models.Model):
                             """ % (response['result']['payload'])
                             sale.message_post(body=message)
                             sale._send_order_payu_latam_approved()
-                        
 
-                    
+    def cron_confirm_order_approved_payu_latam(self):
+        """ Selección de ordenes de venta que estan aprobadas por PayU y confirmmarlas """
+        sale_ids = self.env['sale.order'].search([('state', '=', 'payu_approved'),('assisted_purchase', '=', True)])
+        _logger.error(sale_ids)
+        beneficiary_list = []
+        for sale in sale_ids:            
+            sale.action_confirm()
+            sale._send_order_confirmation_mail()
             
+            sale.partner_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            sale.beneficiary0_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            sale.beneficiary1_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            sale.beneficiary2_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            sale.beneficiary3_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            sale.beneficiary4_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            sale.beneficiary5_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            sale.beneficiary6_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            beneficiary_list.append((4, sale.partner_id.id))
+            beneficiary_list.append((4, sale.beneficiary0_id.id))
+            beneficiary_list.append((4, sale.beneficiary1_id.id))
+            beneficiary_list.append((4, sale.beneficiary2_id.id))
+            beneficiary_list.append((4, sale.beneficiary3_id.id))
+            beneficiary_list.append((4, sale.beneficiary4_id.id))
+            beneficiary_list.append((4, sale.beneficiary5_id.id))
+            beneficiary_list.append((4, sale.beneficiary6_id.id))
+            
+            sale.subscription_id.write({
+                'subscription_partner_ids': beneficiary_list
+            })
+            
+            
+#     def nueva_entrada(self):
+#         Payment = self.env['account.payment'].with_context(active_ids=self.ids, active_model='account.move', active_id=self.id)
+        
+#         payments_vals = {
+#             'payment_type': 'inbound',
+#             'partner_type': 'customer',
+#             'partner_id': 278,
+#             'company_id': 1,
+#             'amount': 35500,
+#             'payment_date': fields.Datetime.now(),
+#             'journal_id': 7,
+#             'payment_method_id': 1
+#         }
+        
+#         payments = Payment.create(payments_vals)
+#         payments.post()
+            
+            
+            
+                            

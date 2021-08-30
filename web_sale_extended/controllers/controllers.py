@@ -6,7 +6,7 @@ from datetime import date
 from werkzeug.exceptions import Forbidden, NotFound
 import werkzeug.utils
 import werkzeug.wrappers
-from odoo.exceptions import AccessError, MissingError
+from odoo.exceptions import AccessError, MissingError, UserError
 from odoo import fields, http, SUPERUSER_ID, tools, _
 from odoo.http import request
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager, get_records_pager
@@ -154,10 +154,28 @@ class WebsiteSaleExtended(WebsiteSale):
     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def address(self, errortusdatos= '', **kw):
         ''' Toma de datos de pago y se crea el asegurador principal '''
+        
+        if 'assisted_purchase' in request.params and request.params['assisted_purchase']:         
+            qcontext = '?assisted_purchase=' + str(request.params['assisted_purchase'])
+            assisted_purchase = request.params['assisted_purchase']
+        else:
+            qcontext = ''
+            assisted_purchase = 0
+        
+        _logger.info("*****PARAMETRO DE LA URLLLLL*****")        
+        _logger.info(qcontext)
+        
         Partner = request.env['res.partner'].with_context(show_address=1).sudo()
         order = request.website.sale_get_order()
         order_detail = request.env['sale.order.line'].sudo().search([('order_id', "=", int(order.id))])
         redirection = self.checkout_redirection(order)
+        
+        _logger.info('**********Siiiiiiii************')
+        _logger.info(Partner)
+        _logger.info(redirection)
+        _logger.info(order)
+        _logger.info(order_detail)
+            
         if redirection:
             return redirection
 
@@ -167,9 +185,21 @@ class WebsiteSaleExtended(WebsiteSale):
         values, errors = {}, {}
 
         partner_id = int(kw.get('partner_id', -1))
+        
+        _logger.info('**********partner_id************')
+        _logger.info(partner_id)
+        
+        if order.partner_id.id != request.website.user_id.sudo().partner_id.id and not request.env.user.is_seller:
+            _logger.info('**********PRUEBAS***************')
+            _logger.info(order)
+            _logger.info(order_detail)
+            _logger.info(order.partner_id.id)
+            _logger.info(request.website.user_id.sudo().partner_id.id)
+            _logger.info(request.env.user.is_seller)
+            raise UserError('Ud no tiene permitido vender')     
 
         # IF PUBLIC ORDER
-        if order.partner_id.id == request.website.user_id.sudo().partner_id.id:
+        if order.partner_id.id == request.website.user_id.sudo().partner_id.id or request.env.user.is_seller:
             mode = ('new', 'billing')
             can_edit_vat = True
             country_code = request.session['geoip'].get('country_code')
@@ -195,10 +225,13 @@ class WebsiteSaleExtended(WebsiteSale):
                 mode = ('new', 'shipping')
             else:# no mode - refresh without post?
                 _logger.info("****FORMULARIO PAGO!!!!!*****")
-                return request.redirect('/shop/checkout')
+                return request.redirect('/shop/checkout%s' % qcontext)
 
         # IF POSTED
         if 'submitted' in kw:
+            if int(assisted_purchase) == 1:
+                order.write({'assisted_purchase': True})
+            
             order.write({'tusdatos_email': kw['email']})
             _logger.info("****FORMULARIO*****")
             pre_values = self.values_preprocess(order, mode, kw)
@@ -228,16 +261,23 @@ class WebsiteSaleExtended(WebsiteSale):
                 post["country_id"] = int(kw["country_address_id"])
                 
                 post["buyer"] = True
-
+                
                 phone_form = kw['phone']
                 phone_form = phone_form.split(')')
                 number = phone_form[-1].strip()
                 
-                if len(number) == 7:
-                    post["phone"] = kw["phone"]
+                _logger.info("Phone formulario")
+                _logger.info(kw['phone'])
+                _logger.info("Phone python")
+                _logger.info(number)
+                _logger.info(len(number))
+                
+                phone_code_country = request.env['res.country'].sudo().search([('id', '=', int(kw['country_address_id']))], limit=1)
+                if len(number) == 7:                    
+                    post["phone"] = '(+' + str(phone_code_country.phone_code) + ') ' + str(kw["phone"])
                     post["mobile"] = ''
                 elif len(number) == 10:
-                    post["mobile"] = kw["phone"]
+                    post["mobile"] = '(+' + str(phone_code_country.phone_code) + ') ' + str(kw["phone"])
                     post["phone"] = ''
                 
                 if kw['country_address_id'] =='49':                    
@@ -256,17 +296,20 @@ class WebsiteSaleExtended(WebsiteSale):
                     post["relationship"] = kw["relationship"]
 
                 partner_id = self._checkout_form_save(mode, post, kw)
+                _logger.info('******nuevo partner_id')
+                _logger.info(partner_id)
                 if mode[1] == 'billing':
                     order.partner_id = partner_id
                     order.with_context(not_self_saleperson=True).onchange_partner_id()
                     # This is the *only* thing that the front end user will see/edit anyway when choosing billing address
                     order.partner_invoice_id = partner_id
                     if not kw.get('use_same'):
-                        kw['callback'] = kw.get('callback') or \
-                            (not order.only_services and (mode[0] == 'edit' and '/shop/checkout' or '/shop/address'))
+                        kw['callback'] = kw.get('callback%s' % qcontext) or \
+                            (not order.only_services and (mode[0] == 'edit' and '/shop/checkout%s' % qcontext or '/shop/address%s' % qcontext))
                 elif mode[1] == 'shipping':
                     order.partner_shipping_id = partner_id
-
+                    
+                
                 # TDE FIXME: don't ever do this
                 order.message_partner_ids = [(4, partner_id), (3, request.website.partner_id.id)]
                 order.write({'require_signature': False, 'require_payment': True,})
@@ -276,17 +319,23 @@ class WebsiteSaleExtended(WebsiteSale):
                         order.write({'tusdatos_typedoc': document_types[str(kw["document"])]})  
                             
                         render_values = {'email': kw['email'],}
-                        return request.redirect(kw.get('callback') or '/shop/confirm_order')
+                        _logger.info("*****rEDIRECCION 11111111111111*****")        
+                        _logger.info(qcontext)
+                        return request.redirect(kw.get('callback%s' % qcontext) or ('/shop/confirm_order%s' % qcontext))
                         #if not errors:
                         #    return request.redirect('/shop/tusdatos_request_confirmation')
                     elif not order.tusdatos_approved and order.tusdatos_request_id:
                         _logger.info("\n****TUS DATOS ORDER2*****\n")
-                        return request.redirect(kw.get('callback') or '/shop/confirm_order')
+                        _logger.info("*****rEDIRECCION 222222222222*****")        
+                        _logger.info(qcontext)
+                        return request.redirect(kw.get('callback%s' % qcontext) or ('/shop/confirm_order%s' % qcontext))
                         #return request.redirect('/shop/tusdatos_request_confirmation')
 
                     if not errors:
-                        return request.redirect(kw.get('callback') or '/shop/confirm_order')
-                    
+                        _logger.info("*****rEDIRECCION 33333333333333*****")        
+                        _logger.info(qcontext)
+                        return request.redirect(kw.get('callback%s' % qcontext) or ('/shop/confirm_order%s' % qcontext))
+
         country = 'country_id' in values and values['country_id'] != '' and request.env['res.country'].browse(int(values['country_id']))
         country = country and country.exists() or def_country_id
         fiscal_position_ids = request.env['account.fiscal.position'].sudo().search([
@@ -313,7 +362,8 @@ class WebsiteSaleExtended(WebsiteSale):
                 'street': order.partner_id.street,
                 'expedition_date': order.partner_id.expedition_date,
             })
-            
+        
+               
         render_values = {
             'website_sale_order': order,
             'partner_id': partner_id,
@@ -333,6 +383,7 @@ class WebsiteSaleExtended(WebsiteSale):
             # 'fiscal_position': self.get_fiscal_position(),
             'only_services': order and order.only_services,
             'order_detail': order_detail,
+            'assisted_purchase': assisted_purchase,
         }
         return request.render("web_sale_extended.address", render_values)
     
@@ -353,15 +404,24 @@ class WebsiteSaleExtended(WebsiteSale):
         if extra_step.active:
             return request.redirect("/shop/extra_info")
         
+        """ Evaluando si es una venta asistida """
+        if 'assisted_purchase' in request.params and request.params['assisted_purchase']:            
+            body_message = """
+                <b><span style='color:green;'>PayU Latam - VENTA ASISTIDA </span></b><br/>
+                Se ha iniciado una transacción de venta asistida y el usuario ha sido redirigido al formulario 
+                para el registro de Asegurado y Beneficiarios<br/>
+            """
+            order.message_post(body=body_message, type="comment")
+            return request.redirect("/my/order/beneficiaries/" + str(order.id))
         
-        """ Evaluando si el producto tiene valor cero """
-        if order.main_product_id.list_price == 0:
+        """ Evaluando si el producto es un beneficio """
+        if order.main_product_id.is_beneficiary:
             order.write({
                 'payment_method_type': 'Product Without Price',
             })
             body_message = """
-                <b><span style='color:green;'>PayU Latam - Producto con precio cero</span></b><br/>
-                Se ha iniciado una transacción con Producto Precio Cero y el usuario ha sido redirigido al formulario 
+                <b><span style='color:green;'>PayU Latam - Producto de beneficio</span></b><br/>
+                Se ha iniciado una transacción con Producto un producto de beneficio y el usuario ha sido redirigido al formulario 
                 para el registro de Asegurado y Beneficiarios<br/>
             """
             order.message_post(body=body_message, type="comment")
@@ -405,7 +465,7 @@ class WebsiteSaleExtended(WebsiteSale):
         #    return redirection
         
         product = order.order_line[0].product_id
-
+        
         if product.sequence_id:
             beneficiaries_number = product.sequence_id.beneficiaries_number
         else:
@@ -422,6 +482,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'cities': self.get_cities(order.partner_id.state_id.id if order.partner_id.state_id else None),
             'countries': country.get_website_sale_countries().filtered(lambda line: line.id == 49),
             'document_types': self.get_document_types('beneficiary'),
+            'document_types_main_insured': self.get_document_types('payment'),
             'country': country,
             'order_detail': order.order_line[0],
             'current_city':order.partner_id.zip_id.city_id.id,
@@ -448,10 +509,10 @@ class WebsiteSaleExtended(WebsiteSale):
             if redirection:
                 return redirection
         order_detail = order.order_line[0]
-
+        
         if order_detail.product_id.categ_id.sponsor_id:
             sponsor_id = order_detail.product_id.categ_id.sponsor_id
-                
+        
         Partner = order.partner_id
         BeneficiaryPartner = request.env['res.partner'].sudo()
         Subscription = order_detail.subscription_id
@@ -461,7 +522,10 @@ class WebsiteSaleExtended(WebsiteSale):
             Partner.sudo().write({
                 'company_type': 'person',
                 'active': True,
-                'beneficiary_number': 1,
+                'beneficiary_number': 1,                
+                'beneficiary_country_id': Partner.country_id,
+                'beneficiary_state_id': Partner.state_id,
+                'beneficiary_zip_id': Partner.zip_id,                
                 'ocupation': kwargs['ocupation'],
                 'gender' : kwargs['sex'],
                 'marital_status' : kwargs['estado_civil'],
@@ -469,16 +533,19 @@ class WebsiteSaleExtended(WebsiteSale):
                 'sponsor_id': sponsor_id.id,
                 'subscription_id': Subscription.id
             })
-
-            if 'phone' in kwargs:
+            
+            phone_code_country = request.env['res.country'].sudo().search([('id', '=', int(Partner.country_id.id))], limit=1)
+        
+            if len(kwargs['phone']) > 0:
                 Partner.sudo().write({
-                    'mobile' : kwargs['phone']
+                    'mobile' : '(+' + str(phone_code_country.phone_code) + ') ' + str(kwargs['phone'])
                 })
             
-            if 'fijo' in kwargs:
-                 Partner.sudo().write({
-                    'phone' : kwargs['fijo']
+            if len(kwargs['fijo']) > 0:
+                 Partner.sudo().write({                    
+                    'phone' : '(+' + str(phone_code_country.phone_code) + ') ' + str(kwargs['fijo'])
                 })
+        
         
             beneficiary_list.append((4, Partner.id))
             order.write({
@@ -486,39 +553,46 @@ class WebsiteSaleExtended(WebsiteSale):
             })
         else:
             suggested_zipcode = request.env['res.city.zip'].sudo().search([('city_id', '=', int(kwargs['city']))], limit=1)
-
+            phone_code_country = request.env['res.country'].sudo().search([('id', '=', int(kwargs['country_id']))], limit=1)
+            
             Partner.sudo().write({                
                 'sponsor_id': sponsor_id.id,                
             })
-
+            
+            if len(kwargs['phone']) > 0:                
+                kwargs['phone'] = '(+' + str(phone_code_country.phone_code) + ') ' + str(kwargs["phone"])
+                
+            if len(kwargs['fijo']) > 0:
+                kwargs['fijo'] = '(+' + str(phone_code_country.phone_code) + ') ' + str(kwargs["fijo"])
+            
             NewBeneficiaryPartner = BeneficiaryPartner.create({
-                    'firstname': kwargs['name'],
-                    'lastname': kwargs['lastname'],
-                    'lastname2':kwargs['lastname2'],
-                    'othernames': kwargs['othername'],
-                    'email': kwargs['email'],
-                    'person_type': "2",
-                    "mobile": kwargs['phone'],  
-                    'phone': kwargs['fijo'],
-                    'document_type_id': int(kwargs['document_type']),
-                    'identification_document': kwargs['numero_documento'],
-                    'company_type': 'person',
-                    'active': True,
-                    'parent_id': Partner.id,
-                    'beneficiary_country_id': int(kwargs['country_id']),
-                    'beneficiary_state_id': int(kwargs['deparment']),
-                    'beneficiary_zip_id': suggested_zipcode.id,
-                    'birthdate_date': kwargs['date'],
-                    'expedition_date' : kwargs['expedition_date'],
-                    'marital_status' : kwargs['estado_civil'],
-                    'ocupation': kwargs['ocupation'],
-                    'gender': kwargs['sex'],
-                    'address_beneficiary': kwargs['address'],
-                    'beneficiary_number': 1,
-                    'main_insured': True,
-                    'sponsor_id': sponsor_id.id,
-                    'subscription_id': Subscription.id,
-                })
+                'firstname': kwargs['name'],
+                'lastname': kwargs['lastname'],
+                'lastname2':kwargs['lastname2'],
+                'othernames': kwargs['othername'],
+                'email': kwargs['email'],
+                'person_type': "2",
+                "mobile": kwargs['phone'],  
+                'phone': kwargs['fijo'],
+                'document_type_id': int(kwargs['document_type']),
+                'identification_document': kwargs['numero_documento'],
+                'company_type': 'person',
+                'active': True,
+                'parent_id': Partner.id,
+                'beneficiary_country_id': int(kwargs['country_id']),
+                'beneficiary_state_id': int(kwargs['deparment']),
+                'beneficiary_zip_id': suggested_zipcode.id,
+                'birthdate_date': kwargs['date'],
+                'expedition_date' : kwargs['expedition_date'],
+                'marital_status' : kwargs['estado_civil'],
+                'ocupation': kwargs['ocupation'],
+                'gender': kwargs['sex'],
+                'address_beneficiary': kwargs['address'],
+                'beneficiary_number': 1,
+                'main_insured': True,                
+                'sponsor_id': sponsor_id.id,
+                'subscription_id': Subscription.id,
+            })
             beneficiary_list.append((4, NewBeneficiaryPartner.id))
             order.write({
                 'beneficiary0_id': NewBeneficiaryPartner.id
@@ -526,6 +600,17 @@ class WebsiteSaleExtended(WebsiteSale):
             
         cont_d, cont_h, cont_c, cont_m, cont_s = 0,0,0,0,0
         for i in range(int(kwargs['beneficiario'])):
+            checkBox = "bfCheckBox"+str(i+1)
+            if checkBox in kwargs:
+                if 'infoBuyer' in kwargs:
+                    state_id = Partner.state_id
+                    zip_id = Partner.zip_id
+                else:                    
+                    state_id = kwargs['deparment'] 
+                    zip_id = request.env['res.city.zip'].sudo().search([('city_id', '=', int(kwargs['city']))], limit=1)
+            else:                
+                state_id = kwargs["bfdeparment"+str(i+1)] 
+                zip_id = request.env['res.city.zip'].sudo().search([('city_id', '=', int(kwargs["bfcity"+str(i+1)]))], limit=1)
             firtst_name = "bfirstname"+str(i+1)
             other_name = "bfothername"+str(i+1)
             last_name = "bflastname"+str(i+1)
@@ -534,9 +619,6 @@ class WebsiteSaleExtended(WebsiteSale):
             document_type = "bfdocument"+str(i+1)
             identification_document = "bfnumero_documento"+str(i+1)
             country_id =  "bfcountry_id"+str(i+1)
-            state_id = "bfdeparment"+str(i+1)
-            city = "bfcity"+str(i+1)
-            zip_id = "bfcity"+str(i+1)
             birthdate = "bfdate"+str(i+1)
             ocupation = "bfocupacion"+str(i+1)
             gender = "bfsex"+str(i+1)
@@ -566,8 +648,14 @@ class WebsiteSaleExtended(WebsiteSale):
             if kwargs[other_name] == '':
                 kwargs[other_name] = ' '
             
-            suggested_zipcode = request.env['res.city.zip'].sudo().search([('city_id', '=', int(kwargs[city]))], limit=1)
-
+            phone_code_country = request.env['res.country'].sudo().search([('id', '=', int(kwargs[country_id]))], limit=1)
+                
+            if len(kwargs[phone]) > 0:                
+               kwargs[phone] = '(+' + str(phone_code_country.phone_code) + ') ' + str(kwargs[phone])
+                
+            if len(kwargs[mobile]) > 0:
+                kwargs[mobile] = '(+' + str(phone_code_country.phone_code) + ') ' + str(kwargs[mobile])
+                
             NewBeneficiaryPartner = BeneficiaryPartner.create({
                 'firstname': kwargs[firtst_name],
                 'lastname': kwargs[last_name],
@@ -583,10 +671,9 @@ class WebsiteSaleExtended(WebsiteSale):
                 'active': True,
                 'parent_id': Partner.id,
                 'beneficiary_country_id': int(kwargs[country_id]),
-                'beneficiary_state_id': int(kwargs[state_id]),
-                'beneficiary_zip_id': suggested_zipcode.id,
+                'beneficiary_state_id': int(state_id),
+                'beneficiary_zip_id': zip_id.id,
                 'birthdate_date': kwargs[birthdate],
-                #'marital_status': kwargs[marital_status],
                 'ocupation': kwargs[ocupation],
                 'gender': kwargs[gender],
                 'relationship': kwargs[relationship],
@@ -623,23 +710,27 @@ class WebsiteSaleExtended(WebsiteSale):
                     'beneficiary6_id': NewBeneficiaryPartner.id
                 })
             
-                
-                
-        
-        kwargs['order_detail'] = order_detail
-        kwargs['partner'] = Partner
-        
-        """ Confirmando Orden de Venta luego del proceso exitoso de beneficiarios """
-        order.action_confirm()
-        order._send_order_confirmation_mail()
+        if order.assisted_purchase:
+            request.session['sale_order_id'] = None
+            request.session['sale_transaction_id'] = None
+            return request.render("web_sale_extended.confirm_assisted_purchase", kwargs)
+        else:
+            kwargs['order_detail'] = order_detail
+            kwargs['partner'] = Partner
 
-        order.subscription_id.write({
-            'subscription_partner_ids': beneficiary_list,
-        })
-        request.session['sale_order_id'] = None
-        request.session['sale_transaction_id'] = None
-        return request.render("web_sale_extended.beneficiary_detail", kwargs)
-
+            """ Confirmando Orden de Venta luego del proceso exitoso de beneficiarios """
+            order.action_confirm()
+            order._send_order_confirmation_mail()
+            
+            order.subscription_id.write({
+                'subscription_partner_ids': beneficiary_list,
+            })
+            
+            request.session['sale_order_id'] = None
+            request.session['sale_transaction_id'] = None
+            return request.render("web_sale_extended.beneficiary_detail", kwargs)
+            
+        
 
     @http.route(['/beneficiary-submit'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def beneficiary_submit(self, **kwargs):
@@ -666,6 +757,15 @@ class WebsiteSaleExtended(WebsiteSale):
         pdf = report.sudo().render_qweb_pdf(order_id)[0]
         pdfhttpheaders = [ ('Content-Type', 'application/pdf'), ('Content-Length', len(pdf)), ('Content-Disposition', 'attachment; filename="Certificado Individual P%s C%s.pdf"'%(order.subscription_id.number, order.subscription_id.policy_number)), ]
         return request.make_response(pdf, headers=pdfhttpheaders)
+    
+    
+    @http.route(['/cms/report/print'], type='http', auth="public", website=True)
+    def print_docr(self, **kw):
+        cr, uid, context = request.cr, SUPERUSER_ID, request.context
+        if 2:
+            pdf = request.registry['report_saleorder'].get_pdf(cr, uid, [2], 'x.cms_html_body', data=None, context=context)
+            pdfhttpheaders = [ ('Content-Type', 'application/pdf'), ('Content-Length', len(pdf)), ('Content-Disposition', 'attachment; filename="report.pdf"'), ]
+            return request.make_response(pdf, headers=pdfhttpheaders)
 
 
     # search cities by ajax peticion
@@ -760,6 +860,11 @@ class WebsiteSaleExtended(WebsiteSale):
             'city_id': order.partner_id.zip_id.city_id.id
         }
         return json.dumps(data)
+    
+    @http.route(['/payulatam/ping'],  methods=['GET'], type='http', auth="public", website=True)
+    def payu_ping(self, **kwargs):
+        ping_response = request.env['api.payulatam'].payulatam_ping()
+        return json.dumps(ping_response)
 
 
     def _get_shop_payment_values(self, order, **kwargs):
@@ -823,13 +928,17 @@ class WebsiteSaleExtended(WebsiteSale):
             )
             #request.website.sale_reset()
             #return request.redirect("/shop/checkout?express=1&product_id=" + str(product.id))
+            try:                
+                qcontext = '?assisted_purchase=' + str(request.params['assisted_purchase'])
+            except:
+                qcontext = ''
             """ 
                 Redireccionando al formulario de datos del comprador.
                 1er Paso, lanzado desde landpage(no hay proceso de token para saber si la petición es valida),
                 de esta manera se puede iniciar una compra directamente en la página de odoo apuntando
                 a /shop/ + el nombre de un producto publicado para venta en landpage
             """
-            return request.redirect("/shop/address")
+            return request.redirect("/shop/address%s" % qcontext)
             
         checkout_landpage_redirect = request.env.user.company_id.checkout_landpage_redirect
         if checkout_landpage_redirect:
@@ -847,7 +956,7 @@ class WebsiteSaleExtended(WebsiteSale):
             if not qs or qs.lower() in loc:
                 yield {'loc': loc}
     
-    
+    """
     @http.route([
         '''/shop''',
         '''/shop/page/<int:page>''',
@@ -860,7 +969,7 @@ class WebsiteSaleExtended(WebsiteSale):
             #return request.redirect(request.httprequest.referrer or '/web/login')
             return request.redirect(checkout_landpage_redirect)
         raise UserError('Landpage de Productos sin definir. Revise la configuración de PayU Latam')
-    
+    """
 
     @http.route(['/shop/confirmation'], type='http', auth="public", website=True, sitemap=False)
     def payment_confirmation(self, **post):
@@ -985,7 +1094,7 @@ class SalePortalExtended(CustomerPortal):
 
         _message_post_helper(
             'sale.order', order_sudo.id, _('Order signed by %s') % (name,),
-            attachments=[('%s.pdf' % order_sudo.name, pdf)],
+            attachments=[('hola-como%s.pdf' % order_sudo.name, pdf)],
             **({'token': access_token} if access_token else {}))
 
         query_string = '&message=sign_ok'
@@ -1021,22 +1130,41 @@ class WebsitePaymentExtended(PaymentProcessing):
 
 
 class OdooWebsiteSearchCity(http.Controller):
-
-    @http.route(['/search/suggestion_city'],  methods=['GET'], type='http', auth="public", website=True)
-    def search_suggestion(self, city_id=None, **post):
-        time.sleep(4)
-        cities = []
-        complete_cities_with_zip = request.env['res.city.zip'].sudo().search([])
-        prueba = request.env['res.country.state'].sudo().search([('country_id', '=', 49),])
-        for states in prueba:
-            _logger.info(states.name)
-            cities.append({
-                'state': states.name,
-                'country_id': states.country_id
-            })
-
-        data = {}
-        data['status'] = True,
-        data['error'] = None,
-        data['data'] = {'cities': cities}
-        return json.dumps(data)
+    
+    @http.route(['/shop/assisted_purchase'], methods=['GET'], type='http', auth="user", website=True)
+    def assisted_purchase(self):       
+        Products = request.env['product.template'].search([])   
+        products_search_ids = []
+        data = {}  
+        
+        if 'search' in request.params and request.params['search']: 
+            for product in Products:
+                if len(request.params['search']) < 3:
+                    if (product.categ_id.name).lower().startswith(str(request.params['search']).lower()):
+                        products_search_ids.append(int(product.categ_id))
+                else:
+                    if str(request.params['search']).lower() in (product.categ_id.name).lower():
+                        products_search_ids.append(int(product.categ_id))
+                        
+            Products = request.env['product.template'].search([('categ_id', 'in', products_search_ids)])       
+        
+        for product in Products:
+            if not product.is_beneficiary:
+                if product.categ_id.name in data:
+                    data[product.categ_id.name].append(product)
+                else:
+                    data[product.categ_id.name] = [product]
+        
+        values = {
+            'products': Products,
+            'data': data
+        }
+        
+        return request.render("web_sale_extended.alternativo", values)
+   
+    @http.route(['/shop/payment/assisted_purchase/<int:order_id>'], methods=['GET'], type='http', auth="public", website=True)
+    def get_payment_assisted_purchase(self, order_id, **kwargs):     
+        if order_id:
+            request.session['sale_order_id'] = order_id
+            request.session['sale_transaction_id'] = None        
+        return request.redirect('/shop/confirm_order')
