@@ -45,7 +45,7 @@
         'data/tus_datos_bot.xml',
         'data/payu_latam_bot.xml',
         'data/payment_invoice_bot.xml',
-        'data/collection_file_bot.xml'
+        'data/collection_file_bot.xml',
         'data/beneficiary_confirm_template.xml',
         'views/res_users_view.xml'
     ],
