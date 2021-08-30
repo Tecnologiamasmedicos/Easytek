@@ -31,11 +31,10 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
     
     is_product_landpage = fields.Boolean('Producto Publicado en Landpage')
-    product_class = fields.Char('Clase del producto')
-    
-    sequence_id = fields.Many2one('ir.sequence','Secuencia del Producto')
-    
+    product_class = fields.Char('Clase del producto')    
+    sequence_id = fields.Many2one('ir.sequence','Secuencia del Producto')    
     product_landpage_url = fields.Char('URL para Landpage')
+    is_beneficiary = fields.Boolean('Es un beneficio')
     
     
 #     logo_website_pdf  = fields.Binary(string="Image del Plan para el documento PDF", readonly=False)

@@ -47,7 +47,7 @@ class SaleOrder(models.Model):
         ("Credit Card", "Tarjeta de Crédito"), 
         ("Cash", "Efectivo"), 
         ("PSE", "PSE"),
-        ("Product Without Price", "Producto con Precio $0"),
+        ("Product Without Price", "Beneficio"),
     ])
     
     @api.depends('order_line', 'state')

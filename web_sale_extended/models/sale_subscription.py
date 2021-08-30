@@ -28,6 +28,7 @@ class SaleSubscription(models.Model):
     recurring_next_date = fields.Date(string='Date of Next Invoice', help="The next invoice will be created on this date then the period will be extended.")
     sponsor_id = fields.Many2one('res.partner')
     campo_vacio = fields.Boolean('Campo vacio', default=False)  
+    policyholder = fields.Char('Tomador de Póliza')
     
     
     @api.model
@@ -38,11 +39,16 @@ class SaleSubscription(models.Model):
             sequence_id = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.sequence_id
         else:
             sequence_id = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.categ_id.sequence_id
+        if res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.sequence_id.sponsor_name:
+            pholder = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.sequence_id.sponsor_name
+        else:
+            pholder = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.categ_id.sequence_id.sponsor_name
         res.write({
             'policy_number': str(sequence_id.number_next_actual).zfill(10),
             'number': str(sequence_id.code),
             'recurring_next_date': datetime.date.today(),
             'sponsor_id': res.recurring_invoice_line_ids[0].product_id.categ_id.sponsor_id,
+            'policyholder': str(pholder),
         })
         sequence_id.write({
             'number_next_actual': int(sequence_id.number_next_actual) + 1,

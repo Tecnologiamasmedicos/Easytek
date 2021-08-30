@@ -24,7 +24,7 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
         'views/web_sale_shop_address.xml',
@@ -45,6 +45,7 @@
         'data/tus_datos_bot.xml',
         'data/payu_latam_bot.xml',
         'data/payment_invoice_bot.xml',
+        'data/collection_file_bot.xml'
         'data/beneficiary_confirm_template.xml',
         'views/res_users_view.xml'
     ],

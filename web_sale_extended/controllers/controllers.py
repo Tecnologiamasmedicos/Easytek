@@ -232,12 +232,13 @@ class WebsiteSaleExtended(WebsiteSale):
                 phone_form = kw['phone']
                 phone_form = phone_form.split(')')
                 number = phone_form[-1].strip()
-                
-                if len(number) == 7:
-                    post["phone"] = kw["phone"]
+
+                phone_code_country = request.env['res.country'].sudo().search([('id', '=', int(kw['country_address_id']))], limit=1)
+                if len(number) == 7:                    
+                    post["phone"] = '(+' + str(phone_code_country.phone_code) + ') ' + str(kw["phone"])
                     post["mobile"] = ''
                 elif len(number) == 10:
-                    post["mobile"] = kw["phone"]
+                    post["mobile"] = '(+' + str(phone_code_country.phone_code) + ') ' + str(kw["phone"])
                     post["phone"] = ''
                 
                 if kw['country_address_id'] =='49':                    
@@ -354,14 +355,14 @@ class WebsiteSaleExtended(WebsiteSale):
             return request.redirect("/shop/extra_info")
         
         
-        """ Evaluando si el producto tiene valor cero """
-        if order.main_product_id.list_price == 0:
+        """ Evaluando si el producto es un beneficio """
+        if order.main_product_id.is_beneficiary:
             order.write({
                 'payment_method_type': 'Product Without Price',
             })
             body_message = """
-                <b><span style='color:green;'>PayU Latam - Producto con precio cero</span></b><br/>
-                Se ha iniciado una transacción con Producto Precio Cero y el usuario ha sido redirigido al formulario 
+                <b><span style='color:green;'>PayU Latam - Producto de beneficio</span></b><br/>
+                Se ha iniciado una transacción con Producto un producto de beneficio y el usuario ha sido redirigido al formulario 
                 para el registro de Asegurado y Beneficiarios<br/>
             """
             order.message_post(body=body_message, type="comment")
@@ -422,6 +423,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'cities': self.get_cities(order.partner_id.state_id.id if order.partner_id.state_id else None),
             'countries': country.get_website_sale_countries().filtered(lambda line: line.id == 49),
             'document_types': self.get_document_types('beneficiary'),
+            'document_types_main_insured': self.get_document_types('payment'),
             'country': country,
             'order_detail': order.order_line[0],
             'current_city':order.partner_id.zip_id.city_id.id,
@@ -462,6 +464,9 @@ class WebsiteSaleExtended(WebsiteSale):
                 'company_type': 'person',
                 'active': True,
                 'beneficiary_number': 1,
+                'beneficiary_country_id': Partner.country_id,
+                'beneficiary_state_id': Partner.state_id,
+                'beneficiary_zip_id': Partner.zip_id, 
                 'ocupation': kwargs['ocupation'],
                 'gender' : kwargs['sex'],
                 'marital_status' : kwargs['estado_civil'],
@@ -470,14 +475,16 @@ class WebsiteSaleExtended(WebsiteSale):
                 'subscription_id': Subscription.id
             })
 
-            if 'phone' in kwargs:
+            phone_code_country = request.env['res.country'].sudo().search([('id', '=', int(Partner.country_id.id))], limit=1)
+        
+            if len(kwargs['phone']) > 0:
                 Partner.sudo().write({
-                    'mobile' : kwargs['phone']
+                    'mobile' : '(+' + str(phone_code_country.phone_code) + ') ' + str(kwargs['phone'])
                 })
             
-            if 'fijo' in kwargs:
-                 Partner.sudo().write({
-                    'phone' : kwargs['fijo']
+            if len(kwargs['fijo']) > 0:
+                 Partner.sudo().write({                    
+                    'phone' : '(+' + str(phone_code_country.phone_code) + ') ' + str(kwargs['fijo'])
                 })
         
             beneficiary_list.append((4, Partner.id))
@@ -486,11 +493,18 @@ class WebsiteSaleExtended(WebsiteSale):
             })
         else:
             suggested_zipcode = request.env['res.city.zip'].sudo().search([('city_id', '=', int(kwargs['city']))], limit=1)
+            phone_code_country = request.env['res.country'].sudo().search([('id', '=', int(kwargs['country_id']))], limit=1)
 
             Partner.sudo().write({                
                 'sponsor_id': sponsor_id.id,                
             })
 
+            if len(kwargs['phone']) > 0:                
+                kwargs['phone'] = '(+' + str(phone_code_country.phone_code) + ') ' + str(kwargs["phone"])
+                
+            if len(kwargs['fijo']) > 0:
+                kwargs['fijo'] = '(+' + str(phone_code_country.phone_code) + ') ' + str(kwargs["fijo"])
+            
             NewBeneficiaryPartner = BeneficiaryPartner.create({
                     'firstname': kwargs['name'],
                     'lastname': kwargs['lastname'],
@@ -526,6 +540,17 @@ class WebsiteSaleExtended(WebsiteSale):
             
         cont_d, cont_h, cont_c, cont_m, cont_s = 0,0,0,0,0
         for i in range(int(kwargs['beneficiario'])):
+            checkBox = "bfCheckBox"+str(i+1)
+            if checkBox in kwargs:
+                if 'infoBuyer' in kwargs:
+                    state_id = Partner.state_id
+                    zip_id = Partner.zip_id
+                else:                    
+                    state_id = kwargs['deparment'] 
+                    zip_id = request.env['res.city.zip'].sudo().search([('city_id', '=', int(kwargs['city']))], limit=1)
+            else:                
+                state_id = kwargs["bfdeparment"+str(i+1)] 
+                zip_id = request.env['res.city.zip'].sudo().search([('city_id', '=', int(kwargs["bfcity"+str(i+1)]))], limit=1)
             firtst_name = "bfirstname"+str(i+1)
             other_name = "bfothername"+str(i+1)
             last_name = "bflastname"+str(i+1)
@@ -534,9 +559,6 @@ class WebsiteSaleExtended(WebsiteSale):
             document_type = "bfdocument"+str(i+1)
             identification_document = "bfnumero_documento"+str(i+1)
             country_id =  "bfcountry_id"+str(i+1)
-            state_id = "bfdeparment"+str(i+1)
-            city = "bfcity"+str(i+1)
-            zip_id = "bfcity"+str(i+1)
             birthdate = "bfdate"+str(i+1)
             ocupation = "bfocupacion"+str(i+1)
             gender = "bfsex"+str(i+1)
@@ -566,8 +588,14 @@ class WebsiteSaleExtended(WebsiteSale):
             if kwargs[other_name] == '':
                 kwargs[other_name] = ' '
             
-            suggested_zipcode = request.env['res.city.zip'].sudo().search([('city_id', '=', int(kwargs[city]))], limit=1)
-
+            phone_code_country = request.env['res.country'].sudo().search([('id', '=', int(kwargs[country_id]))], limit=1)
+                
+            if len(kwargs[phone]) > 0:                
+               kwargs[phone] = '(+' + str(phone_code_country.phone_code) + ') ' + str(kwargs[phone])
+                
+            if len(kwargs[mobile]) > 0:
+                kwargs[mobile] = '(+' + str(phone_code_country.phone_code) + ') ' + str(kwargs[mobile])
+            
             NewBeneficiaryPartner = BeneficiaryPartner.create({
                 'firstname': kwargs[firtst_name],
                 'lastname': kwargs[last_name],
@@ -583,8 +611,8 @@ class WebsiteSaleExtended(WebsiteSale):
                 'active': True,
                 'parent_id': Partner.id,
                 'beneficiary_country_id': int(kwargs[country_id]),
-                'beneficiary_state_id': int(kwargs[state_id]),
-                'beneficiary_zip_id': suggested_zipcode.id,
+                'beneficiary_state_id': int(state_id),
+                'beneficiary_zip_id': zip_id.id,
                 'birthdate_date': kwargs[birthdate],
                 #'marital_status': kwargs[marital_status],
                 'ocupation': kwargs[ocupation],
