@@ -448,7 +448,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                             if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
                                 edad--;
                             }
-                            return edad > 69
+                            return edad > 116
                         }
                     },
                     min: {
@@ -563,7 +563,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 birthdate_date: {
                     required: "¡Upss! tu fecha de nacimiento es requerido",
                     min: "¡Upss! fecha invalida",
-                    max: "¡Upss! debes de ser  menor de 69 años para continuar"
+                    max: "¡Upss! debes de ser  menor de 116 años para continuar"
 
                 },
                 expedition_date: {
@@ -768,6 +768,25 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 }
             });
         }
+
+    $("input[name='birthdate_date']").focus(function(){
+        $("#div_warning").toggle();
+    });
+    
+    $("input[name='birthdate_date']").blur(function(){
+    		$("#div_warning").toggle();
+	});
+    
+    function edad_maxima_asegurado_principal(fecha){
+        let hoy = new Date();
+        let cumpleanos = new Date(parseInt(fecha.split('-')[0]),parseInt(fecha.split('-')[1]) - 1,parseInt(fecha.split('-')[2]));
+        let edad = hoy.getFullYear() - cumpleanos.getFullYear();
+        let m = hoy.getMonth() - cumpleanos.getMonth();
+        if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+            edad--;
+        }
+        return edad
+    }
     
     function obtenerInfoComprador(order_id){
             $.ajax({
@@ -777,54 +796,63 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 success: function(data) {
                     let decode_data = JSON.parse(data);
                     if(decode_data['data'].country_id == 49){
-                        document.querySelector("input[name='name']").value = decode_data['data'].firstname;
-                        $("input[name='name']").prop('readonly', true);
-                        document.querySelector("input[name='othername']").value = decode_data['data'].othernames;
-                        $("input[name='othername']").prop('readonly', true);
-                        document.querySelector("input[name='lastname']").value = decode_data['data'].lastname;
-                        $("input[name='lastname']").prop('readonly', true);
-                        document.querySelector("input[name='lastname2']").value = decode_data['data'].lastname2;    
-                        $("input[name='lastname2']").prop('readonly', true);                    
-                        document.querySelector("input[name='numero_documento']").value = decode_data['data'].identification_document;
-                        $("input[name='numero_documento']").prop('readonly', true);
-                        document.querySelector("input[name='expedition_date']").value = decode_data['data'].expedition_date;
-                        $("input[name='expedition_date']").prop('disabled', true);  
-                        document.querySelector("input[name='email']").value = decode_data['data'].email;
-                        $("input[name='email']").prop('readonly', true); 
-                        
-                        if(decode_data['data'].mobile.length > 0){
-                            let phone = decode_data['data'].mobile;
-                            phone = phone.split(')');
-                            let number = phone[phone.length - 1].trim();
-                            document.querySelector("input[name='phone']").value = number
-                            $("input[name='phone']").prop('readonly', true); 
+                        if(edad_maxima_asegurado_principal(decode_data['data'].birthdate_date) > 69){
+                            $('#flexCheckDefault').val('0');
+                            $('#div_error').html('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><i class="fa fa-times" aria-hidden="false"></i></button>        <strong>Error: El asegurado principal no puede ser mayor a 69 años.');
+                            $('#div_error').show();
+                            $("#flexCheckDefault").prop("checked", false);
+                            $("#flexCheckDefault").attr("disabled", true);
                         }
-                        if(decode_data['data'].phone.length > 0){
-                            let phone = decode_data['data'].phone;
-                            phone = phone.split(')');
-                            let number = phone[phone.length - 1].trim();
-                            document.querySelector("input[name='fijo']").value = number
-                            $("input[name='fijo']").prop('readonly', true);                             
+                        else{
+                            document.querySelector("input[name='name']").value = decode_data['data'].firstname;
+                            $("input[name='name']").prop('readonly', true);
+                            document.querySelector("input[name='othername']").value = decode_data['data'].othernames;
+                            $("input[name='othername']").prop('readonly', true);
+                            document.querySelector("input[name='lastname']").value = decode_data['data'].lastname;
+                            $("input[name='lastname']").prop('readonly', true);
+                            document.querySelector("input[name='lastname2']").value = decode_data['data'].lastname2;    
+                            $("input[name='lastname2']").prop('readonly', true);                    
+                            document.querySelector("input[name='numero_documento']").value = decode_data['data'].identification_document;
+                            $("input[name='numero_documento']").prop('readonly', true);
+                            document.querySelector("input[name='expedition_date']").value = decode_data['data'].expedition_date;
+                            $("input[name='expedition_date']").prop('disabled', true);  
+                            document.querySelector("input[name='email']").value = decode_data['data'].email;
+                            $("input[name='email']").prop('readonly', true); 
+
+                            if(decode_data['data'].mobile.length > 0){
+                                let phone = decode_data['data'].mobile;
+                                phone = phone.split(')');
+                                let number = phone[phone.length - 1].trim();
+                                document.querySelector("input[name='phone']").value = number
+                                $("input[name='phone']").prop('readonly', true); 
+                            }
+                            if(decode_data['data'].phone.length > 0){
+                                let phone = decode_data['data'].phone;
+                                phone = phone.split(')');
+                                let number = phone[phone.length - 1].trim();
+                                document.querySelector("input[name='fijo']").value = number
+                                $("input[name='fijo']").prop('readonly', true);                             
+                            }
+
+                            document.querySelector("input[name='address']").value = decode_data['data'].address;
+                            $("input[name='address']").prop('readonly', true); 
+                            document.querySelector("input[name='date']").value = decode_data['data'].birthdate_date;    
+                            $("input[name='date']").prop('disabled', true); 
+                            $("#document_type").val(String(decode_data['data'].document_type_id)).change();
+                            $("#document_type").prop('disabled', true); 
+                            $("#bfdeparment0").prop('disabled', true); 
+                            $("#bfcity0").prop('disabled', true); 
+                            $("#bfdeparment0").val(String(decode_data['data'].state_id)).change();
+                            setTimeout(() => { $("#bfcity0").val(String(decode_data['data'].city_id)).change(); }, 500);
                         }
-                                                
-                        document.querySelector("input[name='address']").value = decode_data['data'].address;
-                        $("input[name='address']").prop('readonly', true); 
-                        document.querySelector("input[name='date']").value = decode_data['data'].birthdate_date;    
-                        $("input[name='date']").prop('disabled', true); 
-                        $("#document_type").val(String(decode_data['data'].document_type_id)).change();
-                        $("#document_type").prop('disabled', true); 
-                        $("#bfdeparment0").prop('disabled', true); 
-                        $("#bfcity0").prop('disabled', true); 
-                        $("#bfdeparment0").val(String(decode_data['data'].state_id)).change();
-                        setTimeout(() => { $("#bfcity0").val(String(decode_data['data'].city_id)).change(); }, 500);
-                    }
+                    }                        
                     else{
                         $('#flexCheckDefault').val('0');
+                        $('#div_error').html('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><i class="fa fa-times" aria-hidden="false"></i></button>        <strong>Error: País diferente a Colombia</strong> Por el momento solo se presta este servicio en Colombia.');
                         $('#div_error').show();
                         $("#flexCheckDefault").prop("checked", false);
                         $("#flexCheckDefault").attr("disabled", true);
-                    }
-                                   
+                    }                                   
                 }
             });
         }
@@ -1809,9 +1837,9 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfparentesco1: {
                     required: true,
-                    // uniqueconyuge: true,
-                    // twoparents: true,
-                    // twoinlaws: true,
+                    uniqueconyuge: true,
+                    twoparents: true,
+                    twoinlaws: true,
                 },
                 bfdocument1: {
                     required: true
@@ -1908,9 +1936,9 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfparentesco2: {
                     required: true,
-                    // uniqueconyuge: true,
-                    // twoparents: true,
-                    // twoinlaws: true,
+                    uniqueconyuge: true,
+                    twoparents: true,
+                    twoinlaws: true,
                 },
                 bfdocument2: {
                     required: true
@@ -2007,9 +2035,9 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfparentesco3: {
                     required: true,
-                    // uniqueconyuge: true,
-                    // twoparents: true,
-                    // twoinlaws: true,
+                    uniqueconyuge: true,
+                    twoparents: true,
+                    twoinlaws: true,
                 },
                 bfdocument3: {
                     required: true
@@ -2106,9 +2134,9 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfparentesco4: {
                     required: true,
-                    // uniqueconyuge: true,
-                    // twoparents: true,
-                    // twoinlaws: true,
+                    uniqueconyuge: true,
+                    twoparents: true,
+                    twoinlaws: true,
                 },
                 bfdocument4: {
                     required: true
@@ -2205,9 +2233,9 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfparentesco5: {
                     required: true,
-                    // uniqueconyuge: true,
-                    // twoparents: true,
-                    // twoinlaws: true,
+                    uniqueconyuge: true,
+                    twoparents: true,
+                    twoinlaws: true,
                 },
                 bfdocument5: {
                     required: true
@@ -2304,9 +2332,9 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfparentesco6: {
                     required: true,
-                    // uniqueconyuge: true,
-                    // twoparents: true,
-                    // twoinlaws: true,
+                    uniqueconyuge: true,
+                    twoparents: true,
+                    twoinlaws: true,
                 },
                 bfdocument6: {
                     required: true

@@ -32,12 +32,7 @@
                     <br/>
                     
                     
-                    <div id="div_error" class="alert alert-danger fade show" role="alert" style="background-color: #f2dede !important; border-color: #ebcccc !important; color: #a94442 !important; display: none;">
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <i class="fa fa-times" aria-hidden="false"></i>
-                      </button>
-                      <strong>Error: País diferente a Colombia</strong> Por el momento solo se presta este servicio en Colombia.
-                    </div>
+                    <div id="div_error" class="alert alert-danger fade show" role="alert" style="background-color: #f2dede !important; border-color: #ebcccc !important; color: #a94442 !important; display: none;"></div>
                     
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" value="0" id="flexCheckDefault" name="infoBuyer"/>

@@ -228,11 +228,15 @@
                                     </div> 
                                     <div t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6">
                                         <label class="col-form-label" for="birthdate_date">Fecha nacimiento</label>
-                                            <input type="date" name="birthdate_date" 
+                                        <input type="date" name="birthdate_date" 
                                             t-attf-class="form-control #{error.get('birthdate_date') and 'is-invalid' or ''}" 
                                             t-att-value="'birthdate_date' in checkout and checkout['birthdate_date']" />
-
-                                        
+                                        <div id="div_warning" class="alert alert-warning" role="alert" style="background-color: #fff3cd !important; border-color: #ffeeba !important; color: #856404 !important; display: none;">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <i class="fa fa-times" aria-hidden="false"></i>
+                                            </button>
+                                            <strong>Recuerda:</strong> El asegurado principal del plan debe tener entre 18 y 69 años.
+                                        </div>
                                     </div>
                                     <div t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6">
 
