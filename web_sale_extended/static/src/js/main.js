@@ -576,6 +576,14 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         hide_beneficiaries();
     });
 
+    $("#submit_shop").on('click', function(e){
+        e.preventDefault();
+        if($('#shop').valid()){ //checks if it's valid
+            $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm preloader" role="status" aria-hidden="true" />Cargando...</div>');
+            $(this).prop('disabled', true);  
+       }
+        $('#shop').submit();
+    });
 
     function hide_beneficiaries() {
         $("#beneficiary1").hide();
@@ -1678,10 +1686,12 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     lettersonly: true,
                 },
                 othername: {
+                    minlength: 3,
                     maxlength: 20,
                     lettersonly: true,
                 },
                 lastname2: {
+                    minlength: 3,
                     maxlength: 7,
                     lettersonly: true,
                 },
@@ -2395,15 +2405,17 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     maxlength: "¡Upss! un nombre no debe contener más de 20 caracteres"
                 },
                 othername: {
+                    minlength: "¡Upss! un nombre contiene más de 3 caracteres",
                     maxlength: "¡Upss! un nombre no debe contener más de 20 caracteres"
                 }, 
                 lastname2: {
-                    maxlength: "¡Upss! un apellido no debe contener más de 12 caracteres"
+                    minlength: "¡Upss! un apellido contiene más de 3 caracteres",
+                    maxlength: "¡Upss! un apellido no debe contener más de 7 caracteres"
                 },
                 lastname: {
                     required: "¡Upss! un apellido es requerido",
                     minlength: "¡Upss! un apellido contiene más de 3 caracteres",
-                    maxlength: "¡Upss! un apellido no debe contener más de 7 caracteres"
+                    maxlength: "¡Upss! un apellido no debe contener más de 12 caracteres"
                 },
                 email: {
                     required: "¡Upss! un email es requerido",
@@ -2468,9 +2480,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     maxlength: "¡Upss! un nombre no debe contener más de 20 caracteres"
                 },
                 bfothername1: {
+                    minlength: "¡Upss! un nombre contiene más de 3 caracteres",
                     maxlength: "¡Upss! un nombre no debe contener más de 20 caracteres"
                 }, 
                 bflastname12: {
+                    minlength: "¡Upss! un apellido contiene más de 3 caracteres",
                     maxlength: "¡Upss! un apellido no debe contener más de 7 caracteres"
                 },
 
@@ -2535,9 +2549,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     maxlength: "¡Upss! un nombre no debe contener más de 20 caracteres"
                 },
                 bfothername2: {
+                    minlength: "¡Upss! un nombre contiene más de 3 caracteres",
                     maxlength: "¡Upss! un nombre no debe contener más de 20 caracteres"
                 }, 
                 bflastname22: {
+                    minlength: "¡Upss! un apellido contiene más de 3 caracteres",
                     maxlength: "¡Upss! un apellido no debe contener más de 7 caracteres"
                 },
                 bflastname2: {
@@ -2601,9 +2617,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     maxlength: "¡Upss! un nombre no debe contener más de 20 caracteres"
                 },                
                 bfothername3: {
+                    minlength: "¡Upss! un nombre contiene más de 3 caracteres",
                     maxlength: "¡Upss! un nombre no debe contener más de 20 caracteres"
                 }, 
                 bflastname32: {
+                    minlength: "¡Upss! un apellido contiene más de 3 caracteres",
                     maxlength: "¡Upss! un apellido no debe contener más de 7 caracteres"
                 },
                 bflastname3: {
@@ -2667,9 +2685,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     maxlength: "¡Upss! un nombre no debe contener más de 20 caracteres"
                 },
                 bfothername4: {
+                    minlength: "¡Upss! un nombre contiene más de 3 caracteres",
                     maxlength: "¡Upss! un nombre no debe contener más de 20 caracteres"
                 }, 
                 bflastname42: {
+                    minlength: "¡Upss! un apellido contiene más de 3 caracteres",
                     maxlength: "¡Upss! un apellido no debe contener más de 7 caracteres"
                 },
                 bflastname4: {
@@ -2733,9 +2753,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     maxlength: "¡Upss! un nombre no debe contener más de 20 caracteres"
                 },
                 bfothername5: {
+                    minlength: "¡Upss! un nombre contiene más de 3 caracteres",
                     maxlength: "¡Upss! un nombre no debe contener más de 20 caracteres"
                 }, 
                 bflastname52: {
+                    minlength: "¡Upss! un apellido contiene más de 3 caracteres",
                     maxlength: "¡Upss! un apellido no debe contener más de 7 caracteres"
                 },
                 bflastname5: {
@@ -2797,9 +2819,11 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     maxlength: "¡Upss! un nombre no debe contener más de 20 caracteres"
                 },
                 bfothername6: {
+                    minlength: "¡Upss! un nombre contiene más de 3 caracteres",
                     maxlength: "¡Upss! un nombre no debe contener más de 20 caracteres"
                 }, 
                 bflastname62: {
+                    minlength: "¡Upss! un apellido contiene más de 3 caracteres",
                     maxlength: "¡Upss! un apellido no debe contener más de 7 caracteres"
                 },
                 bflastname6: {
