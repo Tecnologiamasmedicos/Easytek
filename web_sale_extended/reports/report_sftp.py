@@ -102,7 +102,7 @@ class SftpReportLine(models.Model):
         p.phone as phone,
         (case when p.buyer='t' then p.street else p.address_beneficiary end)as street,
         p.street2,
-        p.beneficiary_state_id,        
+        p.beneficiary_state_id as state_id,        
         (case when city.name='BOGOTÁ, D.C.' then 'BOGOTÁ D.C.' else city.name end)as city_name,        
         rcz.name as partner_zip_code,
         p.ocupation as ocupation,
