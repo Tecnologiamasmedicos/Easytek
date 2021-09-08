@@ -777,14 +777,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             });
         }
 
-    $("input[name='birthdate_date']").focus(function(){
-        $("#div_warning").toggle();
-    });
-    
-    $("input[name='birthdate_date']").blur(function(){
-    		$("#div_warning").toggle();
-	});
-    
     function edad_maxima_asegurado_principal(fecha){
         let hoy = new Date();
         let cumpleanos = new Date(parseInt(fecha.split('-')[0]),parseInt(fecha.split('-')[1]) - 1,parseInt(fecha.split('-')[2]));
@@ -795,6 +787,16 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         }
         return edad
     }
+
+    $("input[name='birthdate_date']").on('change', function calcularEdad() {
+        let edad = edad_maxima_asegurado_principal($(this).val());
+        if (edad > 69) {
+            $("#div_warning").show();
+        }
+        else{
+            $("#div_warning").hide();
+        }
+    });
     
     function obtenerInfoComprador(order_id){
             $.ajax({
@@ -931,10 +933,12 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             $("input[name='bfaddress1']").val('');
             $("select[name='bfdeparment1']").val('');
             $("select[name='bfcity1']").val('');
+            $("input[name='bffijo1']").val('');
             
             $("input[name='bfaddress1']").prop('readonly', false);            
             $("select[name='bfdeparment1']").prop('disabled', false); 
             $("select[name='bfcity1']").prop('disabled', false); 
+            $("input[name='bffijo1']").prop('readonly', false); 
         }
     });
     
@@ -960,10 +964,12 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             $("input[name='bfaddress2']").val('');
             $("select[name='bfdeparment2']").val('');
             $("select[name='bfcity2']").val('');
+            $("input[name='bffijo2']").val('');
             
             $("input[name='bfaddress2']").prop('readonly', false);            
             $("select[name='bfdeparment2']").prop('disabled', false); 
             $("select[name='bfcity2']").prop('disabled', false); 
+            $("input[name='bffijo2']").prop('readonly', false); 
         }
     });
     
@@ -989,10 +995,12 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             $("input[name='bfaddress3']").val('');
             $("select[name='bfdeparment3']").val('');
             $("select[name='bfcity3']").val('');
+            $("input[name='bffijo3']").val('');
             
             $("input[name='bfaddress3']").prop('readonly', false);            
             $("select[name='bfdeparment3']").prop('disabled', false); 
             $("select[name='bfcity3']").prop('disabled', false); 
+            $("input[name='bffijo3']").prop('readonly', false); 
         }
     });
     
@@ -1018,10 +1026,12 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             $("input[name='bfaddress4']").val('');
             $("select[name='bfdeparment4']").val('');
             $("select[name='bfcity4']").val('');
+            $("input[name='bffijo4']").val('');
             
             $("input[name='bfaddress4']").prop('readonly', false);            
             $("select[name='bfdeparment4']").prop('disabled', false); 
             $("select[name='bfcity4']").prop('disabled', false); 
+            $("input[name='bffijo4']").prop('readonly', false); 
         }
     });
     
@@ -1047,10 +1057,12 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             $("input[name='bfaddress5']").val('');
             $("select[name='bfdeparment5']").val('');
             $("select[name='bfcity5']").val('');
+            $("input[name='bffijo5']").val('');
             
             $("input[name='bfaddress5']").prop('readonly', false);            
             $("select[name='bfdeparment5']").prop('disabled', false); 
             $("select[name='bfcity5']").prop('disabled', false); 
+            $("input[name='bffijo5']").prop('readonly', false); 
         }
     });
     
@@ -1076,10 +1088,12 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             $("input[name='bfaddress6']").val('');
             $("select[name='bfdeparment6']").val('');
             $("select[name='bfcity6']").val('');
+            $("input[name='bffijo6']").val('');
             
             $("input[name='bfaddress6']").prop('readonly', false);            
             $("select[name='bfdeparment6']").prop('disabled', false); 
             $("select[name='bfcity6']").prop('disabled', false); 
+            $("input[name='bffijo6']").prop('readonly', false); 
         }
     });
     
@@ -3712,7 +3726,7 @@ odoo.define('web_sale_extended.payment_process', function(require) {
         }
     });
     
-    $("#submit_payment").on('click', function(e){
+    $(".submit_payment").on('click', function(e){
         e.preventDefault();
         if($("#payulatam-payment-form").is(":visible")){
             if($("#payulatam-payment-form").valid()){

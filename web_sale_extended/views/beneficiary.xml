@@ -83,7 +83,7 @@
                                 <div class="form-group">
                                     <label class="col-form-label" for="document_type">Tipo de documento*</label>
                                     <select name="document_type" class="form-control" id="document_type">
-                                        <t t-foreach="document_types" t-as="dt">
+                                        <t t-foreach="document_types_main_insured" t-as="dt">
                                                 <option t-att-value="dt.id">
                                                     <t t-esc="dt.name" /> 
                                                 </option>
@@ -244,7 +244,7 @@
                     <div id="beneficiary1" class="card">                        
                         <h4 id="subti1"></h4>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="bfCheckBox1"/>
+                            <input class="form-check-input" type="checkbox" value="0" id="bfCheckBox1" name="bfCheckBox1"/>
                             <label class="form-check-label" for="bfCheckBox1">
                                 ¿Vive conmigo?
                             </label>
@@ -439,7 +439,7 @@
                     <div id="beneficiary2" class="card">
                         <h4 id="subti2"></h4>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="bfCheckBox2"/>
+                            <input class="form-check-input" type="checkbox" value="0" id="bfCheckBox2" name="bfCheckBox2"/>
                             <label class="form-check-label" for="bfCheckBox2">
                                 ¿Vive conmigo?
                             </label>
@@ -636,7 +636,7 @@
                     <div id="beneficiary3" class="card">
                         <h4 id="subti3"></h4>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="bfCheckBox3"/>
+                            <input class="form-check-input" type="checkbox" value="0" id="bfCheckBox3" name="bfCheckBox3"/>
                             <label class="form-check-label" for="bfCheckBox3">
                                 ¿Vive conmigo?
                             </label>
@@ -831,7 +831,7 @@
                     <div id="beneficiary4" class="card">
                         <h4 id="subti4"></h4>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="bfCheckBox4"/>
+                            <input class="form-check-input" type="checkbox" value="0" id="bfCheckBox4" name="bfCheckBox4"/>
                             <label class="form-check-label" for="bfCheckBox4">
                                 ¿Vive conmigo?
                             </label>
@@ -1025,7 +1025,7 @@
                      <div id="beneficiary5" class="card">
                         <h4 id="subti5"></h4>
                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="bfCheckBox5"/>
+                            <input class="form-check-input" type="checkbox" value="0" id="bfCheckBox5" name="bfCheckBox5"/>
                             <label class="form-check-label" for="bfCheckBox5">
                                 ¿Vive conmigo?
                             </label>
@@ -1220,7 +1220,7 @@
                      <div id="beneficiary6" class="card">
                         <h4 id="subti6"></h4>
                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="bfCheckBox6"/>
+                            <input class="form-check-input" type="checkbox" value="0" id="bfCheckBox6" name="bfCheckBox6"/>
                             <label class="form-check-label" for="bfCheckBox6">
                                 ¿Vive conmigo?
                             </label>

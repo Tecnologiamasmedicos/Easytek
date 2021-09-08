@@ -20,10 +20,10 @@ class SftpReportLine(models.Model):
     othernames = fields.Char('Segundo Nombre',readonly=True)
     lastname = fields.Char('Apellidos',readonly=True)
     #lastname2 = fields.Char('Segundo Apellido',readonly=True)
-    birthdate_date = fields.Date('Fecha de Nacimiento',readonly=True)
-    date_start = fields.Date('Fecha de Inicio',readonly=True)
-    date_start2 = fields.Date('Fecha de Inicio',readonly=True)
-    date_start3 = fields.Date('Fecha de Inicio',readonly=True)
+    birthdate_date = fields.Char('Fecha de Nacimiento',readonly=True)
+    date_start = fields.Char('Fecha de Inicio',readonly=True)
+    date_start2 = fields.Char('Fecha de Inicio',readonly=True)
+    date_start3 = fields.Char('Fecha de Inicio',readonly=True)
     gender = fields.Char('Sexo',readonly=True)
     identification_document = fields.Char('Número de Identificación',readonly=True)
     default_code = fields.Char('Código Producto',readonly=True)
@@ -57,7 +57,7 @@ class SftpReportLine(models.Model):
     zip_code = fields.Char('Código Postal de Correo',readonly=True)
     commentaries = fields.Char('Comentarios',readonly=True)
     aniversary = fields.Char('Aniversario',readonly=True)
-    first_due = fields.Date('Primer Vencimiento',readonly=True)
+    first_due = fields.Char('Primer Vencimiento',readonly=True)
     change_type = fields.Char('Tipo de Cambio',readonly=True)
     second_identification = fields.Char('Segunda Indentificación',readonly=True)
     second_type_identification = fields.Char('Tipo Segunda Identificación',readonly=True)
@@ -82,10 +82,10 @@ class SftpReportLine(models.Model):
         p.firstname,
         p.othernames,
         p.lastname || ' ' || p.lastname2 as lastname,
-        p.birthdate_date,
-        sub.date_start as date_start,
-        sub.date_start as date_start2,
-        sub.date_start as date_start3,
+        TO_CHAR(p.birthdate_date, 'mm/dd/yyyy')as birthdate_date,
+        TO_CHAR(sub.date_start, 'mm/dd/yyyy') as date_start,        
+        TO_CHAR(sub.date_start, 'mm/dd/yyyy') as date_start2,
+        TO_CHAR(sub.date_start, 'mm/dd/yyyy')as date_start3,
         p.gender,
         p.identification_document,
         pro.default_code,
@@ -98,8 +98,8 @@ class SftpReportLine(models.Model):
         '79'::varchar as country2,
         p.email as email,
 
-        p.mobile as mobile,
-        p.phone as phone,
+        (case when p.mobile LIKE '%)%' then split_part(p.mobile,')',2) else p.mobile end) as mobile,        
+        (case when p.phone LIKE '%)%' then split_part(p.phone,')',2) else p.phone end) as phone,
         (case when p.buyer='t' then p.street else p.address_beneficiary end)as street,
         p.street2,
         p.beneficiary_state_id as state_id,        
@@ -113,7 +113,7 @@ class SftpReportLine(models.Model):
         ''::text as commentaries,
         ''::text as reference_initial,
         ''::text as aniversary,
-        sub.recurring_next_date as first_due,
+        TO_CHAR(sub.recurring_next_date, 'mm/dd/yyyy')as first_due,
         ''::text as second_identification,
         rpdt.abbreviation as second_type_identification,
         ''::text as insegurability_test,
@@ -129,7 +129,7 @@ class SftpReportLine(models.Model):
         'A'::text as change_type,
         ''::text as localization,
         tmpl.product_class as palig,
-        p.marital_status as marital_status
+        (case when p.marital_status='Unión Libre' then 'Union Libre' else p.marital_status end)as marital_status
         
         
         
@@ -168,10 +168,10 @@ class SftpReportBeneficiaryLine(models.Model):
     othernames = fields.Char('Segundo Nombre',readonly=True)
     lastname = fields.Char('Primer Apellido',readonly=True)
     #lastname2 = fields.Char('Segundo Apellido',readonly=True)
-    birthdate_date = fields.Date('Fecha de Nacimiento',readonly=True)
-    birthdate_date2 = fields.Date('Fecha de Nacimiento',readonly=True)
-    date_start = fields.Date('Fecha de Inicio',readonly=True)
-    date_start2 = fields.Date('Fecha de Inicio',readonly=True)
+    birthdate_date = fields.Char('Fecha de Nacimiento',readonly=True)
+    birthdate_date2 = fields.Char('Fecha de Nacimiento',readonly=True)
+    date_start = fields.Char('Fecha de Inicio',readonly=True)
+    date_start2 = fields.Char('Fecha de Inicio',readonly=True)
     gender = fields.Char('Sexo',readonly=True)
     city_name = fields.Char('Ciudad',readonly=True)
     partner_zip_code = fields.Char('Ciudad',readonly=True)
@@ -193,7 +193,7 @@ class SftpReportBeneficiaryLine(models.Model):
 
     ocupation = fields.Char('Ocupación',readonly=True)
     #palig = fields.Char('Palig',readonly=True)
-    change_date = fields.Date('Ocupación',readonly=True)
+    change_date = fields.Char('Ocupación',readonly=True)
     change_type = fields.Char('Ocupación',readonly=True)
     date_end = fields.Char('Ocupación',readonly=True)
     relationship = fields.Char('Parentezco',readonly=True)
@@ -214,9 +214,9 @@ class SftpReportBeneficiaryLine(models.Model):
         p.firstname,
         p.othernames,
         p.lastname || ' ' || p.lastname2 as lastname,
-        p.birthdate_date,
-        p.birthdate_date as birthdate_date2,
-        sub.date_start,
+        TO_CHAR(p.birthdate_date, 'mm/dd/yyyy')as birthdate_date,
+        TO_CHAR(p.birthdate_date, 'mm/dd/yyyy')as birthdate_date2,
+        TO_CHAR(sub.date_start, 'mm/dd/yyyy')as date_start,
         p.gender,
         p.identification_document,
         pro.default_code,
@@ -228,8 +228,8 @@ class SftpReportBeneficiaryLine(models.Model):
         '79'::varchar as country,
         'CO'::varchar as country2,
         p.email,
-        p.mobile as mobile,
-        p.phone as phone,
+        (case when p.mobile LIKE '%)%' then split_part(p.mobile,')',2) else p.mobile end) as mobile,        
+        (case when p.phone LIKE '%)%' then split_part(p.phone,')',2) else p.phone end) as phone,
         p.address_beneficiary as street,
         p.street2,
         (case when state.name='Bogotá, D.C.' then 'Bogotá D.C.' else state.name end)as state_id,
@@ -243,7 +243,7 @@ class SftpReportBeneficiaryLine(models.Model):
         ''::text as commentaries,
         ''::text as reference_initial,
         ''::text as aniversary,
-        sub.recurring_next_date as first_due,
+        TO_CHAR(sub.recurring_next_date, 'mm/dd/yyyy')as first_due,
         ''::text as second_identification,
         rpdt.name as second_type_identification,
         ''::text as insegurability_test,
@@ -257,7 +257,7 @@ class SftpReportBeneficiaryLine(models.Model):
         ''::text as salary,
         ''::text as localization,
         --''::text as palig,
-        sub.date_start as change_date,
+        TO_CHAR(sub.date_start, 'mm/dd/yyyy')as change_date,
         '' as date_start2,
         'A'::text as change_type,
         ''::text as date_end

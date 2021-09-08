@@ -114,7 +114,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="s_btn text-center pt16 pb16" data-name="Button">
                                     <a class="btn btn-primary" 
                                        id="submit_beneficiaries_add" 
@@ -125,7 +125,7 @@
                                        <i class="fa fa-chevron-right"/>
                                     </a>
                                     <input type="hidden" name="order_id" t-att-value="order_id.id"/>
-                                  </div>
+                                </div>
                             </div>
                         </section>
                     </div>
@@ -1463,55 +1463,53 @@
                                       
                                       
                                       
-                                      <div class="row">
+                                    <div class="row">
                                         <div class="col-lg-8 col-md-8">
                                             <div class="form-group">
-                                                 <label class="col-form-label" for="credit_card_partner_street">Dirección de Residencia
-                                                  <span class="d-none d-md-inline"> </span></label>
-                                                  <input class="form-control" type="text" name="credit_card_partner_street" t-att-value="order.partner_id.street"/>
+                                                <label class="col-form-label" for="credit_card_partner_street">Dirección de Residencia
+                                                <span class="d-none d-md-inline"> </span></label>
+                                                <input class="form-control" type="text" name="credit_card_partner_street" t-att-value="order.partner_id.street"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-4">
-                                              <div class="form-group">
+                                            <div class="form-group">
                                                 <label class="col-form-label" for="credit_card_partner_phone">Teléfono</label>
                                                 <t t-if="order.partner_id.phone">
                                                     <input class="form-control" type="text" name="credit_card_partner_phone" t-att-value="order.partner_id.phone"/>
                                                 </t>
                                                 <t t-else="">
                                                     <input class="form-control" type="text" name="credit_card_partner_phone" t-att-value="order.partner_id.mobile"/>
-                                                </t>                                                
-                                              </div>
+                                                </t>
+                                            </div>
                                         </div>
-                                      </div>
+                                    </div>
                                       
                                       
-                                      <div class="row">
+                                    <div class="row">
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group">
-                                                 <label class="col-form-label" for="credit_card_country_id">País</label>
-                                                  <select class="selectpicker" data-size="5" data-live-search="true"  
+                                                <label class="col-form-label" for="credit_card_country_id">País</label>
+                                                <select class="selectpicker" data-size="5" data-live-search="true"  
                                                           id="credit_card_country_id" name="credit_card_country_id" 
                                                   t-attf-class="form-control" >
-                                                      <option value="">País...</option>
-                                                      <t t-foreach="countries" t-as="c">
-                                                          <option t-att-value="c.id" t-att-selected="c.id == order.partner_id.country_id">
-                                                              <t t-esc="c.name" />
-                                                          </option>
-                                                      </t>
-                                                  </select>
+                                                    <option value="">País...</option>
+                                                    <t t-foreach="countries" t-as="c">
+                                                        <option t-att-value="c.id" t-att-selected="c.id == order.partner_id.country_id">
+                                                            <t t-esc="c.name" />
+                                                        </option>
+                                                    </t>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
-                                        <div class="form-group">
-                                            <div t-attf-class="div_state_text">
-                                                <label class="col-form-label" for="credit_card_state_id_text">Departamento / Provincia / Estado</label>
-                                                <input type="text" name="credit_card_state_id_text" id="credit_card_state_id_text" t-attf-class="form-control" t-att-value="order.partner_id.state_2" />
-                                            </div>
-                                            <div class="div_state">
-                                                <label class="col-form-label" for="state_id">Departamento / Provincia / Estado</label>
-                                                    <select class="selectpicker" data-size="4" 
-                                                            id="credit_card_state_id" data-live-search="true" name="credit_card_state_id" 
-                                                    t-attf-class="form-control" data-init="1">
+                                            <div class="form-group">
+                                                <div t-attf-class="div_state_text">
+                                                    <label class="col-form-label" for="credit_card_state_id_text">Departamento / Provincia / Estado</label>
+                                                    <input type="text" name="credit_card_state_id_text" id="credit_card_state_id_text" t-attf-class="form-control" t-att-value="order.partner_id.state_2" />
+                                                </div>
+                                                <div class="div_state">
+                                                    <label class="col-form-label" for="state_id">Departamento / Provincia / Estado</label>
+                                                    <select class="selectpicker" data-size="4" id="credit_card_state_id" data-live-search="true" name="credit_card_state_id" t-attf-class="form-control" data-init="1">
                                                         <option value="">Departamento</option>
                                                         <t t-foreach="country_states" t-as="s">
                                                             <option t-att-value="s.id">
@@ -1519,12 +1517,12 @@
                                                             </option>
                                                         </t>
                                                     </select>                                              
-                                            </div>                                                
+                                                </div>                                                
+                                            </div>
                                         </div>
                                     </div>
-                                      </div>
                                       
-                                      <div class="row">
+                                    <div class="row">
                                         <div class="col-lg-6 col-md-6">
                                             <div class="div_city_text">
                                                 <label class="col-form-label" for="credit_card_city_text">Ciudad</label>         
@@ -1608,7 +1606,7 @@
                                               <i class="fa fa-chevron-left"/>
                                               <span>Atrás</span>
                                           </a>-->
-                                          <button class="btn btn-custom mb32" id="submit_payment">
+                                          <button class="btn btn-custom mb32 submit_payment">
                                               <span>Pagar</span>
                                               <i class="fa fa-chevron-right"/>
                                           </button>
@@ -1877,7 +1875,7 @@
                                       <input type="hidden" name="callback" t-att-value="callback" />
                                       <p/>
                                       <div class="d-flex justify-content-end">
-                                          <button id="payment_btn_cash" class="btn btn-primary mb32">
+                                          <button class="btn btn-primary mb32 submit_payment">
                                               <span>Generar Recibo de Pago</span>
                                               <i class="fa fa-chevron-right"/>
                                           </button>
@@ -2169,7 +2167,7 @@
                                               <i class="fa fa-chevron-left"/>
                                               <span>Atrás</span>
                                           </a>-->
-                                          <button class="btn btn-custom mb32">
+                                          <button class="btn btn-custom mb32 submit_payment">
                                               <span>Realizar Pago</span>
                                               <i class="fa fa-chevron-right"/>
                                           </button>

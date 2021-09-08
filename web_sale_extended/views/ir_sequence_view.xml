@@ -22,7 +22,6 @@
                                 <field name="beneficiaries_number"/>
                                 <field name="sponsor_name"/>
                                 <field name="sponsor_nit"/>
-                                <field name="sponsor_payment_url"/>                      
                             </group>
                         </group>
                     </page>
