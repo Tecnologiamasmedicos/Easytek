@@ -14,6 +14,7 @@
     
     <!-- Plantilla enviada luego del pago exitoso con tarjeta de crédito de payu -->
     <template id="payulatam_success_process" name="PayU Latam Payment Process">
+    <title>Pasarela de pagos | www.masmedicos.co</title>
         <t t-set="no_footer" t-value="1"/>
             <t t-call="website.layout">
             <div id="wrap">

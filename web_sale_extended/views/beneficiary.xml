@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="beneficiary">
+    <title>Registro asegurado principal y beneficiarios | www.masmedicos.co</title>
         <t t-call="website.layout">
             <br/>
             
