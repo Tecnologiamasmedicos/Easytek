@@ -228,13 +228,23 @@
 							</cac:ShareholderParty-->
 						</cac:PartyLegalEntity>
 					<!-- TODO: opcional, Grupo de detalles con información de contacto del consorcio -->
-						<cac:Contact>
-							<cbc:Name>Diana Cruz</cbc:Name>
-							<cbc:Telephone>31031031089</cbc:Telephone>
-							<cbc:Telefax>31031031089</cbc:Telefax>
-							<cbc:ElectronicMail>dcruz@empresa.org</cbc:ElectronicMail>  <!-- REQUERIDO-->
-							<cbc:Note>dcruz@empresa.org</cbc:Note>
-						</cac:Contact>
+						{% if AccountingSupplierParty.Telephone or AccountingSupplierParty.Telefax or AccountingSupplierParty.ElectronicMail %}
+							<cac:Contact>
+							<!--TODO 3.0: opcional, de momento se manda  info de la empresa sin nombre de contacto>
+								<cbc:Name>Diana Cruz</cbc:Name-->
+								{% if AccountingSupplierParty.Telephone %}
+								<cbc:Telephone>{{AccountingSupplierParty.Telephone}}</cbc:Telephone>
+								{% endif %}
+								{% if AccountingSupplierParty.Telefax %}
+								<cbc:Telefax>{{AccountingSupplierParty.Telefax}}</cbc:Telefax>
+								{% endif %}
+								{% if AccountingSupplierParty.ElectronicMail %}
+								<cbc:ElectronicMail>{{AccountingSupplierParty.ElectronicMail}}</cbc:ElectronicMail>
+								{% endif %}
+							<!--TODO 2.0: opcional, de momento se manda info de la empresa no se sabe que mandar aca de momento>
+								<cbc:Note></cbc:Note-->
+							</cac:Contact>
+							{% endif %}
 					</cac:Party>
 				</cac:AccountingSupplierParty>
 				<cac:AccountingCustomerParty>
@@ -345,94 +355,34 @@
 					<cbc:ActualDeliveryDate>{{ActualDeliveryDate}}</cbc:ActualDeliveryDate>
 					<!--<cbc:ActualDeliveryTime>Bogotá, D.c. </cbc:ActualDeliveryTime-->
 				<!--TODO, direccion de entrega-->
+						{% if AccountingCustomerParty.CompanyID != '2222222222' %}
 					<cac:DeliveryAddress>
-						<cbc:ID>11001</cbc:ID>
-						<cbc:CityName>Bogotá, D.c. </cbc:CityName>
-						<cbc:PostalZone>Bogotá, D.c. </cbc:PostalZone>
-						<cbc:CountrySubentity>Bogotá, D.c. 11</cbc:CountrySubentity>
-						<cbc:CountrySubentityCode>11</cbc:CountrySubentityCode>
+						<cbc:ID>{{Delivery.AddressID}}</cbc:ID>
+						<cbc:CityName>{{Delivery.AddressCityName}}</cbc:CityName>
+						{% if Delivery.AddressPostalZone %}
+						<cbc:PostalZone>{{Delivery.AddressPostalZone}}</cbc:PostalZone>
+						{% endif %}
+						<cbc:CountrySubentity>{{Delivery.AddressCountrySubentity}}</cbc:CountrySubentity>
+						<cbc:CountrySubentityCode>{{Delivery.AddressCountrySubentityCode}}</cbc:CountrySubentityCode>
 						<cac:AddressLine>
-							<cbc:Line>CARRERA 8 No 20-14/40</cbc:Line>
+							<cbc:Line>{{Delivery.AddressLine}}</cbc:Line>
 						</cac:AddressLine>
 						<cac:Country>
-							<cbc:IdentificationCode>CO</cbc:IdentificationCode>
-						<!--TODO: languageID podria variar-->
-							<cbc:Name languageID="es">Colombia</cbc:Name>
+							<cbc:IdentificationCode>{{Delivery.CountryIdentificationCode}}</cbc:IdentificationCode>
+						<!--TODO 2.0: languageID podria variar, siguiente version revisar esto-->
+							<cbc:Name languageID="es">{{Delivery.CountryName}}</cbc:Name>
 						</cac:Country>
 					</cac:DeliveryAddress>
+					{% endif %}
+
 				<!--TODO, podria ser un fragmento no necesario siempre-->
-					<cac:DeliveryParty>
-						<cac:PartyName>
-							<cbc:Name>Empresa de transporte</cbc:Name>
-						</cac:PartyName>
-						<cac:PhysicalLocation>
-							<cac:Address>
-								<cbc:ID>11001</cbc:ID>
-								<cbc:CityName>Bogotá, D.c. </cbc:CityName>
-								<cbc:PostalZone>Bogotá, D.c. </cbc:PostalZone>
-								<cbc:CountrySubentity>Bogotá</cbc:CountrySubentity>
-								<cbc:CountrySubentityCode>11</cbc:CountrySubentityCode>
-								<cac:AddressLine>
-									<cbc:Line>Av.  #17 - 193</cbc:Line>
-								</cac:AddressLine>
-								<cac:Country>
-									<cbc:IdentificationCode>CO</cbc:IdentificationCode>
-								<!--TODO: languageID podria variar-->
-									<cbc:Name languageID="es">Colombia</cbc:Name>
-								</cac:Country>
-							</cac:Address>
-						</cac:PhysicalLocation>
-						<cac:PartyTaxScheme>
-							<cbc:RegistrationName>Empresa de transporte</cbc:RegistrationName>
-							<cbc:CompanyID schemeAgencyID="195"
-								schemeAgencyName="CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)"
-								schemeID="1"
-								schemeName="31">981223983</cbc:CompanyID>
-							<cbc:TaxLevelCode listName="04">O-99</cbc:TaxLevelCode>
-							<cac:RegistrationAddress>
-								<cbc:ID>11001</cbc:ID>
-								<cbc:CityName>Bogotá, D.c. </cbc:CityName>
-								<cbc:PostalZone>Bogotá, D.c. </cbc:PostalZone>
-								<cbc:CountrySubentity>Bogotá</cbc:CountrySubentity>
-								<cbc:CountrySubentityCode>11</cbc:CountrySubentityCode>
-								<cac:AddressLine>
-									<cbc:Line>Av.  #17 - 193</cbc:Line>
-								</cac:AddressLine>
-								<cac:Country>
-									<cbc:IdentificationCode>CO</cbc:IdentificationCode>
-								<!--TODO: languageID podria variar-->
-									<cbc:Name languageID="es">Colombia</cbc:Name>
-								</cac:Country>
-							</cac:RegistrationAddress>
-							<cac:TaxScheme>
-								<cbc:ID>01</cbc:ID>
-								<cbc:Name>IVA</cbc:Name>
-							</cac:TaxScheme>
-						</cac:PartyTaxScheme>
-						<cac:PartyLegalEntity>
-							<cbc:RegistrationName>Empresa de transporte</cbc:RegistrationName>
-							<cbc:CompanyID schemeAgencyID="195"
-								schemeAgencyName="CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)"
-								schemeID="1"
-								schemeName="31">981223983</cbc:CompanyID>
-							<cac:CorporateRegistrationScheme>
-								<cbc:Name>75433</cbc:Name>
-							</cac:CorporateRegistrationScheme>
-						</cac:PartyLegalEntity>
-						<cac:Contact>
-							<cbc:Name>Eric Van Boxsom</cbc:Name>
-							<cbc:Telephone>9712311</cbc:Telephone>
-							<cbc:Telefax>12431241</cbc:Telefax>
-							<cbc:ElectronicMail>eric.vanboxsom@gosocket.net</cbc:ElectronicMail>
-							<cbc:Note>Test descripcion contacto</cbc:Note>
-						</cac:Contact>
-					</cac:DeliveryParty>
+
 				</cac:Delivery>
 			<!--TODO, falta definir que modulo del icoterms se elige-->
 				<cac:DeliveryTerms>
 					<cbc:SpecialTerms>Portes Pagados</cbc:SpecialTerms>
-					<cbc:LossRiskResponsibilityCode>CFR</cbc:LossRiskResponsibilityCode>
-					<cbc:LossRisk>Costo y Flete</cbc:LossRisk>
+					<cbc:LossRiskResponsibilityCode>{{DeliveryTerms.LossRiskResponsibilityCode}}</cbc:LossRiskResponsibilityCode>
+					<cbc:LossRisk>{{DeliveryTerms.LossRisk}}</cbc:LossRisk>
 				</cac:DeliveryTerms>
 			<!--TODO, modulo payment means incompleto-->
 
