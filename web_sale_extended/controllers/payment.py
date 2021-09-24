@@ -115,7 +115,8 @@ class WebsiteSaleExtended(WebsiteSale):
             if lapTransactionState == 'APPROVED':
                 payulatam_transaction_id.write({
                     'payulatam_state': 'TRANSACCIÓN APROBADA',
-                    'state': 'payu_approved'
+                    'state': 'payu_approved',
+                    'date_order': fields.Datetime.now()
                 })
                 if request.session['sale_order_id'] and order == payulatam_transaction_id:
                     """ En este caso el usuario puede continuar directamente la transacción """

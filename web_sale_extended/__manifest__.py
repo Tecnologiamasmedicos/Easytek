@@ -41,6 +41,7 @@
         'views/ir_sequence_view.xml',
         #'reports/sale_order_report.xml',
         #'reports/res_partner_report.xml',
+        'data/recovery_main_insured.xml',
         'data/shop_address.xml',
         'data/tus_datos_bot.xml',
         'data/payu_latam_bot.xml',

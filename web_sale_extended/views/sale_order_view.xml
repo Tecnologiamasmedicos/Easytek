@@ -5,6 +5,9 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+                <header>
+                    <button name="send_recovery_email" string="Enviar correo registro AP" class="btn-primary" states="payu_approved" type="object"/>
+                </header>
                 
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     <field name="sponsor_id" />

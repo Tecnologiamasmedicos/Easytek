@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, SUPERUSER_ID, _
+from datetime import datetime, timedelta
 from odoo.exceptions import ValidationError
 import time
 import json
@@ -22,6 +23,7 @@ class SaleOrder(models.Model):
     tusdatos_send = fields.Boolean('Solicitud enviada', default=False)  
     
     campo_vacio = fields.Boolean('Campo vacio', default=False)  
+    recovery_email_sent = fields.Boolean('Email recuperacion', default=False)  
         
     subscription_id = fields.Many2one('sale.subscription', 'Suscription ID')
     beneficiary0_id = fields.Many2one('res.partner')
@@ -442,6 +444,17 @@ class SaleOrder(models.Model):
                             sale.message_post(body=message)
                             sale._send_order_payu_latam_approved()
                         
-
-                    
-            
+    def send_recovery_email(self):
+        template_id = self.env.ref('web_sale_extended.recovery_main_insured_email_template').id
+        template = self.env['mail.template'].browse(template_id)
+        template.sudo().send_mail(self.id, force_send=True)
+        
+    def _cron_send_recovery_email_main_insured(self):
+        """ Selección de ordenes de venta que estan aprobadas por PayU y que no se envio correo """
+        sale_ids = self.env['sale.order'].search([('state', '=', 'payu_approved'), ('recovery_email_sent', '=', False)])
+        for sale in sale_ids:
+            new_date = sale.date_order + timedelta(hours=2)
+            current_date = datetime.now()
+            if current_date > new_date: 
+                sale.send_recovery_email()
+                sale.recovery_email_sent = True
