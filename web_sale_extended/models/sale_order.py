@@ -458,3 +458,11 @@ class SaleOrder(models.Model):
             if current_date > new_date: 
                 sale.send_recovery_email()
                 sale.recovery_email_sent = True
+
+    def write(self, vals):
+        if 'state' in vals and vals['state'] == 'sale' and self.partner_id.id == 4:
+            _logger.info('La orden de venta pertenece a Public user, No puede pasar al estado pedido de venta.')
+            _logger.info(self)
+            raise ValidationError('La orden de venta pertenece a Public user, No puede pasar al estado pedido de venta.')
+        else:
+            return super(SaleOrder, self).write(vals)
