@@ -443,6 +443,45 @@ class SaleOrder(models.Model):
                             """ % (response['result']['payload'])
                             sale.message_post(body=message)
                             sale._send_order_payu_latam_approved()
+                if sale.payment_method_type == 'Credit Card':
+                    _logger.error(date_difference.seconds)
+                    if date_difference.seconds > 600:
+                        """ si existe una transacción """
+                        response = self.env['api.payulatam'].payulatam_get_response_transaction(sale.payulatam_transaction_id)
+                        #_send_order_payu_latam_approved
+                        _logger.error('++++++++++++++++++++++++++ respuesta cron payu latam +++++++++++++++++++++++++++++++++++++++')
+                        _logger.error(response)
+                        if response['code'] != 'SUCCESS':
+                            raise ValidationError("""Error de comunicación con Payu: %s""" % (json.dumps(response)))
+                        if response['result']['payload']['state'] == 'PENDING':
+                            message = """<b><span style='color:orange;'>PayU Latam - Transacción con tarjeta de crédito pendiente por aprobación</span></b><br/>
+                            <b>Respuesta:</b> %s
+                            """ % (response['result']['payload'])
+                            sale.message_post(body=message)
+                        if response['result']['payload']['state'] == 'DECLINED':
+                            message = """<b><span style='color:red;'>PayU Latam - Transacción con tarjeta de crédito declinada</span></b><br/>
+                            <b>Respuesta:</b> %s
+                            """ % (response['result']['payload'])
+                            sale.message_post(body=message)
+                            sale._send_order_payu_latam_rejected()
+                            sale.action_cancel()
+                        if response['result']['payload']['state'] == 'EXPIRED':
+                            message = """<b><span style='color:red;'>PayU Latam - Transacción con tarjeta de crédito expirada</span></b><br/>
+                            <b>Respuesta:</b> %s
+                            """ % (response['result']['payload'])
+                            sale.message_post(body=message)
+                            sale._send_order_payu_latam_rejected()
+                            sale.action_cancel()
+                        if response['result']['payload']['state'] == 'APPROVED':
+                            sale.write({
+                                'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO APROBADA',
+                            })
+                            sale.action_payu_approved()
+                            message = """<b><span style='color:green;'>PayU Latam - Transacción de pago con tarjeta de crédito aprobada</span></b><br/>
+                            <b>Respuesta:</b> %s
+                            """ % (response['result']['payload'])
+                            sale.message_post(body=message)
+                            sale._send_order_payu_latam_approved()
                         
     def send_recovery_email(self):
         template_id = self.env.ref('web_sale_extended.recovery_main_insured_email_template').id
