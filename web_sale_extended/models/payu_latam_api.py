@@ -155,10 +155,7 @@ class PayULatamApi(models.TransientModel):
 
     def payulatam_get_sequence(self):
         sequence_id =  self.env.user.company_id.payulatam_api_ref_seq_id
-        referenceCode = sequence_id.number_next_actual
-        sequence_id.write({
-            'number_next_actual': int(sequence_id.number_next_actual) + 1,
-        })
+        referenceCode = sequence_id.next_by_id(19)
         return referenceCode
         
     def payulatam_get_accountId(self):

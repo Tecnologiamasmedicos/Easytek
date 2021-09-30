@@ -1720,7 +1720,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     formMovilLength: true,
                 },
                 ocupation: {
-                    maxlength: 50,
+                    maxlength: 12,
                     formcomma: true,
                     lettersonly: true,
                 },
@@ -2441,7 +2441,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "¡Upss! un telefono es requerido",                    
                 },
                 ocupation: {
-                    maxlength: "¡Upss! no puede contener más de 50 caracteres"
+                    maxlength: "¡Upss! no puede contener más de 12 caracteres"
                 },
                 fijo: {
                     minlength: "¡Upss! debe tener 7 digitos",

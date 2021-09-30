@@ -24,6 +24,7 @@ class SaleOrder(models.Model):
     
     campo_vacio = fields.Boolean('Campo vacio', default=False)  
     recovery_email_sent = fields.Boolean('Email recuperacion', default=False)  
+    product_code = fields.Char(string='Código producto', related='order_line.product_id.default_code')
         
     subscription_id = fields.Many2one('sale.subscription', 'Suscription ID')
     beneficiary0_id = fields.Many2one('res.partner')
@@ -375,11 +376,6 @@ class SaleOrder(models.Model):
                         _logger.error(response)
                         if response['code'] != 'SUCCESS':
                             raise ValidationError("""Error de comunicación con Payu: %s""", (json.dumps(response)))
-                        if response['result']['payload']['state'] == 'PENDING':
-                            message = """<b><span style='color:orange;'>PayU Latam - Transacción en efectivo pendiente por aprobación</span></b><br/>
-                            <b>Respuesta:</b> %s
-                            """ % (response['result']['payload'])
-                            sale.message_post(body=message)
                         if response['result']['payload']['state'] == 'DECLINED':
                             message = """<b><span style='color:red;'>PayU Latam - Transacción en efectivo declinada</span></b><br/>
                             <b>Respuesta:</b> %s
@@ -414,11 +410,6 @@ class SaleOrder(models.Model):
                         _logger.error(response)
                         if response['code'] != 'SUCCESS':
                             raise ValidationError("""Error de comunicación con Payu: %s""" % (json.dumps(response)))
-                        if response['result']['payload']['state'] == 'PENDING':
-                            message = """<b><span style='color:orange;'>PayU Latam - Transacción PSE pendiente por aprobación</span></b><br/>
-                            <b>Respuesta:</b> %s
-                            """ % (response['result']['payload'])
-                            sale.message_post(body=message)
                         if response['result']['payload']['state'] == 'DECLINED':
                             message = """<b><span style='color:red;'>PayU Latam - Transacción PSE declinada</span></b><br/>
                             <b>Respuesta:</b> %s
@@ -453,11 +444,6 @@ class SaleOrder(models.Model):
                         _logger.error(response)
                         if response['code'] != 'SUCCESS':
                             raise ValidationError("""Error de comunicación con Payu: %s""" % (json.dumps(response)))
-                        if response['result']['payload']['state'] == 'PENDING':
-                            message = """<b><span style='color:orange;'>PayU Latam - Transacción con tarjeta de crédito pendiente por aprobación</span></b><br/>
-                            <b>Respuesta:</b> %s
-                            """ % (response['result']['payload'])
-                            sale.message_post(body=message)
                         if response['result']['payload']['state'] == 'DECLINED':
                             message = """<b><span style='color:red;'>PayU Latam - Transacción con tarjeta de crédito declinada</span></b><br/>
                             <b>Respuesta:</b> %s
