@@ -84,7 +84,7 @@ class CollectionsReportLine(models.Model):
         sub.sponsor_id as sponsor_id,
         tmpl.default_code as product_code,
         tmpl.name as product_name,
-        sub.name as sub_name
+        sub.code as sub_name
         
         from sale_subscription sub
         left join res_partner p on p.subscription_id = sub.id
