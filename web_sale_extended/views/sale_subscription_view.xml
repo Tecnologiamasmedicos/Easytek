@@ -172,6 +172,7 @@
                     <field name="policyholder" />
                     <field name="product_code" />
                     <field name="product_name" />
+                    <field name="sub_name" />                    
                 </tree>                 
             </field>
         </record>         
