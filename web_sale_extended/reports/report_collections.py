@@ -56,6 +56,7 @@ class CollectionsReportLine(models.Model):
     sponsor_id = fields.Many2one('res.partner', string='Sponsor', readonly=True)
     product_code = fields.Char('Codigo del producto', readonly=True)
     product_name = fields.Char('Nombre del producto', readonly=True)
+    sub_name = fields.Char('Sub name', readonly=True)
     
     
     def init(self):
@@ -82,7 +83,8 @@ class CollectionsReportLine(models.Model):
         sub.policyholder as policyholder,        
         sub.sponsor_id as sponsor_id,
         tmpl.default_code as product_code,
-        tmpl.name as product_name
+        tmpl.name as product_name,
+        sub.name as sub_name
         
         from sale_subscription sub
         left join res_partner p on p.subscription_id = sub.id
