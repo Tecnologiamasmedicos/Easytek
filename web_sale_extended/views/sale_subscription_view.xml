@@ -172,7 +172,9 @@
                     <field name="policyholder" />
                     <field name="product_code" />
                     <field name="product_name" />
-                    <field name="sub_name" />                    
+                    <field name="sub_name" />   
+                    <field name="payulatam_order_id" />
+                    <field name="payulatam_transaction_id" />                 
                 </tree>                 
             </field>
         </record>         
