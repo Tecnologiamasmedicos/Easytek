@@ -62,6 +62,9 @@
             <xpath expr="//tree/field[@name='name']" position="before">
                 <field name="product_code" readonly="1"/>
             </xpath>
+            <xpath expr="//tree/field[@name='commitment_date']" position="replace">
+                <field name="cancel_date" readonly="1"/>
+            </xpath>
         </field>
     </record>
 </odoo>

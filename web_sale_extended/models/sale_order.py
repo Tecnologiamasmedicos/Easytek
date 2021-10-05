@@ -25,6 +25,7 @@ class SaleOrder(models.Model):
     campo_vacio = fields.Boolean('Campo vacio', default=False)  
     recovery_email_sent = fields.Boolean('Email recuperacion', default=False)  
     product_code = fields.Char(string='Código producto', related='order_line.product_id.default_code')
+    cancel_date = fields.Datetime('Fecha cancelación')
         
     subscription_id = fields.Many2one('sale.subscription', 'Suscription ID')
     beneficiary0_id = fields.Many2one('res.partner')
@@ -61,6 +62,12 @@ class SaleOrder(models.Model):
                     rec.sponsor_id = rec.main_product_id.categ_id.sponsor_id
                     
     sponsor_id = fields.Many2one('res.partner', compute=_compute_sponsor_id, store=True)
+
+    def action_cancel(self):
+        self.write({
+            'cancel_date': fields.Datetime.now()
+        })
+        return super(SaleOrder, self).action_cancel()
     
     def action_payu_confirm(self):
         if self._get_forbidden_state_confirm() & set(self.mapped('state')):
