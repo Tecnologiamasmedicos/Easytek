@@ -59,6 +59,7 @@ class CollectionsReportLine(models.Model):
     sub_name = fields.Char('Sub name', readonly=True)
     payulatam_order_id = fields.Char('Orden ID', readonly=True)
     payulatam_transaction_id = fields.Char('Transacción ID', readonly=True)
+    order_name = fields.Char('Order name', readonly=True)
     
     
     def init(self):
@@ -85,10 +86,11 @@ class CollectionsReportLine(models.Model):
         sub.policyholder as policyholder,        
         sub.sponsor_id as sponsor_id,
         tmpl.default_code as product_code,
-        tmpl.name as product_name,
-        sub.code as sub_name,
+        tmpl.name as product_name,        
         sorder.payulatam_order_id as payulatam_order_id,
-        sorder.payulatam_transaction_id as payulatam_transaction_id
+        sorder.payulatam_transaction_id as payulatam_transaction_id,
+        sub.code as sub_name,
+        sorder.name as order_name
         
         from sale_subscription sub
         left join res_partner p on p.subscription_id = sub.id

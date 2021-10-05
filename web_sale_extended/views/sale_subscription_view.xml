@@ -171,10 +171,11 @@
                     <field name="sponsor_id" />
                     <field name="policyholder" />
                     <field name="product_code" />
-                    <field name="product_name" />
-                    <field name="sub_name" />   
+                    <field name="product_name" />                    
                     <field name="payulatam_order_id" />
                     <field name="payulatam_transaction_id" />                 
+                    <field name="order_name" />     
+                    <field name="sub_name" />               
                 </tree>                 
             </field>
         </record>         
