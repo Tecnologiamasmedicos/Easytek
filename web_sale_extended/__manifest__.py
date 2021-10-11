@@ -43,6 +43,7 @@
         #'reports/res_partner_report.xml',
         'data/recovery_main_insured.xml',
         'data/shop_address.xml',
+        'data/bot_certificado_mal.xml',
         'data/tus_datos_bot.xml',
         'data/payu_latam_bot.xml',
         'data/payment_invoice_bot.xml',
