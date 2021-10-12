@@ -197,16 +197,18 @@ class CollectionsReportLine(models.Model):
 
                 mail_values = {
                     'subject': 'Archivo de recaudos de %s hasta %s'%(start_date, end_date),
-                    'body_html' : 'CSV',
-                    'email_to': 'directordeproyectos@masmedicos.co',
+                    'body_html' : 'Cordial saludo,<br/>Adjunto enviamos el archivo de recaudos semanal del %s al %s.<br/>Quedamos atentos a cualquier inquietud.<br/>Saludos,<br/>Más Médicos'%(start_date, end_date),
+                    'email_to': 'WMartinez@palig.com',
+                    'email_cc': 'contabilidad@masmedicos.co, operaciones@masmedicos.co, directordeproyectos@masmedicos.co',
                     'email_from': 'contacto@masmedicos.co',
                     'attachment_ids': [(6, 0 , [att.id])]
                 }
                 
                 mail_values2 = {
                     'subject': 'Archivo de recaudos de %s hasta %s'%(start_date2, end_date2),
-                    'body_html' : 'CSV',
-                    'email_to': 'directordeproyectos@masmedicos.co',
+                    'body_html' : 'Cordial saludo,<br/>Adjunto enviamos el archivo de recaudos semanal del %s al %s.<br/>Quedamos atentos a cualquier inquietud.<br/>Saludos,<br/>Más Médicos'%(start_date2, end_date2),
+                    'email_to': 'WMartinez@palig.com',
+                    'email_cc': 'contabilidad@masmedicos.co, operaciones@masmedicos.co, directordeproyectos@masmedicos.co',
                     'email_from': 'contacto@masmedicos.co',
                     'attachment_ids': [(6, 0 , [att2.id])]
                 }
@@ -230,8 +232,9 @@ class CollectionsReportLine(models.Model):
 
                 mail_values = {
                     'subject': 'Archivo de recaudos de %s hasta %s'%(start_date, end_date),
-                    'body_html' : 'CSV',
-                    'email_to': 'directordeproyectos@masmedicos.co',
+                    'body_html' : 'Cordial saludo,<br/>Adjunto enviamos el archivo de recaudos semanal del %s al %s.<br/>Quedamos atentos a cualquier inquietud.<br/>Saludos,<br/>Más Médicos'%(start_date, end_date),
+                    'email_to': 'WMartinez@palig.com',
+                    'email_cc': 'contabilidad@masmedicos.co, operaciones@masmedicos.co, directordeproyectos@masmedicos.co',
                     'email_from': 'contacto@masmedicos.co',
                     'attachment_ids': [(6, 0 , [att.id])]
                 }

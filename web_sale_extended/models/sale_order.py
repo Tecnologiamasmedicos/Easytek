@@ -498,8 +498,3 @@ class SaleOrder(models.Model):
             raise ValidationError('La orden de venta pertenece a Public user, No puede pasar al estado pedido de venta.')
         else:
             return super(SaleOrder, self).write(vals)
-
-    def cron_error_certificado(self):
-        sale_ids = self.env['sale.order'].browse([2164, 2382, 2391, 2392, 2398, 2400, 1870, 2418, 2427, 2432, 2433, 2434, 2436, 2438, 2437, 2448, 2231, 1783, 2285, 2284, 2303, 2134, 2323, 2344, 2335, 2351, 2354, 2353, 2355, 2356, 2362, 2367, 2371, 2363, 1443, 2012, 1454, 1464, 2318])
-        for sale in sale_ids:            
-            sale._send_order_confirmation_mail()
