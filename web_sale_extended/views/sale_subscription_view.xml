@@ -205,7 +205,7 @@
             <field name="view_mode">tree,form,calendar</field>
             <field name="view_id">25</field>
             <field name="context">{'search_default_all': 1}</field>
-            <field name="domain">[('id', '=', 28)]</field>
+            <field name="domain">[('id', '=', 27)]</field>
         </record>
 
         <record id="report_buyer_different_main_insured" model="ir.ui.view">
