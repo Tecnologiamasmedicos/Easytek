@@ -6,6 +6,9 @@ from odoo.exceptions import ValidationError
 import time
 import json
 import logging
+from odoo.tools import ustr, consteq, float_compare
+import hashlib
+import hmac
 
 _logger = logging.getLogger(__name__)
 
@@ -23,9 +26,11 @@ class SaleOrder(models.Model):
     tusdatos_send = fields.Boolean('Solicitud enviada', default=False)  
     
     campo_vacio = fields.Boolean('Campo vacio', default=False)  
+    assisted_purchase = fields.Boolean('Venta Asistida', default=False) 
     recovery_email_sent = fields.Boolean('Email recuperacion', default=False)  
     product_code = fields.Char(string='Código producto', related='order_line.product_id.default_code')
     cancel_date = fields.Datetime('Fecha cancelación')
+    product_name = fields.Char(string='Nombre producto', related='main_product_id.name')
         
     subscription_id = fields.Many2one('sale.subscription', 'Suscription ID')
     beneficiary0_id = fields.Many2one('res.partner')
@@ -476,6 +481,83 @@ class SaleOrder(models.Model):
                             sale.message_post(body=message)
                             sale._send_order_payu_latam_approved()
                         
+    def cron_confirm_order_approved_payu_latam(self):
+        """ Selección de ordenes de venta que estan aprobadas por PayU y confirmmarlas """
+        sale_ids = self.env['sale.order'].search([('state', '=', 'payu_approved'),('assisted_purchase', '=', True)])
+        _logger.error(sale_ids)
+        beneficiary_list = []
+        for sale in sale_ids:            
+            sale.action_confirm()
+            sale._send_order_confirmation_mail()
+            
+            sale.partner_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            sale.beneficiary0_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            sale.beneficiary1_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            sale.beneficiary2_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            sale.beneficiary3_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            sale.beneficiary4_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            sale.beneficiary5_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            sale.beneficiary6_id.write({
+                'subscription_id': sale.subscription_id.id
+            })
+            
+            beneficiary_list.append((4, sale.partner_id.id))
+            beneficiary_list.append((4, sale.beneficiary0_id.id))
+            beneficiary_list.append((4, sale.beneficiary1_id.id))
+            beneficiary_list.append((4, sale.beneficiary2_id.id))
+            beneficiary_list.append((4, sale.beneficiary3_id.id))
+            beneficiary_list.append((4, sale.beneficiary4_id.id))
+            beneficiary_list.append((4, sale.beneficiary5_id.id))
+            beneficiary_list.append((4, sale.beneficiary6_id.id))
+            
+            sale.subscription_id.write({
+                'subscription_partner_ids': beneficiary_list
+            })
+
+    def generate_access_token(self, order_id):        
+        order = self.env['sale.order'].sudo().browse(order_id)
+        secret = self.env['ir.config_parameter'].sudo().get_param('database.secret')
+        token_str = '%s%s%s' % (order.partner_id, order.amount_total, order.currency_id)
+        access_token = hmac.new(secret.encode('utf-8'), token_str.encode('utf-8'), hashlib.sha256).hexdigest()        
+        return access_token
+    
+    
+    def generate_link(self, order_id):        
+        token = self.generate_access_token(order_id)
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        link = ('%s/shop/payment/assisted_purchase/%s?access_token=%s') % (
+            base_url,
+            order_id,
+            token
+        )        
+        return link
+    
+    def _send_payment_link_assisted_purchase_email(self):        
+        template_id = self.env.ref('web_sale_extended.payment_link_assisted_purchase_email_template').id
+        template = self.env['mail.template'].browse(template_id)
+        template.sudo().send_mail(self.id, force_send=True)
+    
     def send_recovery_email(self):
         template_id = self.env.ref('web_sale_extended.recovery_main_insured_email_template').id
         template = self.env['mail.template'].browse(template_id)

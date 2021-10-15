@@ -11,6 +11,7 @@
 
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 <field name="sponsor_id" />
+                <field name="assisted_purchase" />
             </xpath>
 
             <xpath expr="//notebook" position="inside">
@@ -61,6 +62,7 @@
         <field name="arch" type="xml">
             <xpath expr="//tree/field[@name='name']" position="before">
                 <field name="product_code" readonly="1"/>
+                <field name="product_name" readonly="1"/>
             </xpath>
             <xpath expr="//tree/field[@name='commitment_date']" position="replace">
                 <field name="cancel_date" readonly="1"/>

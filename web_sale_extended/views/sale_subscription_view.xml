@@ -199,6 +199,14 @@
             <field name="res_model">report.collections</field>
             <field name="view_mode">tree</field>
         </record>
+        <record model="ir.actions.act_window" id="action_conf_report_collections">
+            <field name="name">Configuración de Archivo de recaudos</field>
+            <field name="res_model">ir.cron</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id">25</field>
+            <field name="context">{'search_default_all': 1}</field>
+            <field name="domain">[('id', '=', 28)]</field>
+        </record>
 
         <record id="report_buyer_different_main_insured" model="ir.ui.view">
             <field name="name">report.buyer.different.main_insured</field>
@@ -223,8 +231,9 @@
             <field name="view_mode">tree</field>
         </record>
     </data>
-    <menuitem id="sale_subscription_sftp_report" name="Reporte SFTP Asegurado" parent="sale_subscription.menu_sale_subscription_config" sequence="5" action="web_sale_extended.action_report_sftp_tree" groups="sale_subscription.group_sale_subscription_view"/>
-    <menuitem id="sale_subscription_sftp_beneficiary_report" name="Reporte SFTP Beneficiarios" parent="sale_subscription.menu_sale_subscription_config" sequence="6" action="web_sale_extended.action_report_sftp_beneficiary_tree" groups="sale_subscription.group_sale_subscription_view"/>
-    <menuitem id="sale_subscription_collections_report" name="Reporte de recaudos" parent="sale_subscription.menu_sale_subscription_config" sequence="7" action="action_report_collections_tree" groups="sale_subscription.group_sale_subscription_view"/>
-    <menuitem id="sale_subscription_report_buyer_different_main_insured" name="Reporte AP diferente del comprador" parent="sale_subscription.menu_sale_subscription_config" sequence="5" action="web_sale_extended.action_report_buyer_different_main_insured" groups="sale_subscription.group_sale_subscription_view"/>
+    <menuitem id="sale_subscription_sftp_report" name="Reporte SFTP Asegurado" parent="sale_subscription.menu_sale_subscription_report" sequence="5" action="web_sale_extended.action_report_sftp_tree" groups="sale_subscription.group_sale_subscription_view"/>
+    <menuitem id="sale_subscription_sftp_beneficiary_report" name="Reporte SFTP Beneficiarios" parent="sale_subscription.menu_sale_subscription_report" sequence="6" action="web_sale_extended.action_report_sftp_beneficiary_tree" groups="sale_subscription.group_sale_subscription_view"/>
+    <menuitem id="sale_subscription_collections_report" name="Reporte de recaudos" parent="sale_subscription.menu_sale_subscription_report" sequence="7" action="action_report_collections_tree" groups="sale_subscription.group_sale_subscription_view"/>
+    <menuitem id="sale_subscription_conf_collection_report" name="Archivo de recaudos" parent="sale_subscription.menu_sale_subscription_config" sequence="5" action="web_sale_extended.action_conf_report_collections" groups="sale_subscription.group_sale_subscription_view"/>
+    <menuitem id="sale_subscription_report_buyer_different_main_insured" name="Reporte AP diferente del comprador" parent="sale_subscription.menu_sale_subscription_report" sequence="5" action="web_sale_extended.action_report_buyer_different_main_insured" groups="sale_subscription.group_sale_subscription_view"/>
 </odoo>

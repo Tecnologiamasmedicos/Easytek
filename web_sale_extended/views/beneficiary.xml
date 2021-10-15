@@ -113,18 +113,17 @@
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="phone">Teléfono Móvil*</label>
+                                    <label class="col-form-label" for="phone">Teléfono Móvil</label>
                                     <input class="form-control" type="text" name="phone"/>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="sex">Sexo</label>
+                                    <label class="col-form-label" for="sex">Sexo*</label>
                                     <select name="sex" class="form-control">
                                         <option value="">Seleccione...</option>
                                         <option value="M">Masculino</option>
                                         <option value="F" style="">Femenino</option>
-                                        <option value="O" style="">Otro</option>
                                     </select>
                                 </div>
                             </div>
@@ -170,7 +169,7 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="country_id">País</label>
+                                    <label class="col-form-label" for="country_id">País*</label>
                                     <select name="country_id" class="form-control">
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         <t t-foreach="countries" t-as="c">
@@ -185,11 +184,10 @@
 
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="deparment">Departamento</label>
+                                    <label class="col-form-label" for="deparment">Departamento*</label>
                                     <select name="deparment" id="bfdeparment0" class="form-control">
-                                        <option value="">Seleccione un departamento...</option>
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id">
+                                                <option t-att-value="s.id" t-att-selected="s.id == 1386">
                                                     <t t-esc="s.name" />
                                                 </option>
                                         </t>
@@ -199,9 +197,8 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="city">Ciudad</label>
+                                    <label class="col-form-label" for="city">Ciudad*</label>
                                     <select name="city" id="bfcity0" class="form-control">
-                                        <option value="">Seleccione una Ciudad...</option>
                                         <t t-foreach="cities" t-as="c">
                                             <option t-att-value="c.city_id.id">
                                                  <t t-esc="c.city_id.name" />
@@ -334,7 +331,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail1">Email*</label>
+                                    <label class="col-form-label" for="bfemail1">Email</label>
                                     <input class="form-control" type="email"  name="bfemail1" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
@@ -349,7 +346,7 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcountry_id1">País</label>
+                                    <label class="col-form-label" for="bfcountry_id1">País*</label>
                                     <select name="bfcountry_id1" class="form-control">
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         <t t-foreach="countries" t-as="c">
@@ -364,12 +361,11 @@
 
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfdeparment1">Departamento</label>
+                                    <label class="col-form-label" for="bfdeparment1">Departamento*</label>
                                     <select name="bfdeparment1" class="form-control">
-                                        <option value="">Seleccione un departamento...</option>
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->                                        
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id">
+                                                <option t-att-value="s.id" t-att-selected="s.id == 1386">
                                                     <t t-esc="s.name" />
                                                 </option>
                                         </t>
@@ -379,9 +375,8 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcity1">Ciudad</label>
+                                    <label class="col-form-label" for="bfcity1">Ciudad*</label>
                                     <select name="bfcity1" id="bfcity1" class="form-control">
-                                        <option value="">Seleccione una Ciudad...</option>
                                         <t t-foreach="cities" t-as="c">
                                             <option t-att-value="c.city_id.name">
                                                  <t t-esc="c.city_id.name" />
@@ -400,14 +395,11 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfsex1">Sexo</label>
+                                    <label class="col-form-label" for="bfsex1">Sexo*</label>
                                     <select name="bfsex1" class="form-control">
                                         <option value="">Seleccione...</option>
                                         <option value="M">Masculino</option>
                                         <option value="F" style="">Femenino</option>
-                                        <option value="O" style="">Otro</option>
-
-
                                     </select>
                                 </div>
                             </div>
@@ -529,7 +521,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail2">Email*</label>
+                                    <label class="col-form-label" for="bfemail2">Email</label>
                                     <input class="form-control" type="email"  name="bfemail2" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
@@ -544,7 +536,7 @@
                          <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcountry_id2">País</label>
+                                    <label class="col-form-label" for="bfcountry_id2">País*</label>
                                     <select name="bfcountry_id2" class="form-control">
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         <t t-foreach="countries" t-as="c">
@@ -559,13 +551,12 @@
 
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfdeparment2">Departamento</label>
+                                    <label class="col-form-label" for="bfdeparment2">Departamento*</label>
                                     <select name="bfdeparment2" class="form-control">
-                                        <option value="">Seleccione un departamento...</option>
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id">
+                                                <option t-att-value="s.id" t-att-selected="s.id == 1386">
                                                     <t t-esc="s.name" />
                                                 </option>
                                         </t>
@@ -575,9 +566,8 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcity2">Ciudad</label>
+                                    <label class="col-form-label" for="bfcity2">Ciudad*</label>
                                     <select name="bfcity2" id="bfcity2" class="form-control">
-                                        <option value="">Seleccione una Ciudad...</option>
                                         <t t-foreach="cities" t-as="c">
                                             <option t-att-value="c.city_id.name">
                                                  <t t-esc="c.city_id.name" />
@@ -597,14 +587,11 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfsex2">Sexo</label>
+                                    <label class="col-form-label" for="bfsex2">Sexo*</label>
                                     <select name="bfsex2" class="form-control">
                                         <option value="">Seleccione...</option>
                                         <option value="M">Masculino</option>
                                         <option value="F" style="">Femenino</option>
-                                        <option value="O" style="">Otro</option>
-
-
                                     </select>
                                 </div>
                             </div>
@@ -726,13 +713,13 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail3">Email*</label>
+                                    <label class="col-form-label" for="bfemail3">Email</label>
                                     <input class="form-control" type="email"  name="bfemail3" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfphone3">Teléfono Móvil*</label>
+                                    <label class="col-form-label" for="bfphone3">Teléfono Móvil</label>
                                     <input class="form-control" type="text" name="bfphone3"/>
                                 </div>
                             </div>
@@ -741,7 +728,7 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcountry_id3">País</label>
+                                    <label class="col-form-label" for="bfcountry_id3">País*</label>
                                     <select name="bfcountry_id3" class="form-control">
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         <t t-foreach="countries" t-as="c">
@@ -756,13 +743,12 @@
 
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfdeparment3">Departamento</label>
+                                    <label class="col-form-label" for="bfdeparment3">Departamento*</label>
                                     <select name="bfdeparment3" class="form-control">
-                                        <option value="">Seleccione un departamento...</option>
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id">
+                                                <option t-att-value="s.id" t-att-selected="s.id == 1386">
                                                     <t t-esc="s.name" />
                                                 </option>
                                         </t>
@@ -772,9 +758,8 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcity3">Ciudad</label>
+                                    <label class="col-form-label" for="bfcity3">Ciudad*</label>
                                     <select name="bfcity3" id="bfcity3" class="form-control">
-                                        <option value="">Seleccione una Ciudad...</option>
                                         <t t-foreach="cities" t-as="c">
                                             <option t-att-value="c.city_id.name">
                                                  <t t-esc="c.city_id.name" />
@@ -793,14 +778,11 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfsex3">Sexo</label>
+                                    <label class="col-form-label" for="bfsex3">Sexo*</label>
                                     <select name="bfsex3" class="form-control">
                                         <option value="">Seleccione...</option>
                                         <option value="M">Masculino</option>
                                         <option value="F" style="">Femenino</option>
-                                        <option value="O" style="">Otro</option>
-
-
                                     </select>
                                 </div>
                             </div>
@@ -921,13 +903,13 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail4">Email*</label>
+                                    <label class="col-form-label" for="bfemail4">Email</label>
                                     <input class="form-control" type="email"  name="bfemail4" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfphone4">Teléfono Móvil*</label>
+                                    <label class="col-form-label" for="bfphone4">Teléfono Móvil</label>
                                     <input class="form-control" type="text" name="bfphone4"/>
                                 </div>
                             </div>
@@ -936,7 +918,7 @@
                          <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcountry_id4">País</label>
+                                    <label class="col-form-label" for="bfcountry_id4">País*</label>
                                     <select name="bfcountry_id4" class="form-control">
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         <t t-foreach="countries" t-as="c">
@@ -951,13 +933,12 @@
 
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfdeparment4">Departamento</label>
+                                    <label class="col-form-label" for="bfdeparment4">Departamento*</label>
                                     <select name="bfdeparment4" class="form-control">
-                                        <option value="">Seleccione un departamento...</option>
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id">
+                                                <option t-att-value="s.id" t-att-selected="s.id == 1386">
                                                     <t t-esc="s.name" />
                                                 </option>
                                         </t>
@@ -967,9 +948,8 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcity4">Ciudad</label>
+                                    <label class="col-form-label" for="bfcity4">Ciudad*</label>
                                     <select name="bfcity4" id="bfcity4" class="form-control">
-                                        <option value="">Seleccione una Ciudad...</option>
                                         <t t-foreach="cities" t-as="c">
                                             <option t-att-value="c.city_id.name">
                                                  <t t-esc="c.city_id.name" />
@@ -989,14 +969,11 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfsex4">Sexo</label>
+                                    <label class="col-form-label" for="bfsex4">Sexo*</label>
                                     <select name="bfsex4" class="form-control">
                                         <option value="">Seleccione...</option>
                                         <option value="M">Masculino</option>
                                         <option value="F" style="">Femenino</option>
-                                        <option value="O" style="">Otro</option>
-
-
                                     </select>
                                 </div>
                             </div>
@@ -1115,13 +1092,13 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail5">Email*</label>
+                                    <label class="col-form-label" for="bfemail5">Email</label>
                                     <input class="form-control" type="email"  name="bfemail5" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfphone5">Teléfono Móvil*</label>
+                                    <label class="col-form-label" for="bfphone5">Teléfono Móvil</label>
                                     <input class="form-control" type="text" name="bfphone5"/>
                                 </div>
                             </div>
@@ -1130,7 +1107,7 @@
                           <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcountry_id5">País</label>
+                                    <label class="col-form-label" for="bfcountry_id5">País*</label>
                                     <select name="bfcountry_id5" class="form-control">
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         <t t-foreach="countries" t-as="c">
@@ -1145,13 +1122,12 @@
 
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfdeparment5">Departamento</label>
+                                    <label class="col-form-label" for="bfdeparment5">Departamento*</label>
                                     <select name="bfdeparment5" class="form-control">
-                                        <option value="">Seleccione un departamento...</option>
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id">
+                                                <option t-att-value="s.id" t-att-selected="s.id == 1386">
                                                     <t t-esc="s.name" />
                                                 </option>
                                         </t>
@@ -1161,9 +1137,8 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcity5">Ciudad</label>
+                                    <label class="col-form-label" for="bfcity5">Ciudad*</label>
                                     <select name="bfcity5" id="bfcity5" class="form-control">
-                                        <option value="">Seleccione una Ciudad...</option>
                                         <t t-foreach="cities" t-as="c">
                                             <option t-att-value="c.city_id.name">
                                                  <t t-esc="c.city_id.name" />
@@ -1183,14 +1158,11 @@
                          <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfsex5">Sexo</label>
+                                    <label class="col-form-label" for="bfsex5">Sexo*</label>
                                     <select name="bfsex5" class="form-control">
                                         <option value="">Seleccione...</option>
                                         <option value="M">Masculino</option>
                                         <option value="F" style="">Femenino</option>
-                                        <option value="O" style="">Otro</option>
-
-
                                     </select>
                                 </div>
                             </div>
@@ -1310,13 +1282,13 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail6">Email*</label>
+                                    <label class="col-form-label" for="bfemail6">Email</label>
                                     <input class="form-control" type="email"  name="bfemail6" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfphone6">Teléfono Móvil*</label>
+                                    <label class="col-form-label" for="bfphone6">Teléfono Móvil</label>
                                     <input class="form-control" type="text" name="bfphone6"/>
                                 </div>
                             </div>
@@ -1325,7 +1297,7 @@
                          <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcountry_id6">País</label>
+                                    <label class="col-form-label" for="bfcountry_id6">País*</label>
                                     <select name="bfcountry_id6" class="form-control">
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         <t t-foreach="countries" t-as="c">
@@ -1340,13 +1312,12 @@
 
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfdeparment6">Departamento</label>
+                                    <label class="col-form-label" for="bfdeparment6">Departamento*</label>
                                     <select name="bfdeparment6" class="form-control">
-                                        <option value="">Seleccione un departamento...</option>
                                         <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id">
+                                                <option t-att-value="s.id" t-att-selected="s.id == 1386">
                                                     <t t-esc="s.name" />
                                                 </option>
                                         </t>
@@ -1356,9 +1327,8 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcity6">Ciudad</label>
+                                    <label class="col-form-label" for="bfcity6">Ciudad*</label>
                                     <select name="bfcity6" id="bfcity6" class="form-control">
-                                        <option value="">Seleccione una Ciudad...</option>
                                         <t t-foreach="cities" t-as="c">
                                             <option t-att-value="c.city_id.name">
                                                  <t t-esc="c.city_id.name" />
@@ -1379,14 +1349,11 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfsex6">Sexo</label>
+                                    <label class="col-form-label" for="bfsex6">Sexo*</label>
                                     <select name="bfsex6" class="form-control">
                                         <option value="">Seleccione...</option>
                                         <option value="M">Masculino</option>
                                         <option value="F" style="">Femenino</option>
-                                        <option value="O" style="">Otro</option>
-
-
                                     </select>
                                 </div>
                             </div>

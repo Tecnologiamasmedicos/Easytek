@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_frontend_assistand_purchase" inherit_id="website.assets_frontend" name="JS and CSS Venta asistida">
+		<xpath expr="." position="inside">			
+            <script type="text/javascript" src="/web_sale_extended/static/src/js/assisted_purchase.js"></script>
+		</xpath>
+	</template>    
+    
+    <template id="alternativo" name="Shop alternativo">
+        <t t-call="website.layout">
+            <style>
+                ul {
+                  margin: 0;
+                  padding: 0;
+                }
+                a {
+                  text-decoration: none;
+                  color: #fff;
+                }
+
+                .contenedor-menu {
+                  width: 100%;
+                  display: inline-block;
+                  line-height: 18px;
+                  margin-top: 20px;
+                }
+
+                .contenedor-menu .menu {
+                  width: 100%;
+                }
+
+                .contenedor-menu ul {
+                  list-style: none;
+                  margin: 0;
+                }
+
+                .contenedor-menu .menu li p {
+                  color: #494949;
+                  display: block;
+                  padding: 15px 20px;
+                  background-color: #e9e9e9;
+                }
+
+                .contenedor-menu .menu li p:hover {
+                  color: #fff;
+                  background-color: #1a95d5;
+                }
+
+                .contenedor-menu .menu .fa {
+                  font-size: 12px;
+                  line-height: 18px;
+                }
+
+                .contenedor-menu .menu .fa.izquierda {
+                  float: left;
+                  margin-right: 10px;
+                }
+
+                .contenedor-menu .menu .fa.derecha {
+                  float: right;
+                  margin-left: 10px;
+                }
+
+                .contenedor-menu .menu ul {
+                  display: none;
+                }
+
+                .contenedor-menu .menu ul li {
+                  background-color: #424242;
+                  color: #e9e9e9;
+                }
+
+                .contenedor-menu .menu .activado > a {
+                  background-color: #1a95d5;
+                  color: #fff;
+                }
+
+                table {
+                  font-family: arial, sans-serif;
+                  border-collapse: collapse;
+                  width: 100%;
+                }
+
+                td, th {
+                  border: 1px solid #dddddd;
+                  text-align: left;
+                  padding: 8px;
+                }
+
+                .borrar{
+                    color: #FFFFFF !important;
+                    background-color: #e74c3c;
+                    border-color: #e74c3c;
+                }
+
+                .borrar:hover {
+                    background-color: #c0392b;
+                    border-color: #c0392b;
+                }
+            </style>
+
+            <h1>Venta Asistida</h1>       
+            
+            <form method="get" class="o_wsale_products_searchbar_form w-100 w-md-auto mt-2" action="/shop/assisted_purchase">
+                <div role="search" class="input-group">
+                    <input type="text" name="search" class="search-query form-control oe_search_box" placeholder="Buscar…" data-limit="0" data-display-description="false" data-display-price="false" data-display-image="false" value="" autocomplete="off"/>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary oe_search_button" aria-label="Búsqueda" title="Búsqueda"><i class="fa fa-search"></i></button>
+                        <a href="/shop/assisted_purchase" class="btn borrar">Borrar</a>
+                    </div>
+                </div>
+            </form>            
+            
+            <div class="contenedor-menu">                
+                <ul class="menu">
+                    <t t-foreach='data' t-as='d'>
+                        <li>
+                            <p><t t-esc='d' /><i class="derecha fa fa-chevron-down"></i></p>
+                            <ul>
+                                <li>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre del plan</th>
+                                                <th>Valor</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach='data[d]' t-as='a'>
+                                                <tr>
+                                                    <td><t t-esc='a.name' /></td>
+                                                    <td><t t-esc='a.list_price' t-options="{'widget': 'monetary', 'display_currency': a.currency_id}" /></td>
+                                                    <td><a t-att-href="'/web/session/logout?redirect=' + str(a.product_landpage_url) + '?assisted_purchase=1'" target="_blank" class="btn btn-primary">Comprar</a></td>
+                                                </tr>    
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </li>
+                            </ul>
+                        </li>
+                    </t>
+                </ul>
+            </div>            
+        </t>
+    </template>
+</odoo>
