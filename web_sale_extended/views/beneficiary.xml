@@ -378,7 +378,7 @@
                                     <label class="col-form-label" for="bfcity1">Ciudad*</label>
                                     <select name="bfcity1" id="bfcity1" class="form-control">
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name">
+                                            <option t-att-value="c.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -569,7 +569,7 @@
                                     <label class="col-form-label" for="bfcity2">Ciudad*</label>
                                     <select name="bfcity2" id="bfcity2" class="form-control">
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name">
+                                            <option t-att-value="c.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -761,7 +761,7 @@
                                     <label class="col-form-label" for="bfcity3">Ciudad*</label>
                                     <select name="bfcity3" id="bfcity3" class="form-control">
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name">
+                                            <option t-att-value="c.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -951,7 +951,7 @@
                                     <label class="col-form-label" for="bfcity4">Ciudad*</label>
                                     <select name="bfcity4" id="bfcity4" class="form-control">
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name">
+                                            <option t-att-value="c.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -1140,7 +1140,7 @@
                                     <label class="col-form-label" for="bfcity5">Ciudad*</label>
                                     <select name="bfcity5" id="bfcity5" class="form-control">
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name">
+                                            <option t-att-value="c.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
@@ -1330,7 +1330,7 @@
                                     <label class="col-form-label" for="bfcity6">Ciudad*</label>
                                     <select name="bfcity6" id="bfcity6" class="form-control">
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name">
+                                            <option t-att-value="c.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
