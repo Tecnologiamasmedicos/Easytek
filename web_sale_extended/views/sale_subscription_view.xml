@@ -97,6 +97,21 @@
                 </tree>
             </field>
         </record>
+        <record id="sftp_ap_report_view_search" model="ir.ui.view">
+            <field name="name">sftp.ap.report.view.search</field>
+            <field name="model">report.sftp</field>
+            <field name="arch" type="xml">                
+                <search>
+                    <field name="identification_document" />
+                    <field name="certificate_number" />
+                    <field name="firstname" />
+                    <field name="lastname" />
+                    <field name="email" />   
+                    <field name="mobile" /> 
+                    <field name="phone" />       
+                </search>
+            </field>
+        </record>
         <record model="ir.actions.act_window" id="action_report_sftp_tree">
             <field name="name">SFTP Report</field>
             <field name="res_model">report.sftp</field>
@@ -140,6 +155,21 @@
                     <field name="city_name" string="Ciudad"/>
                     <field name="ocupation" string="Ocupación"/>
                 </tree>
+            </field>
+        </record>
+        <record id="sftp_beneficiary_report_view_search" model="ir.ui.view">
+            <field name="name">sftp.beneficiary.report.view.search</field>
+            <field name="model">report.beneficiary.sftp</field>
+            <field name="arch" type="xml">                
+                <search>
+                    <field name="identification_document" />
+                    <field name="certificate_number" />  
+                    <field name="firstname" />
+                    <field name="lastname" />
+                    <field name="email" /> 
+                    <field name="mobile" /> 
+                    <field name="phone" />                                 
+                </search>
             </field>
         </record>
         <record model="ir.actions.act_window" id="action_report_sftp_beneficiary_tree">
