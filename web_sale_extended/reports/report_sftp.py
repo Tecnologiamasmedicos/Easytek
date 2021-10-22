@@ -250,7 +250,7 @@ class SftpReportLine(models.Model):
                 record.ocupation if record.ocupation != False else ''
             ])
 
-        if len(data != 0):
+        if len(data) != 0:
             if len(data2) == 0:
                 data2.append(beneficiario_topo)
         
