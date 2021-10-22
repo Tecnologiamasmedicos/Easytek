@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-import logging
+import logging, time, csv
+import paramiko
 from odoo import fields, models, tools, api,_
-from datetime import datetime
+from datetime import date, timedelta, datetime
 from odoo.osv import expression
 from odoo.tools import date_utils
 
@@ -62,6 +63,7 @@ class SftpReportLine(models.Model):
     subsidiary = fields.Char('Subsidiaria',readonly=True)
     palig = fields.Char('Código Clase PALIG',readonly=True)
     date_start4 = fields.Date('Fecha creacion',readonly=True)
+
     sponsor_nit = fields.Char('Nit del Tomador',readonly=True)
     sponsor_payment_url = fields.Char('Pasarela de Pagos',readonly=True)
     phone2 = fields.Char('Teléfono Fijo 2',readonly=True)
@@ -77,7 +79,7 @@ class SftpReportLine(models.Model):
         select 
         row_number() OVER (ORDER BY sub.id) as id,
         sub.policy_number as certificate_number,
-        sub.number as policy_number,
+        LPAD(sub.number::text, 5, '0') as policy_number,
         p.firstname,
         p.othernames,
         p.lastname || ' ' || p.lastname2 as lastname,
@@ -152,7 +154,133 @@ class SftpReportLine(models.Model):
         """
         self.env.cr.execute(query)
         #(select to_char(mp.date_planned_start,'mm')) as month,
+
+    def _cron_generate_ap_sftp_report(self):        
+        fecha = '10/21/2021'
+        fecha_date = datetime.strptime(fecha, '%m/%d/%Y')
+        # current_date = date.today() - timedelta(days=1)
+        nombre_archivo_ap = 'Odoo_Prin_' + fecha_date.strftime('%d%m%Y')
+        nombre_archivo_bef = 'Odoo_Ben_' + fecha_date.strftime('%d%m%Y')
+        data = []
+        data2 = []
+        beneficiario_topo = ['99999','0000000007','Usuario' ,'Prueba','Hubspot','09/19/1953','10/08/2021','F','11111','D','D1','10/08/2021','A','','MM-023','','','','009','79','1.prueba@gmail.com','3333333333','09/19/1953','Cale 11 #4a-9','','CO','Magdalena','SANTA MARTA','Pensionada']
+        records_ap =  self.env['report.sftp'].search([('date_start4', '=', fecha_date)])        
+        records_bef =  self.env['report.beneficiary.sftp'].search([('date_start4', '=', fecha_date)])
+
+        for record in records_ap:
+            data.append([
+                record.policy_number if record.policy_number != False else '', 
+                record.certificate_number if record.certificate_number != False else '', 
+                record.firstname if record.firstname != False else '', 
+                record.othernames if record.othernames != False else '', 
+                record.lastname if record.lastname != False else '', 
+                record.birthdate_date if record.birthdate_date != False else '', 
+                record.date_start if record.date_start != False else '', 
+                record.gender if record.gender != False else '', 
+                record.identification_document if record.identification_document != False else '', 
+                record.date_start2 if record.date_start2 != False else '', 
+                record.date_start3 if record.date_start3 != False else '', 
+                record.change_type if record.change_type != False else '', 
+                record.street if record.street != False else '', 
+                record.street2 if record.street2 != False else '', 
+                record.city_name if record.city_name != False else '', 
+                record.marital_status if record.marital_status != False else '', 
+                record.country if record.country != False else '', 
+                record.partner_zip_code if record.partner_zip_code != False else '', 
+                record.mobile if record.mobile != False else '', 
+                record.email if record.email != False else '', 
+                record.localization if record.localization != False else '', 
+                record.palig if record.palig != False else '', 
+                record.recurring_interval if record.recurring_interval != False else '', 
+                record.salary if record.salary != False else '', 
+                record.salary_mode if record.salary_mode != False else '', 
+                record.lifevolume if record.lifevolume != False else '', 
+                record.addvolume if record.addvolume != False else '', 
+                record.email1 if record.email1 != False else '', 
+                record.email2 if record.email2 != False else '', 
+                record.email_city if record.email_city != False else '', 
+                record.email_state if record.email_state != False else '', 
+                record.email_country if record.email_country != False else '', 
+                record.zip_code if record.zip_code != False else '', 
+                record.default_code if record.default_code != False else '', 
+                record.commentaries if record.commentaries != False else '', 
+                record.first_due if record.first_due != False else '', 
+                record.aniversary if record.aniversary != False else '', 
+                record.sponsor_name if record.sponsor_name != False else '', 
+                record.country2 if record.country2 != False else '', 
+                record.second_identification if record.second_identification != False else '', 
+                record.second_type_identification if record.second_type_identification != False else '', 
+                record.ocupation if record.ocupation != False else '', 
+                record.reference_initial if record.reference_initial != False else '', 
+                record.insegurability_test if record.insegurability_test != False else '', 
+                record.subsidiary if record.subsidiary != False else '', 
+                record.phone if record.phone != False else '', 
+                record.ocupation2 if record.ocupation != False else ''
+            ])
+        for record in records_bef:
+            data2.append([
+                record.policy_number if record.policy_number != False else '', 
+                record.certificate_number if record.certificate_number != False else '', 
+                record.firstname if record.firstname != False else '', 
+                record.othernames if record.othernames != False else '', 
+                record.lastname if record.lastname != False else '', 
+                record.birthdate_date if record.birthdate_date != False else '', 
+                record.date_start if record.date_start != False else '', 
+                record.gender if record.gender != False else '', 
+                record.identification_document if record.identification_document != False else '', 
+                record.relationship if record.relationship != False else '', 
+                record.clerk_code if record.clerk_code != False else '', 
+                record.change_date if record.change_date != False else '', 
+                record.change_type if record.change_type != False else '', 
+                record.date_end if record.date_end != False else '', 
+                record.default_code if record.default_code != False else '', 
+                record.recurring_interval if record.recurring_interval != False else '', 
+                record.date_start2 if record.date_start2 != False else '', 
+                record.insegurability_test if record.insegurability_test != False else '', 
+                record.sponsor_name if record.sponsor_name != False else '', 
+                record.country if record.country != False else '', 
+                record.email if record.email != False else '', 
+                record.mobile if record.mobile != False else '', 
+                record.birthdate_date2 if record.birthdate_date2 != False else '', 
+                record.street if record.street != False else '', 
+                record.phone if record.phone != False else '', 
+                record.country2 if record.country2 != False else '', 
+                record.state_id if record.state_id != False else '', 
+                record.city_name if record.city_name != False else '', 
+                record.ocupation if record.ocupation != False else ''
+            ])
+
+        if len(data != 0):
+            if len(data2) == 0:
+                data2.append(beneficiario_topo)
         
+            with open('tmp/%s.csv'%(nombre_archivo_ap), 'w', encoding='utf-8', newline='') as file, open('tmp/%s.csv'%(nombre_archivo_bef), 'w', encoding='utf-8', newline='') as file2:
+                writer = csv.writer(file, delimiter=',')
+                writer.writerows(data)
+                writer2 = csv.writer(file2, delimiter=',')
+                writer2.writerows(data2)  
+            
+            # HOST = 'sftp.masmedicos.site'
+            # USER = 'easytekqa'
+            # PASS = 'easytekqa_2021'
+        
+            # try: 
+            #     client = paramiko.SSHClient() 
+            #     client.set_missing_host_key_policy( paramiko.AutoAddPolicy )
+            #     client.connect(HOST, username=USER, password=PASS)
+            #     sftp_client = client.open_sftp()
+            #     sftp_client.put(
+            #         'tmp/%s.csv'%(nombre_archivo_ap), 
+            #         '/home/webapp01/masmedicosqa/origen/asegurados/easytekqa/%s.csv'%(nombre_archivo_ap) 
+            #     )
+            #     sftp_client.put(
+            #         'tmp/%s.csv'%(nombre_archivo_bef), 
+            #         '/home/webapp01/masmedicosqa/origen/dependientes/easytekqa/%s.csv'%(nombre_archivo_bef) 
+            #     )
+            #     sftp_client.close() 
+            #     client.close()                
+            # except paramiko.ssh_exception.AuthenticationException as e:
+            #     _logger.info('Autenticacion fallida en el servidor SFTP')
         
         
         
@@ -190,6 +318,8 @@ class SftpReportBeneficiaryLine(models.Model):
     state_id = fields.Char('Estado',readonly=True)
     city_name = fields.Char('Ciudad',readonly=True)
     ocupation = fields.Char('Ocupación',readonly=True)
+    date_start4 = fields.Date('Fecha creacion',readonly=True)
+
     street2 = fields.Char('Dirección2',readonly=True)
     partner_zip_code = fields.Char('Ciudad',readonly=True)
     subsidiary = fields.Char('Subsidiaria',readonly=True)
@@ -205,13 +335,14 @@ class SftpReportBeneficiaryLine(models.Model):
         select 
         row_number() OVER (ORDER BY sub.id) as id,
         sub.policy_number as certificate_number,
-        sub.number as policy_number,
+        LPAD(sub.number::text, 5, '0') as policy_number,
         p.firstname,
         p.othernames,
         p.lastname || ' ' || p.lastname2 as lastname,
         TO_CHAR(p.birthdate_date, 'mm/dd/yyyy')as birthdate_date,
         TO_CHAR(p.birthdate_date, 'mm/dd/yyyy')as birthdate_date2,
         TO_CHAR(sub.date_start, 'mm/dd/yyyy')as date_start,
+        sub.date_start as date_start4,
         p.gender,
         p.identification_document,
         pro.default_code,

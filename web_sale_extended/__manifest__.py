@@ -43,6 +43,7 @@
         'views/assistand_purchase_confirmation_view.xml',
         #'reports/sale_order_report.xml',
         #'reports/res_partner_report.xml',
+        'data/sftp_report_bot.xml',
         'data/payment_assisted_purchase_mail_template.xml',
         'data/confirm_order_bot.xml',
         'data/recovery_main_insured.xml',
