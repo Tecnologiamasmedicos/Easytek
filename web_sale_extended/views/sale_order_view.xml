@@ -14,6 +14,7 @@
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 <field name="sponsor_id" />
                 <field name="assisted_purchase" />
+                <field name="payment_method_type" invisible="1"/> 
             </xpath>
 
             <xpath expr="//notebook" position="inside">
