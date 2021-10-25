@@ -47,6 +47,7 @@
         'data/payment_assisted_purchase_mail_template.xml',
         'data/confirm_order_bot.xml',
         'data/recovery_main_insured.xml',
+        'data/mail_template_recurring_payment_credit_card.xml',
         'data/shop_address.xml',
         'data/tus_datos_bot.xml',
         'data/payu_latam_bot.xml',

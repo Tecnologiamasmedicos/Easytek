@@ -7,6 +7,8 @@
         <field name="arch" type="xml">
             <header>
                 <button name="send_recovery_email" string="Enviar correo registro AP" class="btn-primary" states="payu_approved" type="object"/>
+                <button name="send_recurring_payment_credit_card" string="Enviar correo cobro TC" class="btn-primary" type="object" attrs="{'invisible':[('payment_method_type','!=','Credit Card')]}" states="sale" />
+                <button name="payment_credit_card_by_tokenization" string="Cobrar por token" class="btn-primary" type="object" attrs="{'invisible':[('payment_method_type','!=','Credit Card')]}" states="sale"/>
             </header>
 
             <xpath expr="//field[@name='payment_term_id']" position="after">
