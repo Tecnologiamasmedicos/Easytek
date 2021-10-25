@@ -4,7 +4,7 @@ from odoo import fields, models, tools, api,_
 
 _logger = logging.getLogger(__name__)
     
-class CollectionsReportLine(models.Model):
+class ReportBuyerDifferentMain_insured(models.Model):
     _name = 'report.buyer.different.main_insured'
     _auto = False
     _description = 'Este reporte muestra informacion en donde el asegurado principal es diferente del comprador'    
