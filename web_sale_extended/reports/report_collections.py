@@ -145,7 +145,7 @@ class CollectionsReportLine(models.Model):
                 payment = 'Efectivo'
             elif record.payment_method == 'PSE':
                 payment = 'Pse'
-            data.append([record.certificate_number, record.policy_number, record.firstname, record.othernames, record.lastname, record.identification_document, record.transaction_type, record.clase, record.change_date.strftime('%d/%m/%Y'), record.collected_value, record.number_of_installments, payment, record.number_of_plan_installments, record.total_installments, record.number_of_installments_arrears, record.sponsor_id.name, record.policyholder, record.product_code, record.product_name])
+            data.append([record.policy_number, record.certificate_number, record.firstname, record.othernames, record.lastname, record.identification_document, record.transaction_type, record.clase, record.change_date.strftime('%d/%m/%Y'), record.collected_value, record.number_of_installments, payment, record.number_of_plan_installments, record.total_installments, record.number_of_installments_arrears, record.sponsor_id.name, record.policyholder, record.product_code, record.product_name])
             sum = sum + record.collected_value
 
         data.append(['Fecha inicio', datetime.strptime(start_date, '%Y-%m-%d').strftime('%d/%m/%Y'), 'Fecha fin', datetime.strptime(end_date, '%Y-%m-%d').strftime('%d/%m/%Y'), 'Numero de registros', nreg, '', '', 'Total', sum])

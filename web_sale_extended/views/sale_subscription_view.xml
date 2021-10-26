@@ -276,7 +276,22 @@
                 </tree>
             </field>
         </record>
-         
+        <record id="report_subscription_view_search" model="ir.ui.view">
+            <field name="name">report.subscription.view.search</field>
+            <field name="model">report.subscription</field>
+            <field name="arch" type="xml">                
+                <search>
+                    <field name="policy_number" />
+                    <field name="certificate_number" />
+                    <field name="ap_name" />
+                    <field name="ap_identification" />
+                    <field name="plan_name" />
+                    <separator/>
+                    <filter string="Fecha Suscripción" name="filter_subscription_date" date="subscription_date"/>
+                    <filter string="Fecha Suscripción" name="subscription_date" context="{'group_by': 'subscription_date'}"/>
+                </search>
+            </field>
+        </record>         
         <record model="ir.actions.act_window" id="action_report_subscription_tree">
             <field name="name">Reporte de suscripciones</field>
             <field name="res_model">report.subscription</field>

@@ -72,4 +72,17 @@
             </xpath>
         </field>
     </record>
+
+    <record id="sale_order_view_search_inherit" model="ir.ui.view">
+        <field name="name">sale.order.view.search.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">                
+            <search>
+                <filter string="Tarjeta de Credito" name="credit_card" domain="[('payment_method_type','=', 'Credit Card')]"/>               
+                <filter string="Pse" name="pse" domain="[('payment_method_type','=', 'PSE')]"/>               
+                <filter string="Efectivo" name="cash" domain="[('payment_method_type','=', 'Cash')]"/>               
+            </search>
+        </field>
+    </record>
 </odoo>
