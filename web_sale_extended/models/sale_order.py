@@ -2,7 +2,7 @@
 
 from odoo import models, fields, api, SUPERUSER_ID, _
 from datetime import datetime, timedelta
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 import time, json, logging
 from odoo.http import request
 from odoo.tools import ustr, consteq, float_compare
@@ -563,9 +563,12 @@ class SaleOrder(models.Model):
         template.sudo().send_mail(self.id, force_send=True)
 
     def send_recurring_payment_credit_card(self):
-        template_id = self.env.ref('web_sale_extended.mail_template_recurring_payment_credit_card').id
-        template = self.env['mail.template'].browse(template_id)
-        template.sudo().send_mail(self.id, force_send=True)
+        if self.payment_method_type == 'Credit Card' and self.payulatam_credit_card_token != '':
+            template_id = self.env.ref('web_sale_extended.mail_template_recurring_payment_credit_card').id
+            template = self.env['mail.template'].browse(template_id)
+            template.sudo().send_mail(self.id, force_send=True)
+        else:
+            raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
         
     def _cron_send_recovery_email_main_insured(self):
         """ Selección de ordenes de venta que estan aprobadas por PayU y que no se envio correo """
@@ -586,172 +589,175 @@ class SaleOrder(models.Model):
             return super(SaleOrder, self).write(vals)
 
     def payment_credit_card_by_tokenization(self):
-        """ Proceso de Pago """
-        referenceCode = str(self.env['api.payulatam'].payulatam_get_sequence())
-        accountId = self.env['api.payulatam'].payulatam_get_accountId()
-        descriptionPay = "Payment Origin from " + self.name
-        signature = self.env['api.payulatam'].payulatam_get_signature(
-            self.amount_total,'COP',referenceCode)
-        
-        payulatam_api_env = self.env.user.company_id.payulatam_api_env
-        if payulatam_api_env == 'prod':
-            payulatam_response_url = self.env.user.company_id.payulatam_api_response_url
+        if self.payment_method_type == 'Credit Card' and self.payulatam_credit_card_token != '':           
+            """ Proceso de Pago """
+            referenceCode = str(self.env['api.payulatam'].payulatam_get_sequence())
+            accountId = self.env['api.payulatam'].payulatam_get_accountId()
+            descriptionPay = "Payment Origin from " + self.name
+            signature = self.env['api.payulatam'].payulatam_get_signature(
+                self.amount_total,'COP',referenceCode)
+
+            payulatam_api_env = self.env.user.company_id.payulatam_api_env
+            if payulatam_api_env == 'prod':
+                payulatam_response_url = self.env.user.company_id.payulatam_api_response_url
+            else:
+                payulatam_response_url = self.env.user.company_id.payulatam_api_response_sandbox_url
+
+            tx_value = {"value": self.amount_total, "currency": "COP"}        
+            additionalValues = {
+                "TX_VALUE": tx_value
+            }
+            shippingAddress = {
+                "street1": self.partner_id.street,
+                "street2": "",
+                "city": self.partner_id.zip_id.city_id.name,
+                "state": self.partner_id.zip_id.city_id.state_id.name,
+                "country": "CO",
+                "postalCode": self.partner_id.zip_id.name,
+                "phone": self.partner_id.phone
+            }    
+            buyer = {
+                "merchantBuyerId": "1",
+                "fullName": self.beneficiary0_id.name,
+                "emailAddress": self.beneficiary0_id.email,
+                "contactPhone": self.beneficiary0_id.phone,
+                "dniNumber": self.beneficiary0_id.identification_document,
+                "shippingAddress": shippingAddress
+            }    
+            order_api = {
+                "accountId": accountId,
+                "referenceCode": referenceCode,
+                "description": 'PPS - ' + descriptionPay,
+                "language": "es",
+                "signature": signature,
+                "notifyUrl":payulatam_response_url,
+                "additionalValues": additionalValues,
+                "buyer": buyer,
+                "shippingAddress": shippingAddress
+            }
+            billingAddressPayer = {
+                "street1": self.partner_id.street,
+                "street2": "",
+                "city": self.partner_id.zip_id.city_id.name,
+                "state": self.partner_id.zip_id.city_id.state_id.name,
+                "country": "CO",
+                "postalCode": self.partner_id.zip_id.name,
+                "phone": self.partner_id.phone
+            }    
+            payer = {
+                "merchantPayerId": "1",
+                "fullName": self.partner_id.name,
+                "emailAddress": self.partner_id.email,
+                "contactPhone": self.partner_id.phone,
+                "dniNumber": self.partner_id.identification_document,
+                "billingAddress": billingAddressPayer
+            }
+            creditCard = {
+                "processWithoutCvv2": "true"
+            }
+            extraParameters = {
+                "INSTALLMENTS_NUMBER": 1
+            }
+            transaction = {
+                "order": order_api,
+                "payer": payer,
+                "creditCardTokenId": self.payulatam_credit_card_token,
+                "creditCard": creditCard,
+                "extraParameters": extraParameters,
+                "type": "AUTHORIZATION_AND_CAPTURE",
+                "paymentMethod": self.payulatam_credit_card_method,
+                "paymentCountry": "CO",
+                "deviceSessionId": request.httprequest.cookies.get('session_id'),
+                "ipAddress": "127.0.0.1",
+                "cookie": request.httprequest.cookies.get('session_id'),
+                "userAgent": "Firefox"
+            }        
+            credit_card_values = {
+                "command": "SUBMIT_TRANSACTION",
+                "transaction": transaction,
+            }
+
+            _logger.error(credit_card_values)
+            response = request.env['api.payulatam'].payulatam_credit_cards_payment_request(credit_card_values)
+
+            if response['code'] != 'SUCCESS':
+                body_message = """
+                    <b><span style='color:red;'>PayU Latam - Error en pago con tarjeta de crédito</span></b><br/>
+                    <b>Código:</b> %s<br/>
+                    <b>Error:</b> %s
+                """ % (
+                    response['code'],
+                    response['error'], 
+                )
+                self.message_post(body=body_message, type="comment")
+
+            if response['transactionResponse']['state'] == 'APPROVED':
+                # self.write({
+                #     'payulatam_order_id': response['transactionResponse']['orderId'],
+                #     'payulatam_transaction_id': response['transactionResponse']['transactionId'],
+                #     'payulatam_state': response['transactionResponse']['state'],
+                #     'payment_method_type': 'Credit Card',
+                #     'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO APROBADA',
+                #     'payulatam_datetime': fields.datetime.now(),
+                # })
+                # self.action_payu_approved()            
+                body_message = """
+                    <b><span style='color:green;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
+                    <b>Orden ID:</b> %s<br/>
+                    <b>Transacción ID:</b> %s<br/>
+                    <b>Estado:</b> %s<br/>
+                    <b>Código Respuesta:</b> %s
+                """ % (
+                    response['transactionResponse']['orderId'], 
+                    response['transactionResponse']['transactionId'], 
+                    'APROBADO', 
+                    response['transactionResponse']['responseCode']
+                )
+                self.message_post(body=body_message, type="comment")
+                #order.action_confirm()
+            elif response['transactionResponse']['state'] == 'PENDING':
+                # self.write({
+                #     'payulatam_order_id': response['transactionResponse']['orderId'],
+                #     'payulatam_transaction_id': response['transactionResponse']['transactionId'],
+                #     'payulatam_state': response['transactionResponse']['state'],
+                #     'payment_method_type': 'Credit Card',
+                #     'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO PENDIENTE DE APROBACIÓN',
+                #     'payulatam_datetime': fields.datetime.now(),
+                # })
+                body_message = """
+                    <b><span style='color:orange;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
+                    <b>Orden ID:</b> %s<br/>
+                    <b>Transacción ID:</b> %s<br/>
+                    <b>Estado:</b> %s<br/>
+                    <b>Código Respuesta:</b> %s
+                """ % (
+                    response['transactionResponse']['orderId'], 
+                    response['transactionResponse']['transactionId'], 
+                    'PENDIENTE DE APROBACIÓN', 
+                    response['transactionResponse']['responseCode']
+                )
+                self.message_post(body=body_message, type="comment")
+            elif response['transactionResponse']['state'] in ['EXPIRED', 'DECLINED']:
+                # self.write({
+                #     'payulatam_order_id': response['transactionResponse']['orderId'],
+                #     'payulatam_transaction_id': response['transactionResponse']['transactionId'],
+                #     'payulatam_state': response['transactionResponse']['state'],
+                #     'payment_method_type': 'Credit Card',
+                #     'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO RECHAZADA',
+                #     'payulatam_datetime': fields.datetime.now(),
+                # })
+                body_message = """
+                    <b><span style='color:red;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
+                    <b>Orden ID:</b> %s<br/>
+                    <b>Transacción ID:</b> %s<br/>
+                    <b>Estado:</b> %s<br/>
+                    <b>Código Respuesta:</b> %s
+                """ % (
+                    response['transactionResponse']['orderId'], 
+                    response['transactionResponse']['transactionId'], 
+                    'RECHAZADO', 
+                    response['transactionResponse']['responseCode']
+                )
+                self.message_post(body=body_message, type="comment")
         else:
-            payulatam_response_url = self.env.user.company_id.payulatam_api_response_sandbox_url
-
-        tx_value = {"value": self.amount_total, "currency": "COP"}        
-        additionalValues = {
-            "TX_VALUE": tx_value
-        }
-        shippingAddress = {
-            "street1": self.partner_id.street,
-            "street2": "",
-            "city": self.partner_id.zip_id.city_id.name,
-            "state": self.partner_id.zip_id.city_id.state_id.name,
-            "country": "CO",
-            "postalCode": self.partner_id.zip_id.name,
-            "phone": self.partner_id.phone
-        }    
-        buyer = {
-            "merchantBuyerId": "1",
-            "fullName": self.beneficiary0_id.name,
-            "emailAddress": self.beneficiary0_id.email,
-            "contactPhone": self.beneficiary0_id.phone,
-            "dniNumber": self.beneficiary0_id.identification_document,
-            "shippingAddress": shippingAddress
-        }    
-        order_api = {
-            "accountId": accountId,
-            "referenceCode": referenceCode,
-            "description": 'PPS - ' + descriptionPay,
-            "language": "es",
-            "signature": signature,
-            "notifyUrl":payulatam_response_url,
-            "additionalValues": additionalValues,
-            "buyer": buyer,
-            "shippingAddress": shippingAddress
-        }
-        billingAddressPayer = {
-            "street1": self.partner_id.street,
-            "street2": "",
-            "city": self.partner_id.zip_id.city_id.name,
-            "state": self.partner_id.zip_id.city_id.state_id.name,
-            "country": "CO",
-            "postalCode": self.partner_id.zip_id.name,
-            "phone": self.partner_id.phone
-        }    
-        payer = {
-            "merchantPayerId": "1",
-            "fullName": self.partner_id.name,
-            "emailAddress": self.partner_id.email,
-            "contactPhone": self.partner_id.phone,
-            "dniNumber": self.partner_id.identification_document,
-            "billingAddress": billingAddressPayer
-        }
-        creditCard = {
-            "processWithoutCvv2": "true"
-        }
-        extraParameters = {
-            "INSTALLMENTS_NUMBER": 1
-        }
-        transaction = {
-            "order": order_api,
-            "payer": payer,
-            "creditCardTokenId": self.payulatam_credit_card_token,
-            "creditCard": creditCard,
-            "extraParameters": extraParameters,
-            "type": "AUTHORIZATION_AND_CAPTURE",
-            "paymentMethod": self.payulatam_credit_card_method,
-            "paymentCountry": "CO",
-            "deviceSessionId": request.httprequest.cookies.get('session_id'),
-            "ipAddress": "127.0.0.1",
-            "cookie": request.httprequest.cookies.get('session_id'),
-            "userAgent": "Firefox"
-        }        
-        credit_card_values = {
-            "command": "SUBMIT_TRANSACTION",
-            "transaction": transaction,
-        }
-        
-        _logger.error(credit_card_values)
-        response = request.env['api.payulatam'].payulatam_credit_cards_payment_request(credit_card_values)
-
-        if response['code'] != 'SUCCESS':
-            body_message = """
-                <b><span style='color:red;'>PayU Latam - Error en pago con tarjeta de crédito</span></b><br/>
-                <b>Código:</b> %s<br/>
-                <b>Error:</b> %s
-            """ % (
-                response['code'],
-                response['error'], 
-            )
-            self.message_post(body=body_message, type="comment")
-        
-        if response['transactionResponse']['state'] == 'APPROVED':
-            # self.write({
-            #     'payulatam_order_id': response['transactionResponse']['orderId'],
-            #     'payulatam_transaction_id': response['transactionResponse']['transactionId'],
-            #     'payulatam_state': response['transactionResponse']['state'],
-            #     'payment_method_type': 'Credit Card',
-            #     'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO APROBADA',
-            #     'payulatam_datetime': fields.datetime.now(),
-            # })
-            # self.action_payu_approved()            
-            body_message = """
-                <b><span style='color:green;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
-                <b>Orden ID:</b> %s<br/>
-                <b>Transacción ID:</b> %s<br/>
-                <b>Estado:</b> %s<br/>
-                <b>Código Respuesta:</b> %s
-            """ % (
-                response['transactionResponse']['orderId'], 
-                response['transactionResponse']['transactionId'], 
-                'APROBADO', 
-                response['transactionResponse']['responseCode']
-            )
-            self.message_post(body=body_message, type="comment")
-            #order.action_confirm()
-        elif response['transactionResponse']['state'] == 'PENDING':
-            # self.write({
-            #     'payulatam_order_id': response['transactionResponse']['orderId'],
-            #     'payulatam_transaction_id': response['transactionResponse']['transactionId'],
-            #     'payulatam_state': response['transactionResponse']['state'],
-            #     'payment_method_type': 'Credit Card',
-            #     'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO PENDIENTE DE APROBACIÓN',
-            #     'payulatam_datetime': fields.datetime.now(),
-            # })
-            body_message = """
-                <b><span style='color:orange;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
-                <b>Orden ID:</b> %s<br/>
-                <b>Transacción ID:</b> %s<br/>
-                <b>Estado:</b> %s<br/>
-                <b>Código Respuesta:</b> %s
-            """ % (
-                response['transactionResponse']['orderId'], 
-                response['transactionResponse']['transactionId'], 
-                'PENDIENTE DE APROBACIÓN', 
-                response['transactionResponse']['responseCode']
-            )
-            self.message_post(body=body_message, type="comment")
-        elif response['transactionResponse']['state'] in ['EXPIRED', 'DECLINED']:
-            # self.write({
-            #     'payulatam_order_id': response['transactionResponse']['orderId'],
-            #     'payulatam_transaction_id': response['transactionResponse']['transactionId'],
-            #     'payulatam_state': response['transactionResponse']['state'],
-            #     'payment_method_type': 'Credit Card',
-            #     'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO RECHAZADA',
-            #     'payulatam_datetime': fields.datetime.now(),
-            # })
-            body_message = """
-                <b><span style='color:red;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
-                <b>Orden ID:</b> %s<br/>
-                <b>Transacción ID:</b> %s<br/>
-                <b>Estado:</b> %s<br/>
-                <b>Código Respuesta:</b> %s
-            """ % (
-                response['transactionResponse']['orderId'], 
-                response['transactionResponse']['transactionId'], 
-                'RECHAZADO', 
-                response['transactionResponse']['responseCode']
-            )
-            self.message_post(body=body_message, type="comment")
+            raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
