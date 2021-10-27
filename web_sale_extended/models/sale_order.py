@@ -679,6 +679,9 @@ class SaleOrder(models.Model):
 
             _logger.error(credit_card_values)
             response = request.env['api.payulatam'].payulatam_credit_cards_payment_request(credit_card_values)
+            _logger.error('Respuesta PayUU pago token')
+            _logger.error(response)
+
 
             if response['code'] != 'SUCCESS':
                 body_message = """
