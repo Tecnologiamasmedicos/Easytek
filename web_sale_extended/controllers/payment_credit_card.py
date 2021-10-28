@@ -29,9 +29,10 @@ class WebsiteSaleExtended(WebsiteSale):
     @http.route(['/shop/payment/payulatam-gateway-api'], type='http', auth="public", website=True, sitemap=False)
     def payulatam_gateway_api(self, **post):
         order = request.website.sale_get_order()
-        redirection = self.checkout_redirection(order)
-        if redirection:
-            return redirection
+        if order.state != 'sale':
+            redirection = self.checkout_redirection(order)
+            if redirection:
+                return redirection
         
         """ Si existe una orden activa y llegan sin el metodo de pago """
         if 'method_id' not in post or 'credit_card_number' not in post:
@@ -230,7 +231,8 @@ class WebsiteSaleExtended(WebsiteSale):
                 'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO APROBADA',
                 'payulatam_datetime': fields.datetime.now(),
             })
-            order.action_payu_approved()
+            if order.state != 'sale':
+                order.action_payu_approved()
             render_values = {
                 'error': '',
                 'transactionId': response['transactionResponse']['transactionId'],
@@ -263,7 +265,12 @@ class WebsiteSaleExtended(WebsiteSale):
                 'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO PENDIENTE DE APROBACIÓN',
                 'payulatam_datetime': fields.datetime.now(),
             })
-            order.action_payu_confirm()
+            if order.state != 'sale':
+                order.action_payu_confirm()
+            else:
+                order.write({
+                    'payulatam_request_pending': True
+                })
             error = 'Transacción %s en estado : %s' % (
                 response['transactionResponse']['transactionId'],response['transactionResponse']['pendingReason']
             )
@@ -329,7 +336,8 @@ class WebsiteSaleExtended(WebsiteSale):
             error = 'Transacción en estado %s: %s' % (
                 response['transactionResponse']['transactionId'],response['status']
             )
-            order.action_cancel()
+            if order.state != 'sale':
+                order.action_cancel()
             render_values = {'error': error}
             render_values.update({
                 'state': response['transactionResponse']['state'],

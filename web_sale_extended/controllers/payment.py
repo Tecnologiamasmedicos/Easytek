@@ -113,11 +113,17 @@ class WebsiteSaleExtended(WebsiteSale):
         payulatam_transaction_id = request.env['sale.order'].sudo().search(domain, limit=1)
         if payulatam_transaction_id:
             if lapTransactionState == 'APPROVED':
-                payulatam_transaction_id.write({
-                    'payulatam_state': 'TRANSACCIÓN APROBADA',
-                    'state': 'payu_approved',
-                    'date_order': fields.Datetime.now()
-                })
+                if order.state != 'sale':
+                    payulatam_transaction_id.write({
+                        'payulatam_state': 'TRANSACCIÓN APROBADA',
+                        'state': 'payu_approved',
+                        'date_order': fields.Datetime.now()
+                    })
+                else:
+                    payulatam_transaction_id.write({
+                        'payulatam_state': 'TRANSACCIÓN APROBADA',
+                        'date_order': fields.Datetime.now()
+                    })
                 if request.session['sale_order_id'] and order == payulatam_transaction_id:
                     """ En este caso el usuario puede continuar directamente la transacción """
                     render_values = {}

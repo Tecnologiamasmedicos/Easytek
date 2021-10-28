@@ -131,7 +131,8 @@ class WebsiteSaleExtended(WebsiteSale):
                 'payulatam_state': 'TRANSACCIÓN CON PSE PENDIENTE DE APROBACIÓN',
                 'payulatam_datetime': fields.datetime.now(),
             })
-            order.action_payu_approved()
+            if order.state != 'sale':
+                order.action_payu_approved()
             render_values = {'error': ''}
             render_values.update({
                 'state': response['transactionResponse']['state'],
@@ -155,7 +156,12 @@ class WebsiteSaleExtended(WebsiteSale):
             order.message_post(body=body_message, type="comment")
             return request.render("web_sale_extended.payulatam_success_process_pse", render_values)
         elif response['transactionResponse']['state'] == 'PENDING':
-            order.action_payu_confirm()
+            if order.state != 'sale':
+                order.action_payu_confirm()
+            else:
+                order.write({
+                    'payulatam_request_pending': True
+                })
             #request.session['sale_order_id'] = None
             #request.session['sale_transaction_id'] = None
             order.write({

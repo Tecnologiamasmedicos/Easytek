@@ -85,7 +85,7 @@
                                     <div class="s_alert_content">
                                         <p></p>
                                         <div style="text-align:center;">
-                                            <t t-if="not order_id.assisted_purchase">
+                                            <t t-if="not order_id.assisted_purchase and order_id.state != 'sale'">
                                                 <div class="contenedor" style="background-color: #fff200; display: grid; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; grid-template: auto auto / 100px auto 100px; text-align: center; padding: 10px;">
                                                     <div class="img" style="display:flex; justify-content: center; align-items: center;">
                                                         <img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/616330_598192/Atencion.png" width="75" />
@@ -102,7 +102,7 @@
                                                     </div>
                                                 </div>
                                                 <p></p>
-                                            </t>
+                                            </t>                       
                                             <img class="img-fluid o_we_custom_image" 
                                                  src="/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be" 
                                                  style="width:auto;"/><br/>
@@ -126,38 +126,52 @@
                                             </font>-->
                                             <br/>
                                         </div>
-                                        <t t-if="not order_id.assisted_purchase">
-                                            <div style="text-align:center;">
-                                                <span style="font-size:18px;">Para continuar con el registro del asegurado principal y los beneficiarios:</span>
-                                            </div>
-                                        </t>
-                                        <t t-else="">
-                                            <span style="font-size:18px;">
-                                                Ahora descarga tu certificado.
-                                            </span>
+                                        <t t-if="order_id.state != 'sale'">
+                                            <t t-if="not order_id.assisted_purchase">
+                                                <div style="text-align:center;">
+                                                    <span style="font-size:18px;">Para continuar con el registro del asegurado principal y los beneficiarios:</span>
+                                                </div>
+                                            </t>
+                                            <t t-else="">
+                                                <span style="font-size:18px;">
+                                                    Ahora descarga tu certificado.
+                                                </span>
+                                            </t>
                                         </t>
                                     </div>
                                 </div>                                
-                                <div class="s_btn text-center pt16 pb16" data-name="Button">                                    
-                                    <t t-if="not order_id.assisted_purchase">                                    
+                                <div class="s_btn text-center pt16 pb16" data-name="Button"> 
+                                    <t t-if="order_id.state != 'sale'">
+                                        <t t-if="not order_id.assisted_purchase">                                    
+                                            <a class="btn btn-primary" 
+                                               id="submit_beneficiaries_add" 
+                                               data-original-title="" 
+                                               title="" 
+                                               aria-describedby="tooltip188699"
+                                               style="color:#FFF;">Continua con el <strong>registro</strong>
+                                               <i class="fa fa-chevron-right"/>
+                                            </a>                                    
+                                        </t>                                     
+                                        <t t-else="">                                            
+                                            <a class="btn btn-primary" 
+                                                href="/beneficiary-detail?download_documents=1"
+                                                data-original-title="" 
+                                                title="" 
+                                                aria-describedby="tooltip188699"
+                                                style="color:#FFF;">Descargar documentos
+                                                <i class="fa fa-chevron-right"/>
+                                            </a>                                            
+                                        </t>
+                                    </t>
+                                    <t t-else="">
                                         <a class="btn btn-primary" 
-                                           id="submit_beneficiaries_add" 
+                                           id="submit_payment_cash_success" 
                                            data-original-title="" 
                                            title="" 
                                            aria-describedby="tooltip188699"
-                                           style="color:#FFF;">Continua con el <strong>registro</strong>
+                                           style="color:#FFF;">Volver a la página principal
                                            <i class="fa fa-chevron-right"/>
-                                        </a>                                    
-                                    </t>                                     
-                                    <t t-else="">                                            
-                                        <a class="btn btn-primary" 
-                                            href="/beneficiary-detail?download_documents=1"
-                                            data-original-title="" 
-                                            title="" 
-                                            aria-describedby="tooltip188699"
-                                            style="color:#FFF;">Descargar documentos
-                                            <i class="fa fa-chevron-right"/>
-                                        </a>                                            
+                                        </a>    
                                     </t>
                                     <input type="hidden" name="order_id" t-att-value="order_id.id"/>
                                   </div>                                
@@ -281,7 +295,7 @@
                                        data-original-title="" 
                                        title="" 
                                        aria-describedby="tooltip188699"
-                                       style="color:#FFF;">Volver a la página de Inicio
+                                       style="color:#FFF;">Volver a la pasarela de pago
                                        <i class="fa fa-chevron-right"/>
                                     </a>
                                     <input type="hidden" name="order_id" t-att-value="order_id.id"/>
@@ -389,7 +403,7 @@
                                        id="submit_payment_rejected" 
                                        data-original-title="" 
                                        title="" 
-                                       aria-describedby="tooltip188699">Regresar al Proceso de Pago
+                                       aria-describedby="tooltip188699">Volver a la pasarela de pago
                                        <i class="fa fa-chevron-right"/>
                                     </a>
                                   </div>
@@ -477,9 +491,9 @@
                                     <i class="fa-2x s_alert_icon"></i>
                                     <div class="s_alert_content">
                                         <p></p>
-                                        <div style="text-align:center;">
+                                        <div style="text-align:center;">    
                                             <font color="#39b54a">
-                                            </font>
+                                            </font>                         
                                             <img class="img-fluid o_we_custom_image" 
                                                  src="/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be" 
                                                  style="width:auto;"/><br/>
@@ -505,12 +519,14 @@
                                             <br/>
                                         </div>
                                         <div style="text-align:center;">
-                                            <span style="font-size:18px;">
-                                                Una vez confirmado el pago te enviareamos un correo electrónico a 
-                                                <b><t t-esc="order_id.partner_id.email"/></b> 
-                                                con las indicaciones para finalizar tú proceso de afiliación y registrar la información 
-                                                del asegurado principal y los beneficiarios del plan elegido. 
-                                            </span>
+                                            <t t-if="order_id.state != 'sale'">
+                                                <span style="font-size:18px;">
+                                                    Una vez confirmado el pago te enviareamos un correo electrónico a 
+                                                    <b><t t-esc="order_id.partner_id.email"/></b> 
+                                                    con las indicaciones para finalizar tú proceso de afiliación y registrar la información 
+                                                    del asegurado principal y los beneficiarios del plan elegido. 
+                                                </span>
+                                            </t>
                                         </div>
                                     </div>
                                 </div>
@@ -750,7 +766,7 @@
                                        data-original-title="" 
                                        title="" 
                                        aria-describedby="tooltip188699"
-                                       style="color:#FFF;">Volver a la página de Inicio
+                                       style="color:#FFF;">Volver a la pasarela de pago
                                        <i class="fa fa-chevron-right"/>
                                     </a>
                                     <input type="hidden" name="order_id" t-att-value="order_id.id"/>
@@ -841,7 +857,7 @@
                                     <div class="s_alert_content">
                                         <p></p>
                                         <div style="text-align:center;">
-                                            <t t-if="not order_id.assisted_purchase">
+                                            <t t-if="not order_id.assisted_purchase and order_id.state != 'sale'">
                                                 <div class="contenedor" style="background-color: #fff200; display: grid; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; grid-template: auto auto / 100px auto 100px; text-align: center; padding: 10px;">
                                                     <div class="img" style="display:flex; justify-content: center; align-items: center;">
                                                         <img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/616330_598192/Atencion.png" width="75" />
@@ -889,21 +905,23 @@
                                             </t>
                                             <br/>
                                         </div>
-                                        <t t-if="response.get('lapTransactionState') == 'APPROVED'">
-                                            <div style="text-align:center;">
-                                                <t t-if="not order_id.assisted_purchase">                                                
-                                                    <span style="font-size:18px;">
-                                                        Ahora debes registrar el asegurado principal y los beneficiarios de tú 
-                                                        <!--<t t-esc="order_detail[0].product_template_id.name"/>-->
-                                                        <t t-esc="order_id.main_product_id.name"/>.
-                                                    </span>
-                                                </t>
-                                                <t t-else="">
-                                                    <span style="font-size:18px;">
-                                                        Ahora descarga tu certificado.
-                                                    </span>
-                                                </t>
-                                            </div>
+                                        <t t-if="order_id.state != 'sale'">
+                                            <t t-if="response.get('lapTransactionState') == 'APPROVED'">
+                                                <div style="text-align:center;">
+                                                    <t t-if="not order_id.assisted_purchase">                                                
+                                                        <span style="font-size:18px;">
+                                                            Ahora debes registrar el asegurado principal y los beneficiarios de tú 
+                                                            <!--<t t-esc="order_detail[0].product_template_id.name"/>-->
+                                                            <t t-esc="order_id.main_product_id.name"/>.
+                                                        </span>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span style="font-size:18px;">
+                                                            Ahora descarga tu certificado.
+                                                        </span>
+                                                    </t>
+                                                </div>
+                                            </t>
                                         </t>
                                         <t t-if="response.get('lapTransactionState') != 'APPROVED'">
                                             <div style="text-align:center;">
@@ -917,27 +935,39 @@
                                 </div>
                                 
                                 <div class="s_btn text-center pt16 pb16" data-name="Button">
-                                    <t t-if="response.get('lapTransactionState') == 'APPROVED'">
-                                        <t t-if="not order_id.assisted_purchase">
-                                            <a class="btn btn-primary" 
-                                               id="submit_pse_end_add_beneficiaries" 
-                                               data-original-title="" 
-                                               title="" 
-                                               aria-describedby="tooltip188699"
-                                               style="color:#FFF;">Continua con el <strong>registro</strong>
-                                               <i class="fa fa-chevron-right"/>
-                                            </a>                                        
-                                        </t>                                        
-                                        <t t-else="">                                            
-                                            <a class="btn btn-primary" 
-                                               href="/beneficiary-detail?download_documents=1"
-                                               data-original-title="" 
-                                               title="" 
-                                               aria-describedby="tooltip188699"
-                                               style="color:#FFF;">Descargar documentos
-                                               <i class="fa fa-chevron-right"/>
-                                            </a>                                            
-                                        </t>                                        
+                                    <t t-if="order_id.state != 'sale'">
+                                        <t t-if="response.get('lapTransactionState') == 'APPROVED'">
+                                            <t t-if="not order_id.assisted_purchase">
+                                                <a class="btn btn-primary" 
+                                                   id="submit_pse_end_add_beneficiaries" 
+                                                   data-original-title="" 
+                                                   title="" 
+                                                   aria-describedby="tooltip188699"
+                                                   style="color:#FFF;">Continua con el <strong>registro</strong>
+                                                   <i class="fa fa-chevron-right"/>
+                                                </a>                                        
+                                            </t>                                        
+                                            <t t-else="">                                            
+                                                <a class="btn btn-primary" 
+                                                   href="/beneficiary-detail?download_documents=1"
+                                                   data-original-title="" 
+                                                   title="" 
+                                                   aria-describedby="tooltip188699"
+                                                   style="color:#FFF;">Descargar documentos
+                                                   <i class="fa fa-chevron-right"/>
+                                                </a>                                            
+                                            </t>                                        
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <a class="btn btn-primary" 
+                                           id="submit_payment_cash_success" 
+                                           data-original-title="" 
+                                           title="" 
+                                           aria-describedby="tooltip188699"
+                                           style="color:#FFF;">Volver a la página principal
+                                           <i class="fa fa-chevron-right"/>
+                                        </a>    
                                     </t>
                                     <t t-if="response.get('lapTransactionState') != 'APPROVED'">
                                         <!--Cambio de texto del boton cuando el pago por pse es rechazado-->
@@ -946,7 +976,7 @@
                                            data-original-title="" 
                                            title="" 
                                            aria-describedby="tooltip188699"
-                                           style="color:#FFF;">Volver a la página de Inicio<!-- style="color:#FFF;">Intentalo de nuevo-->
+                                           style="color:#FFF;">Volver a la pasarela de pago<!-- style="color:#FFF;">Intentalo de nuevo-->
                                            <i class="fa fa-chevron-right"/>
                                         </a>
                                         <!--FIN Cambio de texto del boton cuando el pago por pse es rechazado-->
@@ -1057,7 +1087,7 @@
                                        data-original-title="" 
                                        title="" 
                                        aria-describedby="tooltip188699"
-                                       style="color:#FFF;">Volver a la Página de inicio<!-- style="color:#FFF;">Intentalo de nuevo-->
+                                       style="color:#FFF;">Volver a la pasarela de pago<!-- style="color:#FFF;">Intentalo de nuevo-->
                                        <i class="fa fa-chevron-right"/>
                                     </a>
                                     <!--FIN cambio de texto del boton cuando el pago de pse es rechazado segundo comentariado-->
@@ -1543,7 +1573,7 @@
                                                 </t>
                                                 <t t-else="">
                                                     <input class="form-control" type="text" name="credit_card_partner_phone" t-att-value="order.partner_id.mobile"/>
-                                                </t>                                                
+                                                </t>
                                               </div>
                                         </div>
                                       </div>
@@ -1941,7 +1971,7 @@
                                       <input type="hidden" name="callback" t-att-value="callback" />
                                       <p/>
                                       <div class="d-flex justify-content-end">
-                                          <button class="btn btn-primary mb32 submit_payment">
+                                          <button id="payment_btn_cash" class="btn btn-primary mb32 submit_payment">
                                               <span>Generar Recibo de Pago</span>
                                               <i class="fa fa-chevron-right"/>
                                           </button>

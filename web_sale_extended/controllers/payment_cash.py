@@ -29,9 +29,10 @@ class WebsiteSaleExtended(WebsiteSale):
     @http.route(['/shop/payment/payulatam-gateway-api/cash_process'], type='http', auth="public", website=True, sitemap=False, csrf=False)
     def payulatam_gateway_api_cash_payment(self, **post):
         order = request.website.sale_get_order()
-        redirection = self.checkout_redirection(order)
-        if redirection:
-            return redirection
+        if order.state != 'sale':
+            redirection = self.checkout_redirection(order)
+            if redirection:
+                return redirection
         
         """ Si existe una orden activa y llegan sin el metodo de pago """
         if not post['cash_bank']:
@@ -107,7 +108,12 @@ class WebsiteSaleExtended(WebsiteSale):
 
         if response['transactionResponse']['state'] == 'PENDING':
             """ Orden en estado Pendiente por confirmación PayU, se da por terminada la transacción como exitosa """
-            order.action_payu_confirm()
+            if order.state != 'sale':
+                order.action_payu_confirm()
+            else:
+                order.write({
+                    'payulatam_request_pending': True
+                })
             order.write({
                 'payulatam_order_id': response['transactionResponse']['orderId'],
                 'payulatam_transaction_id': response['transactionResponse']['transactionId'],
@@ -193,7 +199,8 @@ class WebsiteSaleExtended(WebsiteSale):
             error = 'Transacción en estado %s: %s' % (
                 response['transactionResponse']['transactionId'],response['status']
             )
-            order.action_cancel()
+            if order.state != 'sale':
+                order.action_cancel()
             if request.session.get('sale_order_id'):
                 request.session['sale_order_id'] = None
             render_values = {'error': error}

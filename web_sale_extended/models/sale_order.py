@@ -49,6 +49,7 @@ class SaleOrder(models.Model):
     payulatam_credit_card_identification = fields.Char('Identificación')
     payulatam_credit_card_method = fields.Char('Metodo de Pago')
     payulatam_request_expired = fields.Boolean('Request Expired')
+    payulatam_request_pending = fields.Boolean('Request Pending')
     state =  fields.Selection(selection_add=[('payu_pending', 'PAYU ESPERANDO APROBACIÓN'),('payu_approved', 'PAYU APROBADO')])
     main_product_id = fields.Many2one('product.product', string="Plan Elegido", compute="_compute_main_product_id", store=True)
     payment_method_type = fields.Selection([
@@ -552,6 +553,16 @@ class SaleOrder(models.Model):
         )        
         return link
     
+    def generate_recurring_payment_link(self, order_id):
+        token = self.generate_access_token(order_id)
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        link = ('%s/shop/payment/recurring/%s?access_token=%s') % (
+            base_url,
+            order_id,
+            token
+        )        
+        return link
+    
     def _send_payment_link_assisted_purchase_email(self):        
         template_id = self.env.ref('web_sale_extended.payment_link_assisted_purchase_email_template').id
         template = self.env['mail.template'].browse(template_id)
@@ -570,6 +581,11 @@ class SaleOrder(models.Model):
         else:
             raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
         
+    def send_recurring_payment_pse_cash(self):
+        template_id = self.env.ref('web_sale_extended.mail_template_recurring_payment_pse_cash').id
+        template = self.env['mail.template'].browse(template_id)
+        template.sudo().send_mail(self.id, force_send=True)
+
     def _cron_send_recovery_email_main_insured(self):
         """ Selección de ordenes de venta que estan aprobadas por PayU y que no se envio correo """
         sale_ids = self.env['sale.order'].search([('state', '=', 'payu_approved'), ('recovery_email_sent', '=', False)])
@@ -694,73 +710,185 @@ class SaleOrder(models.Model):
                 )
                 self.message_post(body=body_message, type="comment")
 
-            if response['transactionResponse']['state'] == 'APPROVED':
-                # self.write({
-                #     'payulatam_order_id': response['transactionResponse']['orderId'],
-                #     'payulatam_transaction_id': response['transactionResponse']['transactionId'],
-                #     'payulatam_state': response['transactionResponse']['state'],
-                #     'payment_method_type': 'Credit Card',
-                #     'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO APROBADA',
-                #     'payulatam_datetime': fields.datetime.now(),
-                # })
-                # self.action_payu_approved()            
-                body_message = """
-                    <b><span style='color:green;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
-                    <b>Orden ID:</b> %s<br/>
-                    <b>Transacción ID:</b> %s<br/>
-                    <b>Estado:</b> %s<br/>
-                    <b>Código Respuesta:</b> %s
-                """ % (
-                    response['transactionResponse']['orderId'], 
-                    response['transactionResponse']['transactionId'], 
-                    'APROBADO', 
-                    response['transactionResponse']['responseCode']
-                )
-                self.message_post(body=body_message, type="comment")
-                #order.action_confirm()
-            elif response['transactionResponse']['state'] == 'PENDING':
-                # self.write({
-                #     'payulatam_order_id': response['transactionResponse']['orderId'],
-                #     'payulatam_transaction_id': response['transactionResponse']['transactionId'],
-                #     'payulatam_state': response['transactionResponse']['state'],
-                #     'payment_method_type': 'Credit Card',
-                #     'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO PENDIENTE DE APROBACIÓN',
-                #     'payulatam_datetime': fields.datetime.now(),
-                # })
-                body_message = """
-                    <b><span style='color:orange;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
-                    <b>Orden ID:</b> %s<br/>
-                    <b>Transacción ID:</b> %s<br/>
-                    <b>Estado:</b> %s<br/>
-                    <b>Código Respuesta:</b> %s
-                """ % (
-                    response['transactionResponse']['orderId'], 
-                    response['transactionResponse']['transactionId'], 
-                    'PENDIENTE DE APROBACIÓN', 
-                    response['transactionResponse']['responseCode']
-                )
-                self.message_post(body=body_message, type="comment")
-            elif response['transactionResponse']['state'] in ['EXPIRED', 'DECLINED']:
-                # self.write({
-                #     'payulatam_order_id': response['transactionResponse']['orderId'],
-                #     'payulatam_transaction_id': response['transactionResponse']['transactionId'],
-                #     'payulatam_state': response['transactionResponse']['state'],
-                #     'payment_method_type': 'Credit Card',
-                #     'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO RECHAZADA',
-                #     'payulatam_datetime': fields.datetime.now(),
-                # })
-                body_message = """
-                    <b><span style='color:red;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
-                    <b>Orden ID:</b> %s<br/>
-                    <b>Transacción ID:</b> %s<br/>
-                    <b>Estado:</b> %s<br/>
-                    <b>Código Respuesta:</b> %s
-                """ % (
-                    response['transactionResponse']['orderId'], 
-                    response['transactionResponse']['transactionId'], 
-                    'RECHAZADO', 
-                    response['transactionResponse']['responseCode']
-                )
-                self.message_post(body=body_message, type="comment")
+            else:
+                if response['transactionResponse']['state'] == 'APPROVED':
+                    self.write({
+                        'payulatam_order_id': response['transactionResponse']['orderId'],
+                        'payulatam_transaction_id': response['transactionResponse']['transactionId'],
+                        'payulatam_state': response['transactionResponse']['state'],
+                        'payment_method_type': 'Credit Card',
+                        'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO APROBADA',
+                        'payulatam_datetime': fields.datetime.now(),
+                    })
+                    body_message = """
+                        <b><span style='color:green;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
+                        <b>Orden ID:</b> %s<br/>
+                        <b>Transacción ID:</b> %s<br/>
+                        <b>Estado:</b> %s<br/>
+                        <b>Código Respuesta:</b> %s
+                    """ % (
+                        response['transactionResponse']['orderId'], 
+                        response['transactionResponse']['transactionId'], 
+                        'APROBADO', 
+                        response['transactionResponse']['responseCode']
+                    )
+                    self.message_post(body=body_message, type="comment")
+                elif response['transactionResponse']['state'] == 'PENDING':
+                    self.write({
+                        'payulatam_order_id': response['transactionResponse']['orderId'],
+                        'payulatam_transaction_id': response['transactionResponse']['transactionId'],
+                        'payulatam_state': response['transactionResponse']['state'],
+                        'payment_method_type': 'Credit Card',
+                        'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO PENDIENTE DE APROBACIÓN',
+                        'payulatam_datetime': fields.datetime.now(),
+                    })
+                    self.write({
+                        'payulatam_request_pending': True
+                    })
+                    body_message = """
+                        <b><span style='color:orange;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
+                        <b>Orden ID:</b> %s<br/>
+                        <b>Transacción ID:</b> %s<br/>
+                        <b>Estado:</b> %s<br/>
+                        <b>Código Respuesta:</b> %s
+                    """ % (
+                        response['transactionResponse']['orderId'], 
+                        response['transactionResponse']['transactionId'], 
+                        'PENDIENTE DE APROBACIÓN', 
+                        response['transactionResponse']['responseCode']
+                    )
+                    self.message_post(body=body_message, type="comment")
+                elif response['transactionResponse']['state'] in ['EXPIRED', 'DECLINED']:
+                    self.write({
+                        'payulatam_order_id': response['transactionResponse']['orderId'],
+                        'payulatam_transaction_id': response['transactionResponse']['transactionId'],
+                        'payulatam_state': response['transactionResponse']['state'],
+                        'payment_method_type': 'Credit Card',
+                        'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO RECHAZADA',
+                        'payulatam_datetime': fields.datetime.now(),
+                    })
+                    body_message = """
+                        <b><span style='color:red;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
+                        <b>Orden ID:</b> %s<br/>
+                        <b>Transacción ID:</b> %s<br/>
+                        <b>Estado:</b> %s<br/>
+                        <b>Código Respuesta:</b> %s
+                    """ % (
+                        response['transactionResponse']['orderId'], 
+                        response['transactionResponse']['transactionId'], 
+                        'RECHAZADO', 
+                        response['transactionResponse']['responseCode']
+                    )
+                    self.message_post(body=body_message, type="comment")
         else:
             raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
+            
+    def cron_get_status_payu_latam_recurring(self):
+        """ selección de ordenes de venta a procesar, que están pendientes de respuesta de payu """
+        sale_ids = self.env['sale.order'].search([
+            ('payulatam_transaction_id', '!=', ''),
+            ('state', '=', 'sale'),
+            ('payulatam_request_expired', '=', False),
+            ('payulatam_request_pending', '=', True),
+            ('payulatam_datetime', '!=', False),
+        ])
+        _logger.error(sale_ids)
+        for sale in sale_ids:
+            """ Consultando orden en payu """
+            if sale.payulatam_transaction_id:
+                _logger.error(sale.payulatam_transaction_id)
+                _logger.error(sale.payment_method_type)
+                """ si existe una transacción """
+                date_now = fields.datetime.now()
+                date_difference = date_now - sale.payulatam_datetime
+                if sale.payment_method_type == 'Cash':
+                    _logger.error(date_difference.seconds)
+                    if date_difference.seconds > 3600:
+                        """ si existe una transacción """
+                        response = self.env['api.payulatam'].payulatam_get_response_transaction(sale.payulatam_transaction_id)
+                        _logger.error('++++++++++++++++++++++++++ respuesta cron payu latam2 +++++++++++++++++++++++++++++++++++++++')
+                        _logger.error(response)
+                        if response['code'] != 'SUCCESS':
+                            raise ValidationError("""Error de comunicación con Payu: %s""", (json.dumps(response)))
+                        if response['result']['payload']['state'] == 'DECLINED':
+                            message = """<b><span style='color:red;'>PayU Latam - Transacción en efectivo declinada</span></b><br/>
+                            <b>Respuesta:</b> %s
+                            """ % (response['result']['payload'])
+                            sale.message_post(body=message)
+                            sale._send_order_payu_latam_rejected()
+                        if response['result']['payload']['state'] == 'EXPIRED':
+                            message = """<b><span style='color:red;'>PayU Latam - Transacción en efectivo expirada</span></b><br/>
+                            <b>Respuesta:</b> %s
+                            """ % (response['result']['payload'])
+                            sale.message_post(body=message)
+                            sale._send_order_payu_latam_rejected()
+                        if response['result']['payload']['state'] == 'APPROVED':
+                            sale.write({
+                                'payulatam_state': 'TRANSACCIÓN EN EFECTIVO APROBADA',
+                                'payulatam_request_pending': False,
+                            })
+                            message = """<b><span style='color:green;'>PayU Latam - Transacción en efectivo aprobada</span></b><br/>
+                            <b>Respuesta:</b> %s
+                            """ % (response['result']['payload'])
+                            sale.message_post(body=message)
+                if sale.payment_method_type == 'PSE':
+                    _logger.error(date_difference.seconds)
+                    if date_difference.seconds > 600:
+                        """ si existe una transacción """
+                        response = self.env['api.payulatam'].payulatam_get_response_transaction(sale.payulatam_transaction_id)
+                        _logger.error('++++++++++++++++++++++++++ respuesta cron payu latam2 +++++++++++++++++++++++++++++++++++++++')
+                        _logger.error(response)
+                        if response['code'] != 'SUCCESS':
+                            raise ValidationError("""Error de comunicación con Payu: %s""" % (json.dumps(response)))
+                        if response['result']['payload']['state'] == 'DECLINED':
+                            message = """<b><span style='color:red;'>PayU Latam - Transacción PSE declinada</span></b><br/>
+                            <b>Respuesta:</b> %s
+                            """ % (response['result']['payload'])
+                            sale.message_post(body=message)
+                            sale._send_order_payu_latam_rejected()
+                        if response['result']['payload']['state'] == 'EXPIRED':
+                            message = """<b><span style='color:red;'>PayU Latam - Transacción PSE expirada</span></b><br/>
+                            <b>Respuesta:</b> %s
+                            """ % (response['result']['payload'])
+                            sale.message_post(body=message)
+                            sale._send_order_payu_latam_rejected()
+                        if response['result']['payload']['state'] == 'APPROVED':
+                            sale.write({
+                                'payulatam_state': 'TRANSACCIÓN PSE APROBADA',
+                                'payulatam_request_pending': False,
+                            })
+                            message = """<b><span style='color:green;'>PayU Latam - Transacción PSE aprobada</span></b><br/>
+                            <b>Respuesta:</b> %s
+                            """ % (response['result']['payload'])
+                            sale.message_post(body=message)
+                if sale.payment_method_type == 'Credit Card':
+                    _logger.error(date_difference.seconds)
+                    if date_difference.seconds > 600:
+                        """ si existe una transacción """
+                        response = self.env['api.payulatam'].payulatam_get_response_transaction(sale.payulatam_transaction_id)
+                        _logger.error('++++++++++++++++++++++++++ respuesta cron payu latam2 +++++++++++++++++++++++++++++++++++++++')
+                        _logger.error(response)
+                        if response['code'] != 'SUCCESS':
+                            raise ValidationError("""Error de comunicación con Payu: %s""" % (json.dumps(response)))
+                        
+                        if response['result']['payload']['state'] == 'DECLINED':
+                            message = """<b><span style='color:red;'>PayU Latam - Transacción con tarjeta de crédito declinada</span></b><br/>
+                            <b>Respuesta:</b> %s
+                            """ % (response['result']['payload'])
+                            sale.message_post(body=message)
+                            sale._send_order_payu_latam_rejected()
+                        if response['result']['payload']['state'] == 'EXPIRED':
+                            message = """<b><span style='color:red;'>PayU Latam - Transacción con tarjeta de crédito expirada</span></b><br/>
+                            <b>Respuesta:</b> %s
+                            """ % (response['result']['payload'])
+                            sale.message_post(body=message)
+                            sale._send_order_payu_latam_rejected()
+                        if response['result']['payload']['state'] == 'APPROVED':
+                            sale.write({
+                                'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO APROBADA',
+                                'payulatam_request_pending': False,
+                            })
+                            message = """<b><span style='color:green;'>PayU Latam - Transacción de pago con tarjeta de crédito aprobada</span></b><br/>
+                            <b>Respuesta:</b> %s
+                            """ % (response['result']['payload'])
+                            sale.message_post(body=message)
