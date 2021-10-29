@@ -816,12 +816,18 @@ class SaleOrder(models.Model):
                             """ % (response['result']['payload'])
                             sale.message_post(body=message)
                             sale._send_order_payu_latam_rejected()
+                            sale.write({
+                                'payulatam_request_pending': False,
+                            })
                         if response['result']['payload']['state'] == 'EXPIRED':
                             message = """<b><span style='color:red;'>PayU Latam - Transacción en efectivo expirada</span></b><br/>
                             <b>Respuesta:</b> %s
                             """ % (response['result']['payload'])
                             sale.message_post(body=message)
                             sale._send_order_payu_latam_rejected()
+                            sale.write({
+                                'payulatam_request_pending': False,
+                            })
                         if response['result']['payload']['state'] == 'APPROVED':
                             sale.write({
                                 'payulatam_state': 'TRANSACCIÓN EN EFECTIVO APROBADA',
@@ -846,12 +852,18 @@ class SaleOrder(models.Model):
                             """ % (response['result']['payload'])
                             sale.message_post(body=message)
                             sale._send_order_payu_latam_rejected()
+                            sale.write({
+                                'payulatam_request_pending': False,
+                            })
                         if response['result']['payload']['state'] == 'EXPIRED':
                             message = """<b><span style='color:red;'>PayU Latam - Transacción PSE expirada</span></b><br/>
                             <b>Respuesta:</b> %s
                             """ % (response['result']['payload'])
                             sale.message_post(body=message)
                             sale._send_order_payu_latam_rejected()
+                            sale.write({
+                                'payulatam_request_pending': False,
+                            })
                         if response['result']['payload']['state'] == 'APPROVED':
                             sale.write({
                                 'payulatam_state': 'TRANSACCIÓN PSE APROBADA',
@@ -877,12 +889,18 @@ class SaleOrder(models.Model):
                             """ % (response['result']['payload'])
                             sale.message_post(body=message)
                             sale._send_order_payu_latam_rejected()
+                            sale.write({
+                                'payulatam_request_pending': False,
+                            })
                         if response['result']['payload']['state'] == 'EXPIRED':
                             message = """<b><span style='color:red;'>PayU Latam - Transacción con tarjeta de crédito expirada</span></b><br/>
                             <b>Respuesta:</b> %s
                             """ % (response['result']['payload'])
                             sale.message_post(body=message)
                             sale._send_order_payu_latam_rejected()
+                            sale.write({
+                                'payulatam_request_pending': False,
+                            })
                         if response['result']['payload']['state'] == 'APPROVED':
                             sale.write({
                                 'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO APROBADA',
