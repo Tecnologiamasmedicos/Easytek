@@ -62,7 +62,7 @@ class SaleOrder(models.Model):
     @api.depends('order_line', 'state')
     def _compute_sponsor_id(self):
         for rec in self:
-            if rec.state == 'sale':
+            if rec.partner_id.id != 4:
                 if rec.main_product_id.categ_id.sponsor_id: 
                     rec.sponsor_id = rec.main_product_id.categ_id.sponsor_id
                     
