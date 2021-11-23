@@ -586,6 +586,11 @@ class SaleOrder(models.Model):
         template = self.env['mail.template'].browse(template_id)
         template.sudo().send_mail(self.id, force_send=True)
 
+    def send_mail_second_payment(self):
+        template_id = self.env.ref('web_sale_extended.mail_template_cancellation_plan').id
+        template = self.env['mail.template'].browse(template_id)
+        template.sudo().send_mail(self.id, force_send=True)
+
     def _cron_send_recovery_email_main_insured(self):
         """ Selección de ordenes de venta que estan aprobadas por PayU y que no se envio correo """
         sale_ids = self.env['sale.order'].search([('state', '=', 'payu_approved'), ('recovery_email_sent', '=', False)])
