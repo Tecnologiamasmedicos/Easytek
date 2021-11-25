@@ -3498,6 +3498,9 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                     maxlength: 4,
                     number: true,
                 },
+                credit_card_quotes: {
+                    required: true,
+                },
                 credit_card_name: {
                     required: true,
                     minlength: 3,
@@ -3561,6 +3564,9 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 credit_card_code: {
                     required: "¡Upss! el código de seguridad es requerido",
                     maxlength: "¡Upss! máximo 4 digitos"
+                },
+                credit_card_quotes: {
+                    required: "¡Upss! seleccione el numero de cuotas",
                 },
                 credit_card_name: {
                     required: "¡Upss! el nombre de tajeta es requerido",
@@ -3700,6 +3706,9 @@ odoo.define('web_sale_extended.payment_process', function(require) {
 
         $("#payulatam-payment-form-pse").validate({
             rules: {
+                pse_bank: {
+                    required: true,
+                },
                 pse_owner: {
                     required: true,
                     lettersonly: true,
@@ -3713,6 +3722,11 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                     lettersonly: true,
                 },
                 pse_partner_document: {
+                    required: true,
+                    lettersnumberonly_pse: true,
+                    documentrange_pse: true,
+                },
+                pse_billing_partner_document: {
                     required: true,
                     lettersnumberonly_pse: true,
                     documentrange_pse: true,
@@ -3733,6 +3747,9 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 },
             },
             messages: {
+                pse_bank: {
+                    required: "¡Upss! el banco es requerido",
+                },
                 pse_owner: {
                     required: "¡Upss! el titular de la cuenta es requerido",
                     lettersonly: "¡Upss! debe contener solo letras"
@@ -3746,6 +3763,11 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                     lettersonly: "¡Upss! debe contener solo letras"
                 },
                 pse_partner_document: {
+                    required: "¡Upss! tu No. de documento es requerido",
+                    lettersnumberonly_pse: "¡Upss! solo números (y letras para pasaporte)",
+                    documentrange_pse: "¡Upss! cantidad de digitos no es correcto",
+                },
+                pse_billing_partner_document: {
                     required: "¡Upss! tu No. de documento es requerido",
                     lettersnumberonly_pse: "¡Upss! solo números (y letras para pasaporte)",
                     documentrange_pse: "¡Upss! cantidad de digitos no es correcto",

@@ -1444,7 +1444,7 @@
                                             <div class="form-group">
                                                 <label class="col-form-label" for="credit_card_quotes">Número de Cuotas</label>
                                                 <select name="credit_card_quotes" class="form-control">
-                                                    <option value="0">¿En cuantas cuotas desea pagar?</option>
+                                                    <option value="">¿En cuantas cuotas desea pagar?</option>
                                                     <option value="1">1 cuota</option>
                                                     <option value="2">2 cuotas</option>
                                                     <option value="3">3 cuotas</option>
@@ -2023,7 +2023,7 @@
                                                         </t>
                                                 </select>-->
                                                 <select name="pse_bank" class="form-control">
-                                                    <option value="0">A continuación seleccione su banco</option>
+                                                    <option value="">A continuación seleccione su banco</option>
                                                     <option value="1059">BANCAMIA S.A.</option>
                                                     <option value="1040">BANCO AGRARIO</option>
                                                     <option value="1052">BANCO AV VILLAS</option>
@@ -2148,8 +2148,8 @@
                                         </div>
                                         <div class="col-lg-4 col-md-4">
                                             <div class="form-group">
-                                                <label class="col-form-label" for="pse_partner_document">Número de Documento</label>
-                                                <input class="form-control" type="text" name="pse_partner_document" t-att-value="order.partner_id.identification_document"/>
+                                                <label class="col-form-label" for="pse_billing_partner_document">Número de Documento</label>
+                                                <input class="form-control" type="text" name="pse_billing_partner_document" t-att-value="order.partner_id.identification_document"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
