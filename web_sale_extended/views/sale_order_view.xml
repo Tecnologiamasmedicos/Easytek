@@ -10,7 +10,7 @@
                 <button name="send_recurring_payment_credit_card" string="Enviar correo cobro TC" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','!=','Credit Card'), ('state', 'not in', ('sale'))]}" />
                 <button name="payment_credit_card_by_tokenization" string="Cobrar por token" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','!=','Credit Card'), ('state', 'not in', ('sale'))]}" />
                 <button name="send_recurring_payment_pse_cash" string="Enviar correo cobro Pse o Efectivo" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','not in', ('PSE', 'Cash')), ('state', 'not in', ('sale'))]}" />
-                <button name="send_mail_second_payment" string="Segundo mensaje de cobro" class="btn-primary" type="object" states="sale" />
+                <button name="send_mail_second_payment" string="Segundo mensaje de cobro" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','not in', ('PSE', 'Cash')), ('state', 'not in', ('sale'))]}" />
             </header>                
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 <field name="sponsor_id" />
@@ -73,13 +73,18 @@
     <record id="sale_order_view_search_inherit" model="ir.ui.view">
         <field name="name">sale.order.view.search.inherit</field>
         <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
         <field name="arch" type="xml">                
-            <search>
+            <xpath expr="//filter[@name='filter_create_date']" position="after">
+                <separator/>
                 <filter string="Tarjeta de Credito" name="credit_card" domain="[('payment_method_type','=', 'Credit Card')]"/>               
                 <filter string="Pse" name="pse" domain="[('payment_method_type','=', 'PSE')]"/>               
                 <filter string="Efectivo" name="cash" domain="[('payment_method_type','=', 'Cash')]"/>               
-            </search>
+            </xpath>             
+            <xpath expr="//filter[@name='sales']" position="replace">
+                <filter string="Pedidos de ventas" name="sales" domain="[('state','=', 'sale')]"/>
+                <filter string="Bloqueados" name="dones" domain="[('state','=', 'done')]"/>
+            </xpath> 
         </field>
     </record>
 </odoo>
