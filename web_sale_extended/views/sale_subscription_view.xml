@@ -308,6 +308,7 @@
                     <field name="lastname" />
                     <field name="saleorder_name" />
                     <field name="payment_method" />
+                    <field name="buyer_name" />
                     <field name="birthdate_date" />
                     <field name="date_start" />
                     <field name="gender" />

@@ -74,6 +74,7 @@ class SftpReportLine(models.Model):
         ("window_payment", "Pago por ventanilla"),
     ], string="Método de Pago")    
     saleorder_name =  fields.Char('Orden de venta', readonly=True)
+    buyer_name = fields.Char('Nombre comprador', readonly=True)
   
 
     
@@ -91,7 +92,8 @@ class SftpReportLine(models.Model):
         p.othernames,
         p.lastname || ' ' || p.lastname2 as lastname,        
         sorder.name as saleorder_name,        
-        sorder.payment_method_type as payment_method,        
+        sorder.payment_method_type as payment_method,
+        pbuyer.name as buyer_name,        
         TO_CHAR(p.birthdate_date, 'mm/dd/yyyy')as birthdate_date,
         TO_CHAR(sub.date_start, 'mm/dd/yyyy') as date_start, 
         TO_CHAR(sub.date_start, 'mm/dd/yyyy') as date_start2,
@@ -143,6 +145,7 @@ class SftpReportLine(models.Model):
         
         from sale_subscription sub
         left join res_partner p on p.subscription_id = sub.id
+        left join res_partner pbuyer on pbuyer.id = sub.partner_id
         left join res_partner_document_type rpdt on rpdt.id = p.document_type_id
         left join res_city_zip rcz on rcz.id = p.beneficiary_zip_id
         left join res_city city on rcz.city_id = city.id
