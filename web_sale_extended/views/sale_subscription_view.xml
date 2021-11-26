@@ -363,6 +363,7 @@
                     <field name="certificate_number" />
                     <field name="firstname" />
                     <field name="lastname" />
+                    <field name="buyer_name" />
                     <field name="email" />   
                     <field name="mobile" /> 
                     <field name="phone" />    
