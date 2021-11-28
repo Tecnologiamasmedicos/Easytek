@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-import logging
-import datetime
-import traceback
-
+import logging, traceback
 from collections import Counter
 from dateutil.relativedelta import relativedelta
+from datetime import datetime, date, timedelta
 from uuid import uuid4
 
 from odoo import api, fields, models, _
@@ -46,7 +44,7 @@ class SaleSubscription(models.Model):
         res.write({
             'policy_number': str(sequence_id.number_next_actual).zfill(10),
             'number': str(sequence_id.code),
-            'recurring_next_date': datetime.date.today(),
+            'recurring_next_date': date.today(),
             'sponsor_id': res.recurring_invoice_line_ids[0].product_id.categ_id.sponsor_id,
             'policyholder': str(pholder),
         })
@@ -82,3 +80,12 @@ class SaleSubscription(models.Model):
         self.ensure_one()
         if invoice.state != 'posted':
             invoice.post()
+
+    def _cron_start_subscriptions(self):
+        current_date = date.today()
+        subscription_ids = self.env['sale.subscription'].search([('stage_id', '=', 1), ('date_start', '<=', current_date)])
+        _logger.info(subscription_ids)
+        for subscription in subscription_ids:
+            sale_order = self.env['sale.order'].search([('subscription_id', '=', subscription.id)])
+            subscription.stage_id = 2
+            sale_order._send_order_confirmation_mail()

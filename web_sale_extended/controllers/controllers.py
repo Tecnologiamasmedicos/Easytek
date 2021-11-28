@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import json
 import logging, base64
-from datetime import datetime
-from datetime import date
+from datetime import datetime, date
+from dateutil.relativedelta import relativedelta
 from werkzeug.exceptions import Forbidden, NotFound
 import werkzeug.utils
 import werkzeug.wrappers
@@ -230,6 +230,8 @@ class WebsiteSaleExtended(WebsiteSale):
         if 'submitted' in kw:
             if int(assisted_purchase) == 1:
                 order.write({'assisted_purchase': True})   
+            if 'type_payment' in kw and int(assisted_purchase) == 1 and order_detail.product_id.is_beneficiary:
+                order.write({'payment_method_type': kw['type_payment']})       
             order.write({'tusdatos_email': kw['email']})
             _logger.info("****FORMULARIO*****")
             pre_values = self.values_preprocess(order, mode, kw)
@@ -361,7 +363,8 @@ class WebsiteSaleExtended(WebsiteSale):
             #'cities': self.get_cities(),
             'cities': [],
             'document_types': self.get_document_types('payment'),
-            'product': request.env['product.product'].sudo().browse(3),
+            'payment_types': self.get_payment_types('beneficio'),
+            'product': request.env['product.template'].sudo().browse(order_detail.product_id.id),
             # 'fiscal_position': self.get_fiscal_position(),
             'only_services': order and order.only_services,
             'order_detail': order_detail,
@@ -433,6 +436,17 @@ class WebsiteSaleExtended(WebsiteSale):
         else:
             document_type = request.env['res.partner.document.type'].sudo().search([], order='name')
         return document_type
+
+    def get_payment_types(self, type='All'):
+        if type == 'beneficio':
+            payment_type = (dict(request.env['sale.order'].fields_get(allfields=['payment_method_type'])['payment_method_type']['selection']))
+            del payment_type['Credit Card']
+            del payment_type['Cash']
+            del payment_type['PSE']      
+            del payment_type['Product Without Price']            
+        else:
+            payment_type = (dict(request.env['sale.order'].fields_get(allfields=['payment_method_type'])['payment_method_type']['selection']))
+        return payment_type
 
     @http.route(['/my/order/beneficiaries/<int:order_id>'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def get_data_beneficiary(self, order_id, **kwargs):
@@ -766,7 +780,21 @@ class WebsiteSaleExtended(WebsiteSale):
             'order_detail': order_detail,
             'order': order,
             }
-            return request.render("web_sale_extended.confirm_assisted_purchase", render_values)
+            if order_detail.product_id.is_beneficiary:
+                """ Confirmando Orden de Venta luego del proceso exitoso de beneficiarios """
+                order.action_confirm()
+                if (order.subscription_id.template_id.is_fixed_policy and date.today().day <= order.subscription_id.template_id.cutoff_day) or not order.subscription_id.template_id.is_fixed_policy:
+                    order._send_order_confirmation_mail()
+
+                order.subscription_id.write({
+                    'subscription_partner_ids': beneficiary_list,
+                })
+
+                request.session['sale_order_id'] = None
+                request.session['sale_transaction_id'] = None
+                return request.render("web_sale_extended.confirm_assisted_purchase_benefice", render_values)
+            else:
+                return request.render("web_sale_extended.confirm_assisted_purchase", render_values)
         else:
             kwargs['order_detail'] = order_detail
             kwargs['partner'] = Partner
@@ -955,20 +983,39 @@ class WebsiteSaleExtended(WebsiteSale):
                 no_variant_attribute_values = json.loads(kw.get('no_variant_attribute_values'))
             sale_order.website_order_line.unlink()
 
+            cant = 1
+            producto = request.env['product.product'].sudo().browse(product.id)
+            if producto.subscription_template_id.is_fixed_policy:
+                hoy = date.today()
+                r = relativedelta(producto.subscription_template_id.final_date, hoy)  
+                if (producto.subscription_template_id.final_date.day - r.days) <= producto.subscription_template_id.cutoff_day:
+                    cant = r.months + 1
+                else:
+                    cant = r.months
             #for line in sale_order.get_order_lines
             sale_order._cart_update(
                 product_id=int(product.id),
-                add_qty=1,
+                add_qty=cant,
                 set_qty=0,
                 product_custom_attribute_values=product_custom_attribute_values,
                 no_variant_attribute_values=no_variant_attribute_values
             )
             #request.website.sale_reset()
             #return request.redirect("/shop/checkout?express=1&product_id=" + str(product.id))
-            try:                
-                qcontext = '?assisted_purchase=' + str(request.params['assisted_purchase'])
-            except:
-                qcontext = ''
+            qcontext = ''
+            if 'params' in request.params and request.params['params']:
+                parametros = {}
+                pa = request.params['params'].split('?')
+                _logger.info(pa)
+                for x in pa:
+                    parametros[x.split('=')[0]] = x.split('=')[1]
+                
+                if 'user' in parametros.keys():
+                    _logger.info('Tiene usuario')
+                    sale_order.write({'user_id': int(parametros['user'])})
+                    
+                if 'assisted_purchase' in parametros.keys():
+                    qcontext = '?assisted_purchase=' + str(parametros['assisted_purchase'])
             """ 
                 Redireccionando al formulario de datos del comprador.
                 1er Paso, lanzado desde landpage(no hay proceso de token para saber si la petición es valida),

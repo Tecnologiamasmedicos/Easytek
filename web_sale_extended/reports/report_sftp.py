@@ -86,7 +86,7 @@ class SftpReportLine(models.Model):
         TO_CHAR(p.birthdate_date, 'mm/dd/yyyy')as birthdate_date,
         TO_CHAR(sub.date_start, 'mm/dd/yyyy') as date_start,        
         TO_CHAR(sub.date_start, 'mm/dd/yyyy') as date_start2,
-        TO_CHAR(sub.date_start, 'mm/dd/yyyy')as date_start3,
+        (case when subtmpl.is_fixed_policy='t' then TO_CHAR(sub.date_start, 'mm/dd/yyyy') else TO_CHAR(sub.date_start - CAST('1 days' AS INTERVAL), 'mm/dd/yyyy') end)as date_start3,
         sub.date_start as date_start4,
         p.gender,
         p.identification_document,
@@ -148,7 +148,7 @@ class SftpReportLine(models.Model):
         left join ir_sequence seq on seq.id = cat.sequence_id
         left join sale_subscription_template subtmpl on subtmpl.id = sub.template_id
         
-        where 1=1 and p.main_insured='t'
+        where 1=1 and p.main_insured='t' and sub.stage_id=2
         order by sub.id desc
         );
         """
@@ -282,8 +282,6 @@ class SftpReportLine(models.Model):
             # except paramiko.ssh_exception.AuthenticationException as e:
             #     _logger.info('Autenticacion fallida en el servidor SFTP')
         
-        
-        
 class SftpReportBeneficiaryLine(models.Model):
     _name = 'report.beneficiary.sftp'
     _auto = False
@@ -383,7 +381,7 @@ class SftpReportBeneficiaryLine(models.Model):
         ''::text as salary,
         ''::text as localization,
         --''::text as palig,
-        TO_CHAR(sub.date_start, 'mm/dd/yyyy')as change_date,
+        (case when subtmpl.is_fixed_policy='t' then TO_CHAR(sub.date_start, 'mm/dd/yyyy') else TO_CHAR(sub.date_start - CAST('1 days' AS INTERVAL), 'mm/dd/yyyy') end)as change_date,
         '' as date_start2,
         'A'::text as change_type,
         ''::text as date_end
@@ -403,7 +401,7 @@ class SftpReportBeneficiaryLine(models.Model):
         left join ir_sequence seq on seq.id = cat.sequence_id
         left join sale_subscription_template subtmpl on subtmpl.id = sub.template_id
         
-        where 1=1 and p.beneficiary='t'
+        where 1=1 and p.beneficiary='t' and sub.stage_id=2
         order by sub.id desc
         );
         """

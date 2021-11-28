@@ -59,6 +59,7 @@ class CollectionsReportLine(models.Model):
     product_name = fields.Char('Nombre del producto', readonly=True)
     payulatam_order_id = fields.Char('Orden ID', readonly=True)
     payulatam_transaction_id = fields.Char('Transacción ID', readonly=True)
+    birthday_date = fields.Date('Fecha de nacimiento', readonly=True)
     sub_name = fields.Char('Sub name', readonly=True)
     order_name = fields.Char('Order name', readonly=True)
     
@@ -75,6 +76,7 @@ class CollectionsReportLine(models.Model):
         p.othernames,
         p.lastname || ' ' || p.lastname2 as lastname,
         p.identification_document,
+        p.birthdate_date as birthday_date,
         'R'::text as transaction_type,
         tmpl.product_class as clase,
         sub.date_start as change_date,
@@ -166,7 +168,7 @@ class CollectionsReportLine(models.Model):
         start_date_date = datetime.strptime(start_date, '%Y-%m-%d').date()
         end_date_date = datetime.strptime(end_date, '%Y-%m-%d').date()        
         
-        headers = ['Número de Poliza', 'Número de Certificado',	'Primer Nombre', 'Segundo Nombre', 'Apellidos', 'Número de Identificación', 'Tipo de transacción', 'Clase', 'Fecha de cambio', 'Valor recaudo', 'Cuotas recaudo', 'Método de Pago', 'Cuotas plan', 'Pagadas a la fecha', 'Cuotas en mora', 'Sponsor', 'Tomador de poliza', 'Codigo de producto', 'Nombre plan', 'Orden ID', 'Transacción ID']
+        headers = ['Número de Poliza', 'Número de Certificado',	'Primer Nombre', 'Segundo Nombre', 'Apellidos', 'Número de Identificación', 'Fecha de nacimiento', 'Tipo de transacción', 'Clase', 'Fecha de cambio', 'Valor recaudo', 'Cuotas recaudo', 'Método de Pago', 'Cuotas plan', 'Pagadas a la fecha', 'Cuotas en mora', 'Sponsor', 'Tomador de poliza', 'Codigo de producto', 'Nombre plan', 'Orden ID', 'Transacción ID']
         records =  self.env['report.collections'].search([('change_date', '>=', start_date), ('change_date', '<=', end_date)])
         payment = ''
         for record in records:
@@ -179,14 +181,14 @@ class CollectionsReportLine(models.Model):
                 
             if record.payment_method != 'Product Without Price':
                 if record.policy_number in p:
-                    p[record.policy_number].append([record.policy_number, record.certificate_number, record.firstname, record.othernames, record.lastname, record.identification_document, record.transaction_type, record.clase, record.change_date.strftime('%d/%m/%Y'), record.collected_value, record.number_of_installments, payment, record.number_of_plan_installments, record.total_installments, record.number_of_installments_arrears, record.sponsor_id.name, record.policyholder, record.product_code, record.product_name, record.payulatam_order_id, record.payulatam_transaction_id])
+                    p[record.policy_number].append([record.policy_number, record.certificate_number, record.firstname, record.othernames, record.lastname, record.identification_document, record.birthday_date, record.transaction_type, record.clase, record.change_date.strftime('%d/%m/%Y'), record.collected_value, record.number_of_installments, payment, record.number_of_plan_installments, record.total_installments, record.number_of_installments_arrears, record.sponsor_id.name, record.policyholder, record.product_code, record.product_name, record.payulatam_order_id, record.payulatam_transaction_id])
                 else:
-                    p[record.policy_number] = [[record.policy_number, record.certificate_number, record.firstname, record.othernames, record.lastname, record.identification_document, record.transaction_type, record.clase, record.change_date.strftime('%d/%m/%Y'), record.collected_value, record.number_of_installments, payment, record.number_of_plan_installments, record.total_installments, record.number_of_installments_arrears, record.sponsor_id.name, record.policyholder, record.product_code, record.product_name, record.payulatam_order_id, record.payulatam_transaction_id]]
+                    p[record.policy_number] = [[record.policy_number, record.certificate_number, record.firstname, record.othernames, record.lastname, record.identification_document, record.birthday_date, record.transaction_type, record.clase, record.change_date.strftime('%d/%m/%Y'), record.collected_value, record.number_of_installments, payment, record.number_of_plan_installments, record.total_installments, record.number_of_installments_arrears, record.sponsor_id.name, record.policyholder, record.product_code, record.product_name, record.payulatam_order_id, record.payulatam_transaction_id]]
                     
         for x in p:
             suma = 0
             for y in p.get(x):
-                suma = suma + y[9]
+                suma = suma + y[10]
             p.get(x).append(['Fecha inicio', start_date, 'Fecha fin', end_date, 'Numero de registros', len(p.get(x)), '', '', 'Total', suma])
             
         if 'start_date2' in locals():            
@@ -203,14 +205,14 @@ class CollectionsReportLine(models.Model):
                     
                 if record.payment_method != 'Product Without Price':             
                     if record.policy_number in p2:
-                        p2[record.policy_number].append([record.policy_number, record.certificate_number, record.firstname, record.othernames, record.lastname, record.identification_document, record.transaction_type, record.clase, record.change_date.strftime('%d/%m/%Y'), record.collected_value, record.number_of_installments, payment, record.number_of_plan_installments, record.total_installments, record.number_of_installments_arrears, record.sponsor_id.name, record.policyholder, record.product_code, record.product_name, record.payulatam_order_id, record.payulatam_transaction_id])
+                        p2[record.policy_number].append([record.policy_number, record.certificate_number, record.firstname, record.othernames, record.lastname, record.identification_document, record.birthday_date, record.transaction_type, record.clase, record.change_date.strftime('%d/%m/%Y'), record.collected_value, record.number_of_installments, payment, record.number_of_plan_installments, record.total_installments, record.number_of_installments_arrears, record.sponsor_id.name, record.policyholder, record.product_code, record.product_name, record.payulatam_order_id, record.payulatam_transaction_id])
                     else:
-                        p2[record.policy_number] = [[record.policy_number, record.certificate_number, record.firstname, record.othernames, record.lastname, record.identification_document, record.transaction_type, record.clase, record.change_date.strftime('%d/%m/%Y'), record.collected_value, record.number_of_installments, payment, record.number_of_plan_installments, record.total_installments, record.number_of_installments_arrears, record.sponsor_id.name, record.policyholder, record.product_code, record.product_name, record.payulatam_order_id, record.payulatam_transaction_id]]
+                        p2[record.policy_number] = [[record.policy_number, record.certificate_number, record.firstname, record.othernames, record.lastname, record.identification_document, record.birthday_date, record.transaction_type, record.clase, record.change_date.strftime('%d/%m/%Y'), record.collected_value, record.number_of_installments, payment, record.number_of_plan_installments, record.total_installments, record.number_of_installments_arrears, record.sponsor_id.name, record.policyholder, record.product_code, record.product_name, record.payulatam_order_id, record.payulatam_transaction_id]]
                     
             for x in p2:
                 suma = 0
                 for y in p2.get(x):
-                    suma = suma + y[9]
+                    suma = suma + y[10]
                 p2.get(x).append(['Fecha inicio', start_date2, 'Fecha fin', end_date2, 'Numero de registros', len(p2.get(x)), '', '', 'Total', suma])
             
             for x in p.keys():

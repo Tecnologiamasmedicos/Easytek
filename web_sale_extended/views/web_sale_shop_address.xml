@@ -50,8 +50,12 @@
                                                         <span style="font-size: 18px;">
                                                             <b>Llenemos</b>
                                                         </span>
-                                                        
-                                                        <t t-set="vigencia_plan" t-value="order_detail[0].product_template_id.subscription_template_id.recurring_rule_count * order_detail[0].product_template_id.subscription_template_id.recurring_interval" />
+                                                        <t t-if="order_detail[0].product_template_id.subscription_template_id.is_fixed_policy">
+                                                            <t t-set="vigencia_plan" t-value="int(order_detail[0].product_uom_qty)" />
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-set="vigencia_plan" t-value="order_detail[0].product_template_id.subscription_template_id.recurring_rule_count * order_detail[0].product_template_id.subscription_template_id.recurring_interval" />
+                                                        </t>
                                                         
                                                         <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly' and vigencia_plan == 1">
                                                              <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Mes, es fácil y rápido.</b>
@@ -193,7 +197,7 @@
                                             <input type="email" name="email" 
                                             t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}" 
                                             t-att-value="'email' in checkout and checkout['email']" />
-                                        </div>                                        
+                                        </div>
                                     <!--</t>-->
                                     <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-lg-6" 
                                     id="div_phone">
@@ -311,7 +315,7 @@
                                         <input type="text" name="city_id_text" id="city_id_text" t-attf-class="form-control" t-att-value="'city_2' in checkout and checkout['city_2']" />
                                     </div>
                                     
-                                    <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-8 div_city">
+                                    <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-6 div_city">
                                         <label class="col-form-label" for="city">Ciudad*</label>         
                                         <select 
                                                 class="selectpicker"
@@ -333,13 +337,23 @@
                                             </t>
                                         </select>
                                     </div>
-                                    
-                                    
+                                    <div t-attf-class="form-group col-md-6" t-if="assisted_purchase == '1' and product.is_beneficiary">
+                                        <label class="col-form-label" for="type_payment">Tipo de pago*</label>
+                                        <select name="type_payment" class="selectpicker" id="type_payment" 
+                                        t-attf-class="form-control #{error.get('') and 'is-invalid' or ''}">
+                                            <option value="" selected="True">Tipo pago...</option>
+                                            <t t-foreach="payment_types" t-as="pt">
+                                                <option t-att-value="pt">
+                                                    <t t-esc="payment_types[pt]" /> 
+                                                </option>
+                                            </t>    
+                                        </select>
+                                    </div>
                                     <t t-set='zip_city' />
                                     <!--t-value='country and [x for x in country.get_address_fields() if x in ["zip", "city"]] or ["city", "zip"]'-->
                                     <!--<t t-if="'zip' in zip_city and zip_city.index('zip') &lt; zip_city.index('city')">-->
                                     <!--+++++++INICIO DE CÓDIGO DEL CÓDIGO POSTAL++++++++-->
-                                    <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-4 div_zip" style="color: transparent;">
+                                    <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-3 div_zip" style="color: transparent; display: none;">
                                             <label class="col-form-label label-optional" for="zip">Código postal</label>
                                             <input style="visibility: hidden;" type="text" name="zip" 
                                             t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" 
@@ -426,7 +440,7 @@
                                     </div>-->
                                     <!--+++++FIN CÓDIGO DE POSICIÓN FISCAL+++++++-->
                                     
-                                    
+                                    <div t-attf-class="form-group col-md-6" t-if="assisted_purchase == 0 or not product.is_beneficiary"></div>
                                     
                                     <div class="col-lg-6">
                                         <div class="form-check">

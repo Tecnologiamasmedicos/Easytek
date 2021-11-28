@@ -108,7 +108,12 @@
                     <field name="lastname" />
                     <field name="email" />   
                     <field name="mobile" /> 
-                    <field name="phone" />       
+                    <field name="phone" />
+                    <filter string="Hoy" name="current_day" domain="[('date_start4','=', (context_today()).strftime('%%Y-%%m-%d'))]"/>                    
+                    <filter string="Ayer" name="yesterday" domain="[('date_start4','=', (context_today()-relativedelta(days=1)).strftime('%%Y-%%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Fecha Cambio" name="filter_change_date" date="date_start4"/>
+                    <filter string="Fecha Cambio" name="change_date" context="{'group_by': 'date_start4'}"/>     
                 </search>
             </field>
         </record>
@@ -168,7 +173,12 @@
                     <field name="lastname" />
                     <field name="email" /> 
                     <field name="mobile" /> 
-                    <field name="phone" />                                 
+                    <field name="phone" />
+                    <filter string="Hoy" name="current_day" domain="[('date_start4','=', (context_today()).strftime('%%Y-%%m-%d'))]"/>
+                    <filter string="Ayer" name="yesterday" domain="[('date_start4','=', (context_today()-relativedelta(days=1)).strftime('%%Y-%%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Fecha Cambio" name="filter_change_date" date="date_start4"/>
+                    <filter string="Fecha Cambio" name="change_date" context="{'group_by': 'date_start4'}"/>                                 
                 </search>
             </field>
         </record>
@@ -181,7 +191,7 @@
             <field name="name">collections.report.subscription.line.view.tree</field>
             <field name="type">tree</field>
             <field name="model">report.collections</field>
-            <field name="arch" type="xml">                
+            <field name="arch" type="xml">
                 <tree string="Collections lines" create="0" edit="0">
                     <field name="policy_number" />
                     <field name="certificate_number" />
@@ -189,6 +199,7 @@
                     <field name="othernames" />
                     <field name="lastname" />
                     <field name="identification_document" />
+                    <field name="birthday_date" />
                     <field name="transaction_type" />
                     <field name="clase" />
                     <field name="change_date" widget="date" />
@@ -201,13 +212,12 @@
                     <field name="sponsor_id" />
                     <field name="policyholder" />
                     <field name="product_code" />
-                    <field name="product_name" />                    
+                    <field name="product_name" />
                     <field name="payulatam_order_id" />
-                    <field name="payulatam_transaction_id" />                 
-                </tree>                 
+                    <field name="payulatam_transaction_id" />
+                </tree>
             </field>
-        </record>         
-         
+        </record>
         <record id="collections_report_view_search" model="ir.ui.view">
             <field name="name">collections.report.subscription.line.view.search</field>
             <field name="model">report.collections</field>
@@ -221,7 +231,6 @@
                 </search>
             </field>
         </record>
-         
         <record model="ir.actions.act_window" id="action_report_collections_tree">
             <field name="name">Reporte Recaudos</field>
             <field name="res_model">report.collections</field>

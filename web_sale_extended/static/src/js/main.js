@@ -7,6 +7,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
     $(function() {
         $('#country_address_id').selectpicker();
+        $('#type_payment').selectpicker();
         $('#state_address_id').selectpicker('val', '');
         $('#fiscal_position_id').selectpicker();
         $('#city').selectpicker();
@@ -323,14 +324,14 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         $.validator.addMethod("documentrange", function(value, element) {
             var document = $("select[name='document']").val();
             if (document == '3') { //cédula de ciudadanía
-                if ($.isNumeric(value) && (value < 99999 || value > 9999999999)) {
+                if ($.isNumeric(value) && (value < 69999 || value > 9999999999)) {
                     return false;
                 } else {
                     return true;
                 }
             }
             return true;
-        }, "¡Upss! cantidad de digitos no es correcto");
+        }, "¡Upss! numero de documento invalido");
         
         $.validator.addMethod("email2", function(value, element) {
             return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i.test(value);
@@ -435,6 +436,9 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 tyc: {
                     required: true
                 },
+                type_payment: {
+                    required: true
+                },
                 birthdate_date: {
                     required: true,
                     max: {
@@ -529,7 +533,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 identification_document: {
                     required: "¡Upss! tu numero de documento es requerido",
                     lettersnumberonly: "¡Upss! solo números (y letras para pasaporte)",
-                    documentrange: "¡Upss! cantidad de digitos no es correcto",
+                    documentrange: "¡Upss! numero de documento invalido",
                     maxlength: "¡Upss! cantidad de digitos maxima es de 11",
                 },
                 street: {
@@ -561,6 +565,9 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 tyc: {
                     required: "¡Upss! Acepte terminos y condiciones para continuar",
 
+                },
+                type_payment: {
+                    required: "¡Upss! El tipo de pago es requerido",
                 },
                 birthdate_date: {
                     required: "¡Upss! tu fecha de nacimiento es requerido",
@@ -780,19 +787,16 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         }
 
     function edad_maxima_asegurado_principal(fecha){
-        let hoy = new Date();
         let cumpleanos = new Date(parseInt(fecha.split('-')[0]),parseInt(fecha.split('-')[1]) - 1,parseInt(fecha.split('-')[2]));
-        let edad = hoy.getFullYear() - cumpleanos.getFullYear();
-        let m = hoy.getMonth() - cumpleanos.getMonth();
-        if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
-            edad--;
-        }
-        return edad
+        let fecha_minima = new Date();
+        fecha_minima.setDate(fecha_minima.getDate() - 25562);
+        fecha_minima = new Date(parseInt(fecha_minima.getFullYear()),parseInt(fecha_minima.getMonth()),parseInt(fecha_minima.getDate()));
+        return fecha_minima > cumpleanos
     }
 
     $("input[name='birthdate_date']").on('change', function calcularEdad() {
         let edad = edad_maxima_asegurado_principal($(this).val());
-        if (edad > 69) {
+        if (edad === true) {
             $("#div_warning").show();
         }
         else{
@@ -808,7 +812,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 success: function(data) {
                     let decode_data = JSON.parse(data);
                     if(decode_data['data'].country_id == 49){
-                        if(edad_maxima_asegurado_principal(decode_data['data'].birthdate_date) > 69){
+                        if(edad_maxima_asegurado_principal(decode_data['data'].birthdate_date) === true){
                             $('#flexCheckDefault').val('0');
                             $('#div_error').html('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><i class="fa fa-times" aria-hidden="false"></i></button>        <strong>Error: El asegurado principal no puede ser mayor a 69 años.');
                             $('#div_error').show();
@@ -1335,79 +1339,79 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
     $.validator.addMethod("documentrange", function(value, element) {
             var document = $("select[name='numero_documento']").val();
             if (document == '3') { //cédula de ciudadanía
-                if ($.isNumeric(value) && (value < 99999 || value > 9999999999)) {
+                if ($.isNumeric(value) && (value < 69999 || value > 9999999999)) {
                     return false;
                 } else {
                     return true;
                 }
             }
-        }, "¡Upss! cantidad de digitos no es correcto");
+        }, "¡Upss! numero de documento invalido");
     $.validator.addMethod("documentrange1", function(value, element) {
             var document = $("select[name='bfdocument1']").val();
             if (document == '3') { //cédula de ciudadanía
-                if ($.isNumeric(value) && (value < 99999 || value > 9999999999)) {
+                if ($.isNumeric(value) && (value < 69999 || value > 9999999999)) {
                     return false;
                 } else {
                     return true;
                 }
             }
             return true;
-        }, "¡Upss! cantidad de digitos no es correcto");
+        }, "¡Upss! numero de documento invalido");
     $.validator.addMethod("documentrange2", function(value, element) {
             var document = $("select[name='bfdocument2']").val();
             if (document == '3') { //cédula de ciudadanía
-                if ($.isNumeric(value) && (value < 99999 || value > 9999999999)) {
+                if ($.isNumeric(value) && (value < 69999 || value > 9999999999)) {
                     return false;
                 } else {
                     return true;
                 }
             }
             return true;
-        }, "¡Upss! cantidad de digitos no es correcto");
+        }, "¡Upss! numero de documento invalido");
     $.validator.addMethod("documentrange3", function(value, element) {
             var document = $("select[name='bfdocument3']").val();
             if (document == '3') { //cédula de ciudadanía
-                if ($.isNumeric(value) && (value < 99999 || value > 9999999999)) {
+                if ($.isNumeric(value) && (value < 69999 || value > 9999999999)) {
                     return false;
                 } else {
                     return true;
                 }
             }
             return true;
-        }, "¡Upss! cantidad de digitos no es correcto");
+        }, "¡Upss! numero de documento invalido");
     $.validator.addMethod("documentrange4", function(value, element) {
             var document = $("select[name='bfdocument4']").val();
             if (document == '3') { //cédula de ciudadanía
-                if ($.isNumeric(value) && (value < 99999 || value > 9999999999)) {
+                if ($.isNumeric(value) && (value < 69999 || value > 9999999999)) {
                     return false;
                 } else {
                     return true;
                 }
             }
             return true;
-        }, "¡Upss! cantidad de digitos no es correcto");
+        }, "¡Upss! numero de documento invalido");
     $.validator.addMethod("documentrange5", function(value, element) {
             var document = $("select[name='bfdocument5']").val();
             if (document == '3') { //cédula de ciudadanía
-                if ($.isNumeric(value) && (value < 99999 || value > 9999999999)) {
+                if ($.isNumeric(value) && (value < 69999 || value > 9999999999)) {
                     return false;
                 } else {
                     return true;
                 }
             }
             return true;
-        }, "¡Upss! cantidad de digitos no es correcto");
+        }, "¡Upss! numero de documento invalido");
     $.validator.addMethod("documentrange6", function(value, element) {
             var document = $("select[name='bfdocument6']").val();
             if (document == '3') { //cédula de ciudadanía
-                if ($.isNumeric(value) && (value < 99999 || value > 9999999999)) {
+                if ($.isNumeric(value) && (value < 69999 || value > 9999999999)) {
                     return false;
                 } else {
                     return true;
                 }
             }
             return true;
-        }, "¡Upss! cantidad de digitos no es correcto");
+        }, "¡Upss! numero de documento invalido");
     
     $.validator.addMethod("uniquedocument1", function(value, element) {
             var numero_documento = $("input[name='numero_documento']").val();
@@ -1762,16 +1766,12 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: true,
                     max: {
                         depends: function(elem) {
-                            var edad_maxima = 0;
                             let fecha = $("input[name='date']").val();
-                            let hoy = new Date();
-                            let cumpleanos = new Date(fecha);
-                            let edad = hoy.getFullYear() - cumpleanos.getFullYear();
-                            let m = hoy.getMonth() - cumpleanos.getMonth();
-                            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
-                                edad--;
-                            }
-                            return edad > 69
+                            let cumpleanos = new Date(parseInt(fecha.split('-')[0]),parseInt(fecha.split('-')[1]) - 1,parseInt(fecha.split('-')[2]));
+                            let fecha_minima = new Date();
+                            fecha_minima.setDate(fecha_minima.getDate() - 25562);
+                            fecha_minima = new Date(parseInt(fecha_minima.getFullYear()),parseInt(fecha_minima.getMonth()),parseInt(fecha_minima.getDate()));
+                            return fecha_minima > cumpleanos
                         }
                     },
                     min: {
@@ -2484,7 +2484,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "¡Upss! un numero de documento es requerido",
                     maxlength: "¡Upss! cantidad de digitos maxima es de 11",
                     lettersnumberonly0: "¡Upss! solo números (y letras para pasaporte)",
-                    documentrange: "¡Upss! cantidad de digitos no es correcto",
+                    documentrange: "¡Upss! numero de documento invalido",
                     uniquedocument: "¡Upss! número de documento repetido",
                 },
                 address: {
@@ -2565,7 +2565,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "¡Upss! un numero de documento es requerido",
                     maxlength: "¡Upss! cantidad de digitos maxima es de 11",
                     lettersnumberonly1: "¡Upss! solo números (y letras para pasaporte)",
-                    documentrange1: "¡Upss! cantidad de digitos no es correcto",
+                    documentrange1: "¡Upss! numero de documento invalido",
                     uniquedocument1: "¡Upss! número de documento repetido",
                 },
                 bfaddress1: {
@@ -2637,7 +2637,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "¡Upss! un numero de documento es requerido",
                     maxlength: "¡Upss! cantidad de digitos maxima es de 11",
                     lettersnumberonly2: "¡Upss! solo números (y letras para pasaporte)",
-                    documentrange2: "¡Upss! cantidad de digitos no es correcto",
+                    documentrange2: "¡Upss! numero de documento invalido",
                     uniquedocument2: "¡Upss! número de documento repetido",
                 },
                 bfaddress2: {
@@ -2709,7 +2709,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "¡Upss! tu numero de documento es requerido",
                     maxlength: "¡Upss! cantidad de digitos maxima es de 11",
                     lettersnumberonly3: "¡Upss! solo números (y letras para pasaporte)",
-                    documentrange3: "¡Upss! cantidad de digitos no es correcto",
+                    documentrange3: "¡Upss! numero de documento invalido",
                     uniquedocument3: "¡Upss! número de documento repetido",
                 },
                 bfaddress3: {
@@ -2781,7 +2781,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "¡Upss! tu numero de documento es requerido",
                     maxlength: "¡Upss! cantidad de digitos maxima es de 11",
                     lettersnumberonly4: "¡Upss! solo números (y letras para pasaporte)",
-                    documentrange4: "¡Upss! cantidad de digitos no es correcto",
+                    documentrange4: "¡Upss! numero de documento invalido",
                     uniquedocument4: "¡Upss! número de documento repetido",
                 },
                 bfaddress4: {
@@ -2853,7 +2853,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "¡Upss! tu numero de documento es requerido",                    
                     maxlength: "¡Upss! cantidad de digitos maxima es de 11",
                     lettersnumberonly5: "¡Upss! solo números (y letras para pasaporte)",
-                    documentrange5: "¡Upss! cantidad de digitos no es correcto",
+                    documentrange5: "¡Upss! numero de documento invalido",
                     uniquedocument5: "¡Upss! número de documento repetido",
                 },
                 bfaddress5: {
@@ -2925,7 +2925,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "¡Upss! tu numero de documento es requerido",
                     maxlength: "¡Upss! cantidad de digitos maxima es de 11",
                     lettersnumberonly6: "¡Upss! solo números (y letras para pasaporte)",
-                    documentrange6: "¡Upss! cantidad de digitos no es correcto",
+                    documentrange6: "¡Upss! numero de documento invalido",
                     uniquedocument6: "¡Upss! número de documento repetido",
                 },
                 bfaddress6: {
@@ -3448,36 +3448,36 @@ odoo.define('web_sale_extended.payment_process', function(require) {
         $.validator.addMethod("documentrange_credit_card", function(value, element) {
             var document = $("select[name='credit_card_partner_document']").val();
             if (document == 'CC') { //cédula de ciudadanía
-                if ($.isNumeric(value) && (value < 99999 || value > 9999999999)) {
+                if ($.isNumeric(value) && (value < 69999 || value > 9999999999)) {
                     return false;
                 } else {
                     return true;
                 }
             }
             return true;
-        }, "¡Upss! cantidad de digitos no es correcto");
+        }, "¡Upss! numero de documento invalido");
         $.validator.addMethod("documentrange_cash", function(value, element) {
             var document = $("select[name='cash_partner_document']").val();
             if (document == 'CC') { //cédula de ciudadanía
-                if ($.isNumeric(value) && (value < 99999 || value > 9999999999)) {
+                if ($.isNumeric(value) && (value < 69999 || value > 9999999999)) {
                     return false;
                 } else {
                     return true;
                 }
             }
             return true;
-        }, "¡Upss! cantidad de digitos no es correcto");
+        }, "¡Upss! numero de documento invalido");
         $.validator.addMethod("documentrange_pse", function(value, element) {
             var document = $("select[name='pse_partner_document']").val();
             if (document == 'CC') { //cédula de ciudadanía
-                if ($.isNumeric(value) && (value < 99999 || value > 9999999999)) {
+                if ($.isNumeric(value) && (value < 69999 || value > 9999999999)) {
                     return false;
                 } else {
                     return true;
                 }
             }
             return true;
-        }, "¡Upss! cantidad de digitos no es correcto");
+        }, "¡Upss! numero de documento invalido");
         
         $.validator.addMethod("email2", function(value, element) {
             return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i.test(value);
@@ -3592,7 +3592,7 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 credit_card_partner_document: {
                     required: "¡Upss! tu numero de documento es requerido",
                     lettersnumberonly_creditcard: "¡Upss! solo números (y letras para pasaporte)",
-                    documentrange_caredit_card: "¡Upss! cantidad de digitos no es correcto",
+                    documentrange_caredit_card: "¡Upss! numero de documento invalido",
                 },
                 identification_document: {
                     required: "¡Upss! tu numero de documento es requerido",
@@ -3677,7 +3677,7 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 cash_partner_document: {
                     required: "¡Upss! tu No. de documento es requerido",
                     lettersnumberonly_cash: "¡Upss! solo números (y letras para pasaporte)",
-                    documentrange_cash: "¡Upss! cantidad de digitos no es correcto",
+                    documentrange_cash: "¡Upss! numero de documento invalido",
                 },
                 cash_billing_email: {
                     required: "¡Upss! tu email es requerido",
@@ -3765,12 +3765,12 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 pse_partner_document: {
                     required: "¡Upss! tu No. de documento es requerido",
                     lettersnumberonly_pse: "¡Upss! solo números (y letras para pasaporte)",
-                    documentrange_pse: "¡Upss! cantidad de digitos no es correcto",
+                    documentrange_pse: "¡Upss! numero de documento invalido",
                 },
                 pse_billing_partner_document: {
                     required: "¡Upss! tu No. de documento es requerido",
                     lettersnumberonly_pse: "¡Upss! solo números (y letras para pasaporte)",
-                    documentrange_pse: "¡Upss! cantidad de digitos no es correcto",
+                    documentrange_pse: "¡Upss! numero de documento invalido",
                 },
                 pse_billing_email: {
                     required: "¡Upss! tu email es requerido",

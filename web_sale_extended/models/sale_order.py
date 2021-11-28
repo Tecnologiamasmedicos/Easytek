@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, SUPERUSER_ID, _
-from datetime import datetime, timedelta
+from datetime import datetime, date, timedelta
+from dateutil.relativedelta import relativedelta
 from odoo.exceptions import ValidationError, UserError
 import time, json, logging
 from odoo.http import request
@@ -57,6 +58,9 @@ class SaleOrder(models.Model):
         ("Cash", "Efectivo"), 
         ("PSE", "PSE"),
         ("Product Without Price", "Beneficio"),
+        ("payroll_discount", "Descuento de nómina"),
+        ("window_payment", "Pago por ventanilla"),
+        ("libranza_discount", "Descuento por libranza"),
     ])
     
     @api.depends('order_line', 'state')
@@ -327,6 +331,30 @@ class SaleOrder(models.Model):
                                
                 else:
                     continue
+    
+    def _prepare_subscription_data(self, template):
+        res = super(SaleOrder, self)._prepare_subscription_data(template) 
+        current_date = date.today()     
+        if template.is_fixed_policy:
+            _logger.info('El template es de una poliza fija')               
+            if current_date.day > template.cutoff_day:
+                date_start = current_date + relativedelta(months=1)
+                date_start = date_start.replace(day=1)
+                stage_id = 1
+            else:
+                date_start = current_date.replace(day=1)
+                stage_id = 2
+            res.update({
+                'date_start': date_start,
+                'date': template.final_date,
+                'stage_id': stage_id
+            })
+        else:
+            date_start = current_date + timedelta(days=1)
+            res.update({
+                'date_start': date_start
+            })
+        return res
 
     def create_subscriptions(self):
         """
@@ -347,7 +375,8 @@ class SaleOrder(models.Model):
                 values = order._prepare_subscription_data(template)
                 values['recurring_invoice_line_ids'] = to_create[template]._prepare_subscription_line_data()
                 subscription = self.env['sale.subscription'].sudo().create(values)
-                subscription.onchange_date_start()
+                if not template.is_fixed_policy:
+                    subscription.onchange_date_start()
                 res.append(subscription.id)
                 to_create[template].write({'subscription_id': subscription.id})
                 subscription.message_post_with_view(

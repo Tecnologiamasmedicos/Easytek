@@ -131,7 +131,7 @@
                                                 <tr>
                                                     <td><t t-esc='a.name' /></td>
                                                     <td><t t-esc='a.list_price' t-options="{'widget': 'monetary', 'display_currency': a.currency_id}" /></td>
-                                                    <td><a t-att-href="'/web/session/logout?redirect=' + str(a.product_landpage_url) + '?assisted_purchase=1'" target="_blank" class="btn btn-primary">Comprar</a></td>
+                                                    <td><a t-att-href="'/web/session/logout?redirect=' + str(a.product_landpage_url) + '?params=assisted_purchase=1?user=' + str(user_id.id)" target="_blank" class="btn btn-primary">Comprar</a></td>
                                                 </tr>    
                                             </t>
                                         </tbody>
