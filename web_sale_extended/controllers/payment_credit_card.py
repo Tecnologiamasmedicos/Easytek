@@ -233,6 +233,11 @@ class WebsiteSaleExtended(WebsiteSale):
             })
             if order.state != 'sale':
                 order.action_payu_approved()
+            else:
+                query = """
+                    INSERT INTO report_collections_recurring (certificate_number, policy_number, firstname, othernames, lastname, identification_document, birthday_date, transaction_type, clase, change_date, collected_value, number_of_installments, payment_method, number_of_plan_installments, total_installments, number_of_installments_arrears, policyholder, sponsor_id, product_code, product_name, payulatam_order_id, payulatam_transaction_id) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, '%s', '%s', '%s', %s, '%s', '%s', '%s', '%s');
+                        """ %(order.subscription_id.number, order.subscription_id.policy_number, order.partner_id.firstname, order.partner_id.othernames, str(order.partner_id.lastname) + ' ' + str(order.partner_id.lastname2), order.partner_id.identification_document, order.partner_id.birthdate_date, 'A', order.main_product_id.product_class, date.today(), order.amount_total, 1, order.payment_method_type, order.main_product_id.subscription_template_id.recurring_rule_count, "-", "-", order.subscription_id.policyholder, order.sponsor_id.id, order.main_product_id.default_code, order.main_product_id.name, order.payulatam_order_id, order.payulatam_transaction_id)
+                order.env.cr.execute(query)
             render_values = {
                 'error': '',
                 'transactionId': response['transactionResponse']['transactionId'],

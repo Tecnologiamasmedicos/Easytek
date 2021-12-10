@@ -48,6 +48,7 @@ class PayULatamApi(models.TransientModel):
             'AUTHORIZATION_AND_CAPTURE',
             'GET_BANKS_LIST',
             'CREATE_TOKEN',
+            "REMOVE_TOKEN",
             'TRANSACTION_RESPONSE_DETAIL'
         ]
         if endpoint in api_post:

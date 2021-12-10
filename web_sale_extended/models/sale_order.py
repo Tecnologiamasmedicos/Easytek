@@ -774,6 +774,10 @@ class SaleOrder(models.Model):
                         response['transactionResponse']['responseCode']
                     )
                     self.message_post(body=body_message, type="comment")
+                    query = """
+                        INSERT INTO report_collections_recurring (certificate_number, policy_number, firstname, othernames, lastname, identification_document, birthday_date, transaction_type, clase, change_date, collected_value, number_of_installments, payment_method, number_of_plan_installments, total_installments, number_of_installments_arrears, policyholder, sponsor_id, product_code, product_name, payulatam_order_id, payulatam_transaction_id) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, '%s', '%s', '%s', %s, '%s', '%s', '%s', '%s');
+                            """ %(self.subscription_id.number, self.subscription_id.policy_number, self.partner_id.firstname, self.partner_id.othernames, str(self.partner_id.lastname) + ' ' + str(self.partner_id.lastname2), self.partner_id.identification_document, self.partner_id.birthdate_date, 'A', self.main_product_id.product_class, date.today(), self.amount_total, 1, self.payment_method_type, self.main_product_id.subscription_template_id.recurring_rule_count, "-", "-", self.subscription_id.policyholder, self.sponsor_id.id, self.main_product_id.default_code, self.main_product_id.name, self.payulatam_order_id, self.payulatam_transaction_id)
+                    self.env.cr.execute(query)
                 elif response['transactionResponse']['state'] == 'PENDING':
                     self.write({
                         'payulatam_order_id': response['transactionResponse']['orderId'],
@@ -823,7 +827,52 @@ class SaleOrder(models.Model):
                     self.message_post(body=body_message, type="comment")
         else:
             raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
-            
+
+    def delete_token_payulatam(self):
+        if self.payment_method_type == 'Credit Card' and self.payulatam_credit_card_token != '':           
+            command = "REMOVE_TOKEN"
+            removeCreditCardToken = {
+                "payerId": self.partner_id.id,
+                "creditCardTokenId": self.payulatam_credit_card_token
+            }
+            credit_card_values = {
+                "command": command,
+                "removeCreditCardToken": removeCreditCardToken
+            }
+            response = request.env['api.payulatam'].request_payulatam_api(command, credit_card_values)
+            if response['code'] != 'SUCCESS':
+                body_message = """
+                    <b><span style='color:red;'>PayU Latam - Error en procesi de eliminacion del token</span></b><br/>
+                    <b>Código:</b> %s<br/>
+                    <b>Error:</b> %s
+                """ % (
+                    response['code'],
+                    response['error'], 
+                )
+                self.message_post(body=body_message, type="comment")
+            else:
+                body_message = """
+                    <b><span style='color:green;'>PayU Latam - Proceso de eliminacion del token exitoso</span></b><br/>
+                    <b>Token:</b> %s<br/> 
+                    <b>Mascara:</b> %s<br/>
+                    <b>Documento:</b> %s<br/>
+                    <b>Metodo:</b> %s
+                """ % (
+                    response['creditCardToken']['creditCardTokenId'],
+                    response['creditCardToken']['maskedNumber'],
+                    response['creditCardToken']['identificationNumber'],
+                    response['creditCardToken']['paymentMethod'],
+                )
+                self.message_post(body=body_message, type="comment")
+                self.write({
+                    'payulatam_credit_card_token': '',
+                    'payulatam_credit_card_masked': '',
+                    'payulatam_credit_card_identification': '',
+                    'payulatam_credit_card_method': ''
+                })
+        else:
+            raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
+
     def cron_get_status_payu_latam_recurring(self):
         """ selección de ordenes de venta a procesar, que están pendientes de respuesta de payu """
         sale_ids = self.env['sale.order'].search([
@@ -878,6 +927,10 @@ class SaleOrder(models.Model):
                             <b>Respuesta:</b> %s
                             """ % (response['result']['payload'])
                             sale.message_post(body=message)
+                            query = """
+                                INSERT INTO report_collections_recurring (certificate_number, policy_number, firstname, othernames, lastname, identification_document, birthday_date, transaction_type, clase, change_date, collected_value, number_of_installments, payment_method, number_of_plan_installments, total_installments, number_of_installments_arrears, policyholder, sponsor_id, product_code, product_name, payulatam_order_id, payulatam_transaction_id) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, '%s', '%s', '%s', %s, '%s', '%s', '%s', '%s');
+                            """ %(sale.subscription_id.number, sale.subscription_id.policy_number, sale.partner_id.firstname, sale.partner_id.othernames, str(sale.partner_id.lastname) + ' ' + str(sale.partner_id.lastname2), sale.partner_id.identification_document, sale.partner_id.birthdate_date, 'A', sale.main_product_id.product_class, date.today(), sale.amount_total, 1, sale.payment_method_type, sale.main_product_id.subscription_template_id.recurring_rule_count, "-", "-", sale.subscription_id.policyholder, sale.sponsor_id.id, sale.main_product_id.default_code, sale.main_product_id.name, sale.payulatam_order_id, sale.payulatam_transaction_id)
+                            sale.env.cr.execute(query)
                 if sale.payment_method_type == 'PSE':
                     _logger.error(date_difference.seconds)
                     if date_difference.seconds > 600:
@@ -914,6 +967,10 @@ class SaleOrder(models.Model):
                             <b>Respuesta:</b> %s
                             """ % (response['result']['payload'])
                             sale.message_post(body=message)
+                            query = """
+                                INSERT INTO report_collections_recurring (certificate_number, policy_number, firstname, othernames, lastname, identification_document, birthday_date, transaction_type, clase, change_date, collected_value, number_of_installments, payment_method, number_of_plan_installments, total_installments, number_of_installments_arrears, policyholder, sponsor_id, product_code, product_name, payulatam_order_id, payulatam_transaction_id) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, '%s', '%s', '%s', %s, '%s', '%s', '%s', '%s');
+                            """ %(sale.subscription_id.number, sale.subscription_id.policy_number, sale.partner_id.firstname, sale.partner_id.othernames, str(sale.partner_id.lastname) + ' ' + str(sale.partner_id.lastname2), sale.partner_id.identification_document, sale.partner_id.birthdate_date, 'A', sale.main_product_id.product_class, date.today(), sale.amount_total, 1, sale.payment_method_type, sale.main_product_id.subscription_template_id.recurring_rule_count, "-", "-", sale.subscription_id.policyholder, sale.sponsor_id.id, sale.main_product_id.default_code, sale.main_product_id.name, sale.payulatam_order_id, sale.payulatam_transaction_id)
+                            sale.env.cr.execute(query)
                 if sale.payment_method_type == 'Credit Card':
                     _logger.error(date_difference.seconds)
                     if date_difference.seconds > 600:
@@ -951,3 +1008,7 @@ class SaleOrder(models.Model):
                             <b>Respuesta:</b> %s
                             """ % (response['result']['payload'])
                             sale.message_post(body=message)
+                            query = """
+                                INSERT INTO report_collections_recurring (certificate_number, policy_number, firstname, othernames, lastname, identification_document, birthday_date, transaction_type, clase, change_date, collected_value, number_of_installments, payment_method, number_of_plan_installments, total_installments, number_of_installments_arrears, policyholder, sponsor_id, product_code, product_name, payulatam_order_id, payulatam_transaction_id) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, '%s', '%s', '%s', %s, '%s', '%s', '%s', '%s');
+                            """ %(sale.subscription_id.number, sale.subscription_id.policy_number, sale.partner_id.firstname, sale.partner_id.othernames, str(sale.partner_id.lastname) + ' ' + str(sale.partner_id.lastname2), sale.partner_id.identification_document, sale.partner_id.birthdate_date, 'A', sale.main_product_id.product_class, date.today(), sale.amount_total, 1, sale.payment_method_type, sale.main_product_id.subscription_template_id.recurring_rule_count, "-", "-", sale.subscription_id.policyholder, sale.sponsor_id.id, sale.main_product_id.default_code, sale.main_product_id.name, sale.payulatam_order_id, sale.payulatam_transaction_id)
+                            sale.env.cr.execute(query)
