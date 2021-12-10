@@ -139,7 +139,14 @@ class SaleOrder(models.Model):
             for order in self:
                 #order.with_context(force_send=True).message_post_with_template(template_id, composition_mode='comment')
                 template_id.sudo().send_mail(order.id)
-                
+
+    def send_welcome_email(self):
+        if self.env.su:
+            self = self.with_user(SUPERUSER_ID)
+        template_id = self.env['mail.template'].search([('payulatam_welcome_process', '=', True)], limit=1)
+        if template_id:
+            for order in self:
+                template_id.sudo().send_mail(order.id)
                 
     def _send_order_payu_latam_approved(self):
         if self.env.su:
