@@ -43,4 +43,6 @@ class CollectionsReportLineRecurring(models.Model):
     payulatam_transaction_id = fields.Char('Transacción ID', readonly=True)
     birthday_date = fields.Date('Fecha de nacimiento', readonly=True)  
     origin_payment = fields.Char('Origin INSERT', readonly=True)
+    sub_name = fields.Char('Sub name', readonly=True)
+    order_name = fields.Char('Order name', readonly=True)
     
