@@ -310,56 +310,21 @@
             <field name="model">report.charges</field>
             <field name="arch" type="xml">
                 <tree string="SFTP lines" create="0" edit="0">                    
+                    <field name="product_code" />
+                    <field name="product_name" />
+                    <field name="saleorder_name" />
+                    <field name="payment_method" />
+                    <field name="buyer_name" />
+                    <field name="total" />
+                    <field name="state" />
                     <field name="policy_number" />
                     <field name="certificate_number" />
                     <field name="firstname" />
                     <field name="othernames" />
                     <field name="lastname" />
-                    <field name="saleorder_name" />
-                    <field name="payment_method" />
-                    <field name="buyer_name" />
-                    <field name="birthdate_date" />
-                    <field name="date_start" />
-                    <field name="gender" />
                     <field name="identification_document" />
-                    <field name="date_start2" />
-                    <field name="date_start3" />
-                    <field name="change_type" />
-                    <field name="street" />
-                    <field name="street2" />
-                    <field name="city_name" />
-                    <field name="marital_status" />
-                    <field name="country" />
-                    <field name="partner_zip_code" />
-                    <field name="mobile" />
-                    <field name="email" />
-                    <field name="localization" />
-                    <field name="palig" />
-                    <field name="recurring_interval" />
-                    <field name="salary" />
-                    <field name="salary_mode" />
-                    <field name="lifevolume" />
-                    <field name="addvolume" />
-                    <field name="email1" />
-                    <field name="email2" />
-                    <field name="email_city" />
-                    <field name="email_state" />
-                    <field name="email_country" />
-                    <field name="zip_code" />
-                    <field name="default_code" />
-                    <field name="commentaries" />
-                    <field name="first_due" />
-                    <field name="aniversary" />
-                    <field name="sponsor_name" />
-                    <field name="country2" />
-                    <field name="second_identification" />
-                    <field name="second_type_identification" />
-                    <field name="ocupation" />
-                    <field name="reference_initial" />
-                    <field name="insegurability_test" />
-                    <field name="subsidiary" />
-                    <field name="phone" />
-                    <field name="ocupation2" />
+                    <field name="birthdate_date" />
+                    <field name="date_of_membership" />
                 </tree>
             </field>
         </record>
@@ -373,14 +338,11 @@
                     <field name="firstname" />
                     <field name="lastname" />
                     <field name="buyer_name" />
-                    <field name="email" />   
-                    <field name="mobile" /> 
-                    <field name="phone" />    
-                    <filter string="Hoy" name="current_day" domain="[('date_start4','=', (context_today()).strftime('%%Y-%%m-%d'))]"/>                    
-                    <filter string="Ayer" name="yesterday" domain="[('date_start4','=', (context_today()-relativedelta(days=1)).strftime('%%Y-%%m-%d'))]"/>
+                    <filter string="Hoy" name="current_day" domain="[('date_of_membership','=', (context_today()).strftime('%%Y-%%m-%d'))]"/>                    
+                    <filter string="Ayer" name="yesterday" domain="[('date_of_membership','=', (context_today()-relativedelta(days=1)).strftime('%%Y-%%m-%d'))]"/>
                     <separator/>
-                    <filter string="Fecha Cambio" name="filter_change_date" date="date_start4"/>
-                    <filter string="Fecha Cambio" name="change_date" context="{'group_by': 'date_start4'}"/>
+                    <filter string="Fecha Cambio" name="filter_change_date" date="date_of_membership"/>
+                    <filter string="Fecha Cambio" name="change_date" context="{'group_by': 'date_of_membership'}"/>
                 </search>
             </field>
         </record>
