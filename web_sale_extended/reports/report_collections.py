@@ -108,7 +108,7 @@ class CollectionsReportLine(models.Model):
         left join sale_subscription_template subtmpl on subtmpl.id = sub.template_id
         left join sale_order sorder on sorder.subscription_id = sub.id
         
-        where p.buyer='t'
+        where p.main_insured='t'
         order by sub.id desc
         );
         """
