@@ -1012,3 +1012,68 @@ class SaleOrder(models.Model):
                                 INSERT INTO report_collections_recurring (certificate_number, policy_number, firstname, othernames, lastname, identification_document, birthday_date, transaction_type, clase, change_date, collected_value, number_of_installments, payment_method, number_of_plan_installments, total_installments, number_of_installments_arrears, policyholder, sponsor_id, product_code, product_name, payulatam_order_id, payulatam_transaction_id, origin_payment, order_name, sub_name) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, '%s', '%s', '%s', %s, '%s', '%s', '%s', '%s', '%s', '%s', '%s');
                             """ %(sale.subscription_id.policy_number, sale.subscription_id.number, sale.partner_id.firstname, sale.partner_id.othernames, str(sale.partner_id.lastname) + ' ' + str(sale.partner_id.lastname2), sale.partner_id.identification_document, sale.partner_id.birthdate_date, 'A', sale.main_product_id.product_class, date.today(), sale.amount_total, 1, sale.payment_method_type, sale.main_product_id.subscription_template_id.recurring_rule_count, "-", "-", sale.subscription_id.policyholder, sale.sponsor_id.id, sale.main_product_id.default_code, sale.main_product_id.name, sale.payulatam_order_id, sale.payulatam_transaction_id, 'INSERT recurring Credit Card', sale.name, sale.subscription_id.code)
                             sale.env.cr.execute(query)
+
+    def prueba(self):   
+        order_claudio = self.env['sale.order'].sudo().browse(1844)
+        order_dora = self.env['sale.order'].sudo().browse(2231)
+        order_frayde = self.env['sale.order'].sudo().browse(2371)
+        body_message1 = """
+            <b><span style='color:orange;'>PayU Latam - Transacción de pago con PSE</span></b><br/>
+            <b>Orden ID:</b> %s<br/>
+            <b>Transacción ID:</b> %s<br/>
+            <b>Estado:</b> %s<br/>
+            <b>Código Respuesta:</b> %s
+        """ % (
+            '1667769509', 
+            '9a9da0fd-6054-43d6-bfb3-3be279e113e0', 
+            'PENDIENTE DE APROBACIÓN', 
+            'PENDING_TRANSACTION_CONFIRMATION'
+            )
+        order_claudio.message_post(body=body_message1, date='2021-09-29 00:17:22', type="comment")
+        body_message2 = """
+            <b><span style='color:green;'>Transacción de Pago Aprobada</span></b><br/>
+            <b>Orden ID:</b> %s<br/>
+            <b>Transacción ID:</b> %s<br/>
+            <b>Estado:</b> %s<br/>
+            <b>Código Respuesta:</b> %s
+        """ % (
+            '1667769509', 
+            '9a9da0fd-6054-43d6-bfb3-3be279e113e0', 
+            'APPROVED', 
+            'APPROVED'
+            )
+        order_claudio.message_post(body=body_message2, date='2021-09-29 00:23:53', type="comment")
+        body_message3 = """
+            <b><span style='color:orange;'>Transacción de Pago en Efectivo</span></b><br/>
+            <b>Orden ID:</b> 1676567188<br/>
+            <b>Transacción ID:</b> b1a23d91-6732-489a-bf3a-9ed55fb70caf<br/>
+            <b>Estado:</b> PENDING<br/>
+            <b>Código Respuesta:</b> PENDING_TRANSACTION_CONFIRMATION<br/>
+            <b>Motivo Pendiente:</b> AWAITING_NOTIFICATION<br/>
+            <b>Fecha de Expiración:</b> 1633633338000<br/>
+            <b>Url Recibo de Pago:</b> https://checkout.payulatam.com/ppp-web-gateway-payu/app/v2?vid=1676567188Yb1a23d916732489Y014e3c0bd24db91
+        """
+        order_dora.message_post(body=body_message3, date='2021-10-04 19:02:19', type="comment") 
+        body_message4 = """
+            <b><span style='color:green;'>Transacción en efectivo aprobada</span></b><br/>
+            <b>Respuesta:</b> {'state': 'APPROVED', 'paymentNetworkResponseCode': '0000', 'paymentNetworkResponseErrorMessage': None, 'trazabilityCode': 'b1a23d91-6732-489a-bf3a-9ed55fb70caf', 'authorizationCode': '20825666', 'pendingReason': None, 'responseCode': 'APPROVED', 'errorCode': None, 'responseMessage': None, 'transactionDate': None, 'transactionTime': None, 'operationDate': 1633472836790, 'extraParameters': None}
+        """
+        order_dora.message_post(body=body_message4, date='2021-10-05 22:34:17', type="comment") 
+        body_message5 = """
+            <b><span style='color:orange;'>PayU Latam - Transacción de pago con PSE</span></b><br/>
+            <b>Orden ID:</b> %s<br/>
+            <b>Transacción ID:</b> %s<br/>
+            <b>Estado:</b> %s<br/>
+            <b>Código Respuesta:</b> %s
+        """ % (
+            '1681380625', 
+            'ce4c2294-fb7f-408a-94a4-96f369fdddc9', 
+            'PENDIENTE DE APROBACIÓN', 
+            'PENDING_TRANSACTION_CONFIRMATION'
+            )
+        order_frayde.message_post(body=body_message5, date='2021-10-07 21:10:36', type="comment") 
+        body_message6 = """
+            <b><span style='color:green;'>Transacción PSE aprobada</span></b><br/>
+            <b>Respuesta:</b> {'state': 'APPROVED', 'paymentNetworkResponseCode': 'SUCCESS', 'paymentNetworkResponseErrorMessage': None, 'trazabilityCode': '1158380168', 'authorizationCode': None, 'pendingReason': 'AWAITING_NOTIFICATION', 'responseCode': 'APPROVED', 'errorCode': None, 'responseMessage': None, 'transactionDate': None, 'transactionTime': None, 'operationDate': 1633641036287, 'extraParameters': None}
+        """
+        order_frayde.message_post(body=body_message6, date='2021-10-07 21:26:59', type="comment") 

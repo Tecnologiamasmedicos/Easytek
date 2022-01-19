@@ -221,7 +221,7 @@ class WebsiteSaleExtended(WebsiteSale):
             order.message_post(body=body_message, type="comment")
             return request.render("web_sale_extended.payulatam_rejected_process", render_values)
     
-        order.message_post(body=body_message, type="comment")
+        # order.message_post(body=body_message, type="comment")
         if response['transactionResponse']['state'] == 'APPROVED':
             order.write({
                 'payulatam_order_id': response['transactionResponse']['orderId'],
