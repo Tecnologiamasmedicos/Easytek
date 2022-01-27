@@ -62,6 +62,7 @@ class CollectionsReportLine(models.Model):
     birthday_date = fields.Date('Fecha de nacimiento', readonly=True)
     sub_name = fields.Char('Sub name', readonly=True)
     order_name = fields.Char('Order name', readonly=True)
+    state_order = fields.Char('Estado de la orden', readonly=True)
     
     
     def init(self):
@@ -93,7 +94,8 @@ class CollectionsReportLine(models.Model):
         sorder.payulatam_order_id as payulatam_order_id,
         sorder.payulatam_transaction_id as payulatam_transaction_id,
         sub.code as sub_name,
-        sorder.name as order_name
+        sorder.name as order_name,
+        sorder.state as state_order
         
         from sale_subscription sub
         left join res_partner p on p.subscription_id = sub.id
