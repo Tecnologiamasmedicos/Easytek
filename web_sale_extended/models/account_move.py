@@ -14,7 +14,28 @@ class AccountMove(models.Model):
     sponsor_id = fields.Many2one('res.partner')
     campo_vacio = fields.Boolean('Campo vacio', default=False)  
     state =  fields.Selection(selection_add=[('finalized', 'Finalizado')], selection_remove=['payu_pending','payu_approved'])
-        
+
+    payulatam_order_id = fields.Char('ID de Orden de PayU')
+    payulatam_transaction_id = fields.Char('ID de Transacción de PayU')
+    payulatam_state = fields.Selection([
+        ("APPROVED", "APROBADO"), 
+        ("PENDING", "PENDIENTE"), 
+        ("EXPIRED", "EXPIRADO"),
+        ("DECLINED", "DECLINADO"),
+    ])
+    payulatam_datetime = fields.Datetime('Fecha y Hora de la Transacción')
+    payulatam_credit_card_token = fields.Char('Token Para Tarjetas de Crédito')
+    payulatam_credit_card_masked = fields.Char('Mascara del Número de Tarjeta')
+    payulatam_credit_card_identification = fields.Char('Identificación')
+    payulatam_credit_card_method = fields.Char('Metodo de Pago')
+    payulatam_request_expired = fields.Boolean('Request Expired')
+    payment_method_type = fields.Selection([
+        ("Credit Card", "Tarjeta de Crédito"), 
+        ("Cash", "Efectivo"), 
+        ("PSE", "PSE"),
+        ("Benefice", "Beneficio"),
+    ])
+
     def post(self):
         res = super(AccountMove, self).post()
         if self.sponsor_id:

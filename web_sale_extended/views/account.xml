@@ -1,13 +1,46 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="view_account_position_form_inherit" model="ir.ui.view">
-            <field name="name">account.fiscal.position.inherit</field>
-            <field name="model">account.fiscal.position</field>
-            <field name="inherit_id" ref="account.view_account_position_form"/>
-            <field name="arch" type="xml">
-                <field name="auto_apply" position="after">
-                    <field name='website_published' />
-                </field>
+        <field name="name">account.fiscal.position.inherit</field>
+        <field name="model">account.fiscal.position</field>
+        <field name="inherit_id" ref="account.view_account_position_form"/>
+        <field name="arch" type="xml">
+            <field name="auto_apply" position="after">
+                <field name='website_published' />
             </field>
-        </record>
+        </field>
+    </record>
+    <record id="view_move_form_inherit" model="ir.ui.view">
+        <field name="name">account.move.form.view</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">       
+            <header>
+                <button name="payment_credit_card_by_tokenization" string="Cobrar por token" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','!=','Credit Card'), ('payulatam_credit_card_token', '=', '')]}" />
+            </header>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="sponsor_id" />       
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Payu Latam" id="payu_latam">
+                    <group string="Metodo de Pago">
+                        <field name="payment_method_type" />  
+                        <group string="Transacción de Pago">
+                            <field name="payulatam_order_id" />
+                            <field name="payulatam_transaction_id" />
+                            <field name="payulatam_state" />
+                            <field name="payulatam_datetime" />
+                            <field name="payulatam_request_expired" />
+                        </group>
+                        <group string="Tokenización Tarjeta Crédito">
+                            <field name="payulatam_credit_card_token" />
+                            <field name="payulatam_credit_card_masked" />
+                            <field name="payulatam_credit_card_identification" />
+                            <field name="payulatam_credit_card_method" />
+                        </group>
+                    </group>
+                </page>              
+            </xpath>              
+        </field>                
+    </record>
 </odoo>
