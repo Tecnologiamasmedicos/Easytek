@@ -661,12 +661,8 @@ class SaleOrder(models.Model):
                 payulatam_response_url = self.env.user.company_id.payulatam_api_response_sandbox_url
 
             tx_value = {"value": self.amount_total, "currency": "COP"}        
-            tx_tax = {"value": 0,"currency": "COP"}
-            tx_tax_return_base = {"value": 0, "currency": "COP"}
             additionalValues = {
-                "TX_VALUE": tx_value,
-                "TX_TAX": tx_tax,
-                "TX_TAX_RETURN_BASE": tx_tax_return_base
+                "TX_VALUE": tx_value
             }
             shippingAddress = {
                 "street1": self.partner_id.street,
