@@ -159,6 +159,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             }
             let email_asegurador = $("input[name='email']").val();
             let telefono_fijo_asegurador = $("input[name='fijo']").val();
+            let celular = $("input[name='phone']").val();
             let ciudad_asegurador = $("input[name='city']").val();
             let adress_asegurador = $("input[name='address']").val();
             let asegurador_state = $("input[name='deparment']").val();
@@ -169,6 +170,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 $("input[name='bfemail1']").val(email_asegurador);
                 $("input[name='bfaddress1']").val(adress_asegurador);
                 $("input[name='bffijo1']").val(telefono_fijo_asegurador);
+                $("input[name='bfphone1']").val(celular);
             }
         });
         
@@ -183,6 +185,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             }
             let email_asegurador = $("input[name='email']").val();
             let telefono_fijo_asegurador = $("input[name='fijo']").val();
+            let celular = $("input[name='phone']").val();
             let ciudad_asegurador = $("input[name='city']").val();
             let adress_asegurador = $("input[name='address']").val();
             let asegurador_state = $("input[name='deparment']").val();
@@ -193,6 +196,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 $("input[name='bfemail2']").val(email_asegurador);
                 $("input[name='bfaddress2']").val(adress_asegurador);
                 $("input[name='bffijo2']").val(telefono_fijo_asegurador);
+                $("input[name='bfphone2']").val(celular);
             }
         });
         
@@ -208,6 +212,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             }
             let email_asegurador = $("input[name='email']").val();
             let telefono_fijo_asegurador = $("input[name='fijo']").val();
+            let celular = $("input[name='phone']").val();
             let ciudad_asegurador = $("input[name='city']").val();
             let adress_asegurador = $("input[name='address']").val();
             let asegurador_state = $("input[name='deparment']").val();
@@ -218,6 +223,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 $("input[name='bfemail3']").val(email_asegurador);
                 $("input[name='bfaddress3']").val(adress_asegurador);
                 $("input[name='bffijo3']").val(telefono_fijo_asegurador);
+                $("input[name='bfphone3']").val(celular);
             }
         });
         
@@ -233,6 +239,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             }
             let email_asegurador = $("input[name='email']").val();
             let telefono_fijo_asegurador = $("input[name='fijo']").val();
+            let celular = $("input[name='phone']").val();
             let ciudad_asegurador = $("input[name='city']").val();
             let adress_asegurador = $("input[name='address']").val();
             let asegurador_state = $("input[name='deparment']").val();
@@ -243,6 +250,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 $("input[name='bfemail4']").val(email_asegurador);
                 $("input[name='bfaddress4']").val(adress_asegurador);
                 $("input[name='bffijo4']").val(telefono_fijo_asegurador);
+                $("input[name='bfphone4']").val(celular);
             }
         });
         
@@ -258,6 +266,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             }
             let email_asegurador = $("input[name='email']").val();
             let telefono_fijo_asegurador = $("input[name='fijo']").val();
+            let celular = $("input[name='phone']").val();
             let ciudad_asegurador = $("input[name='city']").val();
             let adress_asegurador = $("input[name='address']").val();
             let asegurador_state = $("input[name='deparment']").val();
@@ -268,6 +277,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 $("input[name='bfemail5']").val(email_asegurador);
                 $("input[name='bfaddress5']").val(adress_asegurador);
                 $("input[name='bffijo5']").val(telefono_fijo_asegurador);
+                $("input[name='bfphone5']").val(celular);
             }
         });
         
@@ -283,6 +293,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             }
             let email_asegurador = $("input[name='email']").val();
             let telefono_fijo_asegurador = $("input[name='fijo']").val();
+            let celular = $("input[name='phone']").val();
             let ciudad_asegurador = $("input[name='city']").val();
             let adress_asegurador = $("input[name='address']").val();
             let asegurador_state = $("input[name='deparment']").val();
@@ -293,6 +304,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 $("input[name='bfemail6']").val(email_asegurador);
                 $("input[name='bfaddress6']").val(adress_asegurador);
                 $("input[name='bffijo6']").val(telefono_fijo_asegurador);
+                $("input[name='bfphone6']").val(celular);
             }
         });
         
@@ -921,7 +933,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             // Hacer algo si el checkbox ha sido seleccionado
             $(this).val('1');
             $("input[name='bfaddress1']").val($("input[name='address']").val());
-            $("input[name='bfemail1']").val($("input[name='email']").val());
             $("select[name='bfdeparment1']").val($("select[name='deparment']").val()).change();            
             setTimeout(() => { $("select[name='bfcity1']").val($("select[name='city']").val()).change(); }, 500);
             
@@ -931,7 +942,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             }
             
             $("input[name='bfaddress1']").prop('readonly', true);
-            $("input[name='bfemail1']").prop('readonly', true);
             $("select[name='bfdeparment1']").prop('disabled', true); 
             $("select[name='bfcity1']").prop('disabled', true); 
         } else {
@@ -940,13 +950,11 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             $("input[name='bfaddress1']").val('');
             $("select[name='bfdeparment1']").val('1386').change();
             $("input[name='bffijo1']").val('');
-            $("input[name='bfemail1']").val('');
             
             $("input[name='bfaddress1']").prop('readonly', false);            
             $("select[name='bfdeparment1']").prop('disabled', false); 
             $("select[name='bfcity1']").prop('disabled', false); 
             $("input[name='bffijo1']").prop('readonly', false); 
-            $("input[name='bfemail1']").prop('readonly', false);
         }
     });
     
@@ -955,7 +963,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             // Hacer algo si el checkbox ha sido seleccionado
             $(this).val('1');
             $("input[name='bfaddress2']").val($("input[name='address']").val());
-            $("input[name='bfemail2']").val($("input[name='email']").val());
             $("select[name='bfdeparment2']").val($("select[name='deparment']").val()).change();
             setTimeout(() => { $("select[name='bfcity2']").val($("select[name='city']").val()).change(); }, 500);
             
@@ -965,7 +972,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             }
             
             $("input[name='bfaddress2']").prop('readonly', true);
-            $("input[name='bfemail2']").prop('readonly', true);
             $("select[name='bfdeparment2']").prop('disabled', true); 
             $("select[name='bfcity2']").prop('disabled', true); 
         } else {
@@ -974,13 +980,11 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             $("input[name='bfaddress2']").val('');
             $("select[name='bfdeparment2']").val('1386').change();
             $("input[name='bffijo2']").val('');
-            $("input[name='bfemail2']").val('');
             
             $("input[name='bfaddress2']").prop('readonly', false);            
             $("select[name='bfdeparment2']").prop('disabled', false); 
             $("select[name='bfcity2']").prop('disabled', false); 
             $("input[name='bffijo2']").prop('readonly', false); 
-            $("input[name='bfemail2']").prop('readonly', false);
         }
     });
     
@@ -989,7 +993,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             // Hacer algo si el checkbox ha sido seleccionado
             $(this).val('1');
             $("input[name='bfaddress3']").val($("input[name='address']").val());
-            $("input[name='bfemail3']").val($("input[name='email']").val());
             $("select[name='bfdeparment3']").val($("select[name='deparment']").val()).change();
             setTimeout(() => { $("select[name='bfcity3']").val($("select[name='city']").val()).change(); }, 500);
             
@@ -999,7 +1002,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             }
             
             $("input[name='bfaddress3']").prop('readonly', true); 
-            $("input[name='bfemail3']").prop('readonly', true);
             $("select[name='bfdeparment3']").prop('disabled', true); 
             $("select[name='bfcity3']").prop('disabled', true); 
         } else {
@@ -1008,13 +1010,11 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             $("input[name='bfaddress3']").val('');
             $("select[name='bfdeparment3']").val('1386').change();
             $("input[name='bffijo3']").val('');
-            $("input[name='bfemail3']").val('');
             
             $("input[name='bfaddress3']").prop('readonly', false);            
             $("select[name='bfdeparment3']").prop('disabled', false); 
             $("select[name='bfcity3']").prop('disabled', false); 
             $("input[name='bffijo3']").prop('readonly', false); 
-            $("input[name='bfemail3']").prop('readonly', false);
         }
     });
     
@@ -1023,7 +1023,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             // Hacer algo si el checkbox ha sido seleccionado
             $(this).val('1');
             $("input[name='bfaddress4']").val($("input[name='address']").val());
-            $("input[name='bfemail4']").val($("input[name='email']").val());
             $("select[name='bfdeparment4']").val($("select[name='deparment']").val()).change();
             setTimeout(() => { $("select[name='bfcity4']").val($("select[name='city']").val()).change(); }, 500);
             
@@ -1033,7 +1032,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             }
             
             $("input[name='bfaddress4']").prop('readonly', true);
-            $("input[name='bfemail4']").prop('readonly', true);
             $("select[name='bfdeparment4']").prop('disabled', true); 
             $("select[name='bfcity4']").prop('disabled', true); 
         } else {
@@ -1042,13 +1040,11 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             $("input[name='bfaddress4']").val('');
             $("select[name='bfdeparment4']").val('1386').change();
             $("input[name='bffijo4']").val('');
-            $("input[name='bfemail4']").val('');
             
             $("input[name='bfaddress4']").prop('readonly', false);            
             $("select[name='bfdeparment4']").prop('disabled', false); 
             $("select[name='bfcity4']").prop('disabled', false); 
             $("input[name='bffijo4']").prop('readonly', false); 
-            $("input[name='bfemail4']").prop('readonly', false);
         }
     });
     
@@ -1057,7 +1053,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             // Hacer algo si el checkbox ha sido seleccionado
             $(this).val('1');
             $("input[name='bfaddress5']").val($("input[name='address']").val());
-            $("input[name='bfemail5']").val($("input[name='email']").val());
             $("select[name='bfdeparment5']").val($("select[name='deparment']").val()).change();
             setTimeout(() => { $("select[name='bfcity5']").val($("select[name='city']").val()).change(); }, 500);
             
@@ -1067,7 +1062,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             }
             
             $("input[name='bfaddress5']").prop('readonly', true);
-            $("input[name='bfemail5']").prop('readonly', true);
             $("select[name='bfdeparment5']").prop('disabled', true); 
             $("select[name='bfcity5']").prop('disabled', true); 
         } else {
@@ -1076,13 +1070,11 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             $("input[name='bfaddress5']").val('');
             $("select[name='bfdeparment5']").val('1386').change();
             $("input[name='bffijo5']").val('');
-            $("input[name='bfemail5']").val('');
             
             $("input[name='bfaddress5']").prop('readonly', false);            
             $("select[name='bfdeparment5']").prop('disabled', false); 
             $("select[name='bfcity5']").prop('disabled', false); 
             $("input[name='bffijo5']").prop('readonly', false); 
-            $("input[name='bfemail5']").prop('readonly', false);
         }
     });
     
@@ -1091,7 +1083,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             // Hacer algo si el checkbox ha sido seleccionado
             $(this).val('1');
             $("input[name='bfaddress6']").val($("input[name='address']").val());
-            $("input[name='bfemail6']").val($("input[name='email']").val());
             $("select[name='bfdeparment6']").val($("select[name='deparment']").val()).change();
             setTimeout(() => { $("select[name='bfcity6']").val($("select[name='city']").val()).change(); }, 500);
             
@@ -1101,7 +1092,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             }
             
             $("input[name='bfaddress6']").prop('readonly', true);
-            $("input[name='bfemail6']").prop('readonly', true);
             $("select[name='bfdeparment6']").prop('disabled', true); 
             $("select[name='bfcity6']").prop('disabled', true); 
         } else {
@@ -1110,13 +1100,11 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             $("input[name='bfaddress6']").val('');
             $("select[name='bfdeparment6']").val('1386').change();
             $("input[name='bffijo6']").val('');
-            $("input[name='bfemail6']").val('');
             
             $("input[name='bfaddress6']").prop('readonly', false);            
             $("select[name='bfdeparment6']").prop('disabled', false); 
             $("select[name='bfcity6']").prop('disabled', false); 
             $("input[name='bffijo6']").prop('readonly', false); 
-            $("input[name='bfemail6']").prop('readonly', false);    
         }
     });
     
@@ -1739,7 +1727,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     email: true
                 },
                 phone: {
-//                     required: true,
+                    required: true,
                     number: true,
                     formMovilLength: true,
                 },
@@ -1869,7 +1857,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     email: true
                 },
                 bfphone1: {
-//                     required: true,
+                    required: true,
                     number: true,
                     formMovilLength: true,
                 },
@@ -1972,7 +1960,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     email: true
                 },
                 bfphone2: {
-//                     required: true,
+                    required: true,
                     number: true,
                     formMovilLength: true,
                 },
@@ -2075,7 +2063,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     email: true
                 },
                 bfphone3: {
-//                     required: true,
+                    required: true,
                     number: true,
                     formMovilLength: true,
                 },
@@ -2178,7 +2166,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     email: true
                 },
                 bfphone4: {
-//                     required: true,
+                    required: true,
                     number: true,
                     formMovilLength: true,
                 },
@@ -2281,7 +2269,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     email: true
                 },
                 bfphone5: {
-//                     required: true,
+                    required: true,
                     number: true,
                     formMovilLength: true,
                 },
@@ -2384,7 +2372,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     email: true
                 },
                 bfphone6: {
-//                     required: true,
+                    required: true,
                     number: true,
                     formMovilLength: true,
                 },

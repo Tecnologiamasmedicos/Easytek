@@ -113,7 +113,7 @@
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="phone">Teléfono Móvil</label>
+                                    <label class="col-form-label" for="phone">Teléfono Móvil*</label>
                                     <input class="form-control" type="text" name="phone"/>
                                 </div>
                             </div>
@@ -337,7 +337,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfphone1">Teléfono Móvil</label>
+                                    <label class="col-form-label" for="bfphone1">Teléfono Móvil*</label>
                                     <input class="form-control" type="text" name="bfphone1"/>
                                 </div>
                             </div>
@@ -527,7 +527,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfphone2">Teléfono Móvil</label>
+                                    <label class="col-form-label" for="bfphone2">Teléfono Móvil*</label>
                                     <input class="form-control" type="text" name="bfphone2"/>
                                 </div>
                             </div>
@@ -719,7 +719,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfphone3">Teléfono Móvil</label>
+                                    <label class="col-form-label" for="bfphone3">Teléfono Móvil*</label>
                                     <input class="form-control" type="text" name="bfphone3"/>
                                 </div>
                             </div>
@@ -909,7 +909,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfphone4">Teléfono Móvil</label>
+                                    <label class="col-form-label" for="bfphone4">Teléfono Móvil*</label>
                                     <input class="form-control" type="text" name="bfphone4"/>
                                 </div>
                             </div>
@@ -1098,7 +1098,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfphone5">Teléfono Móvil</label>
+                                    <label class="col-form-label" for="bfphone5">Teléfono Móvil*</label>
                                     <input class="form-control" type="text" name="bfphone5"/>
                                 </div>
                             </div>
@@ -1288,7 +1288,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfphone6">Teléfono Móvil</label>
+                                    <label class="col-form-label" for="bfphone6">Teléfono Móvil*</label>
                                     <input class="form-control" type="text" name="bfphone6"/>
                                 </div>
                             </div>
