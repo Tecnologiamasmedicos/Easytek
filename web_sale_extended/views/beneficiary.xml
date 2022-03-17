@@ -331,7 +331,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail1">Email*</label>
+                                    <label class="col-form-label" for="bfemail1">Email</label>
                                     <input class="form-control" type="email"  name="bfemail1" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
@@ -521,7 +521,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail2">Email*</label>
+                                    <label class="col-form-label" for="bfemail2">Email</label>
                                     <input class="form-control" type="email"  name="bfemail2" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
@@ -713,7 +713,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail3">Email*</label>
+                                    <label class="col-form-label" for="bfemail3">Email</label>
                                     <input class="form-control" type="email"  name="bfemail3" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
@@ -903,7 +903,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail4">Email*</label>
+                                    <label class="col-form-label" for="bfemail4">Email</label>
                                     <input class="form-control" type="email"  name="bfemail4" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
@@ -1092,7 +1092,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail5">Email*</label>
+                                    <label class="col-form-label" for="bfemail5">Email</label>
                                     <input class="form-control" type="email"  name="bfemail5" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
@@ -1282,7 +1282,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail6">Email*</label>
+                                    <label class="col-form-label" for="bfemail6">Email</label>
                                     <input class="form-control" type="email"  name="bfemail6" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>

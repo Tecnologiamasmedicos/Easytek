@@ -272,3 +272,25 @@ class SaleSubscription(models.Model):
                             else:
                                 raise
         return invoices
+
+    def set_close(self, end_date=(datetime.now() - timedelta(hours=5)).date()):
+        search = self.env['sale.subscription.stage'].search
+        for sub in self:
+            stage = search([('in_progress', '=', False), ('sequence', '>=', sub.stage_id.sequence)], limit=1)
+            if not stage:
+                stage = search([('in_progress', '=', False)], limit=1)
+            sub.write({'stage_id': stage.id, 'to_renew': False, 'date': end_date})
+        return True
+
+class SaleSubscriptionCloseReasonWizard(models.TransientModel):
+    _inherit = "sale.subscription.close.reason.wizard"
+    
+    end_date = fields.Date('Fecha cancelación', required=True)
+    
+    def set_close(self):
+        self.ensure_one()
+        subscription = self.env['sale.subscription'].browse(self.env.context.get('active_id'))
+        order = self.env['sale.order'].search([('subscription_id', '=', subscription.id)], limit=1)
+        subscription.close_reason_id = self.close_reason_id
+        subscription.set_close(self.end_date)
+        order.write({'state': 'done', 'cancel_date': self.end_date})

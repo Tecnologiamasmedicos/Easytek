@@ -42,6 +42,7 @@
         'views/assistand_purchase_view.xml',
         'views/assistand_purchase_confirmation_view.xml',
         'views/sale_subscription_template_view.xml',
+        'views/sale_subscription_close_reason_view.xml',
         #'reports/sale_order_report.xml',
         #'reports/res_partner_report.xml',
         'data/mail_template_cancellation_plan.xml',
@@ -59,7 +60,8 @@
         'data/beneficiary_confirm_template.xml',
         'views/res_users_view.xml',
         'data/mail_template_recurring_payment_credit_card.xml',
-        'data/mail_template_recurring_payment_pse_cash.xml'
+        'data/mail_template_recurring_payment_pse_cash.xml',
+        'data/assign_email_beneficiaries_bot.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
