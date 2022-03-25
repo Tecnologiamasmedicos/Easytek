@@ -42,12 +42,9 @@ class AccountMove(models.Model):
             self.write({
                 'amount_residual': self.amount_total,
                 'amount_residual_signed': self.amount_total_signed,
-                'invoice_payment_state': 'not_paid'
+                'invoice_payment_state': 'not_paid',
+                'state': 'finalized'
             })
-            if not self.sponsor_id.generates_accounting:
-                self.write({
-                    'state': 'finalized'
-                })
         return res
     
     
