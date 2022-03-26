@@ -68,7 +68,9 @@ class SaleSubscription(models.Model):
         res.update({
             'amount_residual': sale_order.amount_total,
             'amount_residual_signed': sale_order.amount_total,
-            'payment_method_type': sale_order.payment_method_type
+            'payment_method_type': sale_order.payment_method_type,
+            'invoice_date': self.recurring_next_date + timedelta(days=4),
+            'narration': ('Esta factura cubre el siguiente periodo: %s - %s') % (format_date(self.env, self.recurring_next_date + timedelta(days=4)) , format_date(self.env, self.recurring_next_date + timedelta(3) + relativedelta(months=1))) 
         })
         if self.invoice_count == 0:
             res.update({

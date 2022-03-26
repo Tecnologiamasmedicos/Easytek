@@ -19,7 +19,7 @@
                 <button name="payment_credit_card_by_tokenization" string="Cobrar por token" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','!=','Credit Card'), ('payulatam_credit_card_token', '=', '')]}" />
             </header>
             <xpath expr="//field[@name='company_id']" position="after">
-                <field name="sponsor_id" />       
+                <field name="sponsor_id" readonly="True" />
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Payu Latam" id="payu_latam">
