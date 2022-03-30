@@ -42,6 +42,7 @@
         'views/assistand_purchase_view.xml',
         'views/assistand_purchase_confirmation_view.xml',
         'views/sale_subscription_template_view.xml',
+        'views/sale_subscription_close_reason_view.xml',
         #'reports/sale_order_report.xml',
         #'reports/res_partner_report.xml',
         'data/mail_template_cancellation_plan.xml',
