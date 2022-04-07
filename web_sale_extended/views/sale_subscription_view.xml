@@ -420,7 +420,7 @@
         </record>
         <record id="payments_report_view_search" model="ir.ui.view">
             <field name="name">payments.report.view.search</field>
-            <field name="model">payments.collections</field>
+            <field name="model">payments.report</field>
             <field name="arch" type="xml">                
                 <search>
                     <field name="policy_number" />
