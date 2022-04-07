@@ -167,7 +167,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             let fiscal_position_asegurador = $("input[name='fiscal_position_id']").val();
             if (edad < 18) {
                 console.log("Eres menor de edad");
-                $("input[name='bfemail1']").val(email_asegurador);
                 $("input[name='bfaddress1']").val(adress_asegurador);
                 $("input[name='bffijo1']").val(telefono_fijo_asegurador);
                 $("input[name='bfphone1']").val(celular);
@@ -193,7 +192,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             let fiscal_position_asegurador = $("input[name='fiscal_position_id']").val();
             if (edad < 18) {
                 console.log("Eres menor de edad");
-                $("input[name='bfemail2']").val(email_asegurador);
                 $("input[name='bfaddress2']").val(adress_asegurador);
                 $("input[name='bffijo2']").val(telefono_fijo_asegurador);
                 $("input[name='bfphone2']").val(celular);
@@ -220,7 +218,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             let fiscal_position_asegurador = $("input[name='fiscal_position_id']").val();
             if (edad < 18) {
                 console.log("Eres menor de edad");
-                $("input[name='bfemail3']").val(email_asegurador);
                 $("input[name='bfaddress3']").val(adress_asegurador);
                 $("input[name='bffijo3']").val(telefono_fijo_asegurador);
                 $("input[name='bfphone3']").val(celular);
@@ -247,7 +244,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             let fiscal_position_asegurador = $("input[name='fiscal_position_id']").val();
             if (edad < 18) {
                 console.log("Eres menor de edad");
-                $("input[name='bfemail4']").val(email_asegurador);
                 $("input[name='bfaddress4']").val(adress_asegurador);
                 $("input[name='bffijo4']").val(telefono_fijo_asegurador);
                 $("input[name='bfphone4']").val(celular);
@@ -274,7 +270,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             let fiscal_position_asegurador = $("input[name='fiscal_position_id']").val();
             if (edad < 18) {
                 console.log("Eres menor de edad");
-                $("input[name='bfemail5']").val(email_asegurador);
                 $("input[name='bfaddress5']").val(adress_asegurador);
                 $("input[name='bffijo5']").val(telefono_fijo_asegurador);
                 $("input[name='bfphone5']").val(celular);
@@ -301,7 +296,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             let fiscal_position_asegurador = $("input[name='fiscal_position_id']").val();
             if (edad < 18) {
                 console.log("Eres menor de edad");
-                $("input[name='bfemail6']").val(email_asegurador);
                 $("input[name='bfaddress6']").val(adress_asegurador);
                 $("input[name='bffijo6']").val(telefono_fijo_asegurador);
                 $("input[name='bfphone6']").val(celular);
@@ -892,7 +886,8 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             $(this).val('1');
             let url = window.location.href.split("/");
             let number = url[url.length - 1];
-            obtenerInfoComprador(number);
+            let order_id = number.split("?")[0];
+            obtenerInfoComprador(order_id);
         } else {
             // Hacer algo si el checkbox ha sido deseleccionado
             document.querySelector("input[name='name']").value = "";
@@ -1851,7 +1846,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     lettersonly: true,
                 },
                 bfemail1: {
-                    required: true,
+                    // required: true,
                     maxlength: 50,
                     email2: true,
                     email: true
@@ -1954,7 +1949,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     lettersonly: true,
                 },
                 bfemail2: {
-                    required: true,
+                    // required: true,
                     maxlength: 50,
                     email2: true,
                     email: true
@@ -2057,7 +2052,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     lettersonly: true,
                 },
                 bfemail3: {
-                    required: true,
+                    // required: true,
                     maxlength: 50,
                     email2: true,
                     email: true
@@ -2160,7 +2155,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     lettersonly: true,
                 },
                 bfemail4: {
-                    required: true,
+                    // required: true,
                     maxlength: 50,
                     email2: true,
                     email: true
@@ -2263,7 +2258,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     lettersonly: true,
                 },
                 bfemail5: {
-                    required: true,
+                    // required: true,
                     maxlength: 50,
                     email2: true,
                     email: true
@@ -2366,7 +2361,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     lettersonly: true,
                 },
                 bfemail6: {
-                    required: true,
+                    // required: true,
                     maxlength: 50,
                     email2: true,
                     email: true
@@ -3046,15 +3041,17 @@ odoo.define('web_sale_extended.payment_process', function(require) {
         
         $('#submit_beneficiaries_add').on('click', function() {
             let order_id = $("input[name='order_id']").val();
+            let token = $("input[name='token']").val();
             var route = '/my/order/beneficiaries/'
-            var url = route + order_id;
+            var url = route + order_id + '?access_token=' + token;
             window.location.href = url;
         });
         
         $('#submit_pse_end_add_beneficiaries').on('click', function() {
             let order_id = $("input[name='order_id']").val();
+            let token = $("input[name='token']").val();
             var route = '/my/order/beneficiaries/'
-            var url = route + order_id;
+            var url = route + order_id + '?access_token=' + token;
             window.location.href = url;
         });
         
@@ -3757,6 +3754,15 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                     required: true,
                     formMovilFijoLength: true,
                 },
+                pse_country_id: {
+                    required: true,
+                },
+                pse_state_id: {
+                    required: true,
+                },
+                pse_city: {
+                    required: true,
+                },
             },
             messages: {
                 pse_bank: {
@@ -3795,6 +3801,15 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 },
                 pse_partner_phone: {
                     required: "¡Upss! tu telefono es requerido",
+                },
+                pse_country_id: {
+                    required: "¡Upss! debes seleccionar un país",
+                },
+                pse_state_id: {
+                    required: "¡Upss! debes seleccionar un departamento",
+                },
+                pse_city: {
+                    required: "¡Upss! debes seleccionar una ciudad",
                 },
             }
         });

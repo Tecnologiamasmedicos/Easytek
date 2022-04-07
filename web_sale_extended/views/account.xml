@@ -16,7 +16,10 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">       
             <header>
-                <button name="payment_credit_card_by_tokenization" string="Cobrar por token" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','!=','Credit Card'), ('payulatam_credit_card_token', '=', '')]}" />
+                <button name="payment_credit_card_by_tokenization" string="Cobrar por token" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','!=','Credit Card'), '|', ('payulatam_state', '=', 'APPROVED'), ('payulatam_credit_card_token', '=', '')]}" confirm="¿Esta seguro que desea realizar un cobro por token a esta liquidacion de suscripcion?"/>
+                <button name="send_recurring_payment_credit_card" string="Enviar correo cobro TC" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','!=','Credit Card'), '|', ('payulatam_state', '=', 'APPROVED'), ('payulatam_credit_card_token', '=', '')]}" confirm="¿Esta seguro que desea enviar correo cobro de Tarjeta de Crédito?"/>
+                <button name="send_recurring_payment_pse_cash" string="Enviar correo cobro Pse o Efectivo" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','not in', ('PSE', 'Cash')), ('state', 'not in', ('sale'))]}" confirm="¿Esta seguro que desea enviar correo cobro Pse o Efectivo?"/>
+                <button name="send_mail_second_payment" string="Segundo mensaje de cobro" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','not in', ('PSE', 'Cash')), ('state', 'not in', ('sale'))]}" confirm="¿Esta seguro que desea enviar el segundo correo de cobro?"/>
             </header>
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="sponsor_id" readonly="True" />

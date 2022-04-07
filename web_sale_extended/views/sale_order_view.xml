@@ -7,16 +7,11 @@
         <field name="arch" type="xml">
             <header>
                 <button name="send_recovery_email" string="Enviar correo registro AP" class="btn-primary" states="payu_approved" type="object" confirm="¿Esta seguro que desea enviar el correo de registro del Asegurado Principal"/>
-                <button name="send_recurring_payment_credit_card" string="Enviar correo cobro TC" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','!=','Credit Card'), '|', ('state', 'not in', ('sale')), ('payulatam_credit_card_token', '=', '')]}" confirm="¿Esta seguro que desea enviar correo cobro de Tarjeta de Crédito?"/>
-                <button name="payment_credit_card_by_tokenization" string="Cobrar por token" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','!=','Credit Card'), '|', ('state', 'not in', ('sale')), ('payulatam_credit_card_token', '=', '')]}" confirm="¿Esta seguro que desea realizar un cobro por tokenizacion?"/>
-                <button name="send_recurring_payment_pse_cash" string="Enviar correo cobro Pse o Efectivo" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','not in', ('PSE', 'Cash')), ('state', 'not in', ('sale'))]}" confirm="¿Esta seguro que desea enviar correo cobro Pse o Efectivo?"/>
-                <button name="send_mail_second_payment" string="Segundo mensaje de cobro" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','not in', ('PSE', 'Cash')), ('state', 'not in', ('sale'))]}" confirm="¿Esta seguro que desea enviar el segundo correo de cobro?"/>
                 <button name="delete_token_payulatam" string="Eliminar Token" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','!=','Credit Card'), '|', ('state', 'not in', ('sale')), ('payulatam_credit_card_token', '=', '')]}" confirm="¿Esta seguro que desea eliminar el Token de la tarjeta de crédito?"/>
             </header>                
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 <field name="sponsor_id" />
                 <field name="assisted_purchase" /> 
-                <field name="payment_method_type" invisible="1"/>        
             </xpath>            
             <xpath expr="//notebook" position="inside">
                 <field name="state" widget="statusbar" statusbar_visible="draft,sent,payu_pending,payu_approved,sale"/>
@@ -36,7 +31,8 @@
                     </group>
                 </page>                    
                 <page string="PayU Latam" id="payulatam">
-                    <group>
+                    <group string="Metodo de Pago">
+                        <field name="payment_method_type" />
                         <group string="Transacción de Pago">
                             <field name="payulatam_order_id" readonly="True"/>
                             <field name="payulatam_transaction_id" readonly="True"/>

@@ -89,3 +89,14 @@ class ResPartner(models.Model):
     def onchange_person_type(self):        
         if self.person_type == "2":
             self.company_type = "person"
+
+    def _cron_assign_email_beneficiaries_without_email(self):
+        """ selección de beneficiarios que no tienen correo electronico """
+        partner_ids = self.env['res.partner'].search([
+            ('subscription_id', '!=', False), 
+            ('beneficiary', '=', True),
+            ('email', '=', ''),
+            ('clerk_code', '!=', False),
+        ])
+        for partner in partner_ids:
+            partner.email = str(partner.subscription_id.number) + str(partner.subscription_id.policy_number) + str(partner.clerk_code) + '@easytekhub.com'

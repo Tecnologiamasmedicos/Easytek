@@ -387,6 +387,42 @@
             <field name="res_model">report.collections.recurring</field>
             <field name="view_mode">tree</field>
         </record>
+        <record id="payments_report_view_tree" model="ir.ui.view">
+            <field name="name">payments.report.view.tree</field>
+            <field name="type">tree</field>
+            <field name="model">payments.report</field>
+            <field name="arch" type="xml">                
+                    <tree string="Reporte de pagos" create="0" edit="0">
+                        <field name="policy_number" />
+                        <field name="certificate_number" />
+                        <field name="firstname" />
+                        <field name="othernames" />
+                        <field name="lastname" />
+                        <field name="identification_document" />
+                        <field name="birthday_date" />
+                        <field name="transaction_type" />
+                        <field name="clase" />
+                        <field name="change_date" widget="date" />
+                        <field name="collected_value" widget="monetary"/>
+                        <field name="number_of_installments" />
+                        <field name="payment_method" />
+                        <field name="number_of_plan_installments" />
+                        <field name="total_installments" />
+                        <field name="number_of_installments_arrears" />
+                        <field name="sponsor_id" />
+                        <field name="policyholder" />
+                        <field name="product_code" />
+                        <field name="product_name" />
+                        <field name="payulatam_order_id" />
+                        <field name="payulatam_transaction_id" />
+                    </tree>                 
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_payments_report_tree">
+            <field name="name">Reporte Pagos</field>
+            <field name="res_model">payments.report</field>
+            <field name="view_mode">tree</field>
+        </record>
     </data>
     <menuitem id="sale_subscription_sftp_report" name="Reporte SFTP Asegurado" parent="sale_subscription.menu_sale_subscription_report" sequence="5" action="web_sale_extended.action_report_sftp_tree" groups="sale_subscription.group_sale_subscription_view"/>
     <menuitem id="sale_subscription_sftp_beneficiary_report" name="Reporte SFTP Beneficiarios" parent="sale_subscription.menu_sale_subscription_report" sequence="6" action="web_sale_extended.action_report_sftp_beneficiary_tree" groups="sale_subscription.group_sale_subscription_view"/>
@@ -396,4 +432,5 @@
     <menuitem id="report_subscription" name="Reporte de suscripciones" parent="sale_subscription.menu_sale_subscription_report" sequence="5" action="web_sale_extended.action_report_subscription_tree" groups="sale_subscription.group_sale_subscription_view"/>
     <menuitem id="sale_subscription_report_charges" name="Reporte Cobros" parent="sale_subscription.menu_sale_subscription_report" sequence="5" action="web_sale_extended.action_report_charges_tree" groups="sale_subscription.group_sale_subscription_view"/>
     <menuitem id="sale_subscription_collections_recurring_report" name="Reporte de recaudos recurring" parent="sale_subscription.menu_sale_subscription_report" sequence="7" action="action_report_collections_recurring_tree" groups="sale_subscription.group_sale_subscription_view"/>
+    <menuitem id="sale_subscription_payments_report" name="Reporte de pagos" parent="sale_subscription.menu_sale_subscription_report" sequence="7" action="action_payments_report_tree" groups="sale_subscription.group_sale_subscription_view"/>
 </odoo>

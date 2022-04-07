@@ -31,7 +31,7 @@ class SaleOrder(models.Model):
     product_code = fields.Char(string='Código producto', related='order_line.product_id.default_code')
     cancel_date = fields.Datetime('Fecha cancelación')
     product_name = fields.Char(string='Nombre producto', related='main_product_id.name')
-        
+
     subscription_id = fields.Many2one('sale.subscription', 'Suscription ID')
     beneficiary0_id = fields.Many2one('res.partner')
     beneficiary1_id = fields.Many2one('res.partner')
@@ -63,7 +63,7 @@ class SaleOrder(models.Model):
         ("libranza_discount", "Descuento por libranza"),
     ])
     
-    @api.depends('order_line', 'state')
+    @api.depends('order_line', 'state', 'partner_id')
     def _compute_sponsor_id(self):
         for rec in self:
             if rec.partner_id.id != 4:
@@ -338,7 +338,7 @@ class SaleOrder(models.Model):
                                
                 else:
                     continue
-    
+
     def _prepare_subscription_data(self, template):
         res = super(SaleOrder, self)._prepare_subscription_data(template) 
         current_date = date.today()     
@@ -442,6 +442,66 @@ class SaleOrder(models.Model):
                             sale.write({
                                 'payulatam_state': 'TRANSACCIÓN EN EFECTIVO APROBADA',
                             })
+                            query = """
+                                INSERT INTO payments_report (
+                                    policy_number,
+                                    certificate_number, 
+                                    firstname,
+                                    othernames, 
+                                    lastname, 
+                                    identification_document, 
+                                    birthday_date,
+                                    transaction_type, 
+                                    clase,
+                                    change_date, 
+                                    collected_value,
+                                    number_of_installments,
+                                    payment_method,
+                                    number_of_plan_installments,
+                                    total_installments,
+                                    number_of_installments_arrears,
+                                    policyholder,
+                                    sponsor_id,
+                                    product_code,
+                                    product_name,
+                                    payulatam_order_id,
+                                    payulatam_transaction_id,
+                                    origin_document,
+                                    sale_order,
+                                    subscription,
+                                    payment_type
+                                )
+                                SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, %s, %s, '%s', %s, '%s', '%s', '%s', '%s', '%s', %s, %s, '%s' WHERE NOT EXISTS(SELECT * FROM payments_report WHERE payulatam_order_id='%s');
+                            """ %(
+                                sale.subscription_id.number if sale.subscription_id.number != False else '',
+                                sale.subscription_id.policy_number if sale.subscription_id.policy_number != False else '',
+                                sale.partner_id.firstname if sale.partner_id.firstname != False else '', 
+                                sale.partner_id.othernames, 
+                                str(sale.partner_id.lastname) + ' ' + str(sale.partner_id.lastname2) if sale.partner_id.lastname != False else '', 
+                                sale.partner_id.identification_document if sale.partner_id.identification_document != False else '', 
+                                sale.partner_id.birthdate_date if sale.partner_id.birthdate_date != False else '', 
+                                'R', 
+                                sale.main_product_id.product_class if sale.main_product_id.product_class != False else '', 
+                                date.today(), 
+                                sale.amount_total if sale.amount_total != False else '', 
+                                1, 
+                                sale.payment_method_type if sale.payment_method_type != False else '', 
+                                sale.main_product_id.subscription_template_id.recurring_rule_count if sale.main_product_id.subscription_template_id.recurring_rule_count  != False else '', 
+                                1, 
+                                0, 
+                                sale.subscription_id.policyholder if sale.subscription_id.policyholder != False else '', 
+                                sale.sponsor_id.id if sale.sponsor_id.id != False else 'null', 
+                                sale.main_product_id.default_code if sale.main_product_id.default_code != False else '', 
+                                sale.main_product_id.name if sale.main_product_id.name != False else '', 
+                                sale.payulatam_order_id if sale.payulatam_order_id != False else '', 
+                                sale.payulatam_transaction_id if sale.payulatam_transaction_id != False else '', 
+                                sale.name if sale.name != False else '', 
+                                sale.id if sale.id != False else 'null',
+                                sale.subscription_id.id if sale.subscription_id.id  != False else 'null',
+                                'new_sale',
+                                sale.payulatam_order_id if sale.payulatam_order_id != False else ''
+                            )
+                            sale.env.cr.execute(query)
                             sale.action_payu_approved()
                             message = """<b><span style='color:green;'>PayU Latam - Transacción en efectivo aprobada</span></b><br/>
                             <b>Respuesta:</b> %s
@@ -476,6 +536,66 @@ class SaleOrder(models.Model):
                             sale.write({
                                 'payulatam_state': 'TRANSACCIÓN PSE APROBADA',
                             })
+                            query = """
+                                INSERT INTO payments_report (
+                                    policy_number,
+                                    certificate_number, 
+                                    firstname,
+                                    othernames, 
+                                    lastname, 
+                                    identification_document, 
+                                    birthday_date,
+                                    transaction_type, 
+                                    clase,
+                                    change_date, 
+                                    collected_value,
+                                    number_of_installments,
+                                    payment_method,
+                                    number_of_plan_installments,
+                                    total_installments,
+                                    number_of_installments_arrears,
+                                    policyholder,
+                                    sponsor_id,
+                                    product_code,
+                                    product_name,
+                                    payulatam_order_id,
+                                    payulatam_transaction_id,
+                                    origin_document,
+                                    sale_order,
+                                    subscription,
+                                    payment_type
+                                )
+                                SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, %s, %s, '%s', %s, '%s', '%s', '%s', '%s', '%s', %s, %s, '%s' WHERE NOT EXISTS(SELECT * FROM payments_report WHERE payulatam_order_id='%s');
+                            """ %(
+                                sale.subscription_id.number if sale.subscription_id.number != False else '',
+                                sale.subscription_id.policy_number if sale.subscription_id.policy_number != False else '',
+                                sale.partner_id.firstname if sale.partner_id.firstname != False else '', 
+                                sale.partner_id.othernames, 
+                                str(sale.partner_id.lastname) + ' ' + str(sale.partner_id.lastname2) if sale.partner_id.lastname != False else '', 
+                                sale.partner_id.identification_document if sale.partner_id.identification_document != False else '', 
+                                sale.partner_id.birthdate_date if sale.partner_id.birthdate_date != False else '', 
+                                'R', 
+                                sale.main_product_id.product_class if sale.main_product_id.product_class != False else '', 
+                                date.today(), 
+                                sale.amount_total if sale.amount_total != False else '', 
+                                1, 
+                                sale.payment_method_type if sale.payment_method_type != False else '', 
+                                sale.main_product_id.subscription_template_id.recurring_rule_count if sale.main_product_id.subscription_template_id.recurring_rule_count  != False else '', 
+                                1, 
+                                0, 
+                                sale.subscription_id.policyholder if sale.subscription_id.policyholder != False else '', 
+                                sale.sponsor_id.id if sale.sponsor_id.id != False else 'null', 
+                                sale.main_product_id.default_code if sale.main_product_id.default_code != False else '', 
+                                sale.main_product_id.name if sale.main_product_id.name != False else '', 
+                                sale.payulatam_order_id if sale.payulatam_order_id != False else '', 
+                                sale.payulatam_transaction_id if sale.payulatam_transaction_id != False else '', 
+                                sale.name if sale.name != False else '', 
+                                sale.id if sale.id != False else 'null',
+                                sale.subscription_id.id if sale.subscription_id.id  != False else 'null',
+                                'new_sale',
+                                sale.payulatam_order_id if sale.payulatam_order_id != False else ''
+                            )
+                            sale.env.cr.execute(query)
                             sale.action_payu_approved()
                             message = """<b><span style='color:green;'>PayU Latam - Transacción PSE aprobada</span></b><br/>
                             <b>Respuesta:</b> %s
@@ -510,13 +630,73 @@ class SaleOrder(models.Model):
                             sale.write({
                                 'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO APROBADA',
                             })
+                            query = """
+                                INSERT INTO payments_report (
+                                    policy_number,
+                                    certificate_number, 
+                                    firstname,
+                                    othernames, 
+                                    lastname, 
+                                    identification_document, 
+                                    birthday_date,
+                                    transaction_type, 
+                                    clase,
+                                    change_date, 
+                                    collected_value,
+                                    number_of_installments,
+                                    payment_method,
+                                    number_of_plan_installments,
+                                    total_installments,
+                                    number_of_installments_arrears,
+                                    policyholder,
+                                    sponsor_id,
+                                    product_code,
+                                    product_name,
+                                    payulatam_order_id,
+                                    payulatam_transaction_id,
+                                    origin_document,
+                                    sale_order,
+                                    subscription,
+                                    payment_type
+                                )
+                                SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, %s, %s, '%s', %s, '%s', '%s', '%s', '%s', '%s', %s, %s, '%s' WHERE NOT EXISTS(SELECT * FROM payments_report WHERE payulatam_order_id='%s');
+                            """ %(
+                                sale.subscription_id.number if sale.subscription_id.number != False else '',
+                                sale.subscription_id.policy_number if sale.subscription_id.policy_number != False else '',
+                                sale.partner_id.firstname if sale.partner_id.firstname != False else '', 
+                                sale.partner_id.othernames, 
+                                str(sale.partner_id.lastname) + ' ' + str(sale.partner_id.lastname2) if sale.partner_id.lastname != False else '', 
+                                sale.partner_id.identification_document if sale.partner_id.identification_document != False else '', 
+                                sale.partner_id.birthdate_date if sale.partner_id.birthdate_date != False else '', 
+                                'R', 
+                                sale.main_product_id.product_class if sale.main_product_id.product_class != False else '', 
+                                date.today(), 
+                                sale.amount_total if sale.amount_total != False else '', 
+                                1, 
+                                sale.payment_method_type if sale.payment_method_type != False else '', 
+                                sale.main_product_id.subscription_template_id.recurring_rule_count if sale.main_product_id.subscription_template_id.recurring_rule_count  != False else '', 
+                                1, 
+                                0, 
+                                sale.subscription_id.policyholder if sale.subscription_id.policyholder != False else '', 
+                                sale.sponsor_id.id if sale.sponsor_id.id != False else 'null', 
+                                sale.main_product_id.default_code if sale.main_product_id.default_code != False else '', 
+                                sale.main_product_id.name if sale.main_product_id.name != False else '', 
+                                sale.payulatam_order_id if sale.payulatam_order_id != False else '', 
+                                sale.payulatam_transaction_id if sale.payulatam_transaction_id != False else '', 
+                                sale.name if sale.name != False else '', 
+                                sale.id if sale.id != False else 'null',
+                                sale.subscription_id.id if sale.subscription_id.id  != False else 'null',
+                                'new_sale',
+                                sale.payulatam_order_id if sale.payulatam_order_id != False else ''
+                            )
+                            sale.env.cr.execute(query)
                             sale.action_payu_approved()
                             message = """<b><span style='color:green;'>PayU Latam - Transacción de pago con tarjeta de crédito aprobada</span></b><br/>
                             <b>Respuesta:</b> %s
                             """ % (response['result']['payload'])
                             sale.message_post(body=message)
                             sale._send_order_payu_latam_approved()
-                        
+
     def cron_confirm_order_approved_payu_latam(self):
         """ Selección de ordenes de venta que estan aprobadas por PayU y confirmmarlas """
         sale_ids = self.env['sale.order'].search([('state', '=', 'payu_approved'),('assisted_purchase', '=', True)])
@@ -589,41 +769,13 @@ class SaleOrder(models.Model):
         )        
         return link
     
-    def generate_recurring_payment_link(self, order_id):
-        token = self.generate_access_token(order_id)
-        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        link = ('%s/shop/payment/recurring/%s?access_token=%s') % (
-            base_url,
-            order_id,
-            token
-        )        
-        return link
-    
     def _send_payment_link_assisted_purchase_email(self):        
         template_id = self.env.ref('web_sale_extended.payment_link_assisted_purchase_email_template').id
         template = self.env['mail.template'].browse(template_id)
         template.sudo().send_mail(self.id, force_send=True)
-    
+
     def send_recovery_email(self):
         template_id = self.env.ref('web_sale_extended.recovery_main_insured_email_template').id
-        template = self.env['mail.template'].browse(template_id)
-        template.sudo().send_mail(self.id, force_send=True)
-
-    def send_recurring_payment_credit_card(self):
-        if self.payment_method_type == 'Credit Card' and self.payulatam_credit_card_token != '':
-            template_id = self.env.ref('web_sale_extended.mail_template_recurring_payment_credit_card').id
-            template = self.env['mail.template'].browse(template_id)
-            template.sudo().send_mail(self.id, force_send=True)
-        else:
-            raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
-        
-    def send_recurring_payment_pse_cash(self):
-        template_id = self.env.ref('web_sale_extended.mail_template_recurring_payment_pse_cash').id
-        template = self.env['mail.template'].browse(template_id)
-        template.sudo().send_mail(self.id, force_send=True)
-
-    def send_mail_second_payment(self):
-        template_id = self.env.ref('web_sale_extended.mail_template_cancellation_plan').id
         template = self.env['mail.template'].browse(template_id)
         template.sudo().send_mail(self.id, force_send=True)
 
@@ -644,193 +796,6 @@ class SaleOrder(models.Model):
             raise ValidationError('La orden de venta pertenece a Public user, No puede pasar al estado pedido de venta.')
         else:
             return super(SaleOrder, self).write(vals)
-
-    def payment_credit_card_by_tokenization(self):
-        if self.payment_method_type == 'Credit Card' and self.payulatam_credit_card_token != '':           
-            """ Proceso de Pago """
-            referenceCode = str(self.env['api.payulatam'].payulatam_get_sequence())
-            accountId = self.env['api.payulatam'].payulatam_get_accountId()
-            descriptionPay = "Payment Origin from " + self.name
-            signature = self.env['api.payulatam'].payulatam_get_signature(
-                self.amount_total,'COP',referenceCode)
-
-            payulatam_api_env = self.env.user.company_id.payulatam_api_env
-            if payulatam_api_env == 'prod':
-                payulatam_response_url = self.env.user.company_id.payulatam_api_response_url
-            else:
-                payulatam_response_url = self.env.user.company_id.payulatam_api_response_sandbox_url
-
-            tx_value = {"value": self.amount_total, "currency": "COP"}        
-            tx_tax = {"value": 0,"currency": "COP"}
-            tx_tax_return_base = {"value": 0, "currency": "COP"}
-            additionalValues = {
-                "TX_VALUE": tx_value,
-                "TX_TAX": tx_tax,
-                "TX_TAX_RETURN_BASE": tx_tax_return_base
-            }
-            shippingAddress = {
-                "street1": self.partner_id.street,
-                "street2": "",
-                "city": self.partner_id.zip_id.city_id.name,
-                "state": self.partner_id.zip_id.city_id.state_id.name,
-                "country": "CO",
-                "postalCode": self.partner_id.zip_id.name,
-                "phone": self.partner_id.phone
-            }    
-            buyer = {
-                "merchantBuyerId": "1",
-                "fullName": self.beneficiary0_id.name,
-                "emailAddress": self.beneficiary0_id.email,
-                "contactPhone": self.beneficiary0_id.phone,
-                "dniNumber": self.beneficiary0_id.identification_document,
-                "shippingAddress": shippingAddress
-            }    
-            order_api = {
-                "accountId": accountId,
-                "referenceCode": referenceCode,
-                "description": 'PPS - ' + descriptionPay,
-                "language": "es",
-                "signature": signature,
-                "notifyUrl":payulatam_response_url,
-                "additionalValues": additionalValues,
-                "buyer": buyer,
-                "shippingAddress": shippingAddress
-            }
-            billingAddressPayer = {
-                "street1": self.partner_id.street,
-                "street2": "",
-                "city": self.partner_id.zip_id.city_id.name,
-                "state": self.partner_id.zip_id.city_id.state_id.name,
-                "country": "CO",
-                "postalCode": self.partner_id.zip_id.name,
-                "phone": self.partner_id.phone
-            }    
-            payer = {
-                "merchantPayerId": "1",
-                "fullName": self.partner_id.name,
-                "emailAddress": self.partner_id.email,
-                "contactPhone": self.partner_id.phone,
-                "dniNumber": self.partner_id.identification_document,
-                "billingAddress": billingAddressPayer
-            }
-            creditCard = {
-                "processWithoutCvv2": "true"
-            }
-            extraParameters = {
-                "INSTALLMENTS_NUMBER": 1
-            }
-            transaction = {
-                "order": order_api,
-                "payer": payer,
-                "creditCardTokenId": self.payulatam_credit_card_token,
-                "creditCard": creditCard,
-                "extraParameters": extraParameters,
-                "type": "AUTHORIZATION_AND_CAPTURE",
-                "paymentMethod": self.payulatam_credit_card_method,
-                "paymentCountry": "CO",
-                "deviceSessionId": request.httprequest.cookies.get('session_id'),
-                "ipAddress": "127.0.0.1",
-                "cookie": request.httprequest.cookies.get('session_id'),
-                "userAgent": "Firefox"
-            }        
-            credit_card_values = {
-                "command": "SUBMIT_TRANSACTION",
-                "transaction": transaction,
-            }
-
-            _logger.error(credit_card_values)
-            response = request.env['api.payulatam'].payulatam_credit_cards_payment_request(credit_card_values)
-            _logger.error('Respuesta PayUU pago token')
-            _logger.error(response)
-
-
-            if response['code'] != 'SUCCESS':
-                body_message = """
-                    <b><span style='color:red;'>PayU Latam - Error en pago con tarjeta de crédito</span></b><br/>
-                    <b>Código:</b> %s<br/>
-                    <b>Error:</b> %s
-                """ % (
-                    response['code'],
-                    response['error'], 
-                )
-                self.message_post(body=body_message, type="comment")
-
-            else:
-                if response['transactionResponse']['state'] == 'APPROVED':
-                    self.write({
-                        'payulatam_order_id': response['transactionResponse']['orderId'],
-                        'payulatam_transaction_id': response['transactionResponse']['transactionId'],
-                        'payulatam_state': response['transactionResponse']['state'],
-                        'payment_method_type': 'Credit Card',
-                        'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO APROBADA',
-                        'payulatam_datetime': fields.datetime.now(),
-                    })
-                    body_message = """
-                        <b><span style='color:green;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
-                        <b>Orden ID:</b> %s<br/>
-                        <b>Transacción ID:</b> %s<br/>
-                        <b>Estado:</b> %s<br/>
-                        <b>Código Respuesta:</b> %s
-                    """ % (
-                        response['transactionResponse']['orderId'], 
-                        response['transactionResponse']['transactionId'], 
-                        'APROBADO', 
-                        response['transactionResponse']['responseCode']
-                    )
-                    self.message_post(body=body_message, type="comment")
-                    query = """
-                        INSERT INTO report_collections_recurring (certificate_number, policy_number, firstname, othernames, lastname, identification_document, birthday_date, transaction_type, clase, change_date, collected_value, number_of_installments, payment_method, number_of_plan_installments, total_installments, number_of_installments_arrears, policyholder, sponsor_id, product_code, product_name, payulatam_order_id, payulatam_transaction_id, origin_payment, order_name, sub_name) SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, '%s', '%s', '%s', %s, '%s', '%s', '%s', '%s', '%s', '%s', '%s' WHERE NOT EXISTS(SELECT * FROM report_collections_recurring WHERE payulatam_order_id='%s');
-                            """ %(self.subscription_id.policy_number, self.subscription_id.number, self.partner_id.firstname, self.partner_id.othernames, str(self.partner_id.lastname) + ' ' + str(self.partner_id.lastname2), self.partner_id.identification_document, self.partner_id.birthdate_date, 'A', self.main_product_id.product_class, date.today(), self.amount_total, 1, self.payment_method_type, self.main_product_id.subscription_template_id.recurring_rule_count, "-", "-", self.subscription_id.policyholder, self.sponsor_id.id, self.main_product_id.default_code, self.main_product_id.name, self.payulatam_order_id, self.payulatam_transaction_id, 'INSERT payment_token', self.name, self.subscription_id.code, self.payulatam_order_id)
-                    self.env.cr.execute(query)
-                elif response['transactionResponse']['state'] == 'PENDING':
-                    self.write({
-                        'payulatam_order_id': response['transactionResponse']['orderId'],
-                        'payulatam_transaction_id': response['transactionResponse']['transactionId'],
-                        'payulatam_state': response['transactionResponse']['state'],
-                        'payment_method_type': 'Credit Card',
-                        'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO PENDIENTE DE APROBACIÓN',
-                        'payulatam_datetime': fields.datetime.now(),
-                    })
-                    self.write({
-                        'payulatam_request_pending': True
-                    })
-                    body_message = """
-                        <b><span style='color:orange;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
-                        <b>Orden ID:</b> %s<br/>
-                        <b>Transacción ID:</b> %s<br/>
-                        <b>Estado:</b> %s<br/>
-                        <b>Código Respuesta:</b> %s
-                    """ % (
-                        response['transactionResponse']['orderId'], 
-                        response['transactionResponse']['transactionId'], 
-                        'PENDIENTE DE APROBACIÓN', 
-                        response['transactionResponse']['responseCode']
-                    )
-                    self.message_post(body=body_message, type="comment")
-                elif response['transactionResponse']['state'] in ['EXPIRED', 'DECLINED']:
-                    self.write({
-                        'payulatam_order_id': response['transactionResponse']['orderId'],
-                        'payulatam_transaction_id': response['transactionResponse']['transactionId'],
-                        'payulatam_state': response['transactionResponse']['state'],
-                        'payment_method_type': 'Credit Card',
-                        'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO RECHAZADA',
-                        'payulatam_datetime': fields.datetime.now(),
-                    })
-                    body_message = """
-                        <b><span style='color:red;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
-                        <b>Orden ID:</b> %s<br/>
-                        <b>Transacción ID:</b> %s<br/>
-                        <b>Estado:</b> %s<br/>
-                        <b>Código Respuesta:</b> %s
-                    """ % (
-                        response['transactionResponse']['orderId'], 
-                        response['transactionResponse']['transactionId'], 
-                        'RECHAZADO', 
-                        response['transactionResponse']['responseCode']
-                    )
-                    self.message_post(body=body_message, type="comment")
-        else:
-            raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
 
     def delete_token_payulatam(self):
         if self.payment_method_type == 'Credit Card' and self.payulatam_credit_card_token != '':           
@@ -876,194 +841,3 @@ class SaleOrder(models.Model):
                 })
         else:
             raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
-
-    def cron_get_status_payu_latam_recurring(self):
-        """ selección de ordenes de venta a procesar, que están pendientes de respuesta de payu """
-        sale_ids = self.env['sale.order'].search([
-            ('payulatam_transaction_id', '!=', ''),
-            ('state', '=', 'sale'),
-            ('payulatam_request_expired', '=', False),
-            ('payulatam_request_pending', '=', True),
-            ('payulatam_datetime', '!=', False),
-        ])
-        _logger.error(sale_ids)
-        for sale in sale_ids:
-            """ Consultando orden en payu """
-            if sale.payulatam_transaction_id:
-                _logger.error(sale.payulatam_transaction_id)
-                _logger.error(sale.payment_method_type)
-                """ si existe una transacción """
-                date_now = fields.datetime.now()
-                date_difference = date_now - sale.payulatam_datetime
-                if sale.payment_method_type == 'Cash':
-                    _logger.error(date_difference.seconds)
-                    if date_difference.seconds > 3600:
-                        """ si existe una transacción """
-                        response = self.env['api.payulatam'].payulatam_get_response_transaction(sale.payulatam_transaction_id)
-                        _logger.error('++++++++++++++++++++++++++ respuesta cron payu latam2 +++++++++++++++++++++++++++++++++++++++')
-                        _logger.error(response)
-                        if response['code'] != 'SUCCESS':
-                            raise ValidationError("""Error de comunicación con Payu: %s""", (json.dumps(response)))
-                        if response['result']['payload']['state'] == 'DECLINED':
-                            message = """<b><span style='color:red;'>PayU Latam - Transacción en efectivo declinada</span></b><br/>
-                            <b>Respuesta:</b> %s
-                            """ % (response['result']['payload'])
-                            sale.message_post(body=message)
-                            sale._send_order_payu_latam_rejected()
-                            sale.write({
-                                'payulatam_request_pending': False,
-                            })
-                        if response['result']['payload']['state'] == 'EXPIRED':
-                            message = """<b><span style='color:red;'>PayU Latam - Transacción en efectivo expirada</span></b><br/>
-                            <b>Respuesta:</b> %s
-                            """ % (response['result']['payload'])
-                            sale.message_post(body=message)
-                            sale._send_order_payu_latam_rejected()
-                            sale.write({
-                                'payulatam_request_pending': False,
-                            })
-                        if response['result']['payload']['state'] == 'APPROVED':
-                            sale.write({
-                                'payulatam_state': 'TRANSACCIÓN EN EFECTIVO APROBADA',
-                                'payulatam_request_pending': False,
-                            })
-                            message = """<b><span style='color:green;'>PayU Latam - Transacción en efectivo aprobada</span></b><br/>
-                            <b>Respuesta:</b> %s
-                            """ % (response['result']['payload'])
-                            sale.message_post(body=message)
-                            query = """
-                                INSERT INTO report_collections_recurring (certificate_number, policy_number, firstname, othernames, lastname, identification_document, birthday_date, transaction_type, clase, change_date, collected_value, number_of_installments, payment_method, number_of_plan_installments, total_installments, number_of_installments_arrears, policyholder, sponsor_id, product_code, product_name, payulatam_order_id, payulatam_transaction_id, origin_payment, order_name, sub_name) SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, '%s', '%s', '%s', %s, '%s', '%s', '%s', '%s', '%s', '%s', '%s' WHERE NOT EXISTS(SELECT * FROM report_collections_recurring WHERE payulatam_order_id='%s');
-                            """ %(sale.subscription_id.policy_number, sale.subscription_id.number, sale.partner_id.firstname, sale.partner_id.othernames, str(sale.partner_id.lastname) + ' ' + str(sale.partner_id.lastname2), sale.partner_id.identification_document, sale.partner_id.birthdate_date, 'A', sale.main_product_id.product_class, date.today(), sale.amount_total, 1, sale.payment_method_type, sale.main_product_id.subscription_template_id.recurring_rule_count, "-", "-", sale.subscription_id.policyholder, sale.sponsor_id.id, sale.main_product_id.default_code, sale.main_product_id.name, sale.payulatam_order_id, sale.payulatam_transaction_id, 'INSERT recurring cash', sale.name, sale.subscription_id.code, sale.payulatam_order_id)
-                            sale.env.cr.execute(query)
-                if sale.payment_method_type == 'PSE':
-                    _logger.error(date_difference.seconds)
-                    if date_difference.seconds > 600:
-                        """ si existe una transacción """
-                        response = self.env['api.payulatam'].payulatam_get_response_transaction(sale.payulatam_transaction_id)
-                        _logger.error('++++++++++++++++++++++++++ respuesta cron payu latam2 +++++++++++++++++++++++++++++++++++++++')
-                        _logger.error(response)
-                        if response['code'] != 'SUCCESS':
-                            raise ValidationError("""Error de comunicación con Payu: %s""" % (json.dumps(response)))
-                        if response['result']['payload']['state'] == 'DECLINED':
-                            message = """<b><span style='color:red;'>PayU Latam - Transacción PSE declinada</span></b><br/>
-                            <b>Respuesta:</b> %s
-                            """ % (response['result']['payload'])
-                            sale.message_post(body=message)
-                            sale._send_order_payu_latam_rejected()
-                            sale.write({
-                                'payulatam_request_pending': False,
-                            })
-                        if response['result']['payload']['state'] == 'EXPIRED':
-                            message = """<b><span style='color:red;'>PayU Latam - Transacción PSE expirada</span></b><br/>
-                            <b>Respuesta:</b> %s
-                            """ % (response['result']['payload'])
-                            sale.message_post(body=message)
-                            sale._send_order_payu_latam_rejected()
-                            sale.write({
-                                'payulatam_request_pending': False,
-                            })
-                        if response['result']['payload']['state'] == 'APPROVED':
-                            sale.write({
-                                'payulatam_state': 'TRANSACCIÓN PSE APROBADA',
-                                'payulatam_request_pending': False,
-                            })
-                            message = """<b><span style='color:green;'>PayU Latam - Transacción PSE aprobada</span></b><br/>
-                            <b>Respuesta:</b> %s
-                            """ % (response['result']['payload'])
-                            sale.message_post(body=message)
-                            query = """
-                                INSERT INTO report_collections_recurring (certificate_number, policy_number, firstname, othernames, lastname, identification_document, birthday_date, transaction_type, clase, change_date, collected_value, number_of_installments, payment_method, number_of_plan_installments, total_installments, number_of_installments_arrears, policyholder, sponsor_id, product_code, product_name, payulatam_order_id, payulatam_transaction_id, origin_payment, order_name, sub_name) SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, '%s', '%s', '%s', %s, '%s', '%s', '%s', '%s', '%s', '%s', '%s' WHERE NOT EXISTS(SELECT * FROM report_collections_recurring WHERE payulatam_order_id='%s');
-                            """ %(sale.subscription_id.policy_number, sale.subscription_id.number, sale.partner_id.firstname, sale.partner_id.othernames, str(sale.partner_id.lastname) + ' ' + str(sale.partner_id.lastname2), sale.partner_id.identification_document, sale.partner_id.birthdate_date, 'A', sale.main_product_id.product_class, date.today(), sale.amount_total, 1, sale.payment_method_type, sale.main_product_id.subscription_template_id.recurring_rule_count, "-", "-", sale.subscription_id.policyholder, sale.sponsor_id.id, sale.main_product_id.default_code, sale.main_product_id.name, sale.payulatam_order_id, sale.payulatam_transaction_id, 'INSERT recurring PSE', sale.name, sale.subscription_id.code, sale.payulatam_order_id)
-                            sale.env.cr.execute(query)
-                if sale.payment_method_type == 'Credit Card':
-                    _logger.error(date_difference.seconds)
-                    if date_difference.seconds > 600:
-                        """ si existe una transacción """
-                        response = self.env['api.payulatam'].payulatam_get_response_transaction(sale.payulatam_transaction_id)
-                        _logger.error('++++++++++++++++++++++++++ respuesta cron payu latam2 +++++++++++++++++++++++++++++++++++++++')
-                        _logger.error(response)
-                        if response['code'] != 'SUCCESS':
-                            raise ValidationError("""Error de comunicación con Payu: %s""" % (json.dumps(response)))
-                        
-                        if response['result']['payload']['state'] == 'DECLINED':
-                            message = """<b><span style='color:red;'>PayU Latam - Transacción con tarjeta de crédito declinada</span></b><br/>
-                            <b>Respuesta:</b> %s
-                            """ % (response['result']['payload'])
-                            sale.message_post(body=message)
-                            sale._send_order_payu_latam_rejected()
-                            sale.write({
-                                'payulatam_request_pending': False,
-                            })
-                        if response['result']['payload']['state'] == 'EXPIRED':
-                            message = """<b><span style='color:red;'>PayU Latam - Transacción con tarjeta de crédito expirada</span></b><br/>
-                            <b>Respuesta:</b> %s
-                            """ % (response['result']['payload'])
-                            sale.message_post(body=message)
-                            sale._send_order_payu_latam_rejected()
-                            sale.write({
-                                'payulatam_request_pending': False,
-                            })
-                        if response['result']['payload']['state'] == 'APPROVED':
-                            sale.write({
-                                'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO APROBADA',
-                                'payulatam_request_pending': False,
-                            })
-                            message = """<b><span style='color:green;'>PayU Latam - Transacción de pago con tarjeta de crédito aprobada</span></b><br/>
-                            <b>Respuesta:</b> %s
-                            """ % (response['result']['payload'])
-                            sale.message_post(body=message)
-                            query = """
-                                INSERT INTO report_collections_recurring (certificate_number, policy_number, firstname, othernames, lastname, identification_document, birthday_date, transaction_type, clase, change_date, collected_value, number_of_installments, payment_method, number_of_plan_installments, total_installments, number_of_installments_arrears, policyholder, sponsor_id, product_code, product_name, payulatam_order_id, payulatam_transaction_id, origin_payment, order_name, sub_name) SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, '%s', '%s', '%s', %s, '%s', '%s', '%s', '%s', '%s', '%s', '%s' WHERE NOT EXISTS(SELECT * FROM report_collections_recurring WHERE payulatam_order_id='%s');
-                            """ %(sale.subscription_id.policy_number, sale.subscription_id.number, sale.partner_id.firstname, sale.partner_id.othernames, str(sale.partner_id.lastname) + ' ' + str(sale.partner_id.lastname2), sale.partner_id.identification_document, sale.partner_id.birthdate_date, 'A', sale.main_product_id.product_class, date.today(), sale.amount_total, 1, sale.payment_method_type, sale.main_product_id.subscription_template_id.recurring_rule_count, "-", "-", sale.subscription_id.policyholder, sale.sponsor_id.id, sale.main_product_id.default_code, sale.main_product_id.name, sale.payulatam_order_id, sale.payulatam_transaction_id, 'INSERT recurring Credit Card', sale.name, sale.subscription_id.code, sale.payulatam_order_id)
-                            sale.env.cr.execute(query)
-
-    def prueba(self):   
-        order_carlos = self.env['sale.order'].sudo().browse(2875)
-        order_jose = self.env['sale.order'].sudo().browse(1769)
-        body_message1 = """
-            <b><span style='color:green;'>PayU Latam - Proceso de tokenización exitoso</span></b><br/>
-            <b>Token:</b> %s<br/>
-            <b>Mascara:</b> %s<br/>
-            <b>Documento:</b> %s<br/>
-            <b>Metodo:</b> %s
-        """ % (
-            'a1a2a577-c631-4739-83c7-3dc1023f2730', 
-            '379002*****1002', 
-            '16692917', 
-            'AMEX'
-            )
-        order_carlos.message_post(body=body_message1, date='2021-11-08 02:32:45', type="comment")
-        body_message2 = """
-            <b><span style='color:orange;'>Transacción de pago con tarjeta de crédito</span></b><br/>
-            <b>Orden ID:</b> %s<br/>
-            <b>Transacción ID:</b> %s<br/>
-            <b>Estado:</b> %s<br/>
-            <b>Código Respuesta:</b> %s
-        """ % (
-            '1729361082', 
-            'e8833198-6f7c-456b-8e7f-1073cda1d800', 
-            'PENDIENTE DE APROBACIÓN', 
-            'PENDING_TRANSACTION_REVIEW'
-            )
-        order_carlos.message_post(body=body_message2, date='2021-11-08 02:32:45', type="comment")
-        body_message3 = """
-            <b><span style='color:green;'>Transacción de pago con tarjeta de crédito aprobada</span></b><br/>
-            <b>Respuesta:</b> {'state': 'APPROVED', 'paymentNetworkResponseCode': '00', 'paymentNetworkResponseErrorMessage': None, 'trazabilityCode': '350963697', 'authorizationCode': '291878', 'pendingReason': None, 'responseCode': 'APPROVED', 'errorCode': None, 'responseMessage': 'Approved', 'transactionDate': None, 'transactionTime': None, 'operationDate': 1636436128096, 'extraParameters': None}
-        """
-        order_carlos.message_post(body=body_message3, date='2021-11-09 05:44:41', type="comment")
-        body_message4 = """
-            <b><span style='color:orange;'>Transacción de Pago en Efectivo</span></b><br/>
-            <b>Orden ID:</b> 1813954727<br/>
-            <b>Transacción ID:</b> 17889a09-9bd5-4e54-b69b-ca7396cbf68e<br/>
-            <b>Estado:</b> PENDING<br/>
-            <b>Código Respuesta:</b> PENDING_TRANSACTION_CONFIRMATION<br/>
-            <b>Motivo Pendiente:</b> AWAITING_NOTIFICATION<br/>
-            <b>Fecha de Expiración:</b> 1641773356000<br/>
-            <b>Url Recibo de Pago:</b> https://checkout.payulatam.com/ppp-web-gateway-payu/app/v2?vid=1813954727Y17889a099bd54e5Ya10b23200beaefe
-        """
-        order_jose.message_post(body=body_message4, date='2022-01-07 00:09:17', type="comment")
-        body_message5 = """
-            <b><span style='color:green;'>Transacción en efectivo aprobada</span></b><br/>
-            <b>Respuesta:</b> {'state': 'APPROVED', 'paymentNetworkResponseCode': '0000', 'paymentNetworkResponseErrorMessage': None, 'trazabilityCode': '17889a09-9bd5-4e54-b69b-ca7396cbf68e', 'authorizationCode': '21347135', 'pendingReason': None, 'responseCode': 'APPROVED', 'errorCode': None, 'responseMessage': None, 'transactionDate': None, 'transactionTime': None, 'operationDate': 1641582679050, 'extraParameters': None}
-        """
-        order_jose.message_post(body=body_message5, date='2022-01-07 19:13:59', type="comment")

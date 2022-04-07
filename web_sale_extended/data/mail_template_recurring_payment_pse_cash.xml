@@ -3,7 +3,7 @@
     <data>
         <record id="mail_template_recurring_payment_pse_cash" model="mail.template">
             <field name="name">Cobro recurrente Pse y Efectivo</field>
-            <field name="model_id" ref="sale.model_sale_order" />
+            <field name="model_id" ref="account.model_account_move" />
             <field name="email_from">Más Médicos &lt;contacto@masmedicos.co&gt;</field>
             <field name="partner_to">${object.partner_id.id}</field>
             <field name="subject">Más Médicos te recuerda el pago de tu plan</field>
@@ -316,7 +316,7 @@
                                                                                             style="margin: 0; font-size: 16px; text-align: justify; mso-line-height-alt: 14.399999999999999px;">
                                                                                             <br/></p>
                                                                                         <div align="center">
-                                                                                            <a href="${object.generate_recurring_payment_link(object.id)}" target="_blank"
+                                                                                            <a href="${object.generate_link(object.id)}" target="_blank"
                                                                                                 style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#39b54a;border-radius:4px;width:auto;border-top:0px solid #8a3b8f;border-right:0px solid #8a3b8f;border-bottom:0px solid #8a3b8f;border-left:0px solid #8a3b8f;padding-top:5px;padding-bottom:5px;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;text-align:center;mso-border-alt:none;word-break:keep-all;padding-left:15px;padding-right:15px;"><span
                                                                                                     style="padding-left:20px;padding-right:20px;font-size:16px;display:inline-block;letter-spacing:normal;"><span
                                                                                                         style="font-size: 16px; line-height: 2; word-break: break-word; mso-line-height-alt: 32px;">
@@ -670,9 +670,6 @@
                         </tbody>
                     </table>
                 </div>
-                
-                
-                
             </field>
             <field name="auto_delete" eval="False"/>
             <field name="lang">${object.partner_id.lang}</field>

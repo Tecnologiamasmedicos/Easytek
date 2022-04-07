@@ -43,6 +43,8 @@
         'views/assistand_purchase_confirmation_view.xml',
         'views/sale_subscription_template_view.xml',
         'views/sale_subscription_close_reason_view.xml',
+        'views/payment_recurring.xml',
+        'views/response_transaction.xml',
         #'reports/sale_order_report.xml',
         #'reports/res_partner_report.xml',
         'data/mail_template_cancellation_plan.xml',
@@ -54,13 +56,14 @@
         'data/shop_address.xml',
         'data/tus_datos_bot.xml',
         'data/payu_latam_bot.xml',
-        'data/payu_latam_bot_recurring.xml',
         'data/collection_file_bot.xml',
-        'data/payment_invoice_bot.xml',
         'data/beneficiary_confirm_template.xml',
         'views/res_users_view.xml',
         'data/mail_template_recurring_payment_credit_card.xml',
-        'data/mail_template_recurring_payment_pse_cash.xml'
+        'data/mail_template_recurring_payment_pse_cash.xml',
+        'data/assign_email_beneficiaries_bot.xml',
+        'data/complete_payment_information_bot.xml',
+        'data/payu_latam_creditcard_payment_bot.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
