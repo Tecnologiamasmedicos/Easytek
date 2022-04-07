@@ -418,6 +418,32 @@
                     </tree>                 
             </field>
         </record>
+        <record id="payments_report_view_search" model="ir.ui.view">
+            <field name="name">payments.report.view.search</field>
+            <field name="model">report.collections</field>
+            <field name="arch" type="xml">                
+                <search>
+                    <field name="policy_number" />
+                    <field name="certificate_number" />
+                    <field name="firstname" />
+                    <field name="lastname" />
+                    <field name="identification_document" />
+                    <field name="product_code" />
+                    <field name="product_name" />
+                    <field name="payulatam_order_id" />
+                    <field name="payulatam_transaction_id" />
+                    <filter string="Tarjeta de Credito" name="credit_card" domain="[('payment_method_type','=', 'Credit Card')]"/>               
+                    <filter string="Pse" name="pse" domain="[('payment_method_type','=', 'PSE')]"/>               
+                    <filter string="Efectivo" name="cash" domain="[('payment_method_type','=', 'Cash')]"/>
+                    <separator/>
+                    <filter string="Mes Actual" name="current_month" domain="[('change_date','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')), ('change_date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                    <filter string="Mes Anterior" name="prev_month" domain="[('change_date','&gt;=',(context_today()-relativedelta(months=1)).strftime('%%Y-%%m-01')),('change_date','&lt;',time.strftime('%%Y-%%m-01'))]"/>
+                    <separator/>
+                    <filter string="Fecha Cambio" name="filter_change_date" date="change_date"/>
+                    <filter string="Fecha Cambio" name="change_date" context="{'group_by': 'change_date'}"/>
+                </search>
+            </field>
+        </record>
         <record model="ir.actions.act_window" id="action_payments_report_tree">
             <field name="name">Reporte Pagos</field>
             <field name="res_model">payments.report</field>

@@ -59,7 +59,7 @@ class PaymentsReport(models.Model):
         
     def _complete_information_first_payment(self):
         """ selección de registros de venta a procesar, que están pendientes de respuesta de payu """
-        collections_ids = self.env['report.collections'].search([
+        collections_ids = self.env['payments.report'].search([
             ('policy_number', '=', ''),
             ('certificate_number', '=', ''),
         ])
@@ -126,7 +126,7 @@ class PaymentsReport(models.Model):
         end_date_date = datetime.strptime(end_date, '%Y-%m-%d').date()        
         
         headers = ['Número de Poliza', 'Número de Certificado',	'Primer Nombre', 'Segundo Nombre', 'Apellidos', 'Número de Identificación', 'Fecha de nacimiento', 'Tipo de transacción', 'Clase', 'Fecha de cambio', 'Valor recaudo', 'Cuotas recaudo', 'Método de Pago', 'Cuotas plan', 'Pagadas a la fecha', 'Cuotas en mora', 'Sponsor', 'Tomador de poliza', 'Codigo de producto', 'Nombre plan', 'Orden ID', 'Transacción ID']
-        records =  self.env['report.collections'].search([('change_date', '>=', start_date), ('change_date', '<=', end_date)])
+        records =  self.env['payments.report'].search([('change_date', '>=', start_date), ('change_date', '<=', end_date)])
         payment = ''
         for record in records:
             if record.payment_method == 'Credit Card':
@@ -150,7 +150,7 @@ class PaymentsReport(models.Model):
             
         if 'start_date2' in locals():            
             p2 = {}
-            records2 =  self.env['report.collections'].search([('change_date', '>=', start_date2), ('change_date', '<=', end_date2)])
+            records2 =  self.env['payments.report'].search([('change_date', '>=', start_date2), ('change_date', '<=', end_date2)])
             payment = ''
             for record in records2:
                 if record.payment_method == 'Credit Card':
