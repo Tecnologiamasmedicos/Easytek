@@ -30,8 +30,7 @@ class PaymentsReport(models.Model):
     payment_method = fields.Selection(
         [("Credit Card", "Tarjeta de Crédito"), 
         ("Cash", "Efectivo"), 
-        ("PSE", "PSE"),
-        ("Product Without Price", "Beneficio"),],
+        ("PSE", "PSE"),],
         string="Método de Pago"
     )
     number_of_plan_installments = fields.Integer('Cuotas plan', readonly=True)    

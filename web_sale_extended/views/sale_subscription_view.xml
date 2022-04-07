@@ -432,9 +432,9 @@
                     <field name="product_name" />
                     <field name="payulatam_order_id" />
                     <field name="payulatam_transaction_id" />
-                    <filter string="Tarjeta de Credito" name="credit_card" domain="[('payment_method_type','=', 'Credit Card')]"/>               
-                    <filter string="Pse" name="pse" domain="[('payment_method_type','=', 'PSE')]"/>               
-                    <filter string="Efectivo" name="cash" domain="[('payment_method_type','=', 'Cash')]"/>
+                    <filter string="Tarjeta de Credito" name="credit_card" domain="[('payment_method','=', 'Credit Card')]"/>               
+                    <filter string="Pse" name="pse" domain="[('payment_method','=', 'PSE')]"/>               
+                    <filter string="Efectivo" name="cash" domain="[('payment_method','=', 'Cash')]"/>
                     <separator/>
                     <filter string="Mes Actual" name="current_month" domain="[('change_date','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')), ('change_date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
                     <filter string="Mes Anterior" name="prev_month" domain="[('change_date','&gt;=',(context_today()-relativedelta(months=1)).strftime('%%Y-%%m-01')),('change_date','&lt;',time.strftime('%%Y-%%m-01'))]"/>
