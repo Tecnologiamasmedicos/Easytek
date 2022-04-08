@@ -432,6 +432,9 @@
                     <field name="product_name" />
                     <field name="payulatam_order_id" />
                     <field name="payulatam_transaction_id" />
+                    <filter string="Venta Nueva" name="new_sale" domain="[('payment_type','=', 'new_sale')]"/>
+                    <filter string="Pago cuota" name="recurring_payment" domain="[('payment_type','=', 'recurring_payment')]"/>
+                    <separator/>
                     <filter string="Tarjeta de Credito" name="credit_card" domain="[('payment_method','=', 'Credit Card')]"/>               
                     <filter string="Pse" name="pse" domain="[('payment_method','=', 'PSE')]"/>               
                     <filter string="Efectivo" name="cash" domain="[('payment_method','=', 'Cash')]"/>

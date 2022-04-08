@@ -45,10 +45,6 @@ class PaymentsReport(models.Model):
     origin_document = fields.Char('Documento de origen', readonly=True)
     sale_order = fields.Many2one('sale.order', string='Order', readonly=True)
     subscription = fields.Many2one('sale.subscription', string='Suscripcion', readonly=True)
-    
-    origin_payment = fields.Char('Origin INSERT', readonly=True)
-    sub_name = fields.Char('Sub name', readonly=True)
-    order_name = fields.Char('Order name', readonly=True)
     payment_type = fields.Selection([
         ("new_sale", "Venta Nueva"), 
         ("recurring_payment", "Pago recurrente"), 
@@ -69,6 +65,7 @@ class PaymentsReport(models.Model):
                 collection.policy_number = subscription.number
                 collection.certificate_number = subscription.policy_number
                 collection.subscription = subscription.id
+                collection.policyholder = subscription.policyholder
 
     def get_week_of_month(self, year, month, day):
         x = np.array(calendar.monthcalendar(year, month))
