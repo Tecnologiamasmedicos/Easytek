@@ -1653,32 +1653,38 @@
                                                     <label class="col-form-label" for="pse_bank" style="color:#FFF !important;">.</label>
                                                     <select name="pse_bank" class="form-control">
                                                         <option value="">A continuación seleccione su banco</option>
-                                                        <option value="1059">BANCAMIA</option>
+                                                        <option value="1059">BANCAMIA S.A.</option>
                                                         <option value="1040">BANCO AGRARIO</option>
-                                                        <option value="10322">BANCO CAJA SOCIAL</option>
-                                                        <option value="1052">BANCO COMERCIAL AVVILLAS S.A.</option>
-                                                        <option value="1061">BANCO COOMEVA S.A. - BANCOOMEVA</option>
+                                                        <option value="1052">BANCO AV VILLAS</option>
+                                                        <option value="1013">BANCO BBVA COLOMBIA S.A.</option>    
+                                                        <option value="1032">BANCO CAJA SOCIAL</option>
                                                         <option value="1066">BANCO COOPERATIVO COOPCENTRAL</option>
-                                                        <option value="1058">BANCO CREDIFINANCIERA</option>
+                                                        <option value="1558">BANCO CREDIFINANCIERA</option>
                                                         <option value="1051">BANCO DAVIVIENDA</option>
-                                                        <option value="1039">BANCO DE BOGOTA</option>
+                                                        <option value="1001">BANCO DE BOGOTA</option>
                                                         <option value="1023">BANCO DE OCCIDENTE</option>
                                                         <option value="1062">BANCO FALABELLA</option>
                                                         <option value="1012">BANCO GNB SUDAMERIS</option>
+                                                        <option value="1006">BANCO ITAU</option>
                                                         <option value="1060">BANCO PICHINCHA S.A.</option>
                                                         <option value="1002">BANCO POPULAR</option>
-                                                        <option value="1101">BANCO PSE</option>
                                                         <option value="1065">BANCO SANTANDER COLOMBIA</option>
                                                         <option value="1069">BANCO SERFINANZA</option>
-                                                        <option value="1035">BANCO TEQUENDAMA</option>
-                                                        <option value="1022">BANCO UNION COLOMBIANO</option>
-                                                        <option value="1013">BBVA COLOMBIA S.A.</option>
-                                                        <option value="1009">CITIBANK COLOMBIA S.A.</option>
+                                                        <option value="1007">BANCOLOMBIA</option>
+                                                        <option value="1061">BANCOOMEVA S.A.</option>
+                                                        <option value="1283">CFA COOPERATIVA FINANCIERA</option>
+                                                        <option value="1009">CITIBANK</option>
+                                                        <option value="1370">COLTEFINANCIERA</option>
+                                                        <option value="1292">CONFIAR COOPERATIVA FINANCIERA</option>
+                                                        <option value="1289">COTRAFA</option>
+                                                        <option value="1097">DALE</option>
                                                         <option value="1551">DAVIPLATA</option>
-                                                        <option value="1006">ITAU</option>
-                                                        <option value="1508">NEQUI</option>
+                                                        <option value="1303">GIROS Y FINANZAS COMPAÑIA DE FINANCIAMIENTO S.A.</option>
+                                                        <option value="1637">IRIS</option>
+                                                        <option value="1801">MOVII S.A.</option>
+                                                        <option value="1507">NEQUI</option>
                                                         <option value="1151">RAPPIPAY</option>
-                                                        <option value="1078">SCOTIABANK COLPATRIA UAT</option>
+                                                        <option value="1019">SCOTIABANK COLPATRIA</option>
                                                     </select>
                                                 </div>
                                             </div>
