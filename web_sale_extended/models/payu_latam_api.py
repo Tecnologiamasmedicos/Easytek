@@ -48,7 +48,7 @@ class PayULatamApi(models.TransientModel):
             'AUTHORIZATION_AND_CAPTURE',
             'GET_BANKS_LIST',
             'CREATE_TOKEN',
-            "REMOVE_TOKEN",
+            'REMOVE_TOKEN',
             'TRANSACTION_RESPONSE_DETAIL'
         ]
         if endpoint in api_post:
@@ -198,7 +198,7 @@ class PayULatamApi(models.TransientModel):
         command = 'GET_BANKS_LIST'
         query = {"command": command}
         bankListInformation = {
-            "paymentMethod": "BALOTO",
+            "paymentMethod": "PSE",
             "paymentCountry": "CO"
         }
         query.update({
@@ -209,10 +209,11 @@ class PayULatamApi(models.TransientModel):
             payment_method_ids = response['banks']
             payment_method_list = []
             for method in payment_method_ids:
-                payment_method_list.append({
-                    method['description']: method['description'],
-                    method['pseCode']: method['pseCode']
-                })
+                if method['description'] != 'A continuación seleccione su banco' and method['pseCode'] != 0:
+                    payment_method_list.append({
+                        method['description']: method['description'],
+                        method['pseCode']: method['pseCode']
+                    })
             """
             keys = [
                 "VISA",
