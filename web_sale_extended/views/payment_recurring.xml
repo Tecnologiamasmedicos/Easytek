@@ -132,12 +132,6 @@
                                                     </option>
                                                 </t>
                                             </select>
-                                            <!-- <select name="credit_card_type" class="form-control">
-                                                <option value="visa">VISA</option>
-                                                <option value="mastercard">AMERICAN EXPRESS</option>
-                                                <option value="mastercard">MASTERCARD</option>
-                                                <option value="dinners">DINNERS</option>
-                                            </select> -->
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6">
@@ -151,15 +145,6 @@
                                     <div class="col-lg-4 col-md-4">
                                         <div class="form-group">
                                             <label class="col-form-label" for="credit_card_date_due">Fecha vencimiento</label>
-                                            <!-- <select class="selectpicker" data-size="5" data-live-search="true"  id="credit_card_due_month" name="credit_card_due_month" 
-                                                t-attf-class="form-control" t-att-mode="mode[1]">
-                                                <option value="">País...</option>
-                                                <t t-foreach="credit_card_due_month_ids" t-as="c">
-                                                    <option t-att-value="c.id">
-                                                        <t t-esc="c.name" />
-                                                    </option>
-                                                </t>
-                                            </select> -->
                                             <select name="credit_card_due_month" class="form-control">
                                                 <option value="01">01</option>
                                                 <option value="02">02</option>
@@ -186,48 +171,6 @@
                                                         <t t-esc="years"/>
                                                     </option>
                                                 </t>
-                                                
-<!--                                                 <option value="2021">2021</option>
-                                                <option value="2022">2022</option>
-                                                <option value="2023">2023</option>
-                                                <option value="2024">2024</option>
-                                                <option value="2025">2025</option>
-                                                <option value="2026">2026</option>
-                                                <option value="2027">2027</option>
-                                                <option value="2028">2028</option>
-                                                <option value="2029">2029</option>
-                                                <option value="2030">2030</option>
-                                                <option value="2030">2031</option>
-                                                <option value="2030">2032</option>
-                                                <option value="2030">2033</option>
-                                                <option value="2030">2034</option>
-                                                <option value="2030">2035</option>
-                                                <option value="2030">2036</option>
-                                                <option value="2030">2037</option>
-                                                <option value="2030">2038</option>
-                                                <option value="2030">2039</option>
-                                                <option value="2030">2040</option>
-                                                <option value="2030">2041</option>
-                                                <option value="2030">2042</option>
-                                                <option value="2030">2043</option>
-                                                <option value="2030">2044</option>
-                                                <option value="2030">2045</option>
-                                                <option value="2030">2046</option>
-                                                <option value="2030">2047</option>
-                                                <option value="2030">2048</option>
-                                                <option value="2030">2049</option>
-                                                <option value="2030">2050</option>
-                                                <option value="2030">2051</option>
-                                                <option value="2030">2052</option>
-                                                <option value="2030">2053</option>
-                                                <option value="2030">2054</option>
-                                                <option value="2030">2055</option>
-                                                <option value="2030">2056</option>
-                                                <option value="2030">2057</option>
-                                                <option value="2030">2058</option>
-                                                <option value="2030">2059</option>
-                                                <option value="2030">2060</option>
-                                                <option value="2030">2061</option> -->
                                             </select> 
                                         </div>
                                     </div>

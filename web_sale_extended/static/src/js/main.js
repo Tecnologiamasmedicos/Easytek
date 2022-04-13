@@ -1904,11 +1904,17 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     max: {
                         depends: function(elem) { 
                             let fecha = $("input[name='bfdate1']").val();
-                            let birthdate_date = new Date(fecha);
                             let hoy = new Date();
-                            if (birthdate_date > hoy) {
+                            let cumpleanos = new Date(fecha);
+                            let edad = hoy.getFullYear() - cumpleanos.getFullYear();
+                            let m = hoy.getMonth() - cumpleanos.getMonth();
+                            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                                edad--;
+                            }
+                            if (cumpleanos > hoy){
                                 return true;
                             }
+                            return edad > 116
                         }
                     },
                     min: {
@@ -2006,12 +2012,18 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: true,
                     max: {
                         depends: function(elem) { 
-                            let fecha = $("input[name='bfdate2']").val();
-                            let birthdate_date = new Date(fecha);
+                            let fecha = $("input[name='bfdate1']").val();
                             let hoy = new Date();
-                            if (birthdate_date > hoy) {
+                            let cumpleanos = new Date(fecha);
+                            let edad = hoy.getFullYear() - cumpleanos.getFullYear();
+                            let m = hoy.getMonth() - cumpleanos.getMonth();
+                            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                                edad--;
+                            }
+                            if (cumpleanos > hoy){
                                 return true;
                             }
+                            return edad > 116
                         }
                     },
                     min: {
@@ -2109,12 +2121,18 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: true,
                     max: {
                         depends: function(elem) { 
-                            let fecha = $("input[name='bfdate3']").val();
-                            let birthdate_date = new Date(fecha);
+                            let fecha = $("input[name='bfdate1']").val();
                             let hoy = new Date();
-                            if (birthdate_date > hoy) {
+                            let cumpleanos = new Date(fecha);
+                            let edad = hoy.getFullYear() - cumpleanos.getFullYear();
+                            let m = hoy.getMonth() - cumpleanos.getMonth();
+                            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                                edad--;
+                            }
+                            if (cumpleanos > hoy){
                                 return true;
                             }
+                            return edad > 116
                         }
                     },
                     min: {
@@ -2212,12 +2230,18 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: true,
                     max: {
                         depends: function(elem) { 
-                            let fecha = $("input[name='bfdate4']").val();
-                            let birthdate_date = new Date(fecha);
+                            let fecha = $("input[name='bfdate1']").val();
                             let hoy = new Date();
-                            if (birthdate_date > hoy) {
+                            let cumpleanos = new Date(fecha);
+                            let edad = hoy.getFullYear() - cumpleanos.getFullYear();
+                            let m = hoy.getMonth() - cumpleanos.getMonth();
+                            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                                edad--;
+                            }
+                            if (cumpleanos > hoy){
                                 return true;
                             }
+                            return edad > 116
                         }
                     },
                     min: {
@@ -2315,12 +2339,18 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: true,
                     max: {
                         depends: function(elem) { 
-                            let fecha = $("input[name='bfdate5']").val();
-                            let birthdate_date = new Date(fecha);
+                            let fecha = $("input[name='bfdate1']").val();
                             let hoy = new Date();
-                            if (birthdate_date > hoy) {
+                            let cumpleanos = new Date(fecha);
+                            let edad = hoy.getFullYear() - cumpleanos.getFullYear();
+                            let m = hoy.getMonth() - cumpleanos.getMonth();
+                            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                                edad--;
+                            }
+                            if (cumpleanos > hoy){
                                 return true;
                             }
+                            return edad > 116
                         }
                     },
                     min: {
@@ -2418,12 +2448,18 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: true,
                     max: {
                         depends: function(elem) { 
-                            let fecha = $("input[name='bfdate6']").val();
-                            let birthdate_date = new Date(fecha);
+                            let fecha = $("input[name='bfdate1']").val();
                             let hoy = new Date();
-                            if (birthdate_date > hoy) {
+                            let cumpleanos = new Date(fecha);
+                            let edad = hoy.getFullYear() - cumpleanos.getFullYear();
+                            let m = hoy.getMonth() - cumpleanos.getMonth();
+                            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                                edad--;
+                            }
+                            if (cumpleanos > hoy){
                                 return true;
                             }
+                            return edad > 116
                         }
                     },
                     min: {
@@ -2591,7 +2627,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfdate1: {
                     required: "¡Upss! una fecha de nacimiento es requerido",
-                    max: "¡Upss! debe ser una fecha inferior o igual a la fecha actual",
+                    max: "¡Upss! debe tener una edad entre 0 y 116 años",
                     min: "¡Upss! tú hijo no puede ser mayor a ti"
                 },
                 ////////////////////////////////////////////
@@ -2663,7 +2699,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfdate2: {
                     required: "¡Upss! una fecha de nacimiento es requerido",
-                    max: "¡Upss! debe ser una fecha inferior o igual a la fecha actual",
+                    max: "¡Upss! debe tener una edad entre 0 y 116 años",
                     min: "¡Upss! tú hijo no puede ser mayor a ti"
                 },
                 ////////////////////////////////////////////
@@ -2735,7 +2771,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfdate3: {
                     required: "¡Upss! tu fecha de nacimiento es requerido",
-                    max: "¡Upss! debe ser una fecha inferior o igual a la fecha actual",
+                    max: "¡Upss! debe tener una edad entre 0 y 116 años",
                     min: "¡Upss! tú hijo no puede ser mayor a ti"
                 },
                 ////////////////////////////////////////////
@@ -2807,7 +2843,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfdate4: {
                     required: "¡Upss! tu fecha de nacimiento es requerido",
-                    max: "¡Upss! debe ser una fecha inferior o igual a la fecha actual",
+                    max: "¡Upss! debe tener una edad entre 0 y 116 años",
                     min: "¡Upss! tú hijo no puede ser mayor a ti"
                 },
                 ////////////////////////////////////////////
@@ -2879,7 +2915,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfdate5: {
                     required: "¡Upss! tu fecha de nacimiento es requerido",
-                    max: "¡Upss! debe ser una fecha inferior o igual a la fecha actual",
+                    max: "¡Upss! debe tener una edad entre 0 y 116 años",
                     min: "¡Upss! tú hijo no puede ser mayor a ti"
                 },
                 ////////////////////////////////////////////
@@ -2951,7 +2987,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bfdate6: {
                     required: "¡Upss! tu fecha de nacimiento es requerido",
-                    max: "¡Upss! debe ser una fecha inferior o igual a la fecha actual",
+                    max: "¡Upss! debe tener una edad entre 0 y 116 años",
                     min: "¡Upss! tú hijo no puede ser mayor a ti"
                 },
             }

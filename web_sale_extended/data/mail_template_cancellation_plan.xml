@@ -288,7 +288,7 @@
                                                                                 <div style="font-family: Arial, sans-serif">
                                                                                     <div
                                                                                         style="font-size: 12px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; color: #555555; line-height: 1.2;">
-                                                                                        <p style="margin: 0; font-size: 16px; text-align: justify;">No queremos incomodarte, te informamos que tu <strong>${object.main_product_id.name}</strong> se encuentra en proceso de cancelación, te invitamos a ponerte al dia, para que tú y tu familia sigan disfrutando de nuestros servicios.</p>
+                                                                                        <p style="margin: 0; font-size: 16px; text-align: justify;">No queremos incomodarte, te informamos que tu <strong>${object.invoice_line_ids[0].product_id.name}</strong> se encuentra en proceso de cancelación, te invitamos a ponerte al dia, para que tú y tu familia sigan disfrutando de nuestros servicios.</p>
                                                                                         <p
                                                                                             style="margin: 0; font-size: 16px; text-align: justify; mso-line-height-alt: 14.399999999999999px;">
                                                                                             <br/></p>
