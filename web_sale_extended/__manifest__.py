@@ -45,6 +45,8 @@
         'views/sale_subscription_close_reason_view.xml',
         'views/payment_recurring.xml',
         'views/response_transaction.xml',
+        'views/sale_cancellation_view.xml',
+        'views/sale_settlement_view.xml',
         #'reports/sale_order_report.xml',
         #'reports/res_partner_report.xml',
         'data/mail_template_cancellation_plan.xml',

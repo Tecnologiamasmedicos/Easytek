@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+         <record id="report_subscription_cancellation_tree" model="ir.ui.view">
+            <field name="name">report.subscription.cancellation.tree</field>
+            <field name="type">tree</field>
+            <field name="model">report.subscription.cancellation</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte de Cancelaciones" create="0" edit="0">
+                    <field name="sale_order" />
+                    <field name="policy_number" />
+                    <field name="certificate_number" />
+                    <field name="subscription_date_start" />
+                    <field name="subscription_date_end" />
+                    <field name="close_reason_id" />
+                    <field name="ap_name" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="report_subscription_cancellation_view_search" model="ir.ui.view">
+            <field name="name">report.subscription.cancellation.view.search</field>
+            <field name="model">report.subscription.cancellation</field>
+            <field name="arch" type="xml">                
+                <search>
+                    <field name="policy_number" />
+                    <field name="certificate_number" />
+                    <separator/>
+                    <filter string="Fecha Inicio" name="filter_subscription_date_start" date="subscription_date_start"/>
+                    <filter string="Fecha Final" name="filter_subscription_date_end" context="{'group_by': 'subscription_date_end'}"/>
+                </search>
+            </field>
+        </record>  
+
+        <record model="ir.actions.act_window" id="action_report_subscription_cancellation_tree">
+            <field name="name">Reporte de Cancelaciones</field>
+            <field name="res_model">report.subscription.cancellation</field>
+            <field name="view_mode">tree</field>
+        </record>
+    </data>
+
+    <menuitem 
+               id="report_subscription_cancellation" 
+               name="Reporte de Cancelaciones" 
+               parent="sale_subscription.menu_sale_subscription_report" 
+               sequence="5" 
+               action="web_sale_extended.action_report_subscription_cancellation_tree" 
+               groups="sale_subscription.group_sale_subscription_view"/>
+
+</odoo>
