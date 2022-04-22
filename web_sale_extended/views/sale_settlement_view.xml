@@ -17,6 +17,9 @@
                     <field name="subscription_date_start" />
                     <field name="subscription_date_end" />
                     <field name="invoice_date" />
+                    <field name="product_code" />
+                    <field name="value" />
+                    <field name="sponsor_id" />
                     <field name="payulatam_order_id" />
                     <field name="payulatam_state" />
                     <field name="payulatam_datetime" />
