@@ -60,7 +60,7 @@ class ReportSubscriptionSettlement(models.Model):
         left join sale_subscription sub on sub.code = inv.invoice_origin
         left join sale_order sorder on sorder.subscription_id = sub.id
         left join res_partner p on p.id = inv.partner_id
-        left join account_move_line line on line.move_id = inv.id
+        left join sale_subscription_line line on line.analytic_account_id = sub.id
         left join product_product pro on pro.id = line.product_id
         
         where 1=1 and inv.state='finalized'
