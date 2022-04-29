@@ -24,6 +24,8 @@ class AccountMove(models.Model):
         ("PENDING", "PENDIENTE"), 
         ("EXPIRED", "EXPIRADO"),
         ("DECLINED", "DECLINADO"),
+        ("without_payment", "SIN COBRO"),
+        ("no_payment", "NO PAGO"),
     ])
     payulatam_datetime = fields.Datetime('Fecha y Hora de la Transacción')
     payulatam_credit_card_token = fields.Char('Token Para Tarjetas de Crédito')
