@@ -694,6 +694,22 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                         .attr("value", value).text(key));
                 });
             }
+        } else if (estado == 'Divorciado'){
+            let newOptions = {
+                Seleccione: "",
+                Padres: "D",
+                Hijos: "H"
+            };
+            for (let index = 0; index < 6; index++) {
+                let id_elemento = 'bfparentesco' + (index + 1);
+                let elemento = "select[name='" + id_elemento + "']";
+                let elemento_completo = $(elemento);
+                elemento_completo.empty();
+                $.each(newOptions, function(key, value) {
+                    elemento_completo.append($("<option></option>")
+                        .attr("value", value).text(key));
+                });
+            }
         } else {
             let newOptions = {
                 Seleccione: "",
@@ -1732,7 +1748,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     lettersonly: true,
                 },
                 fijo: {
-//                     required: false,
+                    // required: false,
                     number: true,
                     formFijoLength: true,
                 },
@@ -1752,22 +1768,22 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     maxlength: 11,
                 },
                 address: {
-//                     required: true,
+                    // required: true,
                     minlength: 3,
                     maxlength: 30,
                     formcomma: true,
                 },
                 city: {
-//                     required: true,
+                    // required: true,
                 },
                 country_address_id: {
-//                     required: true,
+                    // required: true,
                 },
                 deparment: {
-//                     required: true,
+                    // required: true,
                 },
                 state_address_id: {
-//                     required: true,
+                    // required: true,
                 },
                 date: {
                     required: true,
@@ -1862,7 +1878,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     lettersonly: true,
                 },
                 bffijo1: {
-//                     required: false,
+                    // required: false,
                     number: true,
                     formFijoLength: true,
                 },
@@ -1886,18 +1902,18 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     uniquedocument1: true,
                 },
                 bfaddress1: {
-//                     required: true,
+                    // required: true,
                     maxlength: 30,
                     formcomma: true,
                 },
                 bfcity1: {
-//                     required: true,
+                    // required: true,
                 },
                 bfcountry_id1: {
-//                     required: true,
+                    // required: true,
                 },
                 bfdeparment1: {
-//                     required: true,
+                    // required: true,
                 },
                 bfdate1: {
                     required: true,
@@ -1971,7 +1987,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     lettersonly: true,
                 },
                 bffijo2: {
-//                     required: false,
+                    // required: false,
                     number: true,
                     formFijoLength: true,
                 },
@@ -1995,24 +2011,24 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     uniquedocument2: true,
                 },
                 bfaddress2: {
-//                     required: true,
+                    // required: true,
                     maxlength: 30,
                     formcomma: true,
                 },
                 bfcity2: {
-//                     required: true,
+                    // required: true,
                 },
                 bfcountry_id2: {
-//                     required: true,
+                    // required: true,
                 },
                 bfdeparment2: {
-//                     required: true,
+                    // required: true,
                 },
                 bfdate2: {
                     required: true,
                     max: {
                         depends: function(elem) { 
-                            let fecha = $("input[name='bfdate1']").val();
+                            let fecha = $("input[name='bfdate2']").val();
                             let hoy = new Date();
                             let cumpleanos = new Date(fecha);
                             let edad = hoy.getFullYear() - cumpleanos.getFullYear();
@@ -2080,7 +2096,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     lettersonly: true,
                 },
                 bffijo3: {
-//                     required: false,
+                    // required: false,
                     number: true,
                     formFijoLength: true,
                 },
@@ -2104,24 +2120,24 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     uniquedocument3: true,
                 },
                 bfaddress3: {
-//                     required: true,
+                    // required: true,
                     maxlength: 30,
                     formcomma: true,
                 },
                 bfcity3: {
-//                     required: true,
+                    // required: true,
                 },
                 bfcountry_id3: {
-//                     required: true,
+                    // required: true,
                 },
                 bfdeparment3: {
-//                     required: true,
+                    // required: true,
                 },
                 bfdate3: {
                     required: true,
                     max: {
                         depends: function(elem) { 
-                            let fecha = $("input[name='bfdate1']").val();
+                            let fecha = $("input[name='bfdate3']").val();
                             let hoy = new Date();
                             let cumpleanos = new Date(fecha);
                             let edad = hoy.getFullYear() - cumpleanos.getFullYear();
@@ -2189,7 +2205,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     lettersonly: true,
                 },
                 bffijo4: {
-//                     required: false,
+                    // required: false,
                     number: true,
                     formFijoLength: true,
                 },
@@ -2213,24 +2229,24 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     uniquedocument4: true,
                 },
                 bfaddress4: {
-//                     required: true,
+                    // required: true,
                     maxlength: 30,
                     formcomma: true,
                 },
                 bfcity4: {
-//                     required: true,
+                    // required: true,
                 },
                 bfcountry_id4: {
-//                     required: true,
+                    // required: true,
                 },
                 bfdeparment4: {
-//                     required: true,
+                    // required: true,
                 },
                 bfdate4: {
                     required: true,
                     max: {
                         depends: function(elem) { 
-                            let fecha = $("input[name='bfdate1']").val();
+                            let fecha = $("input[name='bfdate4']").val();
                             let hoy = new Date();
                             let cumpleanos = new Date(fecha);
                             let edad = hoy.getFullYear() - cumpleanos.getFullYear();
@@ -2298,7 +2314,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     lettersonly: true,
                 },
                 bffijo5: {
-//                     required: false,
+                    // required: false,
                     number: true,
                     formFijoLength: true,
                 },
@@ -2322,24 +2338,24 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     uniquedocument5: true,
                 },
                 bfaddress5: {
-//                     required: true,
+                    // required: true,
                     maxlength: 30,
                     formcomma: true,
                 },
                 bfcity5: {
-//                     required: true,
+                    // required: true,
                 },
                 bfcountry_id5: {
-//                     required: true,
+                    // required: true,
                 },
                 bfdeparment5: {
-//                     required: true,
+                    // required: true,
                 },
                 bfdate5: {
                     required: true,
                     max: {
                         depends: function(elem) { 
-                            let fecha = $("input[name='bfdate1']").val();
+                            let fecha = $("input[name='bfdate5']").val();
                             let hoy = new Date();
                             let cumpleanos = new Date(fecha);
                             let edad = hoy.getFullYear() - cumpleanos.getFullYear();
@@ -2407,7 +2423,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     lettersonly: true,
                 },
                 bffijo6: {
-//                     required: false,
+                    // required: false,
                     number: true,
                     formFijoLength: true,
                 },
@@ -2431,24 +2447,24 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     uniquedocument6: true,
                 },
                 bfaddress6: {
-//                     required: true,
+                    // required: true,
                     maxlength: 30,
                     formcomma: true,
                 },
                 bfcity6: {
-//                     required: true,
+                    // required: true,
                 },
                 bfcountry_id6: {
-//                     required: true,
+                    // required: true,
                 },
                 bfdeparment6: {
-//                     required: true,
+                    // required: true,
                 },
                 bfdate6: {
                     required: true,
                     max: {
                         depends: function(elem) { 
-                            let fecha = $("input[name='bfdate1']").val();
+                            let fecha = $("input[name='bfdate6']").val();
                             let hoy = new Date();
                             let cumpleanos = new Date(fecha);
                             let edad = hoy.getFullYear() - cumpleanos.getFullYear();
@@ -3019,6 +3035,23 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
             Hijos: "H",
             Hermanos: "M",
             Suegros: "S"
+        };
+        for (let index = 0; index < 6; index++) {
+            let id_elemento = 'bfparentesco' + (index + 1);
+            let elemento = "select[name='" + id_elemento + "']";
+            let elemento_completo = $(elemento);
+            elemento_completo.empty();
+            $.each(newOptions, function(key, value) {
+                elemento_completo.append($("<option></option>")
+                    .attr("value", value).text(key));
+            });
+        }
+    }
+    if (estado == 'Divorciado'){
+        let newOptions = {
+            Seleccione: "",
+            Padres: "D",
+            Hijos: "H"
         };
         for (let index = 0; index < 6; index++) {
             let id_elemento = 'bfparentesco' + (index + 1);

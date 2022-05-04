@@ -37,7 +37,7 @@ class AccountMove(models.Model):
         ("Credit Card", "Tarjeta de Crédito"), 
         ("Cash", "Efectivo"), 
         ("PSE", "PSE"),
-        ("Benefice", "Beneficio"),
+        ("Product Without Price", "Beneficio"),
     ])
 
     def post(self):
