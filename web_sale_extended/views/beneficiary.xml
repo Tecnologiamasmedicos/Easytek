@@ -1,72 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="beneficiary">
+        <title>Registro asegurado principal y beneficiarios | www.masmedicos.co</title>
         <t t-call="website.layout">
             <br/>
-            
-            <!--<div class="alert alert-success alert-dismissable d-print-none" role="status" style="text-align:center;">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">x</button>
-                <strong>¡Gracias!</strong><br/>
-                <span>Su pedido ha sido confirmado y pagado.</span>
-            </div>-->
-            
             <div class="container">
                 <form id="beneficiary" action="/beneficiary-detail" method="post" class="checkout_autoformat">
                     <input type="hidden" name="beneficiaries_number" id="beneficiaries_number" t-att-value="beneficiaries_number"/>
                     <input type="hidden" name="order_id" id="order_id" t-att-value="order_id"/>
+                    <input type="hidden" name="pets_number" id="pets_number" t-att-value="pets_number"/>
                     <section class="s_text_block pt0 pb0" data-name="Text block" style="">
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-12 pt0 pb0">
-                                <div class="s_alert clearfix s_alert_md w-100" data-name="Alert" style="border: 1px solid #39B54A; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(0, 153, 51, 0.5); border-radius: 5px;">
-                                    <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Img_success.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
-                                    <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip947855"/>
-                                    <div class="s_alert_content">
-                                    <p style="padding: 30px"><font color="#39b54a"><span style="font-size: 18px;"><b>Ahora vamos a llenar la información de tu <t t-esc="order_detail.product_template_id[0].name"/>.</b></span></font><br/>Completemos los datos del asegurado principal &#40;o titular del plan&#41; y la de sus beneficiarios &#40;o grupo familiar&#41;</p>
+                                    <div class="s_alert clearfix s_alert_md w-100" data-name="Alert" style="border: 1px solid #39B54A; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(0, 153, 51, 0.5); border-radius: 5px;">
+                                        <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Img_success.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                        <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip947855"/>
+                                        <div class="s_alert_content">
+                                            <p style="padding: 30px"><font color="#39b54a"><span style="font-size: 18px;"><b>Ahora vamos a llenar la información de tu <t t-esc="order_detail.product_template_id[0].name"/>.</b></span></font><br/>Completemos los datos del asegurado principal &#40;o titular del plan&#41; y la de sus beneficiarios &#40;o grupo familiar&#41;</p>
+                                        </div>
                                     </div>
-                                </div>
                                 </div>
                             </div>
                         </div>
                     </section>
                     <br/>
-                    
-                    
-                    <div id="div_error" class="alert alert-danger fade show" role="alert" style="background-color: #f2dede !important; border-color: #ebcccc !important; color: #a94442 !important; display: none;">
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <i class="fa fa-times" aria-hidden="false"></i>
-                      </button>
-                      <strong>Error: País diferente a Colombia</strong> Por el momento solo se presta este servicio en Colombia.
-                    </div>
-                    
+                    <div id="div_error" class="alert alert-danger fade show" role="alert" style="background-color: #f2dede !important; border-color: #ebcccc !important; color: #a94442 !important; display: none;"></div>
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="0" id="flexCheckDefault" name="infoBuyer"/>
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Comprador es igual al asegurado principal
-                      </label>
+                        <input class="form-check-input" type="checkbox" value="0" id="flexCheckDefault" name="infoBuyer"/>
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Comprador es igual al asegurado principal
+                        </label>
                     </div>
-
-                    
                     <div class="card">
                         <h4>Datos del Asegurado Principal</h4>
-                        
                         <div class="row">
                             <div class="col-lg-3">
-                                <!--+++++++Prueba del style white-space++++++-->
                                 <div class="form-group">
                                     <label class="col-form-label" for="name">Primer Nombre*</label>
                                     <input class="form-control" type="text" name="name"/>
                                 </div>
-                                <!--+++++++ FIN Prueba del style white-space++++++-->
                             </div>
-
                             <div class="col-lg-3">
-                                <!--+++++++Prueba del style white-space++++++-->
                                 <div class="form-group">
                                     <label class="col-form-label" for="othername">Segundo Nombre</label>
                                     <input class="form-control" type="text" name="othername"/>
                                 </div>
-                                <!--+++++++ FIN Prueba del style white-space++++++-->
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
@@ -80,20 +59,17 @@
                                     <input class="form-control" type="text" name="lastname2"/>
                                 </div>
                             </div>
-
                         </div>
-
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="document_type">Tipo de documento*</label>
                                     <select name="document_type" class="form-control" id="document_type">
                                         <t t-foreach="document_types_main_insured" t-as="dt">
-                                                <option t-att-value="dt.id">
-                                                    <t t-esc="dt.name" /> 
-                                                </option>
-                                            </t>
-
+                                            <option t-att-value="dt.id">
+                                                <t t-esc="dt.name" />
+                                            </option>
+                                        </t>
                                     </select>
                                 </div>
                             </div>
@@ -123,12 +99,11 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="sex">Sexo</label>
+                                    <label class="col-form-label" for="sex">Sexo*</label>
                                     <select name="sex" class="form-control">
                                         <option value="">Seleccione...</option>
                                         <option value="M">Masculino</option>
                                         <option value="F" style="">Femenino</option>
-                                        <option value="O" style="">Otro</option>
                                     </select>
                                 </div>
                             </div>
@@ -136,7 +111,6 @@
                                 <div class="form-group">
                                     <label class="col-form-label" for="estado_civil">Estado Civil*</label>
                                     <select id="estado_civil" name="estado_civil" class="form-control">
-                                        <!--<option value="">Estado civil</option>-->
                                         <option value="Soltero" style="">Soltero/a</option>
                                         <option value="Casado" style="">Casado/a</option>
                                         <option value="Unión Libre" style="">Unión Libre</option>
@@ -145,14 +119,12 @@
                                     </select>
                                 </div>
                             </div>
-                            
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="ocupacion">Ocupación</label>
                                     <input class="form-control" type="text" name="ocupation"  />
                                 </div>
                             </div>
-                            
                         </div>
                         <div class="row">
                             <div class="col-lg-8">
@@ -167,67 +139,61 @@
                                     <input class="form-control" type="date" name="date"/>
                                 </div>
                             </div>
-
                         </div>
-
-
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="country_id">País</label>
+                                    <label class="col-form-label" for="country_id">País*</label>
                                     <select name="country_id" class="form-control">
-                                        <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         <t t-foreach="countries" t-as="c">
-                                                <option t-att-value="c.id">
-                                                    <t t-esc="c.name" />
-                                                </option>
-                                            </t>
-                                         
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label class="col-form-label" for="deparment">Departamento</label>
-                                    <select name="deparment" id="bfdeparment0" class="form-control">
-                                        <option value="">Seleccione un departamento...</option>
-                                        <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id">
-                                                    <t t-esc="s.name" />
-                                                </option>
+                                            <option t-att-value="c.id">
+                                                <t t-esc="c.name" />
+                                            </option>
                                         </t>
-                                         
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="city">Ciudad</label>
+                                    <label class="col-form-label" for="deparment">Departamento*</label>
+                                    <select name="deparment" id="bfdeparment0" class="form-control">
+                                        <t t-foreach="country_states" t-as="s">
+                                            <option t-att-value="s.id" t-att-selected="s.id == 1386">
+                                                <t t-esc="s.name" />
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="city">Ciudad*</label>
                                     <select name="city" id="bfcity0" class="form-control">
-                                        <option value="">Seleccione una Ciudad...</option>
                                         <t t-foreach="cities" t-as="c">
                                             <option t-att-value="c.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
-                                        <!--<option t-att-selected="partner.city"><t t-esc="partner.city" /></option>
-                                        <option value="Bogotá" style="">Bogotá</option>
-                                        <option value="Cali" style="">Cali</option>-->
-
-
                                     </select>
                                 </div>
                             </div>
-                            
                         </div>
                         <div class="row">
-
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="beneficiario">Cantidad de beneficiarios a incluir</label>
-                                    <select name="beneficiario" id="cant_beneficiarios" class="form-control">
-                                        <option value="0">...</option>                                        
+                                    <abbr title="Para registrar tus beneficiarios, ten a mano su documento de identificación, o registrarlos después con nuestra asesoría" style="text-decoration: none;">
+                                        <label class="col-form-label" for="beneficiario">Número de beneficiarios a incluir</label>
+                                        <select name="beneficiario" id="cant_beneficiarios" class="form-control">
+                                            <option value="0">...</option>                                        
+                                        </select>
+                                    </abbr>
+                                </div>
+                            </div>
+                            <div class="col-lg-5" t-if="pets_number" id="div_plan_with_pet">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="petnumber">Número de mascotas a incluir</label>
+                                    <select name="petnumber" id="petnumber" class="form-control">
+                                        <option value="0">...</option>
                                     </select>
                                 </div>
                             </div>
@@ -237,14 +203,12 @@
                                     <input class="form-control" type="text" name="fijo" />
                                 </div>
                             </div>
-                            
-
                         </div>
-
                     </div>
-
-                    <br/>
-                    <br/>
+                    <br/><br/>
+                    <!-- MASCOTAS -->
+                    <div id="pets_container"/>
+                    <br/><br/>
                     <!-- BENEFICIARIO 1-->
                     <div id="beneficiary1" class="card">                        
                         <h4 id="subti1"></h4>
@@ -261,7 +225,6 @@
                                     <input class="form-control" type="text" name="bfirstname1" />
                                 </div>
                             </div>
-                            
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfothername1">Segundo Nombre</label>
@@ -280,11 +243,8 @@
                                     <input class="form-control" type="text" name="bflastname12" />
                                 </div>
                             </div>
-                            
                         </div>
-
                         <div class="row">
-                        
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfparentesco1">Parentesco*</label>
@@ -296,10 +256,8 @@
                                         <option value="M" style="">Hermanos</option>
                                         <option value="S" style="">Suegros</option>
                                     </select>
-
                                 </div>
                             </div>
-
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfdocument1">Tipo de documento*</label>
@@ -310,7 +268,6 @@
                                                 <t t-esc="dt.name" /> 
                                             </option>
                                         </t>
-                                                    
                                     </select>
                                 </div>
                             </div>
@@ -326,9 +283,7 @@
                                     <input class="form-control" type="date" name="bfdate1"  />
                                 </div>
                             </div>
-                            
                         </div>
-
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -338,109 +293,83 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail1">Email*</label>
+                                    <label class="col-form-label" for="bfemail1">Email</label>
                                     <input class="form-control" type="email"  name="bfemail1" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfphone1">Teléfono Móvil</label>
+                                    <label class="col-form-label" for="bfphone1">Teléfono Móvil*</label>
                                     <input class="form-control" type="text" name="bfphone1"/>
                                 </div>
                             </div>
                         </div>
-                        
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcountry_id1">País</label>
+                                    <label class="col-form-label" for="bfcountry_id1">País*</label>
                                     <select name="bfcountry_id1" class="form-control">
-                                        <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         <t t-foreach="countries" t-as="c">
-                                                <option t-att-value="c.id" t-att-selected="c.id == (country and country.id)">
-                                                    <t t-esc="c.name" />
-                                                </option>
+                                            <option t-att-value="c.id" t-att-selected="c.id == (country and country.id)">
+                                                <t t-esc="c.name" />
+                                            </option>
                                             </t>
-                                         
                                     </select>
                                 </div>
                             </div>
-
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfdeparment1">Departamento</label>
+                                    <label class="col-form-label" for="bfdeparment1">Departamento*</label>
                                     <select name="bfdeparment1" class="form-control">
-                                        <option value="">Seleccione un departamento...</option>
-                                        <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->                                        
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id">
-                                                    <t t-esc="s.name" />
-                                                </option>
-                                        </t>
-                                         
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label class="col-form-label" for="bfcity1">Ciudad</label>
-                                    <select name="bfcity1" id="bfcity1" class="form-control">
-                                        <option value="">Seleccione una Ciudad...</option>
-                                        <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name">
-                                                 <t t-esc="c.city_id.name" />
+                                            <option t-att-value="s.id" t-att-selected="s.id == 1386">
+                                                <t t-esc="s.name" />
                                             </option>
                                         </t>
-                                        <!--<option t-att-selected="partner.city"><t t-esc="partner.city" /></option>
-                                        <option value="Bogotá" style="">Bogotá</option>
-                                        <option value="Cali" style="">Cali</option>-->
-
-
                                     </select>
                                 </div>
                             </div>
-                            
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfcity1">Ciudad*</label>
+                                    <select name="bfcity1" id="bfcity1" class="form-control">
+                                        <t t-foreach="cities" t-as="c">
+                                            <option t-att-value="c.city_id.id">
+                                                <t t-esc="c.city_id.name" />
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfsex1">Sexo</label>
+                                    <label class="col-form-label" for="bfsex1">Sexo*</label>
                                     <select name="bfsex1" class="form-control">
                                         <option value="">Seleccione...</option>
                                         <option value="M">Masculino</option>
                                         <option value="F" style="">Femenino</option>
-                                        <option value="O" style="">Otro</option>
-
-
                                     </select>
                                 </div>
                             </div>
-                            
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfocupacion1">Ocupación</label>
                                     <input class="form-control" type="text" name="bfocupacion1"  />
                                 </div>
                             </div>
-                            
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bffijo1">Teléfono fijo</label>
                                     <input class="form-control" type="text" name="bffijo1" />
                                 </div>
                             </div>
-                            
                         </div>
-
                     </div>
-                    
-                    
-                    
-                    
                     <!-- Fin beneficiario 1 -->
                     <div class="dropdown-divider"></div>
                     <br/>
-
                     <div id="beneficiary2" class="card">
                         <h4 id="subti2"></h4>
                         <div class="form-check">
@@ -456,7 +385,6 @@
                                     <input class="form-control" type="text" name="bfirstname2" />
                                 </div>
                             </div>
-                            
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfothername2">Segundo Nombre</label>
@@ -475,11 +403,8 @@
                                     <input class="form-control" type="text" name="bflastname22" />
                                 </div>
                             </div>
-                            
                         </div>
-
                         <div class="row">
-                        
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfparentesco2">Parentesco*</label>
@@ -491,10 +416,8 @@
                                         <option value="M" style="">Hermanos</option>
                                         <option value="S" style="">Suegros</option>
                                     </select>
-
                                 </div>
                             </div>
-
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfdocument2">Tipo de documento*</label>
@@ -505,7 +428,6 @@
                                                 <t t-esc="dt.name" /> 
                                             </option>
                                         </t>
-                                                    
                                     </select>
                                 </div>
                             </div>
@@ -521,9 +443,7 @@
                                     <input class="form-control" type="date" name="bfdate2"  />
                                 </div>
                             </div>
-                            
                         </div>
-
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -533,111 +453,84 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail2">Email*</label>
+                                    <label class="col-form-label" for="bfemail2">Email</label>
                                     <input class="form-control" type="email"  name="bfemail2" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfphone2">Teléfono Móvil</label>
+                                    <label class="col-form-label" for="bfphone2">Teléfono Móvil*</label>
                                     <input class="form-control" type="text" name="bfphone2"/>
                                 </div>
                             </div>
                         </div>
-                        
                          <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcountry_id2">País</label>
+                                    <label class="col-form-label" for="bfcountry_id2">País*</label>
                                     <select name="bfcountry_id2" class="form-control">
-                                        <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         <t t-foreach="countries" t-as="c">
-                                                <option t-att-value="c.id" t-att-selected="c.id == (country and country.id)">
-                                                    <t t-esc="c.name" />
-                                                </option>
-                                            </t>
-                                         
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label class="col-form-label" for="bfdeparment2">Departamento</label>
-                                    <select name="bfdeparment2" class="form-control">
-                                        <option value="">Seleccione un departamento...</option>
-                                        <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
-                                        
-                                        <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id">
-                                                    <t t-esc="s.name" />
-                                                </option>
-                                        </t>
-                                         
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label class="col-form-label" for="bfcity2">Ciudad</label>
-                                    <select name="bfcity2" id="bfcity2" class="form-control">
-                                        <option value="">Seleccione una Ciudad...</option>
-                                        <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name">
-                                                 <t t-esc="c.city_id.name" />
+                                            <option t-att-value="c.id" t-att-selected="c.id == (country and country.id)">
+                                                <t t-esc="c.name" />
                                             </option>
                                         </t>
-                                        <!--<option t-att-selected="partner.city"><t t-esc="partner.city" /></option>
-                                        <option value="Bogotá" style="">Bogotá</option>
-                                        <option value="Cali" style="">Cali</option>-->
-
-
                                     </select>
                                 </div>
                             </div>
-                            
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfdeparment2">Departamento*</label>
+                                    <select name="bfdeparment2" class="form-control">
+                                        <t t-foreach="country_states" t-as="s">
+                                            <option t-att-value="s.id" t-att-selected="s.id == 1386">
+                                                <t t-esc="s.name" />
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfcity2">Ciudad*</label>
+                                    <select name="bfcity2" id="bfcity2" class="form-control">
+                                        <t t-foreach="cities" t-as="c">
+                                            <option t-att-value="c.city_id.id">
+                                                <t t-esc="c.city_id.name" />
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfsex2">Sexo</label>
+                                    <label class="col-form-label" for="bfsex2">Sexo*</label>
                                     <select name="bfsex2" class="form-control">
                                         <option value="">Seleccione...</option>
                                         <option value="M">Masculino</option>
                                         <option value="F" style="">Femenino</option>
-                                        <option value="O" style="">Otro</option>
-
-
                                     </select>
                                 </div>
                             </div>
-                            
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfocupacion2">Ocupación</label>
                                     <input class="form-control" type="text" name="bfocupacion2"  />
                                 </div>
                             </div>
-                            
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bffijo2">Teléfono fijo</label>
                                     <input class="form-control" type="text" name="bffijo2" />
                                 </div>
                             </div>
-                            
-                            
                         </div>
-
                     </div>
-                    
-                    
-
                     <!-- Fin beneficiario 2 -->
                     <div class="dropdown-divider"></div>
                     <br/>
-
                     <div id="beneficiary3" class="card">
                         <h4 id="subti3"></h4>
                         <div class="form-check">
@@ -653,7 +546,6 @@
                                     <input class="form-control" type="text" name="bfirstname3" />
                                 </div>
                             </div>
-                            
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfothername3">Segundo Nombre</label>
@@ -672,11 +564,8 @@
                                     <input class="form-control" type="text" name="bflastname32" />
                                 </div>
                             </div>
-                            
                         </div>
-
                         <div class="row">
-                        
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfparentesco3">Parentesco*</label>
@@ -688,10 +577,8 @@
                                         <option value="M" style="">Hermanos</option>
                                         <option value="S" style="">Suegros</option>
                                     </select>
-
                                 </div>
                             </div>
-
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfdocument3">Tipo de documento*</label>
@@ -702,7 +589,6 @@
                                                 <t t-esc="dt.name" /> 
                                             </option>
                                         </t>
-                                                    
                                     </select>
                                 </div>
                             </div>
@@ -718,9 +604,7 @@
                                     <input class="form-control" type="date" name="bfdate3"  />
                                 </div>
                             </div>
-                            
                         </div>
-
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -730,7 +614,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail3">Email*</label>
+                                    <label class="col-form-label" for="bfemail3">Email</label>
                                     <input class="form-control" type="email"  name="bfemail3" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
@@ -741,98 +625,72 @@
                                 </div>
                             </div>
                         </div>
-                        
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcountry_id3">País</label>
+                                    <label class="col-form-label" for="bfcountry_id3">País*</label>
                                     <select name="bfcountry_id3" class="form-control">
-                                        <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         <t t-foreach="countries" t-as="c">
-                                                <option t-att-value="c.id" t-att-selected="c.id == (country and country.id)">
-                                                    <t t-esc="c.name" />
-                                                </option>
-                                            </t>
-                                         
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label class="col-form-label" for="bfdeparment3">Departamento</label>
-                                    <select name="bfdeparment3" class="form-control">
-                                        <option value="">Seleccione un departamento...</option>
-                                        <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
-                                        
-                                        <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id">
-                                                    <t t-esc="s.name" />
-                                                </option>
-                                        </t>
-                                         
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label class="col-form-label" for="bfcity3">Ciudad</label>
-                                    <select name="bfcity3" id="bfcity3" class="form-control">
-                                        <option value="">Seleccione una Ciudad...</option>
-                                        <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name">
-                                                 <t t-esc="c.city_id.name" />
+                                            <option t-att-value="c.id" t-att-selected="c.id == (country and country.id)">
+                                                <t t-esc="c.name" />
                                             </option>
                                         </t>
-                                        <!--<option t-att-selected="partner.city"><t t-esc="partner.city" /></option>
-                                        <option value="Bogotá" style="">Bogotá</option>
-                                        <option value="Cali" style="">Cali</option>-->
-
-
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfdeparment3">Departamento*</label>
+                                    <select name="bfdeparment3" class="form-control">
+                                        <t t-foreach="country_states" t-as="s">
+                                            <option t-att-value="s.id" t-att-selected="s.id == 1386">
+                                                <t t-esc="s.name" />
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfcity3">Ciudad*</label>
+                                    <select name="bfcity3" id="bfcity3" class="form-control">
+                                        <t t-foreach="cities" t-as="c">
+                                            <option t-att-value="c.city_id.id">
+                                                <t t-esc="c.city_id.name" />
+                                            </option>
+                                        </t>
                                     </select>
                                 </div>
                             </div> 
                         </div>
-                        
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfsex3">Sexo</label>
+                                    <label class="col-form-label" for="bfsex3">Sexo*</label>
                                     <select name="bfsex3" class="form-control">
                                         <option value="">Seleccione...</option>
                                         <option value="M">Masculino</option>
                                         <option value="F" style="">Femenino</option>
-                                        <option value="O" style="">Otro</option>
-
-
                                     </select>
                                 </div>
                             </div>
-                            
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfocupacion3">Ocupación</label>
                                     <input class="form-control" type="text" name="bfocupacion3"  />
                                 </div>
                             </div>
-                            
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bffijo3">Teléfono fijo</label>
                                     <input class="form-control" type="text" name="bffijo3" />
                                 </div>
                             </div>
-                            
-                            
                         </div>
-                        
-                        
-
                     </div>
                     <!-- Fin beneficiario 3 -->
                     <div class="dropdown-divider"></div>
                     <br/>
-
                     <div id="beneficiary4" class="card">
                         <h4 id="subti4"></h4>
                         <div class="form-check">
@@ -848,7 +706,6 @@
                                     <input class="form-control" type="text" name="bfirstname4" />
                                 </div>
                             </div>
-                            
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfothername4">Segundo Nombre</label>
@@ -867,11 +724,8 @@
                                     <input class="form-control" type="text" name="bflastname42" />
                                 </div>
                             </div>
-                            
                         </div>
-
                         <div class="row">
-                        
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfparentesco4">Parentesco*</label>
@@ -883,10 +737,8 @@
                                         <option value="M" style="">Hermanos</option>
                                         <option value="S" style="">Suegros</option>
                                     </select>
-
                                 </div>
                             </div>
-
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfdocument4">Tipo de documento*</label>
@@ -897,7 +749,6 @@
                                                 <t t-esc="dt.name" /> 
                                             </option>
                                         </t>
-                                                    
                                     </select>
                                 </div>
                             </div>
@@ -913,9 +764,7 @@
                                     <input class="form-control" type="date" name="bfdate4"  />
                                 </div>
                             </div>
-                            
                         </div>
-
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -925,7 +774,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail4">Email*</label>
+                                    <label class="col-form-label" for="bfemail4">Email</label>
                                     <input class="form-control" type="email"  name="bfemail4" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
@@ -936,94 +785,69 @@
                                 </div>
                             </div>
                         </div>
-                        
                          <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcountry_id4">País</label>
+                                    <label class="col-form-label" for="bfcountry_id4">País*</label>
                                     <select name="bfcountry_id4" class="form-control">
-                                        <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         <t t-foreach="countries" t-as="c">
-                                                <option t-att-value="c.id" t-att-selected="c.id == (country and country.id)">
-                                                    <t t-esc="c.name" />
-                                                </option>
-                                            </t>
-                                         
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label class="col-form-label" for="bfdeparment4">Departamento</label>
-                                    <select name="bfdeparment4" class="form-control">
-                                        <option value="">Seleccione un departamento...</option>
-                                        <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
-                                        
-                                        <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id">
-                                                    <t t-esc="s.name" />
-                                                </option>
-                                        </t>
-                                         
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <label class="col-form-label" for="bfcity4">Ciudad</label>
-                                    <select name="bfcity4" id="bfcity4" class="form-control">
-                                        <option value="">Seleccione una Ciudad...</option>
-                                        <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name">
-                                                 <t t-esc="c.city_id.name" />
+                                            <option t-att-value="c.id" t-att-selected="c.id == (country and country.id)">
+                                                <t t-esc="c.name" />
                                             </option>
                                         </t>
-                                        <!--<option t-att-selected="partner.city"><t t-esc="partner.city" /></option>
-                                        <option value="Bogotá" style="">Bogotá</option>
-                                        <option value="Cali" style="">Cali</option>-->
-
-
                                     </select>
                                 </div>
                             </div>
-                            
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfdeparment4">Departamento*</label>
+                                    <select name="bfdeparment4" class="form-control">
+                                        <t t-foreach="country_states" t-as="s">
+                                            <option t-att-value="s.id" t-att-selected="s.id == 1386">
+                                                <t t-esc="s.name" />
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="col-form-label" for="bfcity4">Ciudad*</label>
+                                    <select name="bfcity4" id="bfcity4" class="form-control">
+                                        <t t-foreach="cities" t-as="c">
+                                            <option t-att-value="c.city_id.id">
+                                                <t t-esc="c.city_id.name" />
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfsex4">Sexo</label>
+                                    <label class="col-form-label" for="bfsex4">Sexo*</label>
                                     <select name="bfsex4" class="form-control">
                                         <option value="">Seleccione...</option>
                                         <option value="M">Masculino</option>
                                         <option value="F" style="">Femenino</option>
-                                        <option value="O" style="">Otro</option>
-
-
                                     </select>
                                 </div>
                             </div>
-                            
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfocupacion4">Ocupación</label>
                                     <input class="form-control" type="text" name="bfocupacion4"  />
                                 </div>
                             </div>
-                            
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bffijo4">Teléfono fijo</label>
                                     <input class="form-control" type="text" name="bffijo4" />
                                 </div>
                             </div>
-                            
-                            
                         </div>
-
                     </div>
-
                     <!-- FIN BENEFICIARIO 4 -->
                     <div class="dropdown-divider"></div>
                     <br/>
@@ -1065,7 +889,6 @@
                         </div>
 
                         <div class="row">
-                        
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="bfparentesco5">Parentesco*</label>
@@ -1077,7 +900,6 @@
                                         <option value="M" style="">Hermanos</option>
                                         <option value="S" style="">Suegros</option>
                                     </select>
-
                                 </div>
                             </div>
 
@@ -1091,7 +913,6 @@
                                                 <t t-esc="dt.name" /> 
                                             </option>
                                         </t>
-                                                    
                                     </select>
                                 </div>
                             </div>
@@ -1119,7 +940,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail5">Email*</label>
+                                    <label class="col-form-label" for="bfemail5">Email</label>
                                     <input class="form-control" type="email"  name="bfemail5" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
@@ -1134,67 +955,52 @@
                           <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcountry_id5">País</label>
+                                    <label class="col-form-label" for="bfcountry_id5">País*</label>
                                     <select name="bfcountry_id5" class="form-control">
-                                        <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         <t t-foreach="countries" t-as="c">
                                                 <option t-att-value="c.id" t-att-selected="c.id == (country and country.id)">
                                                     <t t-esc="c.name" />
                                                 </option>
                                             </t>
-                                         
                                     </select>
                                 </div>
                             </div>
 
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfdeparment5">Departamento</label>
+                                    <label class="col-form-label" for="bfdeparment5">Departamento*</label>
                                     <select name="bfdeparment5" class="form-control">
-                                        <option value="">Seleccione un departamento...</option>
-                                        <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id">
+                                                <option t-att-value="s.id" t-att-selected="s.id == 1386">
                                                     <t t-esc="s.name" />
                                                 </option>
                                         </t>
-                                         
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcity5">Ciudad</label>
+                                    <label class="col-form-label" for="bfcity5">Ciudad*</label>
                                     <select name="bfcity5" id="bfcity5" class="form-control">
-                                        <option value="">Seleccione una Ciudad...</option>
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name">
+                                            <option t-att-value="c.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
-                                        <!--<option t-att-selected="partner.city"><t t-esc="partner.city" /></option>
-                                        <option value="Bogotá" style="">Bogotá</option>
-                                        <option value="Cali" style="">Cali</option>-->
-
-
                                     </select>
                                 </div>
                             </div>
-                            
                         </div>
                          
                          <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfsex5">Sexo</label>
+                                    <label class="col-form-label" for="bfsex5">Sexo*</label>
                                     <select name="bfsex5" class="form-control">
                                         <option value="">Seleccione...</option>
                                         <option value="M">Masculino</option>
                                         <option value="F" style="">Femenino</option>
-                                        <option value="O" style="">Otro</option>
-
-
                                     </select>
                                 </div>
                             </div>
@@ -1212,10 +1018,7 @@
                                     <input class="form-control" type="text" name="bffijo5" />
                                 </div>
                             </div>
-                            
-                            
                         </div>
-
                     </div>
 
                     <!-- FIN BENEFICIARIO 5 -->
@@ -1256,7 +1059,6 @@
                                     <input class="form-control" type="text" name="bflastname62" />
                                 </div>
                             </div>
-                            
                         </div>
 
                         <div class="row">
@@ -1272,7 +1074,6 @@
                                         <option value="M" style="">Hermanos</option>
                                         <option value="S" style="">Suegros</option>
                                     </select>
-
                                 </div>
                             </div>
 
@@ -1286,7 +1087,6 @@
                                                 <t t-esc="dt.name" /> 
                                             </option>
                                         </t>
-                                                    
                                     </select>
                                 </div>
                             </div>
@@ -1314,7 +1114,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfemail6">Email*</label>
+                                    <label class="col-form-label" for="bfemail6">Email</label>
                                     <input class="form-control" type="email"  name="bfemail6" placeholder='ejemplo@ejemplo.com' />
                                 </div>
                             </div>
@@ -1329,68 +1129,53 @@
                          <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcountry_id6">País</label>
+                                    <label class="col-form-label" for="bfcountry_id6">País*</label>
                                     <select name="bfcountry_id6" class="form-control">
-                                        <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         <t t-foreach="countries" t-as="c">
                                                 <option t-att-value="c.id" t-att-selected="c.id == (country and country.id)">
                                                     <t t-esc="c.name" />
                                                 </option>
                                             </t>
-                                         
                                     </select>
                                 </div>
                             </div>
 
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfdeparment6">Departamento</label>
+                                    <label class="col-form-label" for="bfdeparment6">Departamento*</label>
                                     <select name="bfdeparment6" class="form-control">
-                                        <option value="">Seleccione un departamento...</option>
-                                        <!--<option t-att-selected="partner.state_id"><t t-esc="partner.state_id.name" /></option>-->
                                         
                                         <t t-foreach="country_states" t-as="s">
-                                                <option t-att-value="s.id">
+                                                <option t-att-value="s.id" t-att-selected="s.id == 1386">
                                                     <t t-esc="s.name" />
                                                 </option>
                                         </t>
-                                         
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfcity6">Ciudad</label>
+                                    <label class="col-form-label" for="bfcity6">Ciudad*</label>
                                     <select name="bfcity6" id="bfcity6" class="form-control">
-                                        <option value="">Seleccione una Ciudad...</option>
                                         <t t-foreach="cities" t-as="c">
-                                            <option t-att-value="c.city_id.name">
+                                            <option t-att-value="c.city_id.id">
                                                  <t t-esc="c.city_id.name" />
                                             </option>
                                         </t>
-                                        <!--<option t-att-selected="partner.city"><t t-esc="partner.city" /></option>
-                                        <option value="Bogotá" style="">Bogotá</option>
-                                        <option value="Cali" style="">Cali</option>-->
-
-
                                     </select>
                                 </div>
                             </div>
                             
                         </div>
                          
-                         
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="col-form-label" for="bfsex6">Sexo</label>
+                                    <label class="col-form-label" for="bfsex6">Sexo*</label>
                                     <select name="bfsex6" class="form-control">
                                         <option value="">Seleccione...</option>
                                         <option value="M">Masculino</option>
                                         <option value="F" style="">Femenino</option>
-                                        <option value="O" style="">Otro</option>
-
-
                                     </select>
                                 </div>
                             </div>
@@ -1408,73 +1193,13 @@
                                     <input class="form-control" type="text" name="bffijo6" />
                                 </div>
                             </div>
-                            
-                            
                         </div> 
-
                     </div>
-                    <!-- Button trigger modal -->
-                    <button class="btn btn-custom mb32 pull-right" id="submit_beneficiaries"><!--<button class="btn btn-custom mb32">-->
-                        <span>Guardar</span>
+                    <button class="btn btn-custom mb32 pull-right" id="submit_beneficiaries">
+                        <span>Generar certificado del Plan</span>
                         <i class="fa fa-chevron-right"/>
                     </button>
-                    
-                    
-                    <!--<button type="button" class="btn btn-custom mb32" value="Aceptar">
-                        Guardar
-                    </button>-->
-                    
-                    <!--Boten original respaldo del cambio de arriba<button type="button" class="btn btn-custom mb32" data-toggle="modal" data-target="#exampleModal">
-                        Guardar
-                    </button>-->
-
-                    <!-- Modal -->
-                    <!--<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">¡Aviso!</h5>
-                                <button  class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">x</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-5"></div>
-                                        <div class="col-md-2">
-                                            <img  src="/web_sale_extended/static/src/images/Img_tip.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
-                                            
-                                        </div>
-                                        <div class="col-md-5"></div>
-
-                                    </div>
-                                    <p id="texto_modal">¡Ya estámos casi listos! solo asegúrate que la información es correcta. ¿Estás seguro de avanzar?</p>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                        </div>
-                                        <div class="col-md-6 right">
-                                            <input id="boton_aceptar" type="submit" class="btn btn-custom" value="Aceptar"/> 
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                                
-                                
-                            </div>
-                            </div>
-                        </div>
-                    </div>-->
-                    <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-                    
                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
-                    
                 </form>
             </div>
         </t>

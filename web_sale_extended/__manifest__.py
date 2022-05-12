@@ -24,7 +24,7 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
         'views/web_sale_shop_address.xml',
@@ -41,16 +41,32 @@
         'views/ir_sequence_view.xml',
         'views/assistand_purchase_view.xml',
         'views/assistand_purchase_confirmation_view.xml',
+        'views/sale_subscription_template_view.xml',
+        'views/sale_subscription_close_reason_view.xml',
+        'views/payment_recurring.xml',
+        'views/response_transaction.xml',
+        'views/sale_cancellation_view.xml',
+        'views/sale_settlement_view.xml',
         #'reports/sale_order_report.xml',
         #'reports/res_partner_report.xml',
+        'data/mail_template_cancellation_plan.xml',
+        'data/sftp_report_bot.xml',
+        'data/payment_assisted_purchase_mail_template.xml',
+        'data/confirm_order_bot.xml',
+        'data/recovery_main_insured.xml',
+        'data/start_subscriptions_bot.xml',
         'data/shop_address.xml',
         'data/tus_datos_bot.xml',
-        'data/confirm_order_bot.xml',
         'data/payu_latam_bot.xml',
         'data/collection_file_bot.xml',
-        'data/payment_invoice_bot.xml',
         'data/beneficiary_confirm_template.xml',
-        'views/res_users_view.xml'
+        'views/res_users_view.xml',
+        'data/mail_template_recurring_payment_credit_card.xml',
+        'data/mail_template_recurring_payment_pse_cash.xml',
+        'data/assign_email_beneficiaries_bot.xml',
+        'data/complete_payment_information_bot.xml',
+        'data/payu_latam_creditcard_payment_bot.xml',
+        'data/payu_latam_account_move_bot.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

@@ -28,19 +28,17 @@
                 </xpath>
                 <xpath expr="//field[@name='company_id']" position="after">
                     <field name="sponsor_id"/>
-                    <field name="order_id" />
                 </xpath>
             </field>
         </record>
 
-
-     <data>
+    <data>
         <record id="sftp_report_view_tree" model="ir.ui.view">
             <field name="name">sftp.report.subscription.line.view.tree</field>
-             <field name="type">tree</field>
+            <field name="type">tree</field>
             <field name="model">report.sftp</field>
             <field name="arch" type="xml">
-                <tree string="SFTP lines" create="0" edit="0">                    
+                <tree string="SFTP lines" create="0" edit="0">
                     <field name="policy_number" string="Número de Grupo / Póliza"/>
                     <field name="certificate_number" string="Certificado"/>
                     <field name="firstname" string="Primer Nombre"/>
@@ -90,6 +88,7 @@
                     <field name="subsidiary" string="Subsidiaria"/>
                     <field name="phone" string="Teléfono Fijo"/>
                     <field name="ocupation2" string="Ocupación"/>
+                    <field name="send_sftp_ok" string="Reportado SFTP"/>
                     
                     <!--<field name="sponsor_nit" string=""/>
                     <field name="sponsor_payment_url" string=""/>
@@ -99,17 +98,35 @@
                 </tree>
             </field>
         </record>
+        <record id="sftp_ap_report_view_search" model="ir.ui.view">
+            <field name="name">sftp.ap.report.view.search</field>
+            <field name="model">report.sftp</field>
+            <field name="arch" type="xml">                
+                <search>
+                    <field name="identification_document" />
+                    <field name="certificate_number" />
+                    <field name="firstname" />
+                    <field name="lastname" />
+                    <field name="email" />   
+                    <field name="mobile" /> 
+                    <field name="phone" />
+                    <filter string="Hoy" name="current_day" domain="[('date_start4','=', (context_today()).strftime('%%Y-%%m-%d'))]"/>                    
+                    <filter string="Ayer" name="yesterday" domain="[('date_start4','=', (context_today()-relativedelta(days=1)).strftime('%%Y-%%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Fecha Cambio" name="filter_change_date" date="date_start4"/>
+                    <filter string="Fecha Cambio" name="change_date" context="{'group_by': 'date_start4'}"/>     
+                </search>
+            </field>
+        </record>
         <record model="ir.actions.act_window" id="action_report_sftp_tree">
             <field name="name">SFTP Report</field>
             <field name="res_model">report.sftp</field>
             <field name="view_mode">tree</field>
         </record>
          
-         
-         
-         <record id="sftp_report_view_beneficiary_tree" model="ir.ui.view">
+        <record id="sftp_report_view_beneficiary_tree" model="ir.ui.view">
             <field name="name">sftp.report.subscription.line.view.beneficiary.tree</field>
-             <field name="type">tree</field>
+            <field name="type">tree</field>
             <field name="model">report.beneficiary.sftp</field>
             <field name="arch" type="xml">
                 <tree string="SFTP lines" create="0" edit="0">
@@ -143,7 +160,28 @@
                     <field name="state_id" string="Estado"/>
                     <field name="city_name" string="Ciudad"/>
                     <field name="ocupation" string="Ocupación"/>
+                    <field name="send_sftp_ok" string="Reportado SFTP"/>
                 </tree>
+            </field>
+        </record>
+        <record id="sftp_beneficiary_report_view_search" model="ir.ui.view">
+            <field name="name">sftp.beneficiary.report.view.search</field>
+            <field name="model">report.beneficiary.sftp</field>
+            <field name="arch" type="xml">                
+                <search>
+                    <field name="identification_document" />
+                    <field name="certificate_number" />  
+                    <field name="firstname" />
+                    <field name="lastname" />
+                    <field name="email" /> 
+                    <field name="mobile" /> 
+                    <field name="phone" />
+                    <filter string="Hoy" name="current_day" domain="[('date_start4','=', (context_today()).strftime('%%Y-%%m-%d'))]"/>
+                    <filter string="Ayer" name="yesterday" domain="[('date_start4','=', (context_today()-relativedelta(days=1)).strftime('%%Y-%%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Fecha Cambio" name="filter_change_date" date="date_start4"/>
+                    <filter string="Fecha Cambio" name="change_date" context="{'group_by': 'date_start4'}"/>                                 
+                </search>
             </field>
         </record>
         <record model="ir.actions.act_window" id="action_report_sftp_beneficiary_tree">
@@ -151,38 +189,37 @@
             <field name="res_model">report.beneficiary.sftp</field>
             <field name="view_mode">tree</field>
         </record>
-         
-         
-         <record id="collections_report_view_tree" model="ir.ui.view">
+        <record id="collections_report_view_tree" model="ir.ui.view">
             <field name="name">collections.report.subscription.line.view.tree</field>
-<!--              <field name="type">tree</field> -->
+            <field name="type">tree</field>
             <field name="model">report.collections</field>
-            <field name="arch" type="xml">                
-                    <tree string="Collections lines" create="0" edit="0">
-                        <field name="policy_number" />
-                        <field name="certificate_number" />
-                        <field name="firstname" />
-                        <field name="othernames" />
-                        <field name="lastname" />
-                        <field name="identification_document" />
-                        <field name="transaction_type" />
-                        <field name="clase" />
-                        <field name="change_date" widget="date" />
-                        <field name="collected_value" widget="monetary"/>
-                        <field name="number_of_installments" />
-                        <field name="payment_method" string="Metodo de pago" />
-                        <field name="number_of_plan_installments" />
-                        <field name="total_installments" />
-                        <field name="number_of_installments_arrears" />
-                        <field name="sponsor_id" />
-                        <field name="policyholder" />
-                        <field name="product_code" />
-                        <field name="product_name" />
-                    </tree>                 
+            <field name="arch" type="xml">
+                <tree string="Collections lines" create="0" edit="0">
+                    <field name="policy_number" />
+                    <field name="certificate_number" />
+                    <field name="firstname" />
+                    <field name="othernames" />
+                    <field name="lastname" />
+                    <field name="identification_document" />
+                    <field name="birthday_date" />
+                    <field name="transaction_type" />
+                    <field name="clase" />
+                    <field name="change_date" widget="date" />
+                    <field name="collected_value" widget="monetary"/>
+                    <field name="number_of_installments" />
+                    <field name="payment_method" />
+                    <field name="number_of_plan_installments" />
+                    <field name="total_installments" />
+                    <field name="number_of_installments_arrears" />
+                    <field name="sponsor_id" />
+                    <field name="policyholder" />
+                    <field name="product_code" />
+                    <field name="product_name" />
+                    <field name="payulatam_order_id" />
+                    <field name="payulatam_transaction_id" />
+                </tree>
             </field>
         </record>
-         
-         
         <record id="collections_report_view_search" model="ir.ui.view">
             <field name="name">collections.report.subscription.line.view.search</field>
             <field name="model">report.collections</field>
@@ -196,21 +233,234 @@
                 </search>
             </field>
         </record>
-         
-         
         <record model="ir.actions.act_window" id="action_report_collections_tree">
             <field name="name">Reporte Recaudos</field>
             <field name="res_model">report.collections</field>
             <field name="view_mode">tree</field>
         </record>
+        <record model="ir.actions.act_window" id="action_conf_report_collections">
+            <field name="name">Configuración de Archivo de recaudos</field>
+            <field name="res_model">ir.cron</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id">25</field>
+            <field name="context">{'search_default_all': 1}</field>
+            <field name="domain">[('id', '=', 27)]</field>
+        </record>
+        <record id="report_buyer_different_main_insured" model="ir.ui.view">
+            <field name="name">report.buyer.different.main_insured</field>
+             <field name="type">tree</field>
+            <field name="model">report.buyer.different.main_insured</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte Asegurado principal diferente del comprador" create="0" edit="0">
+                    <field name="buyer_name" />
+                    <field name="buyer_phone" />
+                    <field name="buyer_mobile" />                    
+                    <field name="buyer_email" />
+                    <field name="ap_name" />
+                    <field name="ap_phone" />
+                    <field name="ap_mobile" />
+                    <field name="ap_email" />                    
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_report_buyer_different_main_insured">
+            <field name="name">Reporte AP diferente del comprador</field>
+            <field name="res_model">report.buyer.different.main_insured</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record id="report_subscription_tree" model="ir.ui.view">
+            <field name="name">report.subscription.tree</field>
+            <field name="type">tree</field>
+            <field name="model">report.subscription</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte de suscripciones" create="0" edit="0">
+                    <field name="policy_number" />
+                    <field name="certificate_number" />
+                    <field name="ap_name" />
+                    <field name="ap_identification" />
+                    <field name="plan_name" />
+                    <field name="subscription_date" />  
+                </tree>
+            </field>
+        </record>
+        <record id="report_subscription_view_search" model="ir.ui.view">
+            <field name="name">report.subscription.view.search</field>
+            <field name="model">report.subscription</field>
+            <field name="arch" type="xml">                
+                <search>
+                    <field name="policy_number" />
+                    <field name="certificate_number" />
+                    <field name="ap_name" />
+                    <field name="ap_identification" />
+                    <field name="plan_name" />
+                    <separator/>
+                    <filter string="Fecha Suscripción" name="filter_subscription_date" date="subscription_date"/>
+                    <filter string="Fecha Suscripción" name="subscription_date" context="{'group_by': 'subscription_date'}"/>
+                </search>
+            </field>
+        </record>         
+        <record model="ir.actions.act_window" id="action_report_subscription_tree">
+            <field name="name">Reporte de suscripciones</field>
+            <field name="res_model">report.subscription</field>
+            <field name="view_mode">tree</field>
+        </record>
+        <record id="report_charges_view_tree" model="ir.ui.view">
+            <field name="name">report.charges.view.tree</field>
+            <field name="type">tree</field>
+            <field name="model">report.charges</field>
+            <field name="arch" type="xml">
+                <tree string="SFTP lines" create="0" edit="0">                    
+                    <field name="product_code" />
+                    <field name="product_name" />
+                    <field name="saleorder_name" />
+                    <field name="payment_method" />
+                    <field name="buyer_name" />
+                    <field name="total" />
+                    <field name="state" />
+                    <field name="policy_number" />
+                    <field name="certificate_number" />
+                    <field name="firstname" />
+                    <field name="othernames" />
+                    <field name="lastname" />
+                    <field name="identification_document" />
+                    <field name="birthdate_date" />
+                    <field name="date_of_membership" />
+                </tree>
+            </field>
+        </record>
+        <record id="report_charges_view_search" model="ir.ui.view">
+            <field name="name">report.charges.view.search</field>
+            <field name="model">report.charges</field>
+            <field name="arch" type="xml">                
+                <search>
+                    <field name="identification_document" />
+                    <field name="certificate_number" />
+                    <field name="firstname" />
+                    <field name="lastname" />
+                    <field name="buyer_name" />
+                    <filter string="Hoy" name="current_day" domain="[('date_of_membership','=', (context_today()).strftime('%%Y-%%m-%d'))]"/>                    
+                    <filter string="Ayer" name="yesterday" domain="[('date_of_membership','=', (context_today()-relativedelta(days=1)).strftime('%%Y-%%m-%d'))]"/>
+                    <separator/>
+                    <filter string="Fecha Cambio" name="filter_change_date" date="date_of_membership"/>
+                    <filter string="Fecha Cambio" name="change_date" context="{'group_by': 'date_of_membership'}"/>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_report_charges_tree">
+            <field name="name">charges Report</field>
+            <field name="res_model">report.charges</field>
+            <field name="view_mode">tree</field>
+        </record>
+        <record id="collections_report_recurring_view_tree" model="ir.ui.view">
+            <field name="name">collections.report.recurring.view.tree</field>
+             <field name="type">tree</field>
+            <field name="model">report.collections.recurring</field>
+            <field name="arch" type="xml">                
+                    <tree string="Reporte recaudos recurring" create="0" edit="0">
+                        <field name="policy_number" />
+                        <field name="certificate_number" />
+                        <field name="firstname" />
+                        <field name="othernames" />
+                        <field name="lastname" />
+                        <field name="identification_document" />
+                        <field name="birthday_date" />
+                        <field name="transaction_type" />
+                        <field name="clase" />
+                        <field name="change_date" widget="date" />
+                        <field name="collected_value" widget="monetary"/>
+                        <field name="number_of_installments" />
+                        <field name="payment_method" />
+                        <field name="number_of_plan_installments" />
+                        <field name="total_installments" />
+                        <field name="number_of_installments_arrears" />
+                        <field name="sponsor_id" />
+                        <field name="policyholder" />
+                        <field name="product_code" />
+                        <field name="product_name" />
+                        <field name="payulatam_order_id" />
+                        <field name="payulatam_transaction_id" />
+                    </tree>                 
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_report_collections_recurring_tree">
+            <field name="name">Reporte Recaudos recurring</field>
+            <field name="res_model">report.collections.recurring</field>
+            <field name="view_mode">tree</field>
+        </record>
+        <record id="payments_report_view_tree" model="ir.ui.view">
+            <field name="name">payments.report.view.tree</field>
+            <field name="type">tree</field>
+            <field name="model">payments.report</field>
+            <field name="arch" type="xml">                
+                    <tree string="Reporte de pagos" create="0" edit="0">
+                        <field name="policy_number" />
+                        <field name="certificate_number" />
+                        <field name="firstname" />
+                        <field name="othernames" />
+                        <field name="lastname" />
+                        <field name="identification_document" />
+                        <field name="birthday_date" />
+                        <field name="transaction_type" />
+                        <field name="clase" />
+                        <field name="change_date" widget="date" />
+                        <field name="collected_value" widget="monetary"/>
+                        <field name="number_of_installments" />
+                        <field name="payment_method" />
+                        <field name="number_of_plan_installments" />
+                        <field name="total_installments" />
+                        <field name="number_of_installments_arrears" />
+                        <field name="sponsor_id" />
+                        <field name="policyholder" />
+                        <field name="product_code" />
+                        <field name="product_name" />
+                        <field name="payulatam_order_id" />
+                        <field name="payulatam_transaction_id" />
+                    </tree>                 
+            </field>
+        </record>
+        <record id="payments_report_view_search" model="ir.ui.view">
+            <field name="name">payments.report.view.search</field>
+            <field name="model">payments.report</field>
+            <field name="arch" type="xml">                
+                <search>
+                    <field name="policy_number" />
+                    <field name="certificate_number" />
+                    <field name="firstname" />
+                    <field name="lastname" />
+                    <field name="identification_document" />
+                    <field name="product_code" />
+                    <field name="product_name" />
+                    <field name="payulatam_order_id" />
+                    <field name="payulatam_transaction_id" />
+                    <filter string="Venta Nueva" name="new_sale" domain="[('payment_type','=', 'new_sale')]"/>
+                    <filter string="Pago cuota" name="recurring_payment" domain="[('payment_type','=', 'recurring_payment')]"/>
+                    <separator/>
+                    <filter string="Tarjeta de Credito" name="credit_card" domain="[('payment_method','=', 'Credit Card')]"/>               
+                    <filter string="Pse" name="pse" domain="[('payment_method','=', 'PSE')]"/>               
+                    <filter string="Efectivo" name="cash" domain="[('payment_method','=', 'Cash')]"/>
+                    <separator/>
+                    <filter string="Mes Actual" name="current_month" domain="[('change_date','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')), ('change_date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                    <filter string="Mes Anterior" name="prev_month" domain="[('change_date','&gt;=',(context_today()-relativedelta(months=1)).strftime('%%Y-%%m-01')),('change_date','&lt;',time.strftime('%%Y-%%m-01'))]"/>
+                    <separator/>
+                    <filter string="Fecha Cambio" name="filter_change_date" date="change_date"/>
+                    <filter string="Fecha Cambio" name="change_date" context="{'group_by': 'change_date'}"/>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_payments_report_tree">
+            <field name="name">Reporte Pagos</field>
+            <field name="res_model">payments.report</field>
+            <field name="view_mode">tree</field>
+        </record>
     </data>
-
-
-        <menuitem id="sale_subscription_sftp_report" name="Reporte SFTP Asegurado" parent="sale_subscription.menu_sale_subscription_config" sequence="5" action="web_sale_extended.action_report_sftp_tree" groups="sale_subscription.group_sale_subscription_view"/>
-    
-    <menuitem id="sale_subscription_sftp_beneficiary_report" name="Reporte SFTP Beneficiarios" parent="sale_subscription.menu_sale_subscription_config" sequence="6" action="web_sale_extended.action_report_sftp_beneficiary_tree" groups="sale_subscription.group_sale_subscription_view"/>
-    
-    <menuitem id="sale_subscription_collections_report" name="Reporte de recaudos" parent="sale_subscription.menu_sale_subscription_config" sequence="7" action="action_report_collections_tree" groups="sale_subscription.group_sale_subscription_view"/>
-    
-
+    <menuitem id="sale_subscription_sftp_report" name="Reporte SFTP Asegurado" parent="sale_subscription.menu_sale_subscription_report" sequence="5" action="web_sale_extended.action_report_sftp_tree" groups="sale_subscription.group_sale_subscription_view"/>
+    <menuitem id="sale_subscription_sftp_beneficiary_report" name="Reporte SFTP Beneficiarios" parent="sale_subscription.menu_sale_subscription_report" sequence="6" action="web_sale_extended.action_report_sftp_beneficiary_tree" groups="sale_subscription.group_sale_subscription_view"/>
+    <menuitem id="sale_subscription_collections_report" name="Reporte de recaudos" parent="sale_subscription.menu_sale_subscription_report" sequence="7" action="action_report_collections_tree" groups="sale_subscription.group_sale_subscription_view"/>
+    <menuitem id="sale_subscription_conf_collection_report" name="Archivo de recaudos" parent="sale_subscription.menu_sale_subscription_config" sequence="5" action="web_sale_extended.action_conf_report_collections" groups="sale_subscription.group_sale_subscription_view"/>
+    <menuitem id="sale_subscription_report_buyer_different_main_insured" name="Reporte AP diferente del comprador" parent="sale_subscription.menu_sale_subscription_report" sequence="5" action="web_sale_extended.action_report_buyer_different_main_insured" groups="sale_subscription.group_sale_subscription_view"/>
+    <menuitem id="report_subscription" name="Reporte de suscripciones" parent="sale_subscription.menu_sale_subscription_report" sequence="5" action="web_sale_extended.action_report_subscription_tree" groups="sale_subscription.group_sale_subscription_view"/>
+    <menuitem id="sale_subscription_report_charges" name="Reporte Cobros" parent="sale_subscription.menu_sale_subscription_report" sequence="5" action="web_sale_extended.action_report_charges_tree" groups="sale_subscription.group_sale_subscription_view"/>
+    <menuitem id="sale_subscription_collections_recurring_report" name="Reporte de recaudos recurring" parent="sale_subscription.menu_sale_subscription_report" sequence="7" action="action_report_collections_recurring_tree" groups="sale_subscription.group_sale_subscription_view"/>
+    <menuitem id="sale_subscription_payments_report" name="Reporte de pagos" parent="sale_subscription.menu_sale_subscription_report" sequence="7" action="action_payments_report_tree" groups="sale_subscription.group_sale_subscription_view"/>
 </odoo>

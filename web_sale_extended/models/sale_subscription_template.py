@@ -26,3 +26,14 @@ class SaleSubscriptionTemplate(models.Model):
             rec.subscription_duration = int(rec.recurring_interval) * int(rec.recurring_rule_count)
     
     subscription_duration = fields.Integer(compute=_compute_subscription_duration, store=True)
+    final_date = fields.Date(string='Fecha final', store=True)
+    is_fixed_policy = fields.Boolean(string='Es una poliza fija', default=False) 
+    cutoff_day = fields.Integer(string='Dia de corte', store=True)
+    
+    @api.onchange('is_fixed_policy')
+    def _compute_values_fixed(self):
+        if self.is_fixed_policy == True:
+            self.recurring_rule_boundary = 'limited'
+            self.recurring_rule_count = 1
+            self.recurring_interval = 12
+            self.payment_mode = 'validate_send'

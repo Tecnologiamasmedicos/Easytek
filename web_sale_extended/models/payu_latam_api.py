@@ -48,6 +48,7 @@ class PayULatamApi(models.TransientModel):
             'AUTHORIZATION_AND_CAPTURE',
             'GET_BANKS_LIST',
             'CREATE_TOKEN',
+            'REMOVE_TOKEN',
             'TRANSACTION_RESPONSE_DETAIL'
         ]
         if endpoint in api_post:
@@ -72,7 +73,7 @@ class PayULatamApi(models.TransientModel):
                     "apiKey": payulatam_api_key
                 },
             })
-            query.update({"test": False})
+            query.update({"test": True})
             if payulatam_api_env == 'prod':
                 query.update({"test": False})
             
@@ -155,10 +156,7 @@ class PayULatamApi(models.TransientModel):
 
     def payulatam_get_sequence(self):
         sequence_id =  self.env.user.company_id.payulatam_api_ref_seq_id
-        referenceCode = sequence_id.number_next_actual
-        sequence_id.write({
-            'number_next_actual': int(sequence_id.number_next_actual) + 1,
-        })
+        referenceCode = sequence_id.next_by_id(19)
         return referenceCode
         
     def payulatam_get_accountId(self):
@@ -200,7 +198,7 @@ class PayULatamApi(models.TransientModel):
         command = 'GET_BANKS_LIST'
         query = {"command": command}
         bankListInformation = {
-            "paymentMethod": "BALOTO",
+            "paymentMethod": "PSE",
             "paymentCountry": "CO"
         }
         query.update({
@@ -211,10 +209,11 @@ class PayULatamApi(models.TransientModel):
             payment_method_ids = response['banks']
             payment_method_list = []
             for method in payment_method_ids:
-                payment_method_list.append({
-                    method['description']: method['description'],
-                    method['pseCode']: method['pseCode']
-                })
+                if method['description'] != 'A continuación seleccione su banco' and method['pseCode'] != 0:
+                    payment_method_list.append({
+                        method['description']: method['description'],
+                        method['pseCode']: method['pseCode']
+                    })
             """
             keys = [
                 "VISA",

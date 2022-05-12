@@ -1,73 +1,42 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="product_template_form_view" model="ir.ui.view">
-            <field name="model">product.template</field>
-            <field name="inherit_id" ref="product.product_template_form_view"/>
-            <field name="arch" type="xml">
-                <xpath expr="//sheet/notebook" position="inside">
-                    <page string="Sponsors">
-                        <label for="is_product_landpage"/>
-                        <field name="is_product_landpage"/>
-                        
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/notebook" position="inside">
+                <page string="Sponsors">
+                    <label for="is_product_landpage"/>
+                    <field name="is_product_landpage"/>
+                    <group>
+                        <field name="product_class"/>
+                    </group>
+                    <group>
+                        <field name="sequence_id" string="Secuencia del Producto"/>
+                    </group>
+                    <group>
+                        <field name="is_published" string="Publicado"/>
+                    </group>
+                    <group>
                         <group>
-                            <field name="product_class"/>
+                            <field name="product_landpage_url" attrs="{'readonly': [('is_product_landpage', '=', False)]}"/>
                         </group>
-                        
-                        <group>
-                            <field name="sequence_id" string="Secuencia del Producto"/>
-                        </group>
-                        <group>                            
-                            <field name="is_published" string="Publicado"/>                            
-                        </group>
-                        
-<!--                         <group>
-                            <group>
-                                <field name="logo_website_pdf" attrs="{'readonly': [('is_product_landpage', '=', False)]}"/>
-                            </group>
-                            <group>
-                                <field name="logo_header_website_sponsor" attrs="{'readonly': [('is_product_landpage', '=', False)]}"/>
-                            </group>
-                        </group> -->
-                        <group>
-<!--                             <group>
-                                <field name="logo_body_website_sponsor" attrs="{'readonly': [('is_product_landpage', '=', False)]}"/>
-                            </group> -->
-                            <group>
-<!--                                 <field name="beneficiaries_number" attrs="{'readonly': [('is_product_landpage', '=', False)]}"/>
-                                <field name="sponsor_payment_url" attrs="{'readonly': [('is_product_landpage', '=', False)]}"/> -->
-                                <field name="product_landpage_url" attrs="{'readonly': [('is_product_landpage', '=', False)]}"/>
-                            </group>
-                        </group>
-                    </page>
-                </xpath>
-                
-                <xpath expr="//label[@for='purchase_ok']" position="after">
-                    <br />
-                    <field name="is_beneficiary" />
-                    <label for="is_beneficiary" />
-                </xpath>
-                
-                
-            </field>
-        </record>
-
-        <record id="product_category_form_reference_cat_view" model="ir.ui.view">
-            <field name="name">product.category.reference.cat.form</field>
-            <field name="model">product.category</field>
-            <field name="inherit_id" ref="product.product_category_form_view"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='parent_id']" position="after">
-                    <field name="sequence_id" require="False"/>
-                    <field name="sponsor_id" require="True"/>
-                    <field name="journal_id"/>
-                </xpath>
-            </field>
-        </record>
-    
-    
-<!--     <record id="product_product_form_reference_cat_view" model="ir.ui.view">
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//label[@for='purchase_ok']" position="after">
+                <br />
+                <field name="is_beneficiary" />
+                <label for="is_beneficiary" />
+                <br />
+                <field name="is_plan_with_pet" /> 
+                <label for="is_plan_with_pet" />
+            </xpath>
+        </field>
+    </record>
+    <record id="product_category_form_reference_cat_view" model="ir.ui.view">
         <field name="name">product.category.reference.cat.form</field>
-        <field name="model">product.product</field>
+        <field name="model">product.category</field>
         <field name="inherit_id" ref="product.product_category_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='parent_id']" position="after">
@@ -76,6 +45,5 @@
                 <field name="journal_id"/>
             </xpath>
         </field>
-    </record> -->
-
+    </record>
 </odoo>

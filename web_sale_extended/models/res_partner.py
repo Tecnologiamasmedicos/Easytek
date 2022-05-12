@@ -45,16 +45,20 @@ class ResPartner(models.Model):
     beneficiary_state_id = fields.Many2one('res.country.state', 'Estado del beneficiario')
     beneficiary_zip_id = fields.Many2one('res.city.zip', 'Ciudad del beneficiario')
     
-    buyer = fields.Boolean(string='Comprador', copy=False, default=False)
-    beneficiary = fields.Boolean(string='Beneficiario', copy=False, default=False)
-    main_insured = fields.Boolean(string='Asegurado Principal', copy=False, default=False)
+    buyer = fields.Boolean(string='Comprador', copy=False)
+    beneficiary = fields.Boolean(string='Beneficiario', copy=False)
+    main_insured = fields.Boolean(string='Asegurado Principal', copy=False)
     
-    company_type = fields.Selection(selection_add=[('sponsor', 'Sponsor')], compute=False, default='person')
+    company_type = fields.Selection(selection_add=[('sponsor', 'Sponsor'),('pet', 'Mascota')], compute=False, default='person')
     person_type = fields.Selection(compute=False)
     sponsor_id = fields.Many2one('res.partner', 'Sponsor', domain=[('company_type', '=', 'sponsor')])
     campo_vacio = fields.Boolean('Campo vacio', default=False)  
-    generates_accounting = fields.Boolean('Tomador de póliza EasyTek', default=False)  
-    
+    generates_accounting = fields.Boolean('Generar liquidacion de suscripcion', default=False)  
+
+    pet_name = fields.Char('Nombre de la Mascota')
+    pet_type = fields.Selection([('dog', 'PERRO'),('cat', 'GATO')], compute=False)
+    send_sftp_ok = fields.Boolean('Enviado por sftp', default=False)
+
     """
     def _compute_clerk_code(self):
         partners = self.env['res.partner'].search([('subscription_id', '=', self.subscription_id)])
@@ -89,3 +93,14 @@ class ResPartner(models.Model):
     def onchange_person_type(self):        
         if self.person_type == "2":
             self.company_type = "person"
+
+    def _cron_assign_email_beneficiaries_without_email(self):
+        """ selección de beneficiarios que no tienen correo electronico """
+        partner_ids = self.env['res.partner'].search([
+            ('subscription_id', '!=', False), 
+            ('beneficiary', '=', True),
+            ('email', '=', ''),
+            ('clerk_code', '!=', False),
+        ])
+        for partner in partner_ids:
+            partner.email = str(partner.subscription_id.number) + str(partner.subscription_id.policy_number) + str(partner.clerk_code) + '@easytekhub.com'

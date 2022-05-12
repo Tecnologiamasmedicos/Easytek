@@ -115,9 +115,9 @@ class TusDatosAPI(models.TransientModel):
         query, response = None, None
 
         if document_type in ['CC', 'CE']:
-            query = {"doc": document, "typedoc": document_type, "fechaE": expedition_date}
+            query = {"doc": document, "typedoc": document_type, "fechaE": expedition_date, "force": 1}
         elif document_type in ['PP', 'PEP']:
-            query = {"doc": document, "typedoc": document_type}
+            query = {"doc": document, "typedoc": document_type, "force": 1}
         else:
             _logger.error("****** ERROR: Invalid document type. ******")
             raise ValidationError(f"ERROR: Document type {document_type} not allowed.")
@@ -167,7 +167,6 @@ class TusDatosAPI(models.TransientModel):
             endpoint = 'report_json'
             results_query = {'id': process_id}
             validation = self.request_tusdatos_api(endpoint, results_query)
-            validation.update({'estado': 'finalizado'})
 
         if validation:
             _logger.error('validationnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn')
@@ -183,11 +182,11 @@ class TusDatosAPI(models.TransientModel):
                     approval = not ( ('LISTA_ONU' in validation or 'OFAC' in validation) and (validation['OFAC'] or validation['LISTA_ONU']) )
                 elif endpoint == 'report_json':
                     _logger.error("****** endpoint = a report_json. ******")
-                    approval = not ( ('ofac' in validation or 'lista_onu' in validation) and (validation['ofac'] or validation['lista_onu']) )                    
+                    approval = not ( ('ofac' in validation or 'lista_onu' in validation) and (validation['ofac'] or validation['lista_onu']) )
                     _logger.error(approval)
         else:
             # TODO: add id to sale_order for queue validation process
-            _logger.error("****** ERROR: Approbation not processed. ******")        
+            _logger.error("****** ERROR: Approbation not processed. ******")
         approval_data = (approval, validation)
         _logger.error(approval_data)
         return approval_data

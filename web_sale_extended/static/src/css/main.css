@@ -138,6 +138,7 @@ header .navbar-brand.logo img {
     animation-iteration-count: infinite;
     animation-timing-function: linear;
 }
+
 @keyframes girar {
     from {
         transform: rotate(0deg);

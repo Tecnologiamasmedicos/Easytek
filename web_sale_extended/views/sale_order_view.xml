@@ -1,60 +1,91 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="view_order_form_inherit" model="ir.ui.view">
-            <field name="name">sale.order.form.view</field>
-            <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.view_order_form"/>
-            <field name="arch" type="xml">
-                
-                <xpath expr="//field[@name='payment_term_id']" position="after">
-                    <field name="sponsor_id" />
-                    <field name="assisted_purchase" />       
-<!--                     <button name="nueva_entrada" string="Entrada" type="object" states="sent,sale,payu_pending,payu_approved"/> -->
-                </xpath>
-                
-                <xpath expr="//notebook" position="inside">
-                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,payu_pending,payu_approved,sale"/>
-                </xpath>
-                <xpath expr="//button[@name='action_quotation_send']" position="replace">
-                    <button name="action_quotation_send" string="Send by Email" type="object" states="sent,sale,payu_pending,payu_approved"/>
-                </xpath>
-                                    
-                
-                <xpath expr="//notebook" position="inside">
-                    <page string="Tus Datos" id="tusdatos">
-                        <group string="Información de Verificación del Comprador en tusdatos.co">
-                            <field name="tusdatos_send"/>
-                            <field name="tusdatos_request_id" string="Nó de Solicitud" help="Número de Solicitud de verificación del documento del Comprador."/>
-                            <field name="tusdatos_approved" 
-                                   string="Verificación Aprobada" 
-                                   help="Si la respuesta es positiva por parte de tusdatos se marcará como verdadero."/>
-                            <!--<field name="tusdatos_email" string="Email" help="Número de Solicitud de verificación del documento del Comprador"/>-->
-                            <field name="tusdatos_request_expired" 
-                                   string="Expirado" 
-                                   help="Si la petición tiene más de 4 horas, sin que se haya logrado verificar, el proceso expira y no podrá completarse esta orden de venta."/>
-                            <field name="tusdatos_typedoc" />
+        <field name="name">sale.order.form.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <header>
+                <button name="send_recovery_email" string="Enviar correo registro AP" class="btn-primary" states="payu_approved" type="object" confirm="¿Esta seguro que desea enviar el correo de registro del Asegurado Principal"/>
+                <button name="delete_token_payulatam" string="Eliminar Token" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','!=','Credit Card'), '|', ('state', 'not in', ('sale')), ('payulatam_credit_card_token', '=', '')]}" confirm="¿Esta seguro que desea eliminar el Token de la tarjeta de crédito?"/>
+            </header>
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="sponsor_id" />
+                <field name="assisted_purchase" />
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <field name="state" widget="statusbar" statusbar_visible="draft,sent,payu_pending,payu_approved,sale"/>
+            </xpath>
+            <xpath expr="//button[@name='action_quotation_send']" position="replace">
+                <button name="action_quotation_send" string="Send by Email" type="object" states="sent,sale,payu_pending,payu_approved"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Tus Datos" id="tusdatos">
+                    <group string="Información de Verificación del Comprador en tusdatos.co">
+                        <field name="tusdatos_send"/>
+                        <field name="tusdatos_request_id" string="Nó de Solicitud" help="Número de Solicitud de verificación del documento del Comprador."/>
+                        <field name="tusdatos_approved" string="Verificación Aprobada" help="Si la respuesta es positiva por parte de tusdatos se marcará como verdadero."/>
+                        <!--<field name="tusdatos_email" string="Email" help="Número de Solicitud de verificación del documento del Comprador"/>-->
+                        <field name="tusdatos_request_expired" string="Expirado" help="Si la petición tiene más de 4 horas, sin que se haya logrado verificar, el proceso expira y no podrá completarse esta orden de venta."/>
+                        <field name="tusdatos_typedoc" />
+                    </group>
+                </page>
+                <page string="PayU Latam" id="payulatam">
+                    <group string="Metodo de Pago">
+                        <field name="payment_method_type" />
+                        <group string="Transacción de Pago" attrs="{'invisible':[('payment_method_type','not in',('Credit Card', 'PSE', 'Cash'))]}">
+                            <field name="payulatam_order_id" readonly="True"/>
+                            <field name="payulatam_transaction_id" readonly="True"/>
+                            <field name="payulatam_state" readonly="True"/>
+                            <field name="payulatam_datetime" readonly="True"/>
+                            <field name="payulatam_request_expired" readonly="True"/>
                         </group>
-                    </page>
-                    
-                    <page string="PayU Latam" id="payulatam">
-                        <group>
-                            <group string="Transacción de Pago">
-                                <field name="payulatam_order_id" readonly="True"/>
-                                <field name="payulatam_transaction_id" readonly="True"/>
-                                <field name="payulatam_state" readonly="True"/>
-                                <field name="payulatam_signature" readonly="True"/>
-                                <field name="payulatam_datetime" readonly="True"/>
-                                <field name="payulatam_request_expired" readonly="True"/>
-                            </group>
-                            <group string="Tokenización Tarjeta Crédito">
-                                <field name="payulatam_credit_card_token" readonly="True"/>
-                                <field name="payulatam_credit_card_masked" readonly="True"/>
-                                <field name="payulatam_credit_card_identification" readonly="True"/>
-                                <field name="payulatam_credit_card_method" readonly="True"/>
-                            </group>
+                        <group attrs="{'invisible':[('payment_method_type','!=','Product Without Price')]}">
+                            <field name="benefice_payment_method" />
                         </group>
-                    </page>
-                </xpath>
-            </field>
-        </record>
+                        <group string="Tokenización Tarjeta Crédito" attrs="{'invisible':[('payment_method_type','!=','Credit Card')]}">
+                            <field name="payulatam_credit_card_token" readonly="True"/>
+                            <field name="payulatam_credit_card_masked" readonly="True"/>
+                            <field name="payulatam_credit_card_identification" readonly="True"/>
+                            <field name="payulatam_credit_card_method" readonly="True"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="inherit_sale_view_quotation_tree" model="ir.ui.view">
+        <field name="name">inherit.sale.view.quotation.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='name']" position="before">
+                <field name="product_code" readonly="1"/>
+                <field name="product_name" readonly="1"/>
+            </xpath>
+            <xpath expr="//tree/field[@name='commitment_date']" position="replace">
+                <field name="cancel_date" readonly="1"/>
+            </xpath>
+            <xpath expr="//tree/field[@name='expected_date']" position="replace">
+                <field name="write_date" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="sale_order_view_search_inherit" model="ir.ui.view">
+        <field name="name">sale.order.view.search.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="arch" type="xml">                
+            <xpath expr="//filter[@name='filter_create_date']" position="after">
+                <separator/>
+                <filter string="Tarjeta de Credito" name="credit_card" domain="[('payment_method_type','=', 'Credit Card')]"/>               
+                <filter string="Pse" name="pse" domain="[('payment_method_type','=', 'PSE')]"/>               
+                <filter string="Efectivo" name="cash" domain="[('payment_method_type','=', 'Cash')]"/>               
+            </xpath>
+            <xpath expr="//filter[@name='sales']" position="replace">
+                <filter string="Pedidos de ventas" name="sales" domain="[('state','=', 'sale')]"/>
+                <filter string="Bloqueados" name="dones" domain="[('state','=', 'done')]"/>
+            </xpath> 
+        </field>
+    </record>
 </odoo>
