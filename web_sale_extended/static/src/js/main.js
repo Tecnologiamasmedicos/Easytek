@@ -26,6 +26,32 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 }
             });
         }
+
+        // function consultarDisponibilidadPayULatam(){
+        //     $('#wrap').hide();
+        //     $('#payulatam-declined-ping').html('<div class="loading" style="width: 100%; text-align: center;"><img src="/web_sale_extended/static/src/images/loading.gif"/><br/>Un momento, por favor...</div>');         
+        //     setTimeout(4000)
+        //     $.ajax({                
+        //         url: "/payulatam/ping",
+        //         type: 'get',
+        //         success: function(data) {
+        //             let decode_data = JSON.parse(data);                    
+        //             if (decode_data['code'] == 'SUCCESS'){
+        //                 setTimeout(4000)
+        //                 $('.loading').remove();
+        //                 $('#payulatam-declined-ping').hide();   
+        //                 $('#wrap').show();
+        //             }       
+        //             else{
+        //                 setTimeout(4000)
+        //                 $('#wrap').hide();
+        //                 $('.loading').remove();
+        //                 $('#payulatam-declined-ping').html('<div class="payu-error" style="width: 100%; text-align: center;"><img src="https://masmedicos.co/wp-content/uploads/2021/02/MM_logo-hrz-e1612887399306-283x165.png" /><div class="vc_empty_space" style="height: 32px"><span class="vc_empty_space_inner"></span></div><div class="wpb_text_column wpb_content_element  wpb_animate_when_almost_visible wpb_fadeInUp fadeInUp vc_custom_1623181668125" style="margin-bottom: 70px;"><div class="wpb_wrapper"><h2 style="color: #000080; text-align: center; font-size: 30px; line-height: 30px; font-weight: 100; letter-spacing: 0;"><strong>Estamos trabajando para entregarte los mejores servicios</strong></h2></div></div><div class="wpb_text_column wpb_content_element  wpb_animate_when_almost_visible wpb_fadeInUp fadeInUp vc_custom_1623101586450"><div class="wpb_wrapper"><h3 style="color: #58585a; text-align: center; font-size: 28px; line-height: 28px; font-weight: 100; letter-spacing: 0;">Por favor intenta de nuevo más tarde.</h3></div></div></div><div class="wpb_column vc_column_container vc_col-sm-1 vc_hidden-sm vc_hidden-xs vc_col-has-fill"><div class="vc_column-inner vc_custom_1614206569617"><div class="wpb_wrapper"><div class="wpb_single_image wpb_content_element vc_align_right  vc_custom_1614206551042"><img class="vc_single_image-img"src="https://masmedicos.co/wp-content/uploads/2021/02/Barrita-25x363.png" width="25" height="363" alt="Barrita"	title="Barrita" data-pagespeed-url-hash="955841819" /></div></div></div></div>');
+        //             }
+        //         }
+        //     });
+        // }
+        // consultarDisponibilidadPayULatam();
         
         function consultarPhoneCode(pais){
             $.ajax({

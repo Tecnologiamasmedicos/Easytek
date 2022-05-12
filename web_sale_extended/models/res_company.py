@@ -46,3 +46,27 @@ class ResCompany(models.Model):
     payulatam_api_ref_seq_sandbox_id = fields.Many2one('ir.sequence','Referencia API')
     payulatam_api_response_sandbox_url = fields.Char(string="PayU Latam Response URL", groups='base.group_user')
     
+    """Datos de conexión HubSpot"""
+    hubspot_api_env = fields.Selection(
+        [("test", "QA - Test"), ("prod", "Producción")]
+    )
+    hubspot_api_key = fields.Char(string="Api Key HubSpot", groups='base.group_user')
+    hubspot_api_key_QA = fields.Char(string="Api Key HubSpot QA", groups='base.group_user')
+    
+    """Datos de conexión servidor SFTP"""
+    sftp_server_env = fields.Selection(
+        [("test", "QA - Test"), ("prod", "Producción")]
+    )
+    sftp_hostname = fields.Char(string="Hostname SFTP", groups='base.group_user')
+    sftp_port = fields.Char(string="Puerto Servidor", groups='base.group_user')
+    sftp_user = fields.Char(string="Usuario", groups='base.group_user')
+    sftp_password = fields.Char(string="Contraseña", groups='base.group_user')
+    sftp_path_ap = fields.Char(string="Directorio Asegurado principal", groups='base.group_user')
+    sftp_path_bef = fields.Char(string="Directorio beneficiarios", groups='base.group_user')
+    
+    sftp_hostname_QA = fields.Char(string="Hostname SFTP QA", groups='base.group_user')
+    sftp_port_QA = fields.Char(string="Puerto Servidor QA", groups='base.group_user')
+    sftp_user_QA = fields.Char(string="Usuario QA", groups='base.group_user')
+    sftp_password_QA = fields.Char(string="Contraseña QA", groups='base.group_user')
+    sftp_path_ap_QA = fields.Char(string="Directorio Asegurado principal QA", groups='base.group_user')
+    sftp_path_bef_QA = fields.Char(string="Directorio beneficiarios QA", groups='base.group_user')

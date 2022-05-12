@@ -36,7 +36,16 @@ class ProductTemplate(models.Model):
     product_landpage_url = fields.Char('URL para Landpage')
     is_beneficiary = fields.Boolean('Saltar pasarela de pago (Beneficio)')
     is_plan_with_pet = fields.Boolean('Es un Plan que incluye mascotas?')
-    
+
+    # @api.onchange('default_code', 'name', 'id')
+    # def _compute_url_product(self):
+    #     base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+    #     pro = str(self.default_code.lower()) + '-' + str(self.name.lower().strip().replace(' ', '-')) + '-' + str(self._origin.id)
+    #     link = ('%s/shop/product/%s') % (
+    #         base_url,
+    #         pro
+    #     )    
+    #     self.product_landpage_url = link
     
 #     logo_website_pdf  = fields.Binary(string="Image del Plan para el documento PDF", readonly=False)
 #     logo_header_website_sponsor  = fields.Binary(string="Image del Plan del Patrocinador en el encabezado", readonly=False)

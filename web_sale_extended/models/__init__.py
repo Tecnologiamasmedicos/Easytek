@@ -16,3 +16,4 @@ from . import payu_latam_api
 from . import http
 from . import website
 from . import sale_subscription_template
+from . import hubspot_api

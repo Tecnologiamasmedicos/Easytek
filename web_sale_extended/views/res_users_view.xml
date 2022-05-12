@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <xpath expr="//sheet/notebook/page[@name='access_rights']/group/field[@name='sel_groups_1_8_9']" position="before">
                 <field name="sponsor_ids" widget="many2many_tags" options="{'no_create': True}, 'no_create_edit': True, 'no_open': True" />
+                <field name="is_seller"/>
             </xpath>
         </field>
     </record>
