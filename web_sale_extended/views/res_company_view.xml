@@ -88,7 +88,7 @@
                                 <field name="sftp_path_bef" />
                             </group>
                             <group string="Servidor SFTP Producción QA" groups="base.group_no_one">
-                                <field name="sftp_hostname_QA" />
+                                <field name="sftp_hostname_QA"/>
                                 <field name="sftp_port_QA" />
                                 <field name="sftp_user_QA" />
                                 <field name="sftp_password_QA" />
