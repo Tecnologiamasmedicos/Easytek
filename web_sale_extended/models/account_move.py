@@ -5,14 +5,14 @@ from odoo.tools import float_compare
 from odoo.http import request
 from datetime import datetime, date, timedelta 
 from werkzeug import urls
-import time
+import time, json
 
 import logging, hashlib, hmac
 _logger = logging.getLogger(__name__)
 
 class AccountMove(models.Model):
     _inherit = 'account.move'
-    
+
     sponsor_id = fields.Many2one('res.partner')
     campo_vacio = fields.Boolean('Campo vacio', default=False)  
     state =  fields.Selection(selection_add=[('finalized', 'Finalizado')], selection_remove=['payu_pending','payu_approved'])
@@ -40,6 +40,12 @@ class AccountMove(models.Model):
         ("Product Without Price", "Beneficio"),
     ])
 
+    benefice_payment_method = fields.Selection([
+        ("payroll_discount", "Descuento de nómina"),
+        ("window_payment", "Pago por ventanilla"),
+        ("libranza_discount", "Descuento por libranza"),
+    ])
+
     def post(self):
         res = super(AccountMove, self).post()
         if self.sponsor_id:
@@ -50,7 +56,7 @@ class AccountMove(models.Model):
                 'state': 'finalized'
             })
         return res
-    
+
     def generate_access_token(self, invoice_id):   
         invoice = self.env['account.move'].sudo().browse(invoice_id)
         secret = self.env['ir.config_parameter'].sudo().get_param('database.secret')
@@ -712,4 +718,3 @@ class AccountMove(models.Model):
                         response['transactionResponse']['responseCode']
                     )
                     invoice_payment.message_post(body=body_message, type="comment")
-    

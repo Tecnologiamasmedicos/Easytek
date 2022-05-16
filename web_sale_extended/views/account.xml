@@ -28,14 +28,17 @@
                 <page string="Payu Latam" id="payu_latam">
                     <group string="Metodo de Pago">
                         <field name="payment_method_type" />  
-                        <group string="Transacción de Pago">
+                        <group string="Transacción de Pago" attrs="{'invisible':[('payment_method_type','not in',('Credit Card', 'PSE', 'Cash'))]}">
                             <field name="payulatam_order_id" />
                             <field name="payulatam_transaction_id" />
                             <field name="payulatam_state" />
                             <field name="payulatam_datetime" />
                             <field name="payulatam_request_expired" />
                         </group>
-                        <group string="Tokenización Tarjeta Crédito">
+                        <group attrs="{'invisible':[('payment_method_type','!=','Product Without Price')]}">
+                            <field name="benefice_payment_method" />
+                        </group>
+                        <group string="Tokenización Tarjeta Crédito" attrs="{'invisible':[('payment_method_type','!=','Credit Card')]}">
                             <field name="payulatam_credit_card_token" />
                             <field name="payulatam_credit_card_masked" />
                             <field name="payulatam_credit_card_identification" />

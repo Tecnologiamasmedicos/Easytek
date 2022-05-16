@@ -230,7 +230,10 @@ class WebsiteSaleExtended(WebsiteSale):
             if int(assisted_purchase) == 1:
                 order.write({'assisted_purchase': True})
             if 'type_payment' in kw and int(assisted_purchase) == 1 and order_detail.product_id.is_beneficiary:
-                order.write({'payment_method_type': kw['type_payment']})
+                order.write({
+                    'benefice_payment_method': kw['type_payment'],
+                    'payment_method_type': 'Product Without Price'
+                })
             order.write({'tusdatos_email': kw['email']})
             _logger.info("****FORMULARIO*****")
             pre_values = self.values_preprocess(order, mode, kw)
@@ -437,11 +440,7 @@ class WebsiteSaleExtended(WebsiteSale):
 
     def get_payment_types(self, type='All'):
         if type == 'beneficio':
-            payment_type = (dict(request.env['sale.order'].fields_get(allfields=['payment_method_type'])['payment_method_type']['selection']))
-            del payment_type['Credit Card']
-            del payment_type['Cash']
-            del payment_type['PSE']    
-            del payment_type['Product Without Price']            
+            payment_type = (dict(request.env['sale.order'].fields_get(allfields=['benefice_payment_method'])['benefice_payment_method']['selection']))
         else:
             payment_type = (dict(request.env['sale.order'].fields_get(allfields=['payment_method_type'])['payment_method_type']['selection']))
         return payment_type

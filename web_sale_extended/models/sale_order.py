@@ -58,10 +58,13 @@ class SaleOrder(models.Model):
         ("Cash", "Efectivo"), 
         ("PSE", "PSE"),
         ("Product Without Price", "Beneficio"),
+    ])
+
+    benefice_payment_method = fields.Selection([
         ("payroll_discount", "Descuento de nómina"),
         ("window_payment", "Pago por ventanilla"),
         ("libranza_discount", "Descuento por libranza"),
-    ])
+    ], string="Tipo descuento Sponsor")
     
     @api.depends('order_line', 'state', 'partner_id')
     def _compute_sponsor_id(self):

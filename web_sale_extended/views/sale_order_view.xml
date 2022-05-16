@@ -8,11 +8,11 @@
             <header>
                 <button name="send_recovery_email" string="Enviar correo registro AP" class="btn-primary" states="payu_approved" type="object" confirm="¿Esta seguro que desea enviar el correo de registro del Asegurado Principal"/>
                 <button name="delete_token_payulatam" string="Eliminar Token" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','!=','Credit Card'), '|', ('state', 'not in', ('sale')), ('payulatam_credit_card_token', '=', '')]}" confirm="¿Esta seguro que desea eliminar el Token de la tarjeta de crédito?"/>
-            </header>                
+            </header>
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 <field name="sponsor_id" />
-                <field name="assisted_purchase" /> 
-            </xpath>            
+                <field name="assisted_purchase" />
+            </xpath>
             <xpath expr="//notebook" position="inside">
                 <field name="state" widget="statusbar" statusbar_visible="draft,sent,payu_pending,payu_approved,sale"/>
             </xpath>
@@ -29,20 +29,21 @@
                         <field name="tusdatos_request_expired" string="Expirado" help="Si la petición tiene más de 4 horas, sin que se haya logrado verificar, el proceso expira y no podrá completarse esta orden de venta."/>
                         <field name="tusdatos_typedoc" />
                     </group>
-                </page>                    
+                </page>
                 <page string="PayU Latam" id="payulatam">
                     <group string="Metodo de Pago">
                         <field name="payment_method_type" />
-                        <group string="Transacción de Pago">
+                        <group string="Transacción de Pago" attrs="{'invisible':[('payment_method_type','not in',('Credit Card', 'PSE', 'Cash'))]}">
                             <field name="payulatam_order_id" readonly="True"/>
                             <field name="payulatam_transaction_id" readonly="True"/>
                             <field name="payulatam_state" readonly="True"/>
-                            <field name="payulatam_signature" readonly="True"/>
                             <field name="payulatam_datetime" readonly="True"/>
                             <field name="payulatam_request_expired" readonly="True"/>
-                            <field name="payulatam_request_pending"/>
                         </group>
-                        <group string="Tokenización Tarjeta Crédito">
+                        <group attrs="{'invisible':[('payment_method_type','!=','Product Without Price')]}">
+                            <field name="benefice_payment_method" />
+                        </group>
+                        <group string="Tokenización Tarjeta Crédito" attrs="{'invisible':[('payment_method_type','!=','Credit Card')]}">
                             <field name="payulatam_credit_card_token" readonly="True"/>
                             <field name="payulatam_credit_card_masked" readonly="True"/>
                             <field name="payulatam_credit_card_identification" readonly="True"/>
@@ -52,7 +53,7 @@
                 </page>
             </xpath>
         </field>
-    </record>        
+    </record>
     <record id="inherit_sale_view_quotation_tree" model="ir.ui.view">
         <field name="name">inherit.sale.view.quotation.tree</field>
         <field name="model">sale.order</field>
@@ -64,7 +65,10 @@
             </xpath>
             <xpath expr="//tree/field[@name='commitment_date']" position="replace">
                 <field name="cancel_date" readonly="1"/>
-            </xpath>    
+            </xpath>
+            <xpath expr="//tree/field[@name='expected_date']" position="replace">
+                <field name="write_date" readonly="1"/>
+            </xpath>
         </field>
     </record>
     <record id="sale_order_view_search_inherit" model="ir.ui.view">
@@ -77,7 +81,7 @@
                 <filter string="Tarjeta de Credito" name="credit_card" domain="[('payment_method_type','=', 'Credit Card')]"/>               
                 <filter string="Pse" name="pse" domain="[('payment_method_type','=', 'PSE')]"/>               
                 <filter string="Efectivo" name="cash" domain="[('payment_method_type','=', 'Cash')]"/>               
-            </xpath>             
+            </xpath>
             <xpath expr="//filter[@name='sales']" position="replace">
                 <filter string="Pedidos de ventas" name="sales" domain="[('state','=', 'sale')]"/>
                 <filter string="Bloqueados" name="dones" domain="[('state','=', 'done')]"/>
