@@ -54,7 +54,9 @@ class ResPartner(models.Model):
     sponsor_id = fields.Many2one('res.partner', 'Sponsor', domain=[('company_type', '=', 'sponsor')])
     campo_vacio = fields.Boolean('Campo vacio', default=False)  
     generates_accounting = fields.Boolean('Generar liquidacion de suscripcion', default=False)  
-    
+
+    send_sftp_ok = fields.Boolean('Enviado por sftp', default=False)
+
     """
     def _compute_clerk_code(self):
         partners = self.env['res.partner'].search([('subscription_id', '=', self.subscription_id)])

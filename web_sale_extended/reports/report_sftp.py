@@ -67,8 +67,8 @@ class SftpReportLine(models.Model):
     sponsor_nit = fields.Char('Nit del Tomador',readonly=True)
     sponsor_payment_url = fields.Char('Pasarela de Pagos',readonly=True)
     phone2 = fields.Char('Teléfono Fijo 2',readonly=True)
-  
-
+    partner_id = fields.Many2one('res.partner')
+    send_sftp_ok = fields.Boolean('Asegurado Reportado')
     
     
     def init(self):
@@ -131,8 +131,9 @@ class SftpReportLine(models.Model):
         'A'::text as change_type,
         ''::text as localization,
         tmpl.product_class as palig,
-        (case when p.marital_status='Unión Libre' then 'Union Libre' else p.marital_status end)as marital_status
-        
+        (case when p.marital_status='Unión Libre' then 'Union Libre' else p.marital_status end)as marital_status,
+        p.id as partner_id,
+        p.send_sftp_ok as send_sftp_ok
         
         
         
@@ -156,16 +157,14 @@ class SftpReportLine(models.Model):
         #(select to_char(mp.date_planned_start,'mm')) as month,
 
     def _cron_generate_ap_sftp_report(self):        
-        fecha = '10/21/2021'
-        fecha_date = datetime.strptime(fecha, '%m/%d/%Y')
-        # current_date = date.today() - timedelta(days=1)
-        nombre_archivo_ap = 'Odoo_Prin_' + fecha_date.strftime('%d%m%Y')
-        nombre_archivo_bef = 'Odoo_Ben_' + fecha_date.strftime('%d%m%Y')
+        current_date = fields.Date.today()
+        nombre_archivo_ap = 'Odoo_Prin_' + current_date.strftime('%d%m%Y')
+        nombre_archivo_bef = 'Odoo_Ben_' + current_date.strftime('%d%m%Y')
         data = []
         data2 = []
         beneficiario_topo = ['99999','0000000007','Usuario' ,'Prueba','Hubspot','09/19/1953','10/08/2021','F','11111','D','D1','10/08/2021','A','','MM-023','','','','009','79','1.prueba@gmail.com','3333333333','09/19/1953','Cale 11 #4a-9','','CO','Magdalena','SANTA MARTA','Pensionada']
-        records_ap =  self.env['report.sftp'].search([('date_start4', '=', fecha_date)])        
-        records_bef =  self.env['report.beneficiary.sftp'].search([('date_start4', '=', fecha_date)])
+        records_ap =  self.env['report.sftp'].search([('send_sftp_ok', '=', False)])        
+        records_bef =  self.env['report.beneficiary.sftp'].search([('send_sftp_ok', '=', False)])
 
         for record in records_ap:
             data.append([
@@ -253,35 +252,59 @@ class SftpReportLine(models.Model):
         if len(data) != 0:
             if len(data2) == 0:
                 data2.append(beneficiario_topo)
-        
+
             with open('tmp/%s.csv'%(nombre_archivo_ap), 'w', encoding='utf-8', newline='') as file, open('tmp/%s.csv'%(nombre_archivo_bef), 'w', encoding='utf-8', newline='') as file2:
                 writer = csv.writer(file, delimiter=',')
                 writer.writerows(data)
                 writer2 = csv.writer(file2, delimiter=',')
-                writer2.writerows(data2)  
+                writer2.writerows(data2)
             
-            # HOST = 'sftp.masmedicos.site'
-            # USER = 'easytekqa'
-            # PASS = 'easytekqa_2021'
-        
-            # try: 
-            #     client = paramiko.SSHClient() 
-            #     client.set_missing_host_key_policy( paramiko.AutoAddPolicy )
-            #     client.connect(HOST, username=USER, password=PASS)
-            #     sftp_client = client.open_sftp()
-            #     sftp_client.put(
-            #         'tmp/%s.csv'%(nombre_archivo_ap), 
-            #         '/home/webapp01/masmedicosqa/origen/asegurados/easytekqa/%s.csv'%(nombre_archivo_ap) 
-            #     )
-            #     sftp_client.put(
-            #         'tmp/%s.csv'%(nombre_archivo_bef), 
-            #         '/home/webapp01/masmedicosqa/origen/dependientes/easytekqa/%s.csv'%(nombre_archivo_bef) 
-            #     )
-            #     sftp_client.close() 
-            #     client.close()                
-            # except paramiko.ssh_exception.AuthenticationException as e:
-            #     _logger.info('Autenticacion fallida en el servidor SFTP')
-        
+            sftp_server_env = self.env.user.company_id.sftp_server_env
+            if sftp_server_env == 'prod':
+                sftp_hostname = self.env.user.company_id.sftp_hostname
+                sftp_port = self.env.user.company_id.sftp_port
+                sftp_user = self.env.user.company_id.sftp_user
+                sftp_password = self.env.user.company_id.sftp_password
+                sftp_path_ap = self.env.user.company_id.sftp_path_ap
+                sftp_path_bef = self.env.user.company_id.sftp_path_bef
+            else:
+                sftp_hostname = self.env.user.company_id.sftp_hostname_QA
+                sftp_port = self.env.user.company_id.sftp_port_QA
+                sftp_user = self.env.user.company_id.sftp_user_QA
+                sftp_password = self.env.user.company_id.sftp_password_QA
+                sftp_path_ap = self.env.user.company_id.sftp_path_ap_QA
+                sftp_path_bef = self.env.user.company_id.sftp_path_bef_QA
+
+            try: 
+                client = paramiko.SSHClient() 
+                client.set_missing_host_key_policy( paramiko.AutoAddPolicy )
+                client.connect(sftp_hostname, port=int(sftp_port), username=sftp_user, password=sftp_password)
+                sftp_client = client.open_sftp()
+                sftp_client.put(
+                    'tmp/%s.csv'%(nombre_archivo_ap), 
+                    '%s/%s.csv'%(sftp_path_ap, nombre_archivo_ap) 
+                )
+                sftp_client.put(
+                    'tmp/%s.csv'%(nombre_archivo_bef), 
+                    '%s/%s.csv'%(sftp_path_bef, nombre_archivo_bef) 
+                )
+                sftp_client.close() 
+                client.close()
+
+            except paramiko.ssh_exception.AuthenticationException as e:
+                _logger.info('Autenticacion fallida en el servidor SFTP')
+
+            else:
+                for record in records_ap:
+                    record.partner_id.write({
+                        'send_sftp_ok': True
+                    })
+                for record in records_bef:
+                    record.partner_id.write({
+                        'send_sftp_ok': True
+                    })
+
+
 class SftpReportBeneficiaryLine(models.Model):
     _name = 'report.beneficiary.sftp'
     _auto = False
@@ -323,6 +346,8 @@ class SftpReportBeneficiaryLine(models.Model):
     subsidiary = fields.Char('Subsidiaria',readonly=True)
     sponsor_nit = fields.Char('Nit del Tomador',readonly=True)
     sponsor_payment_url = fields.Char('Pasarela de Pagos',readonly=True)
+    partner_id = fields.Many2one('res.partner')
+    send_sftp_ok = fields.Boolean('Beneficiario Reportado')
     
     
     def init(self):
@@ -384,7 +409,9 @@ class SftpReportBeneficiaryLine(models.Model):
         (case when subtmpl.is_fixed_policy='t' then TO_CHAR(sub.date_start, 'mm/dd/yyyy') else TO_CHAR(sub.date_start - CAST('1 days' AS INTERVAL), 'mm/dd/yyyy') end)as change_date,
         '' as date_start2,
         'A'::text as change_type,
-        ''::text as date_end
+        ''::text as date_end,
+        p.id as partner_id,
+        p.send_sftp_ok as send_sftp_ok
         
         
         from sale_subscription sub

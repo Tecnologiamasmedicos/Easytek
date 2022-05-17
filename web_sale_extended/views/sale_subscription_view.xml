@@ -88,6 +88,7 @@
                     <field name="subsidiary" string="Subsidiaria"/>
                     <field name="phone" string="Teléfono Fijo"/>
                     <field name="ocupation2" string="Ocupación"/>
+                    <field name="send_sftp_ok" string="Reportado SFTP"/>
                     
                     <!--<field name="sponsor_nit" string=""/>
                     <field name="sponsor_payment_url" string=""/>
@@ -159,6 +160,7 @@
                     <field name="state_id" string="Estado"/>
                     <field name="city_name" string="Ciudad"/>
                     <field name="ocupation" string="Ocupación"/>
+                    <field name="send_sftp_ok" string="Reportado SFTP"/>
                 </tree>
             </field>
         </record>
@@ -244,7 +246,6 @@
             <field name="context">{'search_default_all': 1}</field>
             <field name="domain">[('id', '=', 27)]</field>
         </record>
-
         <record id="report_buyer_different_main_insured" model="ir.ui.view">
             <field name="name">report.buyer.different.main_insured</field>
              <field name="type">tree</field>
@@ -356,7 +357,7 @@
              <field name="type">tree</field>
             <field name="model">report.collections.recurring</field>
             <field name="arch" type="xml">                
-                    <tree string="Collections Recurring lines" create="0" edit="0">
+                    <tree string="Reporte recaudos recurrentes" create="0" edit="0">
                         <field name="policy_number" />
                         <field name="certificate_number" />
                         <field name="firstname" />

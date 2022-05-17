@@ -61,6 +61,29 @@
                             </group>
                         </group>
                     </page>
+                    <page string="Servidor SFTP">
+                        <group>
+                            <field name="sftp_server_env" />
+                        </group>
+                        <group>
+                            <group string="Servidor SFTP Producción" groups="base.group_no_one">
+                                <field name="sftp_hostname" />
+                                <field name="sftp_port" />
+                                <field name="sftp_user" />
+                                <field name="sftp_password" />
+                                <field name="sftp_path_ap" />
+                                <field name="sftp_path_bef" />
+                            </group>
+                            <group string="Servidor SFTP Producción QA" groups="base.group_no_one">
+                                <field name="sftp_hostname_QA"/>
+                                <field name="sftp_port_QA" />
+                                <field name="sftp_user_QA" />
+                                <field name="sftp_password_QA" />
+                                <field name="sftp_path_ap_QA" />
+                                <field name="sftp_path_bef_QA" />
+                            </group>
+                        </group>
+                    </page>
                 </xpath>
             </field>
         </record>
