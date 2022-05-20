@@ -77,10 +77,18 @@
         <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
         <field name="arch" type="xml">                
             <xpath expr="//filter[@name='filter_create_date']" position="after">
+                <field name="product_code" />
+                <field name="product_name" />
                 <separator/>
                 <filter string="Tarjeta de Credito" name="credit_card" domain="[('payment_method_type','=', 'Credit Card')]"/>               
                 <filter string="Pse" name="pse" domain="[('payment_method_type','=', 'PSE')]"/>               
                 <filter string="Efectivo" name="cash" domain="[('payment_method_type','=', 'Cash')]"/>               
+            </xpath>
+            <xpath expr="//filter[@name='order_month']" position="after">
+                <separator/>
+                <filter string="Codigo de producto" name="filter_product_code" context="{'group_by': 'product_code'}"/>
+                <filter string="Nombre de producto" name="filter_product_name" context="{'group_by': 'product_name'}"/>
+                <filter string="Sponsor" name="filter_sponsor_id" context="{'group_by': 'sponsor_id'}"/>
             </xpath>
             <xpath expr="//filter[@name='sales']" position="replace">
                 <filter string="Pedidos de ventas" name="sales" domain="[('state','=', 'sale')]"/>

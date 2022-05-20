@@ -260,49 +260,50 @@ class SftpReportLine(models.Model):
                 writer2.writerows(data2)
             
             sftp_server_env = self.env.user.company_id.sftp_server_env
-            if sftp_server_env == 'prod':
-                sftp_hostname = self.env.user.company_id.sftp_hostname
-                sftp_port = self.env.user.company_id.sftp_port
-                sftp_user = self.env.user.company_id.sftp_user
-                sftp_password = self.env.user.company_id.sftp_password
-                sftp_path_ap = self.env.user.company_id.sftp_path_ap
-                sftp_path_bef = self.env.user.company_id.sftp_path_bef
-            else:
-                sftp_hostname = self.env.user.company_id.sftp_hostname_QA
-                sftp_port = self.env.user.company_id.sftp_port_QA
-                sftp_user = self.env.user.company_id.sftp_user_QA
-                sftp_password = self.env.user.company_id.sftp_password_QA
-                sftp_path_ap = self.env.user.company_id.sftp_path_ap_QA
-                sftp_path_bef = self.env.user.company_id.sftp_path_bef_QA
+            if sftp_server_env:
+                if sftp_server_env == 'prod':
+                    sftp_hostname = self.env.user.company_id.sftp_hostname
+                    sftp_port = self.env.user.company_id.sftp_port
+                    sftp_user = self.env.user.company_id.sftp_user
+                    sftp_password = self.env.user.company_id.sftp_password
+                    sftp_path_ap = self.env.user.company_id.sftp_path_ap
+                    sftp_path_bef = self.env.user.company_id.sftp_path_bef
+                else:
+                    sftp_hostname = self.env.user.company_id.sftp_hostname_QA
+                    sftp_port = self.env.user.company_id.sftp_port_QA
+                    sftp_user = self.env.user.company_id.sftp_user_QA
+                    sftp_password = self.env.user.company_id.sftp_password_QA
+                    sftp_path_ap = self.env.user.company_id.sftp_path_ap_QA
+                    sftp_path_bef = self.env.user.company_id.sftp_path_bef_QA
 
-            try: 
-                client = paramiko.SSHClient() 
-                client.set_missing_host_key_policy( paramiko.AutoAddPolicy )
-                client.connect(sftp_hostname, port=int(sftp_port), username=sftp_user, password=sftp_password)
-                sftp_client = client.open_sftp()
-                sftp_client.put(
-                    'tmp/%s.csv'%(nombre_archivo_ap), 
-                    '%s/%s.csv'%(sftp_path_ap, nombre_archivo_ap) 
-                )
-                sftp_client.put(
-                    'tmp/%s.csv'%(nombre_archivo_bef), 
-                    '%s/%s.csv'%(sftp_path_bef, nombre_archivo_bef) 
-                )
-                sftp_client.close() 
-                client.close()
+                try: 
+                    client = paramiko.SSHClient() 
+                    client.set_missing_host_key_policy( paramiko.AutoAddPolicy )
+                    client.connect(sftp_hostname, port=int(sftp_port), username=sftp_user, password=sftp_password)
+                    sftp_client = client.open_sftp()
+                    sftp_client.put(
+                        'tmp/%s.csv'%(nombre_archivo_ap), 
+                        '%s/%s.csv'%(sftp_path_ap, nombre_archivo_ap) 
+                    )
+                    sftp_client.put(
+                        'tmp/%s.csv'%(nombre_archivo_bef), 
+                        '%s/%s.csv'%(sftp_path_bef, nombre_archivo_bef) 
+                    )
+                    sftp_client.close() 
+                    client.close()
 
-            except paramiko.ssh_exception.AuthenticationException as e:
-                _logger.info('Autenticacion fallida en el servidor SFTP')
+                except paramiko.ssh_exception.AuthenticationException as e:
+                    _logger.info('Autenticacion fallida en el servidor SFTP')
 
-            else:
-                for record in records_ap:
-                    record.partner_id.write({
-                        'send_sftp_ok': True
-                    })
-                for record in records_bef:
-                    record.partner_id.write({
-                        'send_sftp_ok': True
-                    })
+                else:
+                    for record in records_ap:
+                        record.partner_id.write({
+                            'send_sftp_ok': True
+                        })
+                    for record in records_bef:
+                        record.partner_id.write({
+                            'send_sftp_ok': True
+                        })
 
 
 class SftpReportBeneficiaryLine(models.Model):
