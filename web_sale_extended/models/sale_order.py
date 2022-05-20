@@ -28,9 +28,9 @@ class SaleOrder(models.Model):
     campo_vacio = fields.Boolean('Campo vacio', default=False)  
     assisted_purchase = fields.Boolean('Venta Asistida', default=False) 
     recovery_email_sent = fields.Boolean('Email recuperacion', default=False)  
-    product_code = fields.Char(string='Código producto', related='order_line.product_id.default_code')
+    product_code = fields.Char(string='Código producto', related='order_line.product_id.default_code', store=True)
     cancel_date = fields.Datetime('Fecha cancelación')
-    product_name = fields.Char(string='Nombre producto', related='main_product_id.name')
+    product_name = fields.Char(string='Nombre producto', related='main_product_id.name', store=True)
 
     subscription_id = fields.Many2one('sale.subscription', 'Suscription ID')
     beneficiary0_id = fields.Many2one('res.partner')
