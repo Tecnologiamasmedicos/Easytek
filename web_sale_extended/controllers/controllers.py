@@ -783,8 +783,8 @@ class WebsiteSaleExtended(WebsiteSale):
             if order_detail.product_id.is_beneficiary:
                 """ Confirmando Orden de Venta luego del proceso exitoso de beneficiarios """
                 order.action_confirm()
-                if (order.subscription_id.template_id.is_fixed_policy and date.today().day <= order.subscription_id.template_id.cutoff_day) or not order.subscription_id.template_id.is_fixed_policy:
-                    order._send_order_confirmation_mail()
+                # if (order.subscription_id.template_id.is_fixed_policy and date.today().day <= order.subscription_id.template_id.cutoff_day) or not order.subscription_id.template_id.is_fixed_policy:
+                #     order._send_order_confirmation_mail()
 
                 order.subscription_id.write({
                     'subscription_partner_ids': beneficiary_list,
