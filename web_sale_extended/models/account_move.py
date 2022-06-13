@@ -26,6 +26,7 @@ class AccountMove(models.Model):
         ("DECLINED", "DECLINADO"),
         ("without_payment", "SIN COBRO"),
         ("no_payment", "NO PAGO"),
+        ("Cancel", "CANCELADO"),
     ])
     payulatam_datetime = fields.Datetime('Fecha y Hora de la Transacción')
     payulatam_credit_card_token = fields.Char('Token Para Tarjetas de Crédito')
