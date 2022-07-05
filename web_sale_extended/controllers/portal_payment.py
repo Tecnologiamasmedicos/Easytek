@@ -81,6 +81,8 @@ class CustomWebsitePayment(WebsitePayment):
                     raise werkzeug.exceptions.NotFound                    
                 invoice_origin = invoice.invoice_origin
                 subscription_id = request.env['sale.subscription'].sudo().search([('code', '=', str(invoice_origin))])
+                if subscription_id.stage_id.id == 4:
+                    raise werkzeug.exceptions.NotFound
                 _logger.info('cosasasas')
                 _logger.info(subscription_id)
                 sale_order_id = request.env['sale.order'].sudo().search([('subscription_id', '=', int(subscription_id.id))])
