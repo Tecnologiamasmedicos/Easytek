@@ -354,7 +354,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 lastname: {
                     required: true,
                     minlength: 3,
-                    maxlength: 12,
+                    maxlength: 11,
                     lettersonly: true,
                 },
                 othernames: {
@@ -363,7 +363,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 },
                 lastname2: {
                     minlength: 3,
-                    maxlength: 7,
+                    maxlength: 8,
                     lettersonly: true,
                 },
                 email: {
@@ -515,10 +515,10 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 lastname: {
                     required: "¡Upss! tu apellido es requerido",
                     minlength: "¡Upss! tu apellido debe contener más de 3 caracteres",
-                    maxlength: "¡Upss! tu apellido debe contener más de 12 caracteres"
+                    maxlength: "¡Upss! tu apellido debe contener más de 11 caracteres"
                 },
                 lastname2: {
-                    maxlength: "¡Upss! tu apellido no debe contener más de 7 caracteres"
+                    maxlength: "¡Upss! tu apellido no debe contener más de 8 caracteres"
                 },
                 email: {
                     required: "¡Upss! tu email es requerido",
