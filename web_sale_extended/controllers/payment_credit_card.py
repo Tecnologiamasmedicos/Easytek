@@ -53,7 +53,7 @@ class WebsiteSaleExtended(WebsiteSale):
         """ TARJETA DE CREDITO LUNH """
         luhn_ok = request.env['api.payulatam'].luhn_checksum(post['credit_card_number'])
         if not luhn_ok:
-            render_values = {'error': 'Número de tarjeta invalido'}
+            render_values = {'error': 'Número de tarjeta invalido', 'website_sale_order': order,}
             body_message = """
                 <b><span style='color:red;'>PayU Latam - Error en Transacción con Tarjeta de Crédito</span></b><br/>
                 <b>Error:</b> %s
@@ -97,6 +97,7 @@ class WebsiteSaleExtended(WebsiteSale):
         else:
             render_values = {'error': token_response['error']}
             render_values.update({
+                'website_sale_order': order,
                 'order_id': order
             })
             body_message = """
@@ -127,11 +128,12 @@ class WebsiteSaleExtended(WebsiteSale):
             "phone": order.partner_id.phone
         }    
         buyer = {
-            "merchantBuyerId": "1",
+            "merchantBuyerId": order.partner_id.id,
             "fullName": order.partner_id.name,
             "emailAddress": order.partner_id.email,
             "contactPhone": order.partner_id.phone,
             "dniNumber": order.partner_id.identification_document,
+            "shippingAddress": shippingAddress
         }    
         order_api = {
             "accountId": accountId,
@@ -147,19 +149,21 @@ class WebsiteSaleExtended(WebsiteSale):
         billingAddressPayer = {
             "street1": post['credit_card_partner_street'],
             "street2": "",
-            "city": "Bogota",
-            "state": "Bogota DC",
-            "country": "CO",
+            "city": request.env['api.payulatam'].search_city_name(post['credit_card_city']),
+            "state": request.env['api.payulatam'].search_state_name(post['credit_card_state_id']),
+            "country": request.env['api.payulatam'].search_country_code(post['credit_card_country_id']),
             "postalCode": post['credit_card_zip'],
             "phone": post['credit_card_partner_phone']
         }    
         payer = {
-            "merchantPayerId": "1",
             "fullName": post['credit_card_billing_firstname'] + ' ' + post['credit_card_billing_lastname'],
             "emailAddress": post['credit_card_billing_email'],
             "contactPhone": post['credit_card_partner_phone'],
             "dniNumber": post['credit_card_partner_document'],
-            #"billingAddress": post['credit_card_partner_street']
+            "billingAddress": billingAddressPayer
+        }
+        extraParameters = {
+            "INSTALLMENTS_NUMBER": int(post['credit_card_quotes'])
         }
         
         without_token = 1
@@ -174,6 +178,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 "order": order_api,
                 "payer": payer,
                 "creditCard": credit_card,
+                "extraParameters": extraParameters,
                 "type": "AUTHORIZATION_AND_CAPTURE",
                 "paymentMethod": post['method_id'],
                 "paymentCountry": "CO",
@@ -188,6 +193,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 "order": order_api,
                 "payer": payer,
                 "creditCardTokenId": order.payulatam_credit_card_token,
+                "extraParameters": extraParameters,
                 "type": "AUTHORIZATION_AND_CAPTURE",
                 "paymentMethod": post['method_id'],
                 "paymentCountry": "CO",
@@ -202,12 +208,12 @@ class WebsiteSaleExtended(WebsiteSale):
             "command": "SUBMIT_TRANSACTION",
             "transaction": transaction,
         }
-        
         _logger.error(credit_card_values)
         response = request.env['api.payulatam'].payulatam_credit_cards_payment_request(credit_card_values)
         if response['code'] != 'SUCCESS':
             render_values = {'error': response['error']}
             render_values.update({
+                'website_sale_order': order,
                 'order_id': order
             })
             body_message = """
@@ -292,6 +298,7 @@ class WebsiteSaleExtended(WebsiteSale):
             order.env.cr.execute(query)
             order.action_payu_approved()
             render_values = {
+                'website_sale_order': order,
                 'error': '',
                 'transactionId': response['transactionResponse']['transactionId'],
                 'state': 'APROBADO',
@@ -330,6 +337,7 @@ class WebsiteSaleExtended(WebsiteSale):
             )
             render_values = {'error': error}
             render_values.update({
+                'website_sale_order': order,
                 'state': response['transactionResponse']['state'],
                 'transactionId': response['transactionResponse']['transactionId'],
                 'responseCode': response['transactionResponse']['responseCode'],
@@ -361,10 +369,11 @@ class WebsiteSaleExtended(WebsiteSale):
                 'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO RECHAZADA',
                 'payulatam_datetime': fields.datetime.now(),
             })
-            render_values = {'error': '',}
+            render_values = {'error': '', 'website_sale_order': order,}
             if response['transactionResponse']['paymentNetworkResponseErrorMessage']:
                 render_values.update({'error': response['transactionResponse']['paymentNetworkResponseErrorMessage']})
             render_values.update({
+                'website_sale_order': order,
                 'state': response['transactionResponse']['state'],
                 'transactionId': response['transactionResponse']['transactionId'],
                 'responseCode': response['transactionResponse']['responseCode'],
@@ -388,11 +397,13 @@ class WebsiteSaleExtended(WebsiteSale):
             return request.render("web_sale_extended.payulatam_rejected_process", render_values)
         else:
             error = 'Transacción en estado %s: %s' % (
-                response['transactionResponse']['transactionId'],response['status']
+                response['transactionResponse']['transactionId'],
+                response['transactionResponse']['state']
             )
             order.action_cancel()
             render_values = {'error': error}
             render_values.update({
+                'website_sale_order': order,
                 'state': response['transactionResponse']['state'],
                 'transactionId': response['transactionResponse']['transactionId'],
                 'responseCode': response['transactionResponse']['responseCode'],
@@ -415,7 +426,7 @@ class WebsiteSaleExtended(WebsiteSale):
             sale_order = origin_document.id
             
         if not origin_document:
-            redirection = self.checkout_redirection(order)
+            redirection = self.checkout_redirection(sale_order)
             if redirection:
                 return redirection
             
@@ -445,7 +456,7 @@ class WebsiteSaleExtended(WebsiteSale):
         """ TARJETA DE CREDITO LUNH """
         luhn_ok = request.env['api.payulatam'].luhn_checksum(post['credit_card_number'])
         if not luhn_ok:
-            render_values = {'error': 'Número de tarjeta invalido'}
+            render_values = {'error': 'Número de tarjeta invalido', 'website_sale_order': sale_order}
             body_message = """
                 <b><span style='color:red;'>PayU Latam - Error en Transacción con Tarjeta de Crédito</span></b><br/>
                 <b>Error:</b> %s
@@ -525,6 +536,13 @@ class WebsiteSaleExtended(WebsiteSale):
         }
         token_response = request.env['api.payulatam'].payulatam_get_credit_Card_token(creditCardToken)
         if token_response['code'] == 'SUCCESS':
+            sale_order.write({
+                'payment_method_type': 'Credit Card',
+                'payulatam_credit_card_token': token_response['creditCardToken']['creditCardTokenId'],
+                'payulatam_credit_card_masked': token_response['creditCardToken']['maskedNumber'],
+                'payulatam_credit_card_identification': token_response['creditCardToken']['identificationNumber'],
+                'payulatam_credit_card_method': token_response['creditCardToken']['paymentMethod'],
+            })
             origin_document.write({
                 'payulatam_credit_card_token': token_response['creditCardToken']['creditCardTokenId'],
                 'payulatam_credit_card_masked': token_response['creditCardToken']['maskedNumber'],
@@ -568,6 +586,7 @@ class WebsiteSaleExtended(WebsiteSale):
         else:
             render_values = {'error': token_response['error']}
             render_values.update({
+                'website_sale_order': sale_order,
                 'order_id': origin_document
             })
             body_message = """
@@ -605,6 +624,7 @@ class WebsiteSaleExtended(WebsiteSale):
         if response['code'] != 'SUCCESS':
             render_values = {'error': response['error']}
             render_values.update({
+                'website_sale_order': sale_order,
                 'amount': amount,
                 'image': '/web/image/1110/Img_failure%283%29.png?access_token=65b88bf9-b659-4486-ad0d-b8d066b52278',
                 'responseMessage': 'Proceso de pago Fallido',
@@ -653,6 +673,7 @@ class WebsiteSaleExtended(WebsiteSale):
 #             payments.post()
                 
             render_values = {
+                'website_sale_order': sale_order,
                 'error': '',
                 'amount': amount,
                 'image': '/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be',
@@ -750,6 +771,7 @@ class WebsiteSaleExtended(WebsiteSale):
             )
             render_values = {'error': error}
             render_values.update({
+                'website_sale_order': sale_order,
                 'amount': amount,
                 'image': '/web_sale_extended/static/src/images/Img_warning.png',
                 'responseMessage': 'Proceso de pago Pendiente',
@@ -782,10 +804,11 @@ class WebsiteSaleExtended(WebsiteSale):
                 'payment_method_type': 'Credit Card',
                 'payulatam_datetime': fields.datetime.now(),
             })
-            render_values = {'error': '',}
+            render_values = {'error': '', 'website_sale_order': sale_order}
             if response['transactionResponse']['paymentNetworkResponseErrorMessage']:
                 render_values.update({'error': response['transactionResponse']['paymentNetworkResponseErrorMessage']})
             render_values.update({
+                'website_sale_order': sale_order,
                 'amount': amount,
                 'image': '/web/image/1110/Img_failure%283%29.png?access_token=65b88bf9-b659-4486-ad0d-b8d066b52278',
                 'responseMessage': 'Proceso de pago Rechazado',
@@ -812,10 +835,11 @@ class WebsiteSaleExtended(WebsiteSale):
         else:
             error = 'Transacción en estado %s: %s' % (
                 response['transactionResponse']['transactionId'],
-                response['status']
+                response['transactionResponse']['state']
             )
             render_values = {'error': error}
             render_values.update({
+                'website_sale_order': sale_order,
                 'amount': amount,
                 'image': '/web/image/1110/Img_failure%283%29.png?access_token=65b88bf9-b659-4486-ad0d-b8d066b52278',
                 'responseMessage': error,

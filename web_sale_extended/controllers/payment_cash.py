@@ -61,12 +61,38 @@ class WebsiteSaleExtended(WebsiteSale):
         full_name = post['cash_billing_firstname']
         if 'cash_billing_lastname' in post:
             fullName = post['cash_billing_firstname'] + ' ' + post['cash_billing_lastname'],
+        shippingAddress = {
+            "street1": order.partner_id.street,
+            "street2": "",
+            "city": order.partner_id.zip_id.city_id.name,
+            "state": order.partner_id.zip_id.city_id.state_id.name,
+            "country": "CO",
+            "postalCode": order.partner_id.zip_id.name,
+            "phone": order.partner_id.phone if order.partner_id.phone else order.partner_id.mobile
+        }
         buyer = {
-            "merchantBuyerId": "1",
-            "fullName": full_name,
+            "merchantBuyerId": order.partner_id.id,
+            "fullName": order.partner_id.name,
             "emailAddress": order.partner_id.email,
             "contactPhone": order.partner_id.phone,
             "dniNumber": order.partner_id.identification_document,
+            "shippingAddress": shippingAddress
+        }
+        billingAddressPayer = {
+            "street1": post['cash_partner_street'],
+            "street2": "",
+            "city": request.env['api.payulatam'].search_city_name(post['cash_city']),
+            "state": request.env['api.payulatam'].search_state_name(post['cash_state_id']),
+            "country": request.env['api.payulatam'].search_country_code(post['cash_country_id']),
+            "postalCode": post['cash_zip'],
+            "phone": post['cash_partner_phone']
+        }
+        payer = {
+            "fullName": full_name,
+            "emailAddress": post['cash_billing_email'],
+            "contactPhone": post['cash_partner_phone'],
+            "dniNumber": post['cash_partner_document'],
+            "billingAddress": billingAddressPayer
         }
         order_api = {
             "accountId": accountId,
@@ -77,6 +103,7 @@ class WebsiteSaleExtended(WebsiteSale):
             "notifyUrl": payulatam_response_url,
             "additionalValues": additionalValues,
             "buyer": buyer,
+            "payer": payer
         }
         transaction = {
             "order": order_api,
@@ -91,7 +118,7 @@ class WebsiteSaleExtended(WebsiteSale):
             "transaction": transaction,
         }
         response = request.env['api.payulatam'].payulatam_cash_payment_request(cash_payment_values)
-        render_values = {'error': response['error']}
+        render_values = {'error': response['error'], 'website_sale_order': order, 'order_id': order}
         if response['code'] != 'SUCCESS':
             """ Retornando error manteniendo la misma orden y dando la oportunidad de intentar de nuevo """
             body_message = """
@@ -145,6 +172,7 @@ class WebsiteSaleExtended(WebsiteSale):
             )
             render_values = {'error': error}
             render_values.update({
+                'website_sale_order': order,
                 'state': response['transactionResponse']['state'],
                 'transactionId': response['transactionResponse']['transactionId'],
                 'responseCode': response['transactionResponse']['responseCode'],
@@ -177,10 +205,11 @@ class WebsiteSaleExtended(WebsiteSale):
                 response['transactionResponse']['responseCode']
             )
             order.message_post(body=body_message, type="comment")
-            render_values = {'error': '',}
+            render_values = {'error': '', 'website_sale_order': order,}
             if response['transactionResponse']['paymentNetworkResponseErrorMessage']:
                 render_values.update({'error': response['transactionResponse']['paymentNetworkResponseErrorMessage']})
             render_values.update({
+                'website_sale_order': order,
                 'state': response['transactionResponse']['state'],
                 'transactionId': response['transactionResponse']['transactionId'],
                 'responseCode': response['transactionResponse']['responseCode'],
@@ -198,6 +227,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 request.session['sale_order_id'] = None
             render_values = {'error': error}
             render_values.update({
+                'website_sale_order': order,
                 'state': response['transactionResponse']['state'],
                 'transactionId': response['transactionResponse']['transactionId'],
                 'responseCode': response['transactionResponse']['responseCode'],
@@ -211,8 +241,14 @@ class WebsiteSaleExtended(WebsiteSale):
         
         if post['invoice_id']:
             origin_document = request.env['account.move'].sudo().browse(int(post['invoice_id']))
+            subscription = request.env['sale.subscription'].sudo().search([('code', '=', origin_document.invoice_origin)])
+            product = origin_document.invoice_line_ids[0].product_id
+            sale_order = request.env['sale.order'].sudo().search([('subscription_id', '=', subscription.id)])
         elif post['order_id']:
             origin_document = request.env['sale.order'].sudo().browse(int(post['order_id']))
+            subscription = origin_document.subscription_id
+            product = origin_document.main_product_id
+            sale_order = origin_document.id
         
         if post['partner_id']:
             partner = request.env['res.partner'].sudo().browse(int(post['partner']))
@@ -307,9 +343,10 @@ class WebsiteSaleExtended(WebsiteSale):
             "transaction": transaction,
         }
         response = request.env['api.payulatam'].payulatam_cash_payment_request(cash_payment_values)
-        render_values = {'error': response['error']}
+        render_values = {'error': response['error'], 'website_sale_order': sale_order}
         if response['code'] != 'SUCCESS':
             render_values.update({
+                'website_sale_order': sale_order,
                 'amount': amount,
                 'image': '/web/image/1110/Img_failure%283%29.png?access_token=65b88bf9-b659-4486-ad0d-b8d066b52278',
                 'responseMessage': 'Fallido',
@@ -368,6 +405,7 @@ class WebsiteSaleExtended(WebsiteSale):
             )
             render_values = {'error': error}
             render_values.update({
+                'website_sale_order': sale_order,
                 'amount': amount,
                 'image': '/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be',
                 'responseMessage': 'Recibo de Pago generado exitosamente gracias a PayU',
@@ -407,6 +445,7 @@ class WebsiteSaleExtended(WebsiteSale):
             if response['transactionResponse']['paymentNetworkResponseErrorMessage']:
                 render_values.update({'error': response['transactionResponse']['paymentNetworkResponseErrorMessage']})
             render_values.update({
+                'website_sale_order': sale_order,
                 'amount': amount,
                 'image': '/web/image/1110/Img_failure%283%29.png?access_token=65b88bf9-b659-4486-ad0d-b8d066b52278',
                 'responseMessage': 'Recibo de pago NO generado',
@@ -424,6 +463,7 @@ class WebsiteSaleExtended(WebsiteSale):
             )
             render_values = {'error': error}
             render_values.update({
+                'website_sale_order': sale_order,
                 'amount': amount,
                 'image': '/web/image/1110/Img_failure%283%29.png?access_token=65b88bf9-b659-4486-ad0d-b8d066b52278',
                 'responseMessage': error,

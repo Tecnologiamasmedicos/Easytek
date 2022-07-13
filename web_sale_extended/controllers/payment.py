@@ -70,14 +70,15 @@ class WebsiteSaleExtended(WebsiteSale):
         if ping_response['code'] == 'SUCCESS':
             # get payment methods
             credit_card_methods = request.env['api.payulatam'].payulatam_get_credit_cards_methods()
-            #bank_list = request.env['api.payulatam'].payulatam_get_bank_list()
+            bank_list_pse = request.env['api.payulatam'].payulatam_get_bank_list()
             #cash_list = request.env['api.payulatam'].payulatam_get_cash_method_list()
         
         #_logger.error(bank_list)
         
         mode = (False, False)
         country = request.env['res.country'].browse(49)
-        credit_card_due_year_ids = list(range(2021, 2061))
+        current_year = int(date.today().year)
+        credit_card_due_year_ids = list(range(current_year, current_year + 40))
         render_values.update({
             'error' : [],
             'mode' : mode,
@@ -87,7 +88,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'countries': country.get_website_sale_countries(mode=mode[1]),
             'credit_card_due_year_ids': credit_card_due_year_ids,
             'credit_card_methods': credit_card_methods,
-            'bank_list': bank_list
+            'bank_list': bank_list_pse
         })
         return request.render("web_sale_extended.web_sale_extended_payment_process", render_values)
     
@@ -181,6 +182,7 @@ class WebsiteSaleExtended(WebsiteSale):
                     """ En este caso el usuario puede continuar directamente la transacción """
                     render_values = {}
                     render_values.update({
+                        'website_sale_order': order,
                         'order_id': order,
                         'response': dict(kwargs),
                         'order_detail': order.order_line[0],
@@ -205,6 +207,7 @@ class WebsiteSaleExtended(WebsiteSale):
                     """ En caso contrario se envía correo con la información para seguir """
                     render_values = {}
                     render_values.update({
+                        'website_sale_order': order,
                         'order_id': order,
                         'response': dict(kwargs),
                     })
@@ -251,6 +254,7 @@ class WebsiteSaleExtended(WebsiteSale):
             else:
                 render_values = {}
                 render_values.update({
+                    'website_sale_order': order,
                     'order_id': order,
                     'response': dict(kwargs),
                 })
@@ -296,11 +300,15 @@ class WebsiteSaleExtended(WebsiteSale):
         amount = float(kwargs['TX_VALUE'])
         
         if kwargs['lapTransactionState'] == 'APPROVED':
+            sale_order.write({
+                'payment_method_type': origin_document.payment_method_type,
+            })
             origin_document.write({
                 'payulatam_state': kwargs['lapTransactionState'],
                 'payulatam_datetime': fields.datetime.now(),
             })
             render_values = {
+                'website_sale_order': sale_order,
                 'error': '',
                 'amount': amount,
                 'image': '/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be',
@@ -391,6 +399,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 'payulatam_datetime': fields.datetime.now(),
             })
             render_values = {
+                'website_sale_order': sale_order,
                 'error': '',
                 'amount': amount,
                 'image': '/web_sale_extended/static/src/images/Img_warning.png',

@@ -48,15 +48,39 @@ class WebsiteSaleExtended(WebsiteSale):
             "TX_TAX": tx_tax,
             "TX_TAX_RETURN_BASE": tx_tax_return_base
         }
+        shippingAddress = {
+            "street1": order.partner_id.street,
+            "street2": "",
+            "city": order.partner_id.zip_id.city_id.name,
+            "state": order.partner_id.zip_id.city_id.state_id.name,
+            "country": "CO",
+            "postalCode": order.partner_id.zip_id.name,
+            "phone": order.partner_id.phone if order.partner_id.phone else order.partner_id.mobile
+        }
         buyer = {
-            #"merchantBuyerId": "1",
-            #"fullName": order.partner_id.name,
-            #"fullName": 'APPROVED',
+            "merchantBuyerId": order.partner_id.id,
+            "fullName": order.partner_id.name,
             "emailAddress": order.partner_id.email,
-            #"contactPhone": order.partner_id.phone,
-            #"dniNumber": order.partner_id.identification_document,
-            #"shippingAddress": shippingAddress
-        }    
+            "contactPhone": order.partner_id.phone,
+            "dniNumber": order.partner_id.identification_document,
+            "shippingAddress": shippingAddress
+        }
+        billingAddressPayer = {
+            "street1": post['pse_partner_street'],
+            "street2": "",
+            "city": request.env['api.payulatam'].search_city_name(post['pse_city']),
+            "state": request.env['api.payulatam'].search_state_name(post['pse_state_id']),
+            "country": request.env['api.payulatam'].search_country_code(post['pse_country_id']),
+            "postalCode": post['pse_zip'],
+            "phone": post['pse_partner_phone']
+        } 
+        payer = {
+            "fullName": post['pse_billing_firstname'] + ' ' + post['pse_billing_lastname'],
+            "emailAddress": post['pse_billing_email'],
+            "contactPhone": post['pse_partner_phone'],
+            "dniNumber": post['pse_billing_partner_document'],
+            "billingAddress": billingAddressPayer
+        }
         order_api = {
             "accountId": accountId,
             "referenceCode": referenceCode,
@@ -65,18 +89,9 @@ class WebsiteSaleExtended(WebsiteSale):
             "signature": signature,
             #"notifyUrl": "https://easytek-confacturacion-2123332.dev.odoo.com/shop/payment/payulatam-gateway-api/response",
             "additionalValues": additionalValues,
-            "buyer": buyer,
-            #"shippingAddress": shippingAddress
+            "buyer": buyer
         }
-        payer = {
-            #"merchantPayerId": "1",
-            #"fullName": post['credit_card_billing_firstname'] + ' ' + post['credit_card_billing_lastname'],
-            "fullName": 'APPROVED',
-            "emailAddress": post['pse_billing_email'],
-            "contactPhone": post['pse_partner_phone'],
-            #"dniNumber": post['credit_card_partner_document'],
-            #"billingAddress": post['credit_card_partner_street']
-        }
+        
         extraParameters = {
             "RESPONSE_URL": payulatam_response_url,
             "PSE_REFERENCE1": "127.0.0.1",
@@ -95,14 +110,13 @@ class WebsiteSaleExtended(WebsiteSale):
             "deviceSessionId": request.httprequest.cookies.get('session_id'),
             "ipAddress": "127.0.0.1",
             "cookie": request.httprequest.cookies.get('session_id'),
-            #"userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101"
             "userAgent": "Firefox"
         }
-        credit_card_values = {
+        pse_payment_values = {
             "command": "SUBMIT_TRANSACTION",
             "transaction": transaction,
         }
-        response = request.env['api.payulatam'].payulatam_credit_cards_payment_request(credit_card_values)
+        response = request.env['api.payulatam'].payulatam_credit_cards_payment_request(pse_payment_values)
         if response['code'] != 'SUCCESS':
             body_message = """
                 <b><span style='color:red;'>PayU Latam - Error en pago con PSE</span></b><br/>
@@ -119,7 +133,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 return request.redirect("/web/login")
             else:
                 order.message_post(body=body_message, type="comment")
-                render_values = {'error': response['error']}
+                render_values = {'error': response['error'], 'website_sale_order': order}
                 return request.render("web_sale_extended.payulatam_rejected_process", render_values)        
 
         if response['transactionResponse']['state'] == 'APPROVED':
@@ -194,6 +208,7 @@ class WebsiteSaleExtended(WebsiteSale):
             order.action_payu_approved()
             render_values = {'error': ''}
             render_values.update({
+                'website_sale_order': order,
                 'state': response['transactionResponse']['state'],
                 'transactionId': response['transactionResponse']['transactionId'],
                 'responseCode': response['transactionResponse']['responseCode'],
@@ -229,6 +244,7 @@ class WebsiteSaleExtended(WebsiteSale):
             error = ''
             render_values = {'error': error}
             render_values.update({
+                'website_sale_order': order,
                 'state': response['transactionResponse']['state'],
                 'transactionId': response['transactionResponse']['transactionId'],
                 'responseCode': response['transactionResponse']['responseCode'],
@@ -263,10 +279,11 @@ class WebsiteSaleExtended(WebsiteSale):
             render_values = {}
             #if 'paymentNetworkResponseErrorMessage' in response['transactionResponse']:
             #    if 'ya se encuentra registrada con la referencia' in response['transactionResponse']['paymentNetworkResponseErrorMessage']:
-            render_values = {'error': '',}
+            render_values = {'error': '', 'website_sale_order': order}
             if response['transactionResponse']['paymentNetworkResponseErrorMessage']:
                 render_values.update({'error': response['transactionResponse']['paymentNetworkResponseErrorMessage']})
             render_values.update({
+                'website_sale_order': order,
                 'state': response['transactionResponse']['state'],
                 'transactionId': response['transactionResponse']['transactionId'],
                 'responseCode': response['transactionResponse']['responseCode'],
@@ -290,10 +307,10 @@ class WebsiteSaleExtended(WebsiteSale):
             return request.render("web_sale_extended.payulatam_rejected_process_pse", render_values)
         else:
             error = 'Se recibió un estado no reconocido para el pago de PayU Latam %s: %s, set as error' % (
-                response['transactionResponse']['transactionId'],response['status']
+                response['transactionResponse']['transactionId'],response['transactionResponse']['state']
             )
             order.action_cancel()
-            render_values = {'error': error}
+            render_values = {'error': error, 'website_sale_order': order,}
             return request.render("web_sale_extended.payulatam_rejected_process_pse", render_values)
         
     @http.route(['/shop/payment/payulatam-gateway-api/pse_process_recurring'], type='http', auth="public", website=True, sitemap=False)
@@ -416,6 +433,7 @@ class WebsiteSaleExtended(WebsiteSale):
         if response['code'] != 'SUCCESS':
             render_values = {'error': response['error']}
             render_values.update({
+                'website_sale_order': sale_order,
                 'amount': amount,
                 'image': '/web/image/1110/Img_failure%283%29.png?access_token=65b88bf9-b659-4486-ad0d-b8d066b52278',
                 'responseMessage': 'Proceso de pago Fallido',
@@ -435,6 +453,9 @@ class WebsiteSaleExtended(WebsiteSale):
             origin_document.message_post(body=body_message, type="comment")
             return request.render("web_sale_extended.payu_transaction_response", render_values)
         if response['transactionResponse']['state'] == 'APPROVED':
+            sale_order.write({
+                'payment_method_type': 'PSE',
+            })
             origin_document.write({
                 'payulatam_order_id': response['transactionResponse']['orderId'],
                 'payulatam_transaction_id': response['transactionResponse']['transactionId'],
@@ -503,6 +524,7 @@ class WebsiteSaleExtended(WebsiteSale):
             )
             origin_document.env.cr.execute(query)
             render_values = {
+                'website_sale_order': sale_order,
                 'error': '',
                 'amount': amount,
                 'image': '/web/image/1109/Img_success%282%29.png?access_token=a79d70ef-5174-4077-b854-a03eff98c0be',
@@ -536,6 +558,7 @@ class WebsiteSaleExtended(WebsiteSale):
             })
             render_values = {'error': ''}
             render_values.update({
+                'website_sale_order': sale_order,
                 'amount': amount,
                 'image': '/web_sale_extended/static/src/images/Img_warning.png',
                 'responseMessage': 'Estamos procesando tu pago por PSE gracias a la tecnología de PayU',
@@ -569,10 +592,11 @@ class WebsiteSaleExtended(WebsiteSale):
                 'payment_method_type': 'PSE',
                 'payulatam_datetime': fields.datetime.now(),
             })
-            render_values = {'error': '',}
+            render_values = {'error': '', 'website_sale_order': sale_order}
             if response['transactionResponse']['paymentNetworkResponseErrorMessage']:
                 render_values.update({'error': response['transactionResponse']['paymentNetworkResponseErrorMessage']})
             render_values.update({
+                'website_sale_order': sale_order,
                 'amount': amount,
                 'image': '/web/image/1110/Img_failure%283%29.png?access_token=65b88bf9-b659-4486-ad0d-b8d066b52278',
                 'responseMessage': 'Proceso de pago Rechazado',
@@ -599,10 +623,11 @@ class WebsiteSaleExtended(WebsiteSale):
         else:
             error = 'Se recibió un estado no reconocido para el pago de PayU Latam %s: %s, set as error' % (
                 response['transactionResponse']['transactionId'],
-                response['status']
+                response['transactionResponse']['state']
             )
             render_values = {'error': error}
             render_values.update({
+                'website_sale_order': sale_order,
                 'amount': amount,
                 'image': '/web/image/1110/Img_failure%283%29.png?access_token=65b88bf9-b659-4486-ad0d-b8d066b52278',
                 'responseMessage': error,

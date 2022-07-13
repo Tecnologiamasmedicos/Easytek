@@ -3047,7 +3047,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
             });
         }
     }
-    if (estado == 'Divorciado'){
+    if (estado_civil == 'Divorciado'){
         let newOptions = {
             Seleccione: "",
             Padres: "D",
@@ -3066,14 +3066,16 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
     }
     
     
-    $("#submit_beneficiaries").on('click', function(e){
-        e.preventDefault();
-        if($('#beneficiary').valid()){ //checks if it's valid
-            $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />Cargando...</div>');
-            $(this).prop('disabled', true);  
-       }
-        $('#beneficiary').submit();
-    });
+    if ($('#submit_beneficiaries').length) {
+        $("#submit_beneficiaries").on('click', function(e){
+            e.preventDefault();
+            if($('#beneficiary').valid()){ //checks if it's valid
+                $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />Cargando...</div>');
+                $(this).prop('disabled', true);  
+           }
+            $('#beneficiary').submit();
+        });
+    }
 
 });
 
