@@ -294,3 +294,15 @@ class PayULatamApi(models.TransientModel):
         })
         response = self.request_payulatam_api(command, query, report=True)
         return response
+
+    def search_country_code(self, country_id: int) -> str:
+        country = self.env['res.country'].browse(int(country_id))
+        return str(country.code)
+    
+    def search_state_name(self, state_id: int) -> str:
+        state = self.env['res.country.state'].browse(int(state_id))
+        return str(state.name)
+            
+    def search_city_name(self, city_id: int) -> str:
+        city = self.env['res.city'].browse(int(city_id))
+        return str(city.name)
