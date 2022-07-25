@@ -1164,13 +1164,13 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
     $("#btn_terminos").click(function() {
         document.getElementById("politica").innerHTML = '';
-        document.getElementById("terminos").innerHTML = '<embed src="/web_sale_extended/static/src/files/terminos.pdf" width="100%" height="680px">Acepto términos y condiciones</embed>';
+        document.getElementById("terminos").innerHTML = '<iframe src="/web_sale_extended/static/src/files/terminos.pdf#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="680px"/>';
         $("#terminos").toggle();
     });
     
     $("#btn_politica").click(function() {
         document.getElementById("terminos").innerHTML = '';
-        document.getElementById("politica").innerHTML = '<embed src="/web_sale_extended/static/src/files/tratamiento_de_datos.pdf" width="100%" height="680px">Acepto política de tratamiento de datos</embed>';
+        document.getElementById("politica").innerHTML = '<iframe src="/web_sale_extended/static/src/files/tratamiento_de_datos.pdf#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="680px"/>';
         $("#politica").toggle();
     });
 
