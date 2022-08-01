@@ -4,6 +4,13 @@
         <title>Página comprador | www.masmedicos.co</title>
         <t t-set="no_footer" t-value="1"/>
         <t t-call="website.layout">
+            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                <style>
+                    *{
+                        font-family: 'Maven Pro', sans-serif;
+                    }
+                </style>
+            </t>
             <div id="wrap">
                 <div class="container oe_website_sale py-2">
                     <div class="row">
@@ -26,56 +33,110 @@
                                     <div class="container">
                                         <div class="row">
                                             <div class="col-lg-12 pb0 pt0">
-                                                <div class="s_alert clearfix s_alert_sm w-100" data-name="Alert" style="background: #FFFFFF; border: 1px solid #3333CC; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(51, 51, 204, 0.5); border-radius: 5px;">
-                                                    <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Img_tip.png" data-original-title="" title="" aria-describedby="tooltip561547"/>
-                                                    <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip831158"/>
-                                                    <div class="s_alert_content" style="">
+                                                <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                                    <div class="s_alert clearfix s_alert_sm w-100" data-name="Alert" style="background: #FFFFFF; border: 1px solid #43b12e; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(67, 177, 46, 0.5); border-radius: 5px;">
+                                                        <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Robot-falabella.png" width="92" style="margin-top: 12px;" data-original-title="" title="" aria-describedby="tooltip561547"/>
+                                                        <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip831158"/>
+                                                        <div class="s_alert_content" style="">
                                                         <p/>
                                                         <div style="text-align: left;">
-                                                            <font color="#3333cc">
-                                                                <b style="font-size: 18px;">¡Genial que quieras ser parte de Más Médicos! </b>
-                                                                <span style="font-size: 18px;">
-                                                                    <b>Llenemos</b>
-                                                                </span>
-                                                                <t t-if="order_detail[0].product_template_id.subscription_template_id.is_fixed_policy">
-                                                                    <t t-set="vigencia_plan" t-value="int(order_detail[0].product_uom_qty)" />
-                                                                </t>
-                                                                <t t-else="">
-                                                                    <t t-set="vigencia_plan" t-value="order_detail[0].product_template_id.subscription_template_id.recurring_rule_count * order_detail[0].product_template_id.subscription_template_id.recurring_interval" />
-                                                                </t>
-                                                                <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly' and vigencia_plan == 1">
-                                                                     <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Mes, es fácil y rápido.</b>
-                                                                </t>
-                                                                <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
-                                                                     <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Meses, es fácil y rápido.</b>
-                                                                </t>
-                                                                 <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'daily' and vigencia_plan == 1">
-                                                                     <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Día, es fácil y rápido.</b>
-                                                                </t>
-                                                                <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'daily'">
-                                                                     <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Días, es fácil y rápido.</b>
-                                                                </t>
-                                                                 <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'weekly' and vigencia_plan == 1">
-                                                                     <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Semana, es fácil y rápido.</b>
-                                                                </t>
-                                                                <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'weekly'">
-                                                                     <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Semanas, es fácil y rápido.</b>
-                                                                </t>
-                                                                <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly' and vigencia_plan == 1">
-                                                                     <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Año, es fácil y rápido.</b>
-                                                                </t>
-                                                                <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly'">
-                                                                     <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Años, es fácil y rápido.</b>
-                                                                </t>
+                                                            <font color="#000000">
+                                                            <b style="font-size: 18px;">¡Genial que quieras ser parte de Más Médicos! </b>
+                                                            <span style="font-size: 18px;">
+                                                                <b>Llenemos</b>
+                                                            </span>
+                                                            <t t-if="order_detail[0].product_template_id.subscription_template_id.is_fixed_policy">
+                                                                <t t-set="vigencia_plan" t-value="int(order_detail[0].product_uom_qty)" />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t t-set="vigencia_plan" t-value="order_detail[0].product_template_id.subscription_template_id.recurring_rule_count * order_detail[0].product_template_id.subscription_template_id.recurring_interval" />
+                                                            </t>
+                                                            <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly' and vigencia_plan == 1">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Mes, es fácil y rápido.</b>
+                                                            </t>
+                                                            <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Meses, es fácil y rápido.</b>
+                                                            </t>
+                                                            <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'daily' and vigencia_plan == 1">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Día, es fácil y rápido.</b>
+                                                            </t>
+                                                            <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'daily'">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Días, es fácil y rápido.</b>
+                                                            </t>
+                                                            <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'weekly' and vigencia_plan == 1">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Semana, es fácil y rápido.</b>
+                                                            </t>
+                                                            <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'weekly'">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Semanas, es fácil y rápido.</b>
+                                                            </t>
+                                                            <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly' and vigencia_plan == 1">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Año, es fácil y rápido.</b>
+                                                            </t>
+                                                            <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly'">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Años, es fácil y rápido.</b>
+                                                            </t>
                                                             </font>
                                                             <br/>
                                                         </div>
-                                                        <div style="text-align: left;">
-                                                            <span style="font-size: 14px;">Ésta es la información del comprador del plan, ¡comencemos!</span>
+                                                            <div style="text-align: left;">
+                                                                <span style="font-size: 14px;">Ésta es la información del comprador del plan, ¡comencemos!</span>
+                                                            </div>
+                                                            <p/>
                                                         </div>
-                                                        <p/>
                                                     </div>
-                                                </div>
+                                                </t>
+                                                <t t-else="">
+                                                    <div class="s_alert clearfix s_alert_sm w-100" data-name="Alert" style="background: #FFFFFF; border: 1px solid #3333CC; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(51, 51, 204, 0.5); border-radius: 5px;">
+                                                        <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Img_tip.png" width="92" style="margin-top: 12px;" data-original-title="" title="" aria-describedby="tooltip561547"/>
+                                                        <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip831158"/>
+                                                        <div class="s_alert_content" style="">
+                                                        <p/>
+                                                        <div style="text-align: left;">
+                                                            <font color="#3333cc">
+                                                            <b style="font-size: 18px;">¡Genial que quieras ser parte de Más Médicos! </b>
+                                                            <span style="font-size: 18px;">
+                                                                <b>Llenemos</b>
+                                                            </span>
+                                                            <t t-if="order_detail[0].product_template_id.subscription_template_id.is_fixed_policy">
+                                                                <t t-set="vigencia_plan" t-value="int(order_detail[0].product_uom_qty)" />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t t-set="vigencia_plan" t-value="order_detail[0].product_template_id.subscription_template_id.recurring_rule_count * order_detail[0].product_template_id.subscription_template_id.recurring_interval" />
+                                                            </t>
+                                                            <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly' and vigencia_plan == 1">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Mes, es fácil y rápido.</b>
+                                                            </t>
+                                                            <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Meses, es fácil y rápido.</b>
+                                                            </t>
+                                                            <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'daily' and vigencia_plan == 1">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Día, es fácil y rápido.</b>
+                                                            </t>
+                                                            <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'daily'">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Días, es fácil y rápido.</b>
+                                                            </t>
+                                                            <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'weekly' and vigencia_plan == 1">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Semana, es fácil y rápido.</b>
+                                                            </t>
+                                                            <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'weekly'">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Semanas, es fácil y rápido.</b>
+                                                            </t>
+                                                            <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly' and vigencia_plan == 1">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Año, es fácil y rápido.</b>
+                                                            </t>
+                                                            <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly'">
+                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Años, es fácil y rápido.</b>
+                                                            </t>
+                                                            </font>
+                                                            <br/>
+                                                        </div>
+                                                            <div style="text-align: left;">
+                                                                <span style="font-size: 14px;">Ésta es la información del comprador del plan, ¡comencemos!</span>
+                                                            </div>
+                                                            <p/>
+                                                        </div>
+                                                    </div>
+                                                </t>
                                             </div>
                                         </div>
                                     </div>
@@ -232,7 +293,6 @@
                                                 t-att-value="'city' in checkout and checkout['city']"
                                                 t-att-style="(not country or not country.state_ids) and 'display: none'"
                                                 >
-                                               
                                                 <option value="">Seleccione la Ciudad</option>
                                                 <t t-foreach="cities" t-as="c">
                                                     <option t-att-value="c.city_id.name" t-att-selected="c.name">
@@ -267,7 +327,12 @@
                                                 <input class="form-check-input" type="checkbox" value="" name="tyc" id="defaultCheck1"/>
                                                 <label class="form-check-label" for="tyc">
                                                     Acepto términos y condiciones
-                                                    <a href="#terminos" id="btn_terminos"> (leer)</a>
+                                                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                                        <a href="#terminos" id="btn_terminos" style="color: #43b12e;"> (leer)</a>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <a href="#terminos" id="btn_terminos"> (leer)</a>
+                                                    </t>
                                                 </label>
                                             </div>
                                         </div>
@@ -276,7 +341,12 @@
                                                 <input class="form-check-input" type="checkbox" value="" name="aceptacion_datos" id="defaultCheck2"/>
                                                 <label class="form-check-label" for="aceptacion_datos" style="text-size:10px;">
                                                     Acepto política de tratamiento de datos
-                                                    <a href="#politica" id="btn_politica"> (leer)</a>
+                                                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                                        <a href="#politica" id="btn_politica" style="color: #43b12e;"> (leer)</a>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <a href="#politica" id="btn_politica"> (leer)</a>
+                                                    </t>
                                                 </label>
                                             </div>
                                         </div>
@@ -303,10 +373,18 @@
                                     <input type="hidden" name="callback" t-att-value="callback" />
                                     <p/>
                                     <div class="d-flex justify-content-end">
-                                        <button class="btn btn-custom mb32" id="submit_shop">
-                                            <span>Comprar</span>
-                                            <i class="fa fa-chevron-right"/>
-                                        </button>
+                                        <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                            <button style="background-color: #43b12e;" class="btn btn-custom mb32" id="submit_shop">
+                                                <span>Comprar</span>
+                                                <i class="fa fa-chevron-right" />
+                                            </button>
+                                        </t>
+                                        <t t-else="">
+                                            <button class="btn btn-custom mb32" id="submit_shop">
+                                                <span>Comprar</span>
+                                                <i class="fa fa-chevron-right" />
+                                            </button>
+                                        </t>
                                     </div>
                                 </form>
                             </div>

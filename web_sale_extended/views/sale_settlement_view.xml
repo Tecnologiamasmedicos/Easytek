@@ -37,6 +37,7 @@
                     <filter string="PENDIENTE" name="filter_subscription_payulatam_state_pending" domain="[('payulatam_state','=', 'PENDING')]"/>
                     <filter string="EXPIRADO" name="filter_subscription_payulatam_state_expired" domain="[('payulatam_state','=', 'EXPIRED')]"/>
                     <filter string="DECLINADO" name="filter_subscription_payulatam_state_declined" domain="[('payulatam_state','=', 'DECLINED')]"/>
+                    <filter string="Cobro enviado" name="filter_invoice_send_payment_true" domain="[('send_payment','=', True)]"/>
                     <separator/>
                     <filter string="Fecha Inicio" name="filter_subscription_date_start" date="subscription_date_start"/>
                     <filter string="Fecha Final" name="filter_subscription_date_end" context="{'group_by': 'subscription_date_end'}"/>

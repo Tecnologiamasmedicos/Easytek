@@ -65,12 +65,12 @@ class SaleSubscription(models.Model):
     def _prepare_invoice_data(self):
         res = super(SaleSubscription, self)._prepare_invoice_data()
         sale_order = self.env['sale.order'].search([('subscription_id', '=', self.id)])
+        recurring_next_date = self._get_recurring_next_date(self.recurring_rule_type, self.recurring_interval, self.recurring_next_date, self.recurring_invoice_day)
+        end_date = fields.Date.from_string(recurring_next_date) - relativedelta(days=1) 
         res.update({
             'amount_residual': sale_order.amount_total,
             'amount_residual_signed': sale_order.amount_total,
-            'payment_method_type': sale_order.payment_method_type,
-            'invoice_date': self.recurring_next_date + timedelta(days=4),
-            'narration': ('Esta factura cubre el siguiente periodo: %s - %s') % (format_date(self.env, self.recurring_next_date + timedelta(days=4)) , format_date(self.env, self.recurring_next_date + timedelta(3) + relativedelta(months=1))) 
+            'payment_method_type': sale_order.payment_method_type
         })
         if sale_order.payment_method_type == 'Product Without Price':
             res.update({
@@ -92,6 +92,10 @@ class SaleSubscription(models.Model):
                         'payulatam_credit_card_method': sale_order.payulatam_credit_card_method
                     })
             else:
+                res.update({
+                    'invoice_date': self.recurring_next_date + timedelta(days=4),
+                    'narration': ('Esta factura cubre el siguiente periodo: %s - %s') % (format_date(self.env, self.recurring_next_date + timedelta(days=4)) , format_date(self.env, end_date))
+                })
                 if sale_order.payment_method_type == 'Credit Card' and sale_order.payulatam_credit_card_token != '':
                     res.update({
                         'payment_method_type': 'Credit Card',
@@ -125,6 +129,15 @@ class SaleSubscription(models.Model):
             subscription.stage_id = 2
             subscription.recurring_next_date = current_date
             sale_order._send_order_confirmation_mail()
+
+    @api.onchange('date_start', 'template_id')
+    def onchange_date_start(self):
+        if self.date_start and self.recurring_rule_boundary == 'limited':
+            periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
+            self.date = fields.Date.from_string(self.date_start) + relativedelta(**{
+                periods[self.recurring_rule_type]: self.template_id.recurring_rule_count * self.template_id.recurring_interval}) - relativedelta(days=1)
+        else:
+            self.date = False
 
     def _recurring_create_invoice(self, automatic=False):
         auto_commit = self.env.context.get('auto_commit', True)

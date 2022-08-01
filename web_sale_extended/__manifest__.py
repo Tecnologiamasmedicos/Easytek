@@ -47,6 +47,7 @@
         'views/response_transaction.xml',
         'views/sale_cancellation_view.xml',
         'views/sale_settlement_view.xml',
+        'views/payu_payment_methods_view.xml',
         #'reports/sale_order_report.xml',
         #'reports/res_partner_report.xml',
         'data/mail_template_cancellation_plan.xml',
@@ -66,7 +67,9 @@
         'data/assign_email_beneficiaries_bot.xml',
         'data/complete_payment_information_bot.xml',
         'data/payu_latam_creditcard_payment_bot.xml',
-        'data/payu_latam_account_move_bot.xml'
+        'data/payu_latam_account_move_bot.xml',
+        'data/billing_cycle_api_hubspot_bot.xml',
+        'data/mail_template_welcome_falabella.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

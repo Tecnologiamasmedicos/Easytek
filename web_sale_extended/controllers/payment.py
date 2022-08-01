@@ -70,14 +70,15 @@ class WebsiteSaleExtended(WebsiteSale):
         if ping_response['code'] == 'SUCCESS':
             # get payment methods
             credit_card_methods = request.env['api.payulatam'].payulatam_get_credit_cards_methods()
-            #bank_list = request.env['api.payulatam'].payulatam_get_bank_list()
+            bank_list_pse = request.env['api.payulatam'].payulatam_get_bank_list()
             #cash_list = request.env['api.payulatam'].payulatam_get_cash_method_list()
         
         #_logger.error(bank_list)
         
         mode = (False, False)
         country = request.env['res.country'].browse(49)
-        credit_card_due_year_ids = list(range(2021, 2061))
+        current_year = int(date.today().year)
+        credit_card_due_year_ids = list(range(current_year, current_year + 40))
         render_values.update({
             'error' : [],
             'mode' : mode,
@@ -87,7 +88,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'countries': country.get_website_sale_countries(mode=mode[1]),
             'credit_card_due_year_ids': credit_card_due_year_ids,
             'credit_card_methods': credit_card_methods,
-            'bank_list': bank_list
+            'bank_list': bank_list_pse
         })
         return request.render("web_sale_extended.web_sale_extended_payment_process", render_values)
     
@@ -330,6 +331,16 @@ class WebsiteSaleExtended(WebsiteSale):
                 kwargs['lapTransactionState'],
                 kwargs['lapResponseCode'],
             )
+            deal_id = request.env['api.hubspot'].search_deal_id(subscription)
+            if deal_id != False:
+                search_properties = ['estado_de_la_poliza']
+                properties = request.env['api.hubspot'].search_deal_properties_values(deal_id, search_properties)
+                if properties['estado_de_la_poliza'] != 'Activo':
+                    # Actualizar valor
+                    update_properties = {
+                        "estado_de_la_poliza": "Activo"
+                    }
+                    request.env['api.hubspot'].update_deal(deal_id, update_properties)
             query = """
                 INSERT INTO payments_report (
                     policy_number,

@@ -33,6 +33,7 @@ class ReportSubscriptionSettlement(models.Model):
     ], string="Estado PayU")
     payulatam_datetime = fields.Datetime('Fecha y hora de transaccion', readonly=True)
     ap_name = fields.Char('Comprador',readonly=True)
+    send_payment = fields.Boolean('Cobro realizado', readonly=True)
     
     def init(self):
         tools.drop_view_if_exists(self._cr, 'report_subscription_settlement')
@@ -54,7 +55,8 @@ class ReportSubscriptionSettlement(models.Model):
         inv.payulatam_order_id as payulatam_order_id,
         inv.payulatam_state as payulatam_state,
         inv.payulatam_datetime as payulatam_datetime,
-        p.name as ap_name
+        p.name as ap_name,
+        inv.send_payment as send_payment
 
         from account_move inv
         left join sale_subscription sub on sub.code = inv.invoice_origin

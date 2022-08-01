@@ -1,106 +1,17 @@
 # -*- coding: utf-8 -*-
 import logging, time, csv, json
 from odoo import fields, models, tools, api,_
-from datetime import date, timedelta, datetime
-from odoo.osv import expression
-from odoo.tools import date_utils
 
 import hubspot
-from pprint import pprint
 from hubspot.crm.contacts import ApiException, PublicObjectSearchRequest, SimplePublicObjectInput
+from hubspot.crm.deals import SimplePublicObjectInput, ApiException
+from hubspot.crm.companies import PublicObjectSearchRequest, ApiException
 
 _logger = logging.getLogger(__name__)
 
     
 class hubSpot(models.Model):
     _name = 'api.hubspot'
-    
-# import hubspot
-# from pprint import pprint
-# from hubspot.crm.contacts import SimplePublicObjectInput, ApiException
-
-# client = hubspot.Client.create(api_key="YOUR_HUBSPOT_API_KEY")
-
-# properties = {
-#     "company": "Biglytics",
-#     "email": "bcooper@biglytics.net",
-#     "firstname": "Bryan",
-#     "lastname": "Cooper",
-#     "phone": "(877) 929-0687",
-#     "website": "biglytics.net"
-# }
-# simple_public_object_input = SimplePublicObjectInput(properties=properties)
-# try:
-#     api_response = client.crm.contacts.basic_api.create(simple_public_object_input=simple_public_object_input)
-#     pprint(api_response)
-# except ApiException as e:
-#     print("Exception when calling basic_api->create: %s\n" % e)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    def consulta(self):
-        hubspot_api_env = self.env.user.company_id.sftp_server_env
-        if hubspot_api_env == 'prod':
-            hubspot_api_key = self.env.user.company_id.hubspot_api_key
-        else:
-            hubspot_api_key = self.env.user.company_id.hubspot_api_key_QA
-        client = hubspot.Client.create(api_key=hubspot_api_key)
-        
-        public_object_search_request = PublicObjectSearchRequest(filter_groups=[{"filters":[{"value":"andresrojas566@gmail.com","propertyName":"email","operator":"EQ"}, {"value":"1019008064","propertyName":"numero_documento","operator":"EQ"}]}], properties=["es_comprador_", "numero_documento"])
-        
-#         public_object_search_request = PublicObjectSearchRequest(filter_groups=[{"filters":[{"value":"andresrojas566@gmail.com","propertyName":"email","operator":"EQ"}, {"value":"1019008064","propertyName":"numero_documento","operator":"EQ"}]}])
-        
-        
-#         PublicObjectSearchRequest(filter_groups=[{"filters":[{"value":"string","values":["string"],"propertyName":"name","operator":"EQ"}]}], sorts=["string"], query="string", properties=["string"], limit=0, after=0)
-        
-        try:
-#             api_response = client.crm.contacts.basic_api.get_page(limit=10, archived=False)
-            api_response = client.crm.contacts.search_api.do_search(public_object_search_request=public_object_search_request)
-            _logger.info(api_response)
-        
-            if len(api_response.results) != 0:
-                _logger.info("existe")
-                if api_response.results[0].properties['es_comprador_'] != 'SI':
-                    properties = {
-                        "es_comprador_": "SI",
-                        'date_of_birth': datetime.date(1980, 10, 10),
-                    }
-                    simple_public_object_input = SimplePublicObjectInput(properties=properties)
-                    a = api_response.results[0].id
-                    api_response2 = client.crm.contacts.basic_api.update(contact_id=a, simple_public_object_input=simple_public_object_input)
-                else:
-                    _logger.info("Ya tiene el valor si")
-                
-            else: 
-                _logger.info("No existe")
-                
-                
-#             _logger.info(type(api_response))
-#             _logger.info(api_response.results)
-#             _logger.info(type(api_response.results))
-#             _logger.info(api_response.results[0].properties)
-#             _logger.info(api_response.results[0].properties.keys())
-#             _logger.info(api_response.results[0].properties['es_comprador_'])
-            
-#             if api_response.results[0].properties['es_comprador_'] == None:
-#                 _logger.info("No es")
-            
-#             _logger.info(json.dumps(api_response))
-#             _logger.info(api_response['results']['properties'])
-#             _logger.info(type(api_response))
-        except ApiException as e:
-#             _logger.error("Exception when calling basic_api->get_page: %s\n" % e)
-            print("Exception when calling search_api->do_search: %s\n" % e)
-    
-    
-    
     
     def search_country(self, country_id):
         paises = {
@@ -354,35 +265,131 @@ class hubSpot(models.Model):
         }
         return paises[str(country_id)]
     
-    
     def search_document_type(self, document_type_id):
         document_types = {'3': 'CC', '5':'CE', '8':'Documento de Identificación extranjero', '7':'PP'}
         return document_types[str(document_type_id)]
+
+    def hubspot_api_client(self):
+        hubspot_api_env = self.env.user.company_id.hubspot_api_env
+        if hubspot_api_env == 'prod':
+            hubspot_api_key = self.env.user.company_id.hubspot_api_key
+        else:
+            hubspot_api_key = self.env.user.company_id.hubspot_api_key_QA
+        client = hubspot.Client.create(api_key=hubspot_api_key)
+        return client
         
+    def search_deal_id(self, subscription):        
+        client = self.hubspot_api_client()
+        public_object_search_request = PublicObjectSearchRequest(filter_groups=[{"filters":[{"value": str((subscription.number).zfill(5)), "propertyName": "numero_de_poliza", "operator": "EQ"}, {"value": str(subscription.policy_number), "propertyName": "consecutivo_certificado", "operator": "EQ"}]}])
+        try:
+            api_response = client.crm.deals.search_api.do_search(public_object_search_request=public_object_search_request)
+            if len(api_response.results) != 0:
+                return api_response.results[0].id
+            else:
+                return False               
+        except ApiException as e:
+            raise("Exception when calling search_api->do_search: %s\n" % e)
     
-    
+    def search_deal_properties_values(self, deal_id: str, properties: list):
+        client = self.hubspot_api_client()
+        try:
+            api_response = client.crm.deals.basic_api.get_by_id(deal_id=deal_id, properties=properties, archived=False)
+            return api_response.properties
+        except ApiException as e:
+            raise("Exception when calling basic_api->get_by_id: %s\n" % e)
+        
+    def update_deal(self, deal_id: str, properties: dict):
+        client = self.hubspot_api_client()
+        simple_public_object_input = SimplePublicObjectInput(properties=properties)
+        try:
+            api_response = client.crm.deals.basic_api.update(deal_id=deal_id, simple_public_object_input=simple_public_object_input)
+            return api_response
+        except ApiException as e:
+            raise("Exception when calling basic_api->update: %s\n" % e)
+        
+    def associate_deal(self, deal_id: str, contact_id: str):
+        client = self.hubspot_api_client()
+        try:
+            api_response = client.crm.deals.associations_api.create(deal_id=deal_id, to_object_type="contacts", to_object_id=contact_id, association_type="3")
+            return api_response
+        except ApiException as e:
+            raise("Exception when calling associations_api->create: %s\n" % e)
+
+    def search_contact_id(self, partner):
+        client = self.hubspot_api_client()
+        public_object_search_request = PublicObjectSearchRequest(filter_groups=[{"filters":[{"value": str(partner.identification_document), "propertyName": "numero_documento", "operator": "EQ"}]}], properties=["es_comprador_", "numero_documento"])
+        public_object_search_request2 = PublicObjectSearchRequest(filter_groups=[{"filters":[{"value": str(partner.email), "propertyName": "email", "operator": "EQ"}]}], properties=["es_comprador_", "email"])
+        try:
+            api_response = client.crm.contacts.search_api.do_search(public_object_search_request=public_object_search_request)
+            if len(api_response.results) != 0:
+                return api_response.results[0].id
+            else:
+                api_response = client.crm.contacts.search_api.do_search(public_object_search_request=public_object_search_request2)
+                if len(api_response.results) == 0:
+                    return False 
+                else:
+                    return api_response.results[0].id        
+        except ApiException as e:
+            raise("Exception when calling search_api->do_search: %s\n" % e)
+            
+    def search_contact_properties_values(self, contact_id: str, properties: list):
+        client = self.hubspot_api_client()
+        try:
+            api_response = client.crm.contacts.basic_api.get_by_id(contact_id=contact_id, properties=properties, archived=False)
+            return api_response.properties
+        except ApiException as e:
+            raise("Exception when calling basic_api->get_by_id: %s\n" % e)
+        
+    def update_contact_id(self, contact_id: str, properties: dict):
+        client = self.hubspot_api_client()
+        simple_public_object_input = SimplePublicObjectInput(properties=properties)
+        try:
+            api_response = client.crm.contacts.basic_api.update(contact_id=contact_id, simple_public_object_input=simple_public_object_input)
+            return api_response
+        except ApiException as e:
+            raise("Exception when calling search_api->do_search: %s\n" % e)
+            
     def create_contact(self, partner):
-        
+        client = self.hubspot_api_client()        
         properties = {
             "firstname": partner.firstname,
             "segundo_nombre": partner.othernames,
-            "lastname": str(partner.lastname) + '' + str(partner.lastname2),
+            "lastname": str(partner.lastname) + ' ' + str(partner.lastname2),
             "email": partner.email,
-            "phone": partner.mobile if partner.mobile != '' else partner.phone,
-            "tipo_de_identificacion": partner.document_type_id,
+            "phone": partner.mobile.split(' ')[-1] if partner.mobile != '' else partner.phone,
+            "tipo_de_identificacion": self.search_document_type(partner.document_type_id.id),
             "numero_documento": partner.identification_document,
             "date_of_birth": partner.birthdate_date,
             "fecha_de_expedicion_del_documento": partner.expedition_date,
             "address": partner.street,
-            "pais2": partner.country_id, #seleccion
+            "pais2": self.search_country(partner.country_id.id), #seleccion
             "departamento___estado___provincia": partner.state_id.name, #Texto
-            "city": partner.zip_id.city_id.name #Texto
+            "city": partner.zip_id.city_id.name, #Texto
+            "es_comprador_": "SI"
         }
-        
-        return properties
-        
-#         try:
-#             api_response = client.crm.contacts.basic_api.create(simple_public_object_input=simple_public_object_input)
-#             _logger.info(api_response)
-#         except ApiException as e:
-#             _logger.info("Exception when calling basic_api->create: %s\n" % e)
+        simple_public_object_input = SimplePublicObjectInput(properties=properties)
+        try:
+            api_response = client.crm.contacts.basic_api.create(simple_public_object_input=simple_public_object_input)
+            return api_response.id
+        except ApiException as e:
+            raise("Exception when calling basic_api->create: %s\n" % e)
+    
+    def search_company_id(self, partner):
+        client = self.hubspot_api_client()
+        public_object_search_request = PublicObjectSearchRequest(filter_groups=[{"filters":[{"value": (str(partner.identification_document) + ".gf.co"), "propertyName": "domain", "operator": "EQ"}]}], properties=["domain"])
+        try:
+            api_response = client.crm.companies.search_api.do_search(public_object_search_request=public_object_search_request)
+            if len(api_response.results) != 0:
+                return api_response.results[0].id
+            else:
+                return False
+        except ApiException as e:
+            _logger.info("Exception when calling search_api->do_search: %s\n" % e)
+            
+    def associate_company_with_contact(self, company_id: str, contact_id: str):
+        client = self.hubspot_api_client()
+        try:
+            api_response = client.crm.companies.associations_api.create(company_id=company_id, to_object_type="contacts", to_object_id=contact_id, association_type="2")
+            return api_response
+        except ApiException as e:
+            raise("Exception when calling associations_api->create: %s\n" % e)

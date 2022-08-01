@@ -58,6 +58,7 @@ class ResPartner(models.Model):
     pet_name = fields.Char('Nombre de la Mascota')
     pet_type = fields.Selection([('dog', 'PERRO'),('cat', 'GATO')], compute=False)
     send_sftp_ok = fields.Boolean('Enviado por sftp', default=False)
+    send_sftp_cancellation_ok = fields.Boolean('Enviado por sftp de cancelaciones', default=False)
 
     """
     def _compute_clerk_code(self):

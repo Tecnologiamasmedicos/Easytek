@@ -24,13 +24,34 @@
                     </group>
                 </page>
             </xpath>
-            <xpath expr="//label[@for='purchase_ok']" position="after">
-                <br />
-                <field name="is_beneficiary" />
-                <label for="is_beneficiary" />
-                <br />
-                <field name="is_plan_with_pet" /> 
-                <label for="is_plan_with_pet" />
+            <xpath expr="//div[@name='options']" position="replace">
+                <div name="options" class="container" groups="base.group_user">
+                    <div class="row">
+                        <div class="col-6">
+                            <div>
+                                <field name="sale_ok"/>
+                                <label for="sale_ok"/>
+                            </div>
+                            <div>
+                                <field name="purchase_ok"/>
+                                <label for="purchase_ok"/>
+                            </div>
+                            <div>
+                                <field name="is_beneficiary" />
+                                <label for="is_beneficiary" />
+                            </div>
+                            <div>
+                                <field name="is_plan_with_pet" /> 
+                                <label for="is_plan_with_pet" />
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <group>
+                            <field name="payulatam_payment_methods_ids" widget="many2many_tags" options="{'no_create': True}, 'no_create_edit': True, 'no_open': True"  />
+                            </group>
+                        </div>
+                    </div>
+                </div>
             </xpath>
         </field>
     </record>
@@ -43,6 +64,7 @@
                 <field name="sequence_id" require="False"/>
                 <field name="sponsor_id" require="True"/>
                 <field name="journal_id"/>
+                <field name="welcome_mail_template_id"/>
             </xpath>
         </field>
     </record>

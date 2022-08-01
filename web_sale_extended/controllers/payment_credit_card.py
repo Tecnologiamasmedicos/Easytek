@@ -128,11 +128,12 @@ class WebsiteSaleExtended(WebsiteSale):
             "phone": order.partner_id.phone
         }    
         buyer = {
-            "merchantBuyerId": "1",
+            "merchantBuyerId": order.partner_id.id,
             "fullName": order.partner_id.name,
             "emailAddress": order.partner_id.email,
             "contactPhone": order.partner_id.phone,
             "dniNumber": order.partner_id.identification_document,
+            "shippingAddress": shippingAddress
         }    
         order_api = {
             "accountId": accountId,
@@ -148,19 +149,21 @@ class WebsiteSaleExtended(WebsiteSale):
         billingAddressPayer = {
             "street1": post['credit_card_partner_street'],
             "street2": "",
-            "city": "Bogota",
-            "state": "Bogota DC",
-            "country": "CO",
+            "city": request.env['api.payulatam'].search_city_name(post['credit_card_city']),
+            "state": request.env['api.payulatam'].search_state_name(post['credit_card_state_id']),
+            "country": request.env['api.payulatam'].search_country_code(post['credit_card_country_id']),
             "postalCode": post['credit_card_zip'],
             "phone": post['credit_card_partner_phone']
         }    
         payer = {
-            "merchantPayerId": "1",
             "fullName": post['credit_card_billing_firstname'] + ' ' + post['credit_card_billing_lastname'],
             "emailAddress": post['credit_card_billing_email'],
             "contactPhone": post['credit_card_partner_phone'],
             "dniNumber": post['credit_card_partner_document'],
-            #"billingAddress": post['credit_card_partner_street']
+            "billingAddress": billingAddressPayer
+        }
+        extraParameters = {
+            "INSTALLMENTS_NUMBER": int(post['credit_card_quotes'])
         }
         
         without_token = 1
@@ -175,6 +178,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 "order": order_api,
                 "payer": payer,
                 "creditCard": credit_card,
+                "extraParameters": extraParameters,
                 "type": "AUTHORIZATION_AND_CAPTURE",
                 "paymentMethod": post['method_id'],
                 "paymentCountry": "CO",
@@ -189,6 +193,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 "order": order_api,
                 "payer": payer,
                 "creditCardTokenId": order.payulatam_credit_card_token,
+                "extraParameters": extraParameters,
                 "type": "AUTHORIZATION_AND_CAPTURE",
                 "paymentMethod": post['method_id'],
                 "paymentCountry": "CO",
@@ -203,7 +208,6 @@ class WebsiteSaleExtended(WebsiteSale):
             "command": "SUBMIT_TRANSACTION",
             "transaction": transaction,
         }
-        
         _logger.error(credit_card_values)
         response = request.env['api.payulatam'].payulatam_credit_cards_payment_request(credit_card_values)
         if response['code'] != 'SUCCESS':
@@ -691,6 +695,16 @@ class WebsiteSaleExtended(WebsiteSale):
                 'APROBADO', 
                 response['transactionResponse']['responseCode']
             )
+            deal_id = request.env['api.hubspot'].search_deal_id(subscription)
+            if deal_id != False:
+                search_properties = ['estado_de_la_poliza']
+                properties = request.env['api.hubspot'].search_deal_properties_values(deal_id, search_properties)
+                if properties['estado_de_la_poliza'] != 'Activo':
+                    # Actualizar valor
+                    update_properties = {
+                        "estado_de_la_poliza": "Activo"
+                    }
+                    request.env['api.hubspot'].update_deal(deal_id, update_properties)
             query = """
                 INSERT INTO payments_report (
                     policy_number,

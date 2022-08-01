@@ -3,6 +3,13 @@
     <template id="beneficiary_detail">
         <title>Bienvenida | www.masmedicos.co</title>
         <t t-call="website.layout">
+            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                <style>
+                    *{
+                        font-family: 'Maven Pro', sans-serif;
+                    }
+                </style>
+            </t>
             <div class="container"><br/>
                 <h2>Resumen final de Suscripción</h2>
                 <section class="s_text_block pb32 pt0" data-name="Text block">
@@ -10,7 +17,12 @@
                         <div class="row">
                             <div class="col-lg-12 pt0 pb0">
                                 <div class="s_alert clearfix s_alert_md w-100" data-name="Alert" style="border: none;">
-                                    <img class="img-fluid o_we_custom_image d-block mx-auto" src="/web_sale_extended/static/src/images/Img_success.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                        <img class="img-fluid o_we_custom_image d-block mx-auto" src="/web_sale_extended/static/src/images/Robot-falabella.png" width="128" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    </t>
+                                    <t t-else="">
+                                        <img class="img-fluid o_we_custom_image d-block mx-auto" src="/web_sale_extended/static/src/images/Img_success.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    </t>
                                     <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip947855"/>
                                     <div class="s_alert_content">
                                         <p/>
@@ -47,7 +59,12 @@
                         <div class="row">
                             <div class="col-lg-12 pt0 pb0">
                                 <div class="s_alert clearfix s_alert_md w-100" data-name="Alert" style="border: 1px solid #FFFFFF; box-sizing: background: #FFFFFF; box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.3);border-radius: 4px;">
-                                    <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/docu.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                        <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/docu_falabella.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    </t>
+                                    <t t-else="">
+                                        <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/docu.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    </t>
                                     <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip947855"/>
                                     <div class="s_alert_content">
                                         <p>
@@ -67,9 +84,20 @@
                                         <div style="text-align: right;">
                                             <t t-set='url_report' t-value="'/report/beneficiary/%s'%(order_detail.order_id.id)" />
                                             <a id="poliza_download_bt" t-att-href="url_report">
-                                                <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>&amp;nbsp;&amp;nbsp;
+                                                <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                                    <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga_falabella.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>
+                                                </t>
+                                                &amp;nbsp;&amp;nbsp;
                                             </a>
-                                            <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/>
+                                            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                                <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir_falabella.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/>
+                                            </t>
+                                            <t t-else="">
+                                                <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/>
+                                            </t>
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +111,12 @@
                         <div class="row">
                             <div class="col-lg-12 pt0 pb0">
                                 <div class="s_alert clearfix s_alert_md w-100" data-name="Alert" style="border: 1px solid #FFFFFF; box-sizing: background: #FFFFFF; box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.3);border-radius: 4px;">
-                                    <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/docu.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                        <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/docu_falabella.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    </t>
+                                    <t t-else="">
+                                        <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/docu.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    </t>
                                     <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip947855"/>
                                     <div class="s_alert_content">
                                         <p>
@@ -101,8 +134,21 @@
                                             <br/>
                                         </p>
                                         <div style="text-align: right;">
-                                            <a href="https://masmedicos.co/wp-content/uploads/2021/09/Manual-Mas-medicos.pdf" target="_blank" download="manual_usuario"><img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>&amp;nbsp;&amp;nbsp;</a>
-                                            <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/>
+                                            <a href="https://masmedicos.co/manual-de-uso" target="_blank" download="manual_usuario">
+                                                <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                                    <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga_falabella.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>
+                                                </t>
+                                                &amp;nbsp;&amp;nbsp;
+                                            </a>
+                                            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                                <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir_falabella.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/>
+                                            </t>
+                                            <t t-else="">
+                                                <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/>
+                                            </t>
                                         </div>
                                     </div>
                                 </div>
@@ -116,7 +162,12 @@
                         <div class="row">
                             <div class="col-lg-12 pt0 pb0">
                                 <div class="s_alert clearfix s_alert_md w-100" data-name="Alert" style="border: 1px solid #FFFFFF; box-sizing: background: #FFFFFF; box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.3);border-radius: 4px;">
-                                    <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/docu.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                        <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/docu_falabella.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    </t>
+                                    <t t-else="">
+                                        <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/docu.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    </t>
                                     <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip947855"/>
                                     <div class="s_alert_content">
                                         <p>
@@ -134,8 +185,20 @@
                                             <br/>
                                         </p>
                                         <div style="text-align: right;">
-                                            <a href="/web_sale_extended/static/src/files/tratamiento_de_datos.pdf" download="privacidad"><img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>&amp;nbsp;&amp;nbsp;</a>
-                                            <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/>
+                                            <a href="/web_sale_extended/static/src/files/tratamiento_de_datos.pdf" download="privacidad">
+                                                <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                                    <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga_falabella.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>
+                                                </t>
+                                            &amp;nbsp;&amp;nbsp;</a>
+                                            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                                <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir_falabella.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/>
+                                            </t>
+                                            <t t-else="">
+                                                <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/>
+                                            </t>
                                         </div>
                                     </div>
                                 </div>
@@ -149,7 +212,12 @@
                         <div class="row">
                             <div class="col-lg-12 pt0 pb0">
                                 <div class="s_alert clearfix s_alert_md w-100" data-name="Alert" style="border: 1px solid #FFFFFF; box-sizing: background: #FFFFFF; box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.3);border-radius: 4px;">
-                                    <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/docu.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                        <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/docu_falabella.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    </t>
+                                    <t t-else="">
+                                        <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/docu.png" data-original-title="" title="" aria-describedby="tooltip557569"/>
+                                    </t>
                                     <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip947855"/>
                                     <div class="s_alert_content">
                                         <p>
@@ -167,8 +235,20 @@
                                             <br/>
                                         </p>
                                         <div style="text-align: right;">
-                                            <a href="/web_sale_extended/static/src/files/terminos.pdf" download="privacidad"><img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>&amp;nbsp;&amp;nbsp;</a>
-                                            <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/>
+                                            <a href="/web_sale_extended/static/src/files/terminos.pdf" download="privacidad">
+                                            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                                <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga_falabella.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>
+                                            </t>
+                                            <t t-else="">
+                                                <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/descarga.png" data-original-title="" title="" aria-describedby="tooltip415988" style="font-size: 1rem;"/>
+                                            </t>
+                                            &amp;nbsp;&amp;nbsp;</a>
+                                            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                                <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir_falabella.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/>
+                                            </t>
+                                            <t t-else="">
+                                                <img class="img-fluid o_we_custom_image" src="/web_sale_extended/static/src/images/inprimir.png" style="font-size: 1rem;" data-original-title="" title="" aria-describedby="tooltip490252"/>
+                                            </t>
                                         </div>
                                     </div>
                                 </div>

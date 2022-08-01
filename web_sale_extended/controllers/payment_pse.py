@@ -48,15 +48,39 @@ class WebsiteSaleExtended(WebsiteSale):
             "TX_TAX": tx_tax,
             "TX_TAX_RETURN_BASE": tx_tax_return_base
         }
+        shippingAddress = {
+            "street1": order.partner_id.street,
+            "street2": "",
+            "city": order.partner_id.zip_id.city_id.name,
+            "state": order.partner_id.zip_id.city_id.state_id.name,
+            "country": "CO",
+            "postalCode": order.partner_id.zip_id.name,
+            "phone": order.partner_id.phone if order.partner_id.phone else order.partner_id.mobile
+        }
         buyer = {
-            #"merchantBuyerId": "1",
-            #"fullName": order.partner_id.name,
-            #"fullName": 'APPROVED',
+            "merchantBuyerId": order.partner_id.id,
+            "fullName": order.partner_id.name,
             "emailAddress": order.partner_id.email,
-            #"contactPhone": order.partner_id.phone,
-            #"dniNumber": order.partner_id.identification_document,
-            #"shippingAddress": shippingAddress
-        }    
+            "contactPhone": order.partner_id.phone,
+            "dniNumber": order.partner_id.identification_document,
+            "shippingAddress": shippingAddress
+        }
+        billingAddressPayer = {
+            "street1": post['pse_partner_street'],
+            "street2": "",
+            "city": request.env['api.payulatam'].search_city_name(post['pse_city']),
+            "state": request.env['api.payulatam'].search_state_name(post['pse_state_id']),
+            "country": request.env['api.payulatam'].search_country_code(post['pse_country_id']),
+            "postalCode": post['pse_zip'],
+            "phone": post['pse_partner_phone']
+        } 
+        payer = {
+            "fullName": post['pse_billing_firstname'] + ' ' + post['pse_billing_lastname'],
+            "emailAddress": post['pse_billing_email'],
+            "contactPhone": post['pse_partner_phone'],
+            "dniNumber": post['pse_billing_partner_document'],
+            "billingAddress": billingAddressPayer
+        }
         order_api = {
             "accountId": accountId,
             "referenceCode": referenceCode,
@@ -65,18 +89,9 @@ class WebsiteSaleExtended(WebsiteSale):
             "signature": signature,
             #"notifyUrl": "https://easytek-confacturacion-2123332.dev.odoo.com/shop/payment/payulatam-gateway-api/response",
             "additionalValues": additionalValues,
-            "buyer": buyer,
-            #"shippingAddress": shippingAddress
+            "buyer": buyer
         }
-        payer = {
-            #"merchantPayerId": "1",
-            #"fullName": post['credit_card_billing_firstname'] + ' ' + post['credit_card_billing_lastname'],
-            "fullName": 'APPROVED',
-            "emailAddress": post['pse_billing_email'],
-            "contactPhone": post['pse_partner_phone'],
-            #"dniNumber": post['credit_card_partner_document'],
-            #"billingAddress": post['credit_card_partner_street']
-        }
+        
         extraParameters = {
             "RESPONSE_URL": payulatam_response_url,
             "PSE_REFERENCE1": "127.0.0.1",
@@ -95,14 +110,13 @@ class WebsiteSaleExtended(WebsiteSale):
             "deviceSessionId": request.httprequest.cookies.get('session_id'),
             "ipAddress": "127.0.0.1",
             "cookie": request.httprequest.cookies.get('session_id'),
-            #"userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101"
             "userAgent": "Firefox"
         }
-        credit_card_values = {
+        pse_payment_values = {
             "command": "SUBMIT_TRANSACTION",
             "transaction": transaction,
         }
-        response = request.env['api.payulatam'].payulatam_credit_cards_payment_request(credit_card_values)
+        response = request.env['api.payulatam'].payulatam_credit_cards_payment_request(pse_payment_values)
         if response['code'] != 'SUCCESS':
             body_message = """
                 <b><span style='color:red;'>PayU Latam - Error en pago con PSE</span></b><br/>
@@ -449,6 +463,16 @@ class WebsiteSaleExtended(WebsiteSale):
                 'payment_method_type': 'PSE',
                 'payulatam_datetime': fields.datetime.now(),
             })
+            deal_id = request.env['api.hubspot'].search_deal_id(subscription)
+            if deal_id != False:
+                search_properties = ['estado_de_la_poliza']
+                properties = request.env['api.hubspot'].search_deal_properties_values(deal_id, search_properties)
+                if properties['estado_de_la_poliza'] != 'Activo':
+                    # Actualizar valor
+                    update_properties = {
+                        "estado_de_la_poliza": "Activo"
+                    }
+                    request.env['api.hubspot'].update_deal(deal_id, update_properties)
             query = """
                 INSERT INTO payments_report (
                     policy_number,

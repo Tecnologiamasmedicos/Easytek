@@ -59,4 +59,14 @@
             </xpath>    
         </field>
     </record>
+    <record id="account_move_view_account_invoice_filter_inherit" model="ir.ui.view">
+        <field name="name">sale.order.view.search.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">      
+            <xpath expr="//filter[@name='in_payment']" position="before">
+                <filter string="Cobro enviado" name="filter_invoice_send_payment_true" domain="[('send_payment','=', True)]"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>

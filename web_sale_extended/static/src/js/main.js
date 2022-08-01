@@ -713,7 +713,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                                 <select name="pet_type_' + $i + '" id="pet_type_' + $i + '" class="form-control">\
                                     <option value="dog">PERRO</option>\
                                     <option value="cat">GATO</option>\
-                                    <option value="other">OTRO</option>\
                                 </select>\
                             </div>\
                         </div>\
@@ -1238,13 +1237,13 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
     $("#btn_terminos").click(function() {
         document.getElementById("politica").innerHTML = '';
-        document.getElementById("terminos").innerHTML = '<embed src="/web_sale_extended/static/src/files/terminos.pdf" width="100%" height="680px">Acepto términos y condiciones</embed>';
+        document.getElementById("terminos").innerHTML = '<iframe src="/web_sale_extended/static/src/files/terminos.pdf#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="680px"/>';
         $("#terminos").toggle();
     });
     
     $("#btn_politica").click(function() {
         document.getElementById("terminos").innerHTML = '';
-        document.getElementById("politica").innerHTML = '<embed src="/web_sale_extended/static/src/files/tratamiento_de_datos.pdf" width="100%" height="680px">Acepto política de tratamiento de datos</embed>';
+        document.getElementById("politica").innerHTML = '<iframe src="/web_sale_extended/static/src/files/tratamiento_de_datos.pdf#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="680px"/>';
         $("#politica").toggle();
     });
 
@@ -3121,7 +3120,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
             });
         }
     }
-    if (estado == 'Divorciado'){
+    if (estado_civil == 'Divorciado'){
         let newOptions = {
             Seleccione: "",
             Padres: "D",
@@ -3139,16 +3138,16 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
         }
     }
     
-    
-    $("#submit_beneficiaries").on('click', function(e){
-        e.preventDefault();
-        if($('#beneficiary').valid()){ //checks if it's valid
-            $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />Cargando...</div>');
-            $(this).prop('disabled', true);  
-       }
-        $('#beneficiary').submit();
-    });
-
+    if ($('#submit_beneficiaries').length) {
+        $("#submit_beneficiaries").on('click', function(e){
+            e.preventDefault();
+            if($('#beneficiary').valid()){ //checks if it's valid
+                $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />Cargando...</div>');
+                $(this).prop('disabled', true);  
+           }
+            $('#beneficiary').submit();
+        });
+    }
 });
 
 
@@ -3168,6 +3167,10 @@ odoo.define('web_sale_extended.welcome_masmedicos', function(require) {
 
 odoo.define('web_sale_extended.payment_process', function(require) {
     'use strict';
+
+    if ($('#nav-tab').length) {
+        document.getElementById("nav-tab").firstChild.nextSibling.click();
+    }
 
     $(function() {
         $('#credit_card_country_id').selectpicker();

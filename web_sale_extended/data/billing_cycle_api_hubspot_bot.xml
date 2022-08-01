@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="1">
+        <record id="ir_cron_account_move_billing_cycle_api_hubspot" model="ir.cron">
+            <field name="name">Account Move: Billing cycle HubSpot</field>
+            <field name="model_id" ref="model_account_move"/>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">model._cron_message_payments()</field>
+            <field eval="False" name="active" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+        </record>
+    </data>
+</odoo>

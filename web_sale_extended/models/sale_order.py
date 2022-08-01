@@ -28,9 +28,9 @@ class SaleOrder(models.Model):
     campo_vacio = fields.Boolean('Campo vacio', default=False)  
     assisted_purchase = fields.Boolean('Venta Asistida', default=False) 
     recovery_email_sent = fields.Boolean('Email recuperacion', default=False)  
-    product_code = fields.Char(string='Código producto', related='order_line.product_id.default_code')
+    product_code = fields.Char(string='Código producto', related='order_line.product_id.default_code', store=True)
     cancel_date = fields.Datetime('Fecha cancelación')
-    product_name = fields.Char(string='Nombre producto', related='main_product_id.name')
+    product_name = fields.Char(string='Nombre producto', related='main_product_id.name', store=True)
 
     subscription_id = fields.Many2one('sale.subscription', 'Suscription ID')
     beneficiary0_id = fields.Many2one('res.partner')
@@ -143,7 +143,10 @@ class SaleOrder(models.Model):
             for order in self:
                 order.with_context(force_send=True).message_post_with_template(template_id, composition_mode='comment', email_layout_xmlid="mail.mail_notification_paynow")
         """
-        template_id = self.env['mail.template'].search([('payulatam_welcome_process', '=', True)], limit=1)
+        if self.main_product_id.categ_id.welcome_mail_template_id:
+            template_id = self.main_product_id.categ_id.welcome_mail_template_id
+        else:
+            template_id = self.env['mail.template'].search([('payulatam_welcome_process', '=', True)], limit=1)
         if template_id:
             for order in self:
                 #order.with_context(force_send=True).message_post_with_template(template_id, composition_mode='comment')
@@ -152,7 +155,10 @@ class SaleOrder(models.Model):
     def send_welcome_email(self):
         if self.env.su:
             self = self.with_user(SUPERUSER_ID)
-        template_id = self.env['mail.template'].search([('payulatam_welcome_process', '=', True)], limit=1)
+        if self.main_product_id.categ_id.welcome_mail_template_id:
+            template_id = self.main_product_id.categ_id.welcome_mail_template_id
+        else:
+            template_id = self.env['mail.template'].search([('payulatam_welcome_process', '=', True)], limit=1)
         if template_id:
             for order in self:
                 template_id.sudo().send_mail(order.id)

@@ -45,6 +45,8 @@ class AccountMove(models.Model):
         ("window_payment", "Pago por ventanilla"),
         ("libranza_discount", "Descuento por libranza"),
     ])
+    send_payment = fields.Boolean('Cobro realizado', default=False)
+    action_date_billing_cycle = fields.Date(string='Fecha accion ciclo de cobro')
 
     def post(self):
         res = super(AccountMove, self).post()
@@ -82,16 +84,19 @@ class AccountMove(models.Model):
         template_id = self.env.ref('web_sale_extended.mail_template_recurring_payment_credit_card').id
         template = self.env['mail.template'].browse(template_id)
         template.sudo().send_mail(self.id, force_send=True)
+        self.send_payment = True
         
     def send_recurring_payment_pse_cash(self):
         template_id = self.env.ref('web_sale_extended.mail_template_recurring_payment_pse_cash').id
         template = self.env['mail.template'].browse(template_id)
         template.sudo().send_mail(self.id, force_send=True)
+        self.send_payment = True
 
     def send_mail_second_payment(self):
         template_id = self.env.ref('web_sale_extended.mail_template_cancellation_plan').id
         template = self.env['mail.template'].browse(template_id)
         template.sudo().send_mail(self.id, force_send=True)
+        self.send_payment = True
     
     def payment_credit_card_by_tokenization(self):
         if self.payment_method_type == 'Credit Card' and self.payulatam_credit_card_token != '':           
@@ -405,6 +410,16 @@ class AccountMove(models.Model):
                             'payulatam_state': response['result']['payload']['state'],
                             'payulatam_datetime': datetime.fromtimestamp(int(response['result']['payload']['operationDate']) / 1e3)
                         })
+                        deal_id = self.env['api.hubspot'].search_deal_id(subscription)
+                        if deal_id != False:
+                            search_properties = ['estado_de_la_poliza']
+                            properties = self.env['api.hubspot'].search_deal_properties_values(deal_id, search_properties)
+                            if properties['estado_de_la_poliza'] != 'Activo':
+                                # Actualizar valor
+                                update_properties = {
+                                    "estado_de_la_poliza": "Activo"
+                                }
+                                self.env['api.hubspot'].update_deal(deal_id, update_properties)
                         query = """
                             INSERT INTO payments_report (
                                 policy_number,
@@ -718,3 +733,330 @@ class AccountMove(models.Model):
                         response['transactionResponse']['responseCode']
                     )
                     invoice_payment.message_post(body=body_message, type="comment")
+
+    def _cron_message_payments(self):
+        today = fields.Date.today()
+        invoice_payment_ids = self.env['account.move'].search([
+            ('state', '=', 'finalized'),
+            ('payulatam_state', '=', False),
+            ('payment_method_type', '!=', 'Product Without Price'),
+            ('action_date_billing_cycle', '!=', today)
+        ], limit=150)
+        for invoice in invoice_payment_ids:
+            time.sleep(0.2)
+            diff = today - invoice.invoice_date
+            subscription = self.env['sale.subscription'].search([('code', '=', invoice.invoice_origin)])
+            sale_order = self.env['sale.order'].search([('subscription_id', '=', subscription.id)])
+            deal_id = self.env['api.hubspot'].search_deal_id(subscription)
+            if deal_id == False:
+                continue
+            # Bsuscar comprador
+            contact_id = self.env['api.hubspot'].search_contact_id(invoice.partner_id)
+            if contact_id:
+                # Verificar valor de propiedad de 
+                search_properties = ['es_comprador_']
+                properties = self.env['api.hubspot'].search_contact_properties_values(contact_id, search_properties)
+                if properties['es_comprador_'] != 'SI':
+                    # Actualizar valor
+                    update_properties = {
+                        "es_comprador_": "SI"
+                    }
+                    self.env['api.hubspot'].update_contact_id(contact_id, update_properties)
+            else:
+                contact_id = self.env['api.hubspot'].create_contact(invoice.partner_id)
+                self.env['api.hubspot'].associate_deal(str(deal_id), str(contact_id))
+                company_id = self.env['api.hubspot'].search_company_id(sale_order.beneficiary0_id)
+                if company_id:
+                    self.env['api.hubspot'].associate_company_with_contact(str(company_id), str(contact_id))
+            if diff.days == -4:
+                deal_properties = {
+                    "accion_de_cobro": "5 dias antes",
+                    "estado_de_accion_de_cobro": "SI"
+                }
+                contact_properties = {
+                    "estado_de_accion_de_cobro": "SI"
+                }
+                if invoice.payment_method_type == 'Credit Card':
+                    deal_properties.update({
+                        "metodo_de_pago_para_cobro": "Tarjeta de Credito",
+                    })
+                else:
+                    deal_properties.update({
+                        "metodo_de_pago_para_cobro": "PSE o Efectivo",
+                        "link_de_cobro_odoo": str(invoice.generate_link(invoice.id))
+                    })
+                    contact_properties.update({
+                        "link_de_pago": str(invoice.generate_link(invoice.id))
+                    })
+                self.env['api.hubspot'].update_deal(deal_id, deal_properties)
+                self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
+                invoice.write({
+                    'action_date_billing_cycle': today
+                })
+                body_message = """
+                    <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
+                    <b>Acción de cobro:</b> %s<br/>
+                    <b>Estado de accion de cobro:</b> %s<br/>
+                    <b>Metodo de pago:</b> %s<br/>
+                    <b>Link de pago:</b> %s
+                """ % (
+                    deal_properties['accion_de_cobro'],
+                    deal_properties['estado_de_accion_de_cobro'],
+                    deal_properties['metodo_de_pago_para_cobro'],
+                    deal_properties['link_de_cobro_odoo'] if 'link_de_cobro_odoo' in deal_properties else ''
+                )
+                invoice.message_post(body=body_message, type="comment")
+            elif diff.days == -1:
+                deal_properties = {
+                    "accion_de_cobro": "1 dia antes",
+                    "estado_de_accion_de_cobro": "SI"
+                }
+                contact_properties = {
+                    "estado_de_accion_de_cobro": "SI"
+                }
+                if invoice.payment_method_type == 'Credit Card':
+                    deal_properties.update({
+                        "metodo_de_pago_para_cobro": "Tarjeta de Credito",
+                    })
+                else:
+                    deal_properties.update({
+                        "metodo_de_pago_para_cobro": "PSE o Efectivo",
+                        "link_de_cobro_odoo": str(invoice.generate_link(invoice.id))
+                    })
+                    contact_properties.update({
+                        "link_de_pago": str(invoice.generate_link(invoice.id))
+                    })
+                self.env['api.hubspot'].update_deal(deal_id, deal_properties)
+                self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
+                invoice.write({
+                    'action_date_billing_cycle': today
+                })
+                body_message = """
+                    <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
+                    <b>Acción de cobro:</b> %s<br/>
+                    <b>Estado de accion de cobro:</b> %s<br/>
+                    <b>Metodo de pago:</b> %s<br/>
+                    <b>Link de pago:</b> %s
+                """ % (
+                    deal_properties['accion_de_cobro'],
+                    deal_properties['estado_de_accion_de_cobro'],
+                    deal_properties['metodo_de_pago_para_cobro'],
+                    deal_properties['link_de_cobro_odoo'] if 'link_de_cobro_odoo' in deal_properties else ''
+                )
+                invoice.message_post(body=body_message, type="comment")
+            elif diff.days == 0:
+                invoice.write({
+                    'action_date_billing_cycle': today
+                })
+                if invoice.payment_method_type == 'Credit Card' and invoice.payulatam_credit_card_token != '':           
+                    invoice.payment_credit_card_by_tokenization()
+            elif diff.days == 1:
+                deal_properties = {
+                    "accion_de_cobro": "1 dia despues",
+                    "estado_de_accion_de_cobro": "SI",
+                    "estado_de_la_poliza": "En mora"
+                }
+                contact_properties = {
+                    "estado_de_accion_de_cobro": "SI"
+                }
+                if invoice.payment_method_type == 'Credit Card':
+                    deal_properties.update({
+                        "metodo_de_pago_para_cobro": "Tarjeta de Credito",
+                    })
+                else:
+                    deal_properties.update({
+                        "metodo_de_pago_para_cobro": "PSE o Efectivo",
+                        "link_de_cobro_odoo": str(invoice.generate_link(invoice.id))
+                    })
+                    contact_properties.update({
+                        "link_de_pago": str(invoice.generate_link(invoice.id))
+                    })
+                self.env['api.hubspot'].update_deal(deal_id, deal_properties)
+                self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
+                invoice.write({
+                    'action_date_billing_cycle': today
+                })
+                body_message = """
+                    <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
+                    <b>Acción de cobro:</b> %s<br/>
+                    <b>Estado de accion de cobro:</b> %s<br/>
+                    <b>Metodo de pago:</b> %s<br/>
+                    <b>Link de pago:</b> %s
+                """ % (
+                    deal_properties['accion_de_cobro'],
+                    deal_properties['estado_de_accion_de_cobro'],
+                    deal_properties['metodo_de_pago_para_cobro'],
+                    deal_properties['link_de_cobro_odoo'] if 'link_de_cobro_odoo' in deal_properties else ''
+                )
+                invoice.message_post(body=body_message, type="comment")
+            elif diff.days == 10:
+                deal_properties = {
+                    "accion_de_cobro": "10 dias despues",
+                    "estado_de_accion_de_cobro": "SI",
+                    "estado_de_la_poliza": "En mora"
+                }
+                contact_properties = {
+                    "estado_de_accion_de_cobro": "SI"
+                }
+                if invoice.payment_method_type == 'Credit Card':
+                    deal_properties.update({
+                        "metodo_de_pago_para_cobro": "Tarjeta de Credito",
+                    })
+                else:
+                    deal_properties.update({
+                        "metodo_de_pago_para_cobro": "PSE o Efectivo",
+                        "link_de_cobro_odoo": str(invoice.generate_link(invoice.id))
+                    })
+                    contact_properties.update({
+                        "link_de_pago": str(invoice.generate_link(invoice.id))
+                    })
+                self.env['api.hubspot'].update_deal(deal_id, deal_properties)
+                self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
+                invoice.write({
+                    'action_date_billing_cycle': today
+                })
+                body_message = """
+                    <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
+                    <b>Acción de cobro:</b> %s<br/>
+                    <b>Estado de accion de cobro:</b> %s<br/>
+                    <b>Metodo de pago:</b> %s<br/>
+                    <b>Link de pago:</b> %s
+                """ % (
+                    deal_properties['accion_de_cobro'],
+                    deal_properties['estado_de_accion_de_cobro'],
+                    deal_properties['metodo_de_pago_para_cobro'],
+                    deal_properties['link_de_cobro_odoo'] if 'link_de_cobro_odoo' in deal_properties else ''
+                )
+                invoice.message_post(body=body_message, type="comment")
+            elif diff.days == 20:
+                deal_properties = {
+                    "accion_de_cobro": "20 dias despues",
+                    "estado_de_accion_de_cobro": "SI",
+                    "estado_de_la_poliza": "En mora"
+                }
+                contact_properties = {
+                    "estado_de_accion_de_cobro": "SI"
+                }
+                if invoice.payment_method_type == 'Credit Card':
+                    deal_properties.update({
+                        "metodo_de_pago_para_cobro": "Tarjeta de Credito",
+                    })
+                else:
+                    deal_properties.update({
+                        "metodo_de_pago_para_cobro": "PSE o Efectivo",
+                        "link_de_cobro_odoo": str(invoice.generate_link(invoice.id))
+                    })
+                    contact_properties.update({
+                        "link_de_pago": str(invoice.generate_link(invoice.id))
+                    })
+                self.env['api.hubspot'].update_deal(deal_id, deal_properties)
+                self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
+                invoice.write({
+                    'action_date_billing_cycle': today
+                })
+                body_message = """
+                    <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
+                    <b>Acción de cobro:</b> %s<br/>
+                    <b>Estado de accion de cobro:</b> %s<br/>
+                    <b>Metodo de pago:</b> %s<br/>
+                    <b>Link de pago:</b> %s
+                """ % (
+                    deal_properties['accion_de_cobro'],
+                    deal_properties['estado_de_accion_de_cobro'],
+                    deal_properties['metodo_de_pago_para_cobro'],
+                    deal_properties['link_de_cobro_odoo'] if 'link_de_cobro_odoo' in deal_properties else ''
+                )
+                invoice.message_post(body=body_message, type="comment")
+            elif diff.days == 25:
+                deal_properties = {
+                    "accion_de_cobro": "PC 25 dias despues",
+                    "estado_de_accion_de_cobro": "SI",
+                    "estado_de_la_poliza": "En proceso de cancelación"
+                }
+                contact_properties = {
+                    "estado_de_accion_de_cobro": "SI"
+                }
+                if invoice.payment_method_type == 'Credit Card':
+                    deal_properties.update({
+                        "metodo_de_pago_para_cobro": "Tarjeta de Credito",
+                    })
+                else:
+                    deal_properties.update({
+                        "metodo_de_pago_para_cobro": "PSE o Efectivo",
+                        "link_de_cobro_odoo": str(invoice.generate_link(invoice.id))
+                    })
+                    contact_properties.update({
+                        "link_de_pago": str(invoice.generate_link(invoice.id))
+                    })
+                self.env['api.hubspot'].update_deal(deal_id, deal_properties)
+                self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
+                invoice.write({
+                    'action_date_billing_cycle': today
+                })
+                body_message = """
+                    <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
+                    <b>Acción de cobro:</b> %s<br/>
+                    <b>Estado de accion de cobro:</b> %s<br/>
+                    <b>Metodo de pago:</b> %s<br/>
+                    <b>Link de pago:</b> %s
+                """ % (
+                    deal_properties['accion_de_cobro'],
+                    deal_properties['estado_de_accion_de_cobro'],
+                    deal_properties['metodo_de_pago_para_cobro'],
+                    deal_properties['link_de_cobro_odoo'] if 'link_de_cobro_odoo' in deal_properties else ''
+                )
+                invoice.message_post(body=body_message, type="comment")
+            elif diff.days == 36:
+                deal_properties = {
+                    "accion_de_cobro": "C 36 dias despues",
+                    "estado_de_accion_de_cobro": "SI",
+                    "estado_de_la_poliza": "Cancelado",
+                    "causal_de_cancelacion": "Falta de pago",
+                    "fecha_efectiva_de_cancelacion": today
+                }
+                contact_properties = {
+                    "estado_de_accion_de_cobro": "SI"
+                }
+                if invoice.payment_method_type == 'Credit Card':
+                    deal_properties.update({
+                        "metodo_de_pago_para_cobro": "Tarjeta de Credito",
+                    })
+                else:
+                    deal_properties.update({
+                        "metodo_de_pago_para_cobro": "PSE o Efectivo",
+                        "link_de_cobro_odoo": str(invoice.generate_link(invoice.id))
+                    })
+                    contact_properties.update({
+                        "link_de_pago": str(invoice.generate_link(invoice.id))
+                    })
+                self.env['api.hubspot'].update_deal(deal_id, deal_properties)
+                self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
+                invoice.write({
+                    'payulatam_state': 'no_payment'
+                })
+                invoice.write({
+                    'action_date_billing_cycle': today
+                })
+                body_message = """
+                    <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
+                    <b>Acción de cobro:</b> %s<br/>
+                    <b>Estado de accion de cobro:</b> %s<br/>
+                    <b>Metodo de pago:</b> %s<br/>
+                    <b>Link de pago:</b> %s
+                """ % (
+                    deal_properties['accion_de_cobro'],
+                    deal_properties['estado_de_accion_de_cobro'],
+                    deal_properties['metodo_de_pago_para_cobro'],
+                    deal_properties['link_de_cobro_odoo'] if 'link_de_cobro_odoo' in deal_properties else ''
+                )
+                invoice.message_post(body=body_message, type="comment")
+                subscription.write({
+                    'stage_id': 4, 
+                    'to_renew': False, 
+                    'date': today,
+                    'close_reason_id': 13
+                })
+                sale_order.write({
+                    'state': 'done',
+                    'cancel_date': today
+                })

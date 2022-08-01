@@ -177,4 +177,16 @@
             </xpath>
         </field>
     </record>
+    
+    <record id="res_partner_select_view_search_inherit" model="ir.ui.view">
+        <field name="name">	res.partner.select.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">                
+            <xpath expr="//filter[@name='type_company']" position="after">
+                <filter string="Sponsors" name="type_sponsor" domain="[('company_type', '=', 'sponsor')]"/>
+                <filter string="Mascotas" name="type_pet" domain="[('company_type', '=', 'pet')]"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>

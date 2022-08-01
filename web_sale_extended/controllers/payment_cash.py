@@ -61,12 +61,38 @@ class WebsiteSaleExtended(WebsiteSale):
         full_name = post['cash_billing_firstname']
         if 'cash_billing_lastname' in post:
             fullName = post['cash_billing_firstname'] + ' ' + post['cash_billing_lastname'],
+        shippingAddress = {
+            "street1": order.partner_id.street,
+            "street2": "",
+            "city": order.partner_id.zip_id.city_id.name,
+            "state": order.partner_id.zip_id.city_id.state_id.name,
+            "country": "CO",
+            "postalCode": order.partner_id.zip_id.name,
+            "phone": order.partner_id.phone if order.partner_id.phone else order.partner_id.mobile
+        }
         buyer = {
-            "merchantBuyerId": "1",
-            "fullName": full_name,
+            "merchantBuyerId": order.partner_id.id,
+            "fullName": order.partner_id.name,
             "emailAddress": order.partner_id.email,
             "contactPhone": order.partner_id.phone,
             "dniNumber": order.partner_id.identification_document,
+            "shippingAddress": shippingAddress
+        }
+        billingAddressPayer = {
+            "street1": post['cash_partner_street'],
+            "street2": "",
+            "city": request.env['api.payulatam'].search_city_name(post['cash_city']),
+            "state": request.env['api.payulatam'].search_state_name(post['cash_state_id']),
+            "country": request.env['api.payulatam'].search_country_code(post['cash_country_id']),
+            "postalCode": post['cash_zip'],
+            "phone": post['cash_partner_phone']
+        }
+        payer = {
+            "fullName": full_name,
+            "emailAddress": post['cash_billing_email'],
+            "contactPhone": post['cash_partner_phone'],
+            "dniNumber": post['cash_partner_document'],
+            "billingAddress": billingAddressPayer
         }
         order_api = {
             "accountId": accountId,
@@ -77,6 +103,7 @@ class WebsiteSaleExtended(WebsiteSale):
             "notifyUrl": payulatam_response_url,
             "additionalValues": additionalValues,
             "buyer": buyer,
+            "payer": payer
         }
         transaction = {
             "order": order_api,
@@ -91,7 +118,7 @@ class WebsiteSaleExtended(WebsiteSale):
             "transaction": transaction,
         }
         response = request.env['api.payulatam'].payulatam_cash_payment_request(cash_payment_values)
-        render_values = {'error': response['error'], 'website_sale_order': order}
+        render_values = {'error': response['error'], 'website_sale_order': order, 'order_id': order}
         if response['code'] != 'SUCCESS':
             """ Retornando error manteniendo la misma orden y dando la oportunidad de intentar de nuevo """
             body_message = """
