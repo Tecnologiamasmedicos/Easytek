@@ -463,6 +463,16 @@ class WebsiteSaleExtended(WebsiteSale):
                 'payment_method_type': 'PSE',
                 'payulatam_datetime': fields.datetime.now(),
             })
+            deal_id = request.env['api.hubspot'].search_deal_id(subscription)
+            if deal_id != False:
+                search_properties = ['estado_de_la_poliza']
+                properties = request.env['api.hubspot'].search_deal_properties_values(deal_id, search_properties)
+                if properties['estado_de_la_poliza'] != 'Activo':
+                    # Actualizar valor
+                    update_properties = {
+                        "estado_de_la_poliza": "Activo"
+                    }
+                    request.env['api.hubspot'].update_deal(deal_id, update_properties)
             query = """
                 INSERT INTO payments_report (
                     policy_number,

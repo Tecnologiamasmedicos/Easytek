@@ -61,27 +61,36 @@
                             </group>
                         </group>
                     </page>
+                    <page string="HubSpot">
+                        <group>
+                            <field name="hubspot_api_env"/>
+                        </group>
+                        <group string="HubSpot Producción" groups="base.group_no_one" attrs="{'invisible':[('hubspot_api_env','!=','prod')]}">
+                            <field name="hubspot_api_key"/>
+                        </group>
+                        <group string="HubSpot QA" groups="base.group_no_one" attrs="{'invisible':[('hubspot_api_env','!=','test')]}">
+                            <field name="hubspot_api_key_QA"/>
+                        </group>
+                    </page>
                     <page string="Servidor SFTP">
                         <group>
                             <field name="sftp_server_env" />
                         </group>
-                        <group>
-                            <group string="Servidor SFTP Producción" groups="base.group_no_one">
-                                <field name="sftp_hostname" />
-                                <field name="sftp_port" />
-                                <field name="sftp_user" />
-                                <field name="sftp_password" password="True" />
-                                <field name="sftp_path_ap" />
-                                <field name="sftp_path_bef" />
-                            </group>
-                            <group string="Servidor SFTP Producción QA" groups="base.group_no_one">
-                                <field name="sftp_hostname_QA"/>
-                                <field name="sftp_port_QA" />
-                                <field name="sftp_user_QA" />
-                                <field name="sftp_password_QA" password="True" />
-                                <field name="sftp_path_ap_QA" />
-                                <field name="sftp_path_bef_QA" />
-                            </group>
+                        <group string="Servidor SFTP Producción" groups="base.group_no_one" attrs="{'invisible':[('sftp_server_env','!=','prod')]}">
+                            <field name="sftp_hostname" />
+                            <field name="sftp_port" />
+                            <field name="sftp_user" />
+                            <field name="sftp_password" password="True" />
+                            <field name="sftp_path_ap" />
+                            <field name="sftp_path_bef" />
+                        </group>
+                        <group string="Servidor SFTP Producción QA" groups="base.group_no_one" attrs="{'invisible':[('sftp_server_env','!=','test')]}">
+                            <field name="sftp_hostname_QA"/>
+                            <field name="sftp_port_QA" />
+                            <field name="sftp_user_QA" />
+                            <field name="sftp_password_QA" password="True" />
+                            <field name="sftp_path_ap_QA" />
+                            <field name="sftp_path_bef_QA" />
                         </group>
                     </page>
                 </xpath>

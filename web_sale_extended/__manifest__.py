@@ -66,7 +66,8 @@
         'data/assign_email_beneficiaries_bot.xml',
         'data/complete_payment_information_bot.xml',
         'data/payu_latam_creditcard_payment_bot.xml',
-        'data/payu_latam_account_move_bot.xml'
+        'data/payu_latam_account_move_bot.xml',
+        'data/billing_cycle_api_hubspot_bot.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
