@@ -69,6 +69,7 @@ class SftpReportLine(models.Model):
     phone2 = fields.Char('Teléfono Fijo 2',readonly=True)
     partner_id = fields.Many2one('res.partner')
     send_sftp_ok = fields.Boolean('Asegurado Reportado')
+    sale_order_id = fields.Many2one('sale.order', string='Order', readonly=True)
     
     
     def init(self):
@@ -133,7 +134,8 @@ class SftpReportLine(models.Model):
         tmpl.product_class as palig,
         (case when p.marital_status='Unión Libre' then 'Union Libre' else p.marital_status end)as marital_status,
         p.id as partner_id,
-        p.send_sftp_ok as send_sftp_ok
+        p.send_sftp_ok as send_sftp_ok,
+        sorder.id as sale_order_id
         
         
         
@@ -143,6 +145,7 @@ class SftpReportLine(models.Model):
         left join res_city_zip rcz on rcz.id = p.beneficiary_zip_id
         left join res_city city on rcz.city_id = city.id
         left join sale_subscription_line line on line.analytic_account_id = sub.id
+        left join sale_order sorder on sorder.subscription_id = sub.id
         left join product_product pro on pro.id = line.product_id
         left join product_template tmpl on tmpl.id = pro.product_tmpl_id
         left join product_category cat on cat.id = tmpl.categ_id
