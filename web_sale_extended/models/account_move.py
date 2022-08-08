@@ -752,18 +752,25 @@ class AccountMove(models.Model):
             ('payment_method_type', '!=', 'Product Without Price'),
             ('action_date_billing_cycle', '!=', today)
         ], limit=45)
+        _logger.info('********************************* Bot Accion de cobro *********************************')
+        _logger.info(invoice_payment_ids)
         for invoice in invoice_payment_ids:
-            time.sleep(2)
+            time.sleep(10)
             diff = today - invoice.invoice_date
             subscription = self.env['sale.subscription'].search([('code', '=', invoice.invoice_origin)])
             sale_order = self.env['sale.order'].search([('subscription_id', '=', subscription.id)])
             deal_id = self.env['api.hubspot'].search_deal_id(subscription)
+            _logger.info(diff)
+            _logger.info(subscription.number)
+            _logger.info(subscription.policy_number)
+            _logger.info('deal_id')
+            _logger.info(deal_id)
             if deal_id == False:
                 continue
             # Buscando el comprador
             contact_id = self.env['api.hubspot'].search_contact_id(invoice.partner_id)
             if contact_id:
-                # Verificar valor de propiedad de 
+                _logger.info('*********** Actualizando comprador ***********')
                 search_properties = ['es_comprador_']
                 properties = self.env['api.hubspot'].search_contact_properties_values(contact_id, search_properties)
                 if properties['es_comprador_'] != 'SI':
@@ -773,14 +780,19 @@ class AccountMove(models.Model):
                     }
                     self.env['api.hubspot'].update_contact_id(contact_id, update_properties)
             else:
+                _logger.info('*********** Creando comprador ***********')
                 contact_id = self.env['api.hubspot'].create_contact(invoice.partner_id)
                 self.env['api.hubspot'].associate_deal(str(deal_id), str(contact_id))
                 company_id = self.env['api.hubspot'].search_company_id(sale_order.beneficiary0_id)
+                _logger.info('*********** Compañia ***********')
+                _logger.info(company_id)
                 if company_id:
                     self.env['api.hubspot'].associate_company_with_contact(str(company_id), str(contact_id))
             invoice.write({
                 'action_date_billing_cycle': today
             })
+            _logger.info('contact_id')
+            _logger.info(contact_id)
             if diff.days == -4:
                 deal_properties = {
                     "accion_de_cobro": "5 dias antes",
