@@ -117,7 +117,11 @@ class WebsiteSaleExtended(WebsiteSale):
             "command": "SUBMIT_TRANSACTION",
             "transaction": transaction,
         }
+        _logger.info('************************ CASH REQUEST **************************')
+        _logger.info(cash_payment_values)
         response = request.env['api.payulatam'].payulatam_cash_payment_request(cash_payment_values)
+        _logger.info('************************ CASH RESPONSE **************************')
+        _logger.info(response)
         render_values = {'error': response['error'], 'website_sale_order': order, 'order_id': order}
         if response['code'] != 'SUCCESS':
             """ Retornando error manteniendo la misma orden y dando la oportunidad de intentar de nuevo """
@@ -342,7 +346,11 @@ class WebsiteSaleExtended(WebsiteSale):
             "command": "SUBMIT_TRANSACTION",
             "transaction": transaction,
         }
+        _logger.info('************************ CASH REQUEST **************************')
+        _logger.info(cash_payment_values)
         response = request.env['api.payulatam'].payulatam_cash_payment_request(cash_payment_values)
+        _logger.info('************************ CASH RESPONSE **************************')
+        _logger.info(response)
         render_values = {'error': response['error'], 'website_sale_order': sale_order}
         if response['code'] != 'SUCCESS':
             render_values.update({
