@@ -71,10 +71,10 @@ class WebsiteSaleExtended(WebsiteSale):
             "phone": order.partner_id.phone if order.partner_id.phone else order.partner_id.mobile
         }
         buyer = {
-            "merchantBuyerId": order.partner_id.id,
+            "merchantBuyerId": str(order.partner_id.id),
             "fullName": order.partner_id.name,
             "emailAddress": order.partner_id.email,
-            "contactPhone": order.partner_id.phone,
+            "contactPhone": order.partner_id.phone if order.partner_id.phone else order.partner_id.mobile,
             "dniNumber": order.partner_id.identification_document,
             "shippingAddress": shippingAddress
         }
@@ -287,7 +287,7 @@ class WebsiteSaleExtended(WebsiteSale):
         }
         full_name = post['cash_billing_firstname']
         if 'cash_billing_lastname' in post:
-            fullName = post['cash_billing_firstname'] + ' ' + post['cash_billing_lastname'],
+            full_name = post['cash_billing_firstname'] + ' ' + post['cash_billing_lastname'],
             
         shippingAddress = {
             "street1": partner.street,
@@ -299,7 +299,7 @@ class WebsiteSaleExtended(WebsiteSale):
             "phone": partner.phone if partner.phone else partner.mobile
         }
         buyer = {
-            "merchantBuyerId": "1",
+            "merchantBuyerId": str(partner.id),
             "fullName": full_name,
             "emailAddress": post['cash_billing_email'],
             "contactPhone": post['cash_partner_phone'],
@@ -307,7 +307,6 @@ class WebsiteSaleExtended(WebsiteSale):
             "shippingAddress": shippingAddress
         }
         payer = {
-            "merchantPayerId": "1",
             "fullName": full_name,
             "emailAddress": post['cash_billing_email'],
             "contactPhone": post['cash_partner_phone'],

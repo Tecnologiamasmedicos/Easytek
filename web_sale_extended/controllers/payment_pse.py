@@ -58,7 +58,7 @@ class WebsiteSaleExtended(WebsiteSale):
             "phone": order.partner_id.phone if order.partner_id.phone else order.partner_id.mobile
         }
         buyer = {
-            "merchantBuyerId": order.partner_id.id,
+            "merchantBuyerId": str(order.partner_id.id),
             "fullName": order.partner_id.name,
             "emailAddress": order.partner_id.email,
             "contactPhone": order.partner_id.phone,
@@ -371,7 +371,7 @@ class WebsiteSaleExtended(WebsiteSale):
             
         }
         buyer = {
-            "merchantBuyerId": "1",
+            "merchantBuyerId": str(partner.id),
             "fullName": partner.name,
             "emailAddress": partner.email,
             "contactPhone": partner.phone if partner.phone else partner.mobile,
@@ -379,7 +379,6 @@ class WebsiteSaleExtended(WebsiteSale):
             "shippingAddress": shippingAddress
         }
         payer = {
-            "merchantPayerId": "1",
             "fullName": post['pse_billing_firstname'] + ' ' + post['pse_billing_lastname'],
             "emailAddress": post['pse_billing_email'],
             "contactPhone": post['pse_partner_phone'],

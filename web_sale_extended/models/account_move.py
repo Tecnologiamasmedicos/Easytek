@@ -141,7 +141,7 @@ class AccountMove(models.Model):
                 "phone": self.partner_id.phone
             }    
             buyer = {
-                "merchantBuyerId": "1",
+                "merchantBuyerId": str(self.partner_id.id),
                 "fullName": self.partner_id.name,
                 "emailAddress": self.partner_id.email,
                 "contactPhone": self.partner_id.phone,
@@ -169,7 +169,6 @@ class AccountMove(models.Model):
                 "phone": self.partner_id.phone
             }    
             payer = {
-                "merchantPayerId": "1",
                 "fullName": self.partner_id.name,
                 "emailAddress": self.partner_id.email,
                 "contactPhone": self.partner_id.phone,
@@ -543,7 +542,7 @@ class AccountMove(models.Model):
                 "phone": invoice_payment.partner_id.phone
             }
             buyer = {
-                "merchantBuyerId": "1",
+                "merchantBuyerId": str(invoice_payment.partner_id.id),
                 "fullName": invoice_payment.partner_id.name,
                 "emailAddress": invoice_payment.partner_id.email,
                 "contactPhone": invoice_payment.partner_id.phone,
@@ -571,7 +570,6 @@ class AccountMove(models.Model):
                 "phone": invoice_payment.partner_id.phone
             }
             payer = {
-                "merchantPayerId": "1",
                 "fullName": invoice_payment.partner_id.name,
                 "emailAddress": invoice_payment.partner_id.email,
                 "contactPhone": invoice_payment.partner_id.phone,
