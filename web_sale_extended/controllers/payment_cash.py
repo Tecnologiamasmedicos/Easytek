@@ -102,11 +102,11 @@ class WebsiteSaleExtended(WebsiteSale):
             "signature": signature,
             "notifyUrl": payulatam_response_url,
             "additionalValues": additionalValues,
-            "buyer": buyer,
-            "payer": payer
+            "buyer": buyer
         }
         transaction = {
             "order": order_api,
+            "payer": payer,
             "type": "AUTHORIZATION_AND_CAPTURE",
             "paymentMethod": post['cash_bank'],
             "expirationDate": expiration_date,
