@@ -439,12 +439,6 @@
                                                     aria-describedby="tooltip561548"/>-->
                                             </div>
                                             <div class="col-lg-2 col-md-2">
-                                                <img class="img-fluid o_we_custom_image float-right" 
-                                                    src="/web_sale_extended/static/src/img/baloto.png" 
-                                                    data-original-title="" title="" 
-                                                    aria-describedby="tooltip561548"/>
-                                            </div>
-                                            <div class="col-lg-2 col-md-2">
                                                 <img class="img-fluid o_we_custom_image float-right"  
                                                     src="/web_sale_extended/static/src/img/suchance.png" 
                                                     data-original-title="" title="" 
@@ -483,7 +477,6 @@
                                             <label class="col-form-label" for="cash_bank" style="color:#FFF !important;">.</label>
                                             <select name="cash_bank" id="cash_bank" t-attf-class="form-control">
                                                 <option value="">Seleccione su Medio de Pago</option>
-                                                <option value="BALOTO">BALOTO</option>
                                                 <option value="EFECTY">EFECTY</option>
                                                 <option value="BANK_REFERENCED">REFERENCIA BANCARIA</option>
                                                 <option value="OTHERS_CASH">APUESTAS CUCUTA</option>
