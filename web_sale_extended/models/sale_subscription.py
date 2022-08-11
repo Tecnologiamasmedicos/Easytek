@@ -304,6 +304,41 @@ class SaleSubscription(models.Model):
             sub.write({'stage_id': stage.id, 'to_renew': False, 'date': end_date})
         return True
 
+    def set_open(self):
+        self.ensure_one()
+        order = self.env['sale.order'].search([('subscription_id', '=', self.id)], limit=1)
+        self.onchange_date_start()
+        self.write({
+            'stage_id': 2,
+            'close_reason_id': False
+        })
+        order.write({'state': 'sale', 'cancel_date': False})
+        deal_id = self.env['api.hubspot'].search_deal_id(self)
+        if deal_id != False:
+            deal_properties = {
+                "estado_de_la_poliza": "Activo",
+                "causal_de_cancelacion": "",
+                "fecha_efectiva_de_cancelacion": ""
+            }
+            self.env['api.hubspot'].update_deal(deal_id, deal_properties)
+            body_message = """
+                <b><span style='color: darkblue;'>API HubSpot - Activación poliza</span></b><br/>
+                <b>Estado:</b> %s
+            """ % (
+                deal_properties['estado_de_la_poliza']
+            )
+            self.message_post(body=body_message, type="comment")
+        else:
+            body_message = """
+                <b><span style='color: red;'>API HubSpot - Error buscar poliza</span></b><br/>
+                <b>N° Poliza:</b> %s<br/>
+                <b>N° Certificado:</b> %s
+            """ % (
+                self.number,
+                self.policy_number
+            )
+            self.message_post(body=body_message, type="comment")
+
 class SaleSubscriptionCloseReasonWizard(models.TransientModel):
     _inherit = "sale.subscription.close.reason.wizard"
     
