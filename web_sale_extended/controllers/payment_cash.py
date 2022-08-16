@@ -242,7 +242,8 @@ class WebsiteSaleExtended(WebsiteSale):
         
     @http.route(['/shop/payment/payulatam-gateway-api/cash_process_recurring'], type='http', auth="public", website=True, sitemap=False, csrf=False)
     def payulatam_gateway_api_cash_payment_recurring(self, **post):
-        
+        _logger.info('*********************************** post cash ************************************')
+        _logger.info(post)
         if post['invoice_id']:
             origin_document = request.env['account.move'].sudo().browse(int(post['invoice_id']))
             subscription = request.env['sale.subscription'].sudo().search([('code', '=', origin_document.invoice_origin)])
@@ -288,7 +289,10 @@ class WebsiteSaleExtended(WebsiteSale):
         full_name = post['cash_billing_firstname']
         if 'cash_billing_lastname' in post:
             full_name = post['cash_billing_firstname'] + ' ' + post['cash_billing_lastname'],
-            
+        
+        _logger.info('*********************** full_name ******************')
+        _logger.info(full_name)
+
         shippingAddress = {
             "street1": partner.street,
             "street2": "",
@@ -300,14 +304,14 @@ class WebsiteSaleExtended(WebsiteSale):
         }
         buyer = {
             "merchantBuyerId": str(partner.id),
-            "fullName": full_name,
+            "fullName": str(partner.name),
             "emailAddress": post['cash_billing_email'],
             "contactPhone": post['cash_partner_phone'],
             "dniNumber": post['cash_partner_document'],
             "shippingAddress": shippingAddress
         }
         payer = {
-            "fullName": full_name,
+            "fullName": str(partner.name),
             "emailAddress": post['cash_billing_email'],
             "contactPhone": post['cash_partner_phone'],
             "dniNumber": post['cash_partner_document'],
