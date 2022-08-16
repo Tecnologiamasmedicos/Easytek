@@ -1152,70 +1152,33 @@
                             <div id="informations">
                                 <nav>
                                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                        <t t-if="website_sale_order.main_product_id.payulatam_payment_methods_ids">
-                                            <t t-if="1 in website_sale_order.main_product_id.payulatam_payment_methods_ids.ids">
-                                                <a class="nav-item nav-link" 
-                                                    id="nav-home-tab" 
-                                                    data-toggle="tab" 
-                                                    href="#nav-home" 
-                                                    role="tab"
-                                                    aria-controls="nav-home"
-                                                    aria-selected="true">
-                                                    TARJETA DE CRÉDITO
-                                                </a>
-                                            </t>
-                                            <t t-if="2 in website_sale_order.main_product_id.payulatam_payment_methods_ids.ids">
-                                                <a class="nav-item nav-link" 
-                                                   id="nav-profile-tab" 
-                                                   data-toggle="tab" 
-                                                   href="#nav-profile" 
-                                                   role="tab" 
-                                                   aria-controls="nav-profile" 
-                                                   aria-selected="false">
-                                                    EFECTIVO
-                                                </a>
-                                            </t>
-                                            <t t-if="3 in website_sale_order.main_product_id.payulatam_payment_methods_ids.ids">
-                                                <a class="nav-item nav-link" 
-                                                   id="nav-contact-tab" 
-                                                   data-toggle="tab" 
-                                                   href="#nav-contact" 
-                                                   role="tab"
-                                                   aria-controls="nav-contact" 
-                                                   aria-selected="false">
-                                                    TRANSFERENCIA PSE
-                                                </a>
-                                            </t>
-                                        </t>
-                                        <t t-else="">
-                                            <a class="nav-item nav-link active" 
-                                               id="nav-home-tab" 
-                                               data-toggle="tab" 
-                                               href="#nav-home" 
-                                               role="tab"
-                                               aria-controls="nav-home" 
-                                               aria-selected="true">
-                                                TARJETA DE CRÉDITO
-                                            </a>
-                                            <a class="nav-item nav-link" 
-                                               id="nav-profile-tab" 
-                                               data-toggle="tab" 
-                                               href="#nav-profile" 
-                                               role="tab" 
-                                               aria-controls="nav-profile" 
-                                               aria-selected="false">
-                                                EFECTIVO
-                                            </a>
-                                            <a class="nav-item nav-link" 
-                                               id="nav-contact-tab" 
-                                               data-toggle="tab" 
-                                               href="#nav-contact" 
-                                               role="tab"
-                                               aria-controls="nav-contact" 
-                                               aria-selected="false">
-                                                TRANSFERENCIA PSE
-                                            </a>
-                                        </t>
+                                        <a class="nav-item nav-link active" 
+                                           id="nav-home-tab" 
+                                           data-toggle="tab" 
+                                           href="#nav-home" 
+                                           role="tab"
+                                           aria-controls="nav-home" 
+                                           aria-selected="true">
+                                            TARJETA DE CRÉDITO
+                                        </a>
+                                        <a class="nav-item nav-link" 
+                                           id="nav-profile-tab" 
+                                           data-toggle="tab" 
+                                           href="#nav-profile" 
+                                           role="tab" 
+                                           aria-controls="nav-profile" 
+                                           aria-selected="false">
+                                            EFECTIVO
+                                        </a>
+                                        <a class="nav-item nav-link" 
+                                           id="nav-contact-tab" 
+                                           data-toggle="tab" 
+                                           href="#nav-contact" 
+                                           role="tab"
+                                           aria-controls="nav-contact" 
+                                           aria-selected="false">
+                                            TRANSFERENCIA PSE
+                                        </a>
                                   </div>
                                 </nav>
                             </div>
