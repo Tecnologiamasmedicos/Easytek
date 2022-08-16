@@ -288,7 +288,7 @@ class WebsiteSaleExtended(WebsiteSale):
         }
         full_name = post['cash_billing_firstname']
         if 'cash_billing_lastname' in post:
-            full_name = post['cash_billing_firstname'] + ' ' + post['cash_billing_lastname'],
+            full_name = post['cash_billing_firstname'] + ' ' + post['cash_billing_lastname']
         
         _logger.info('*********************** full_name ******************')
         _logger.info(full_name)
@@ -311,7 +311,7 @@ class WebsiteSaleExtended(WebsiteSale):
             "shippingAddress": shippingAddress
         }
         payer = {
-            "fullName": str(partner.name),
+            "fullName": str(full_name),
             "emailAddress": post['cash_billing_email'],
             "contactPhone": post['cash_partner_phone'],
             "dniNumber": post['cash_partner_document'],

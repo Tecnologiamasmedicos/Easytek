@@ -480,6 +480,7 @@ class WebsiteSaleExtended(WebsiteSale):
                     'current_city':order.partner_id.zip_id.city_id.id,
                     'beneficiaries_number': beneficiaries_number,
                     'order_id': order.id,
+                    'website_sale_order': order
                 }
                 _logger.info(render_values)
                 return request.render("web_sale_extended.beneficiary", render_values)
@@ -515,6 +516,7 @@ class WebsiteSaleExtended(WebsiteSale):
             "access_token": order.access_token,            
             'order_id': order.id,
             'order': order,
+            'website_sale_order': order,
             }
             
             return request.render("web_sale_extended.confirm_assisted_purchase", render_values)
@@ -522,6 +524,7 @@ class WebsiteSaleExtended(WebsiteSale):
         if 'download_documents' in request.params and request.params['download_documents']: 
             render_values = {
                 'order_detail': order_detail,
+                'website_sale_order': order,
             }
             
             if order.state == 'payu_approved':
@@ -779,6 +782,7 @@ class WebsiteSaleExtended(WebsiteSale):
             "access_token": order.access_token,            
             'order_detail': order_detail,
             'order': order,
+            'website_sale_order': order,
             }
             if order_detail.product_id.is_beneficiary:
                 """ Confirmando Orden de Venta luego del proceso exitoso de beneficiarios """
@@ -799,6 +803,7 @@ class WebsiteSaleExtended(WebsiteSale):
         else:
             kwargs['order_detail'] = order_detail
             kwargs['partner'] = Partner
+            kwargs['website_sale_order'] = order
 
             """ Confirmando Orden de Venta luego del proceso exitoso de beneficiarios """
             order.action_confirm()
