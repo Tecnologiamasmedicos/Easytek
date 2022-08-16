@@ -7,7 +7,6 @@
             <link rel="stylesheet" href="/web_sale_extended/static/src/css/main.css"/>
 
 			<!-- Latest compiled and minified JavaScript -->
-
 			<script  src="/web_sale_extended/static/src/lib/bootstrap-select.min.js"></script>
 			<script src="/web_sale_extended/static/src/lib/jquery.typeahead.min.js" type="text/javascript"></script>
             <script src="/web_sale_extended/static/src/lib/jquery.validate.min.js" type="text/javascript"></script>
@@ -122,7 +121,14 @@
             <div class="input-group w-100">
                 <input name="promo" class="form-control" type="text" placeholder="Código..." t-att-value="website_sale_order.pricelist_id.code or None"/>
                 <div class="input-group-append">
-                    <a href="#" role="button" class="btn btn-primary a-submit">Aplicar</a>
+                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
+                        <a href="#" role="button" class="btn btn-primary a-submit" style="background-color: #43b12e;">Aplicar</a>
+                    </t>
+                    <t t-else="">
+                        <a href="#" role="button" class="btn btn-primary a-submit">Aplicar</a>
+                    </t>
+                    
+                    
                 </div>
             </div>
         </form>
@@ -144,12 +150,24 @@
             </div>
             <div class="mt32">
                 <div align="center">
-                <a href="mailto:contacto@masmedicos.co" data-original-title="" title="" aria-describedby="tooltip65226">
-                  <img src="/web_sale_extended/static/src/images/Emailweb.png" width="70" heigth="70"/>
-                </a>
-                <a href="https://wa.link/o1co8w" data-original-title="" title="" aria-describedby="tooltip65226" target="_blank">
-                  <img src="/web_sale_extended/static/src/images/Whatsappweb.png" width="70" heigth="70"/>
-                </a>
+                    <a href="mailto:contacto@masmedicos.co" data-original-title="" title="" aria-describedby="tooltip65226">
+                        <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
+                            <img src="/web_sale_extended/static/src/images/mail_falabella.png" width="70" heigth="70"/>
+                        </t>
+                        <t t-else="">
+                            <img src="/web_sale_extended/static/src/images/Emailweb.png" width="70" heigth="70"/>
+                        </t>
+                    </a>
+                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
+                        <a href="https://wa.me/573057044444" data-original-title="" title="" aria-describedby="tooltip65226" target="_blank">
+                            <img src="/web_sale_extended/static/src/images/wpp_falabella.png" width="70" heigth="70"/>
+                        </a>
+                    </t>
+                    <t t-else="">
+                        <a href="https://wa.me/573057111111" data-original-title="" title="" aria-describedby="tooltip65226" target="_blank">
+                            <img src="/web_sale_extended/static/src/images/Whatsappweb.png" width="70" heigth="70"/>
+                        </a>
+                    </t>
                 </div>
             </div>
             <div class="container mt32" t-if="line.product_id.alternative_product_ids">

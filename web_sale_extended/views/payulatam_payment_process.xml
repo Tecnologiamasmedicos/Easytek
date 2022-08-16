@@ -17,6 +17,16 @@
         <title>Pasarela de pagos | www.masmedicos.co</title>
         <t t-set="no_footer" t-value="1"/>
         <t t-call="website.layout">
+            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
+                <style>
+                    *{
+                        font-family: 'Maven Pro', sans-serif;
+                    }
+                    #submit_beneficiaries_add, #o_sale_portal_paynow, #submit_payment_cash_success{
+                        background-color: #43b12e;
+                    }
+                </style>
+            </t>
             <div id="wrap">
                 <div class="container oe_website_sale py-2">
                     <div class="row">
@@ -128,7 +138,7 @@
                                                    data-original-title="" 
                                                    title="" 
                                                    aria-describedby="tooltip188699"
-                                                   style="color:#FFF;">Continua con el <strong>registro</strong>
+                                                   style="color:#FFF;"><strong>Continuemos con el registro</strong>
                                                    <i class="fa fa-chevron-right"/>
                                                 </a>                                    
                                             </t>                                     
@@ -677,6 +687,16 @@
      <template id="web_sale_extended_payment_response_process" name="PayU Latam Payment Response Process PSE">
         <t t-set="no_footer" t-value="1"/>
         <t t-call="website.layout">
+            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
+                <style>
+                    *{
+                        font-family: 'Maven Pro', sans-serif;
+                    }
+                    #submit_pse_end_add_beneficiaries, #o_sale_portal_paynow, #submit_payment_cash_success, #submit_pse_end{
+                        background-color: #43b12e;
+                    }
+                </style>
+            </t>
             <div id="wrap">
                 <div class="container oe_website_sale py-2">
                     <div class="row">
@@ -820,7 +840,7 @@
                                                        data-original-title="" 
                                                        title="" 
                                                        aria-describedby="tooltip188699"
-                                                       style="color:#FFF;">Continua con el <strong>registro</strong>
+                                                       style="color:#FFF;"><strong>Continuemos con el registro</strong>
                                                        <i class="fa fa-chevron-right"/>
                                                     </a>                                        
                                                 </t>                                        
@@ -972,6 +992,19 @@
         <t t-call="website.layout">
             <t t-set="additional_title">Compra - Metodo de Pago</t>
             <t t-set="no_footer">1</t>
+            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
+                <style>
+                    *{
+                        font-family: 'Maven Pro', sans-serif;
+                    }
+                    .nav-tabs .nav-link.active {
+                        background-color: #43b12e;
+                    }
+                    .submit_payment{
+                        background-color: #43b12e;
+                    }
+                </style>
+            </t>
             <div id="wrap">
                 <div class="container oe_website_sale py-2">
                     <div class="row">
@@ -998,53 +1031,104 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-lg-12 pb0 pt0">
-                                            <div class="s_alert clearfix s_alert_sm w-100" data-name="Alert"  style="background: #FFFFFF; border: 1px solid #3333CC; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(51, 51, 204, 0.5); border-radius: 5px;">
-                                                <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Img_tip.png" data-original-title="" title="" aria-describedby="tooltip561547"/>
-                                                <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip831158"/>
-                                                <div class="s_alert_content" style="">
-                                                    <p/>
-                                                    <t t-if="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 1 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
-                                                        <t t-set="forma_pago" t-value="'Mensual'" />
-                                                    </t>
-                                                    <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 3 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
-                                                        <t t-set="forma_pago" t-value="'Trimestral'" />
-                                                    </t>
-                                                    <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 6 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
-                                                        <t t-set="forma_pago" t-value="'Semestral'" />
-                                                    </t>
-                                                    <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 12 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
-                                                        <t t-set="forma_pago" t-value="'Anual'" />
-                                                    </t>
-                                                    <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 1 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly'">
-                                                        <t t-set="forma_pago" t-value="'Anual'" />
-                                                    </t>
-                                                    <t t-else="">
-                                                        <t t-if="order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly'">
-                                                            <t t-set="tiempo" t-value="' Años'" />
+                                            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
+                                                <div class="s_alert clearfix s_alert_sm w-100" data-name="Alert" style="background: #FFFFFF; border: 1px solid #43b12e; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(67, 177, 46, 0.5); border-radius: 5px;">
+                                                    <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Robot-falabella.png" width="92" data-original-title="" title="" aria-describedby="tooltip561547"/>
+                                                    <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip831158"/>
+                                                    <div class="s_alert_content" style="">
+                                                        <p/>
+                                                        <t t-if="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 1 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                            <t t-set="forma_pago" t-value="'Mensual'" />
                                                         </t>
-                                                        <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
-                                                            <t t-set="tiempo" t-value="' Meses'" />
+                                                        <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 3 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                            <t t-set="forma_pago" t-value="'Trimestral'" />
                                                         </t>
-                                                        <t t-set="forma_pago" t-value="'cada ' + str(order.order_line[0].product_template_id.subscription_template_id.recurring_interval) + tiempo" />
-                                                    </t>
-                                                    <div style="text-align: left;">
-                                                        <font color="#3333cc">
-                                                            <b style="font-size: 18px;">
-                                                                Realicemos el pago <t t-esc="forma_pago"/> de tu 
-                                                                <t t-esc="order.order_line[0].product_template_id.name"/> 
-                                                                para ti y tu grupo familiar, es seguro y muy rápido, gracias a PayU.</b>
-                                                        </font>
-                                                        <br/>
+                                                        <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 6 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                            <t t-set="forma_pago" t-value="'Semestral'" />
+                                                        </t>
+                                                        <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 12 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                            <t t-set="forma_pago" t-value="'Anual'" />
+                                                        </t>
+                                                        <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 1 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly'">
+                                                            <t t-set="forma_pago" t-value="'Anual'" />
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-if="order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly'">
+                                                                <t t-set="tiempo" t-value="' Años'" />
+                                                            </t>
+                                                            <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                                <t t-set="tiempo" t-value="' Meses'" />
+                                                            </t>
+                                                            <t t-set="forma_pago" t-value="'cada ' + str(order.order_line[0].product_template_id.subscription_template_id.recurring_interval) + tiempo" />
+                                                        </t>
+                                                        <div style="text-align: left;">
+                                                            <font color="#000000">
+                                                                <b style="font-size: 18px;">
+                                                                    Realicemos el pago <t t-esc="forma_pago"/> de tu 
+                                                                    <t t-esc="order.order_line[0].product_template_id.name"/> 
+                                                                    para ti y tu grupo familiar, es seguro y muy rápido, gracias a PayU.</b>
+                                                            </font>
+                                                            <br/>
+                                                        </div>
+                                                        <div style="text-align: left;">
+                                                            <b>
+                                                                Esta es la información del pagador del plan, así como la información
+                                                                de facturación. Una ves terminado éste proceso, de una generamos tu poliza.
+                                                            </b>
+                                                        </div>
+                                                        <p/>
                                                     </div>
-                                                    <div style="text-align: left;">
-                                                        <b>
-                                                            Esta es la información del pagador del plan, así como la información
-                                                            de facturación. Una ves terminado éste proceso, de una generamos tu poliza.
-                                                        </b>
-                                                    </div>
-                                                    <p/>
                                                 </div>
-                                            </div>
+                                            </t>
+                                            <t t-else="">
+                                                <div class="s_alert clearfix s_alert_sm w-100" data-name="Alert"  style="background: #FFFFFF; border: 1px solid #3333CC; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(51, 51, 204, 0.5); border-radius: 5px;">
+                                                    <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Img_tip.png" width="92" data-original-title="" title="" aria-describedby="tooltip561547"/>
+                                                    <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip831158"/>
+                                                    <div class="s_alert_content" style="">
+                                                        <p/>
+                                                        <t t-if="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 1 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                            <t t-set="forma_pago" t-value="'Mensual'" />
+                                                        </t>
+                                                        <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 3 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                            <t t-set="forma_pago" t-value="'Trimestral'" />
+                                                        </t>
+                                                        <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 6 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                            <t t-set="forma_pago" t-value="'Semestral'" />
+                                                        </t>
+                                                        <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 12 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                            <t t-set="forma_pago" t-value="'Anual'" />
+                                                        </t>
+                                                        <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 1 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly'">
+                                                            <t t-set="forma_pago" t-value="'Anual'" />
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-if="order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly'">
+                                                                <t t-set="tiempo" t-value="' Años'" />
+                                                            </t>
+                                                            <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
+                                                                <t t-set="tiempo" t-value="' Meses'" />
+                                                            </t>
+                                                            <t t-set="forma_pago" t-value="'cada ' + str(order.order_line[0].product_template_id.subscription_template_id.recurring_interval) + tiempo" />
+                                                        </t>
+                                                        <div style="text-align: left;">
+                                                            <font color="#3333cc">
+                                                                <b style="font-size: 18px;">
+                                                                    Realicemos el pago <t t-esc="forma_pago"/> de tu 
+                                                                    <t t-esc="order.order_line[0].product_template_id.name"/> 
+                                                                    para ti y tu grupo familiar, es seguro y muy rápido, gracias a PayU.</b>
+                                                            </font>
+                                                            <br/>
+                                                        </div>
+                                                        <div style="text-align: left;">
+                                                            <b>
+                                                                Esta es la información del pagador del plan, así como la información
+                                                                de facturación. Una ves terminado éste proceso, de una generamos tu poliza.
+                                                            </b>
+                                                        </div>
+                                                        <p/>
+                                                    </div>
+                                                </div>
+                                            </t>
                                         </div>
                                     </div>
                                 </div>
@@ -1067,34 +1151,71 @@
                             <div class="oe_structure clearfix mt-3" id="oe_structure_website_sale_payment_1"/>
                             <div id="informations">
                                 <nav>
-                                  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <a class="nav-item nav-link active" 
-                                       id="nav-home-tab" 
-                                       data-toggle="tab" 
-                                       href="#nav-home" 
-                                       role="tab"
-                                       aria-controls="nav-home" 
-                                       aria-selected="true">
-                                        TARJETA DE CRÉDITO
-                                    </a>
-                                    <a class="nav-item nav-link" 
-                                       id="nav-profile-tab" 
-                                       data-toggle="tab" 
-                                       href="#nav-profile" 
-                                       role="tab" 
-                                       aria-controls="nav-profile" 
-                                       aria-selected="false">
-                                        EFECTIVO
-                                    </a>
-                                    <a class="nav-item nav-link" 
-                                       id="nav-contact-tab" 
-                                       data-toggle="tab" 
-                                       href="#nav-contact" 
-                                       role="tab"
-                                       aria-controls="nav-contact" 
-                                       aria-selected="false">
-                                        TRANSFERENCIA PSE
-                                    </a>
+                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                        <t t-if="website_sale_order.main_product_id.payulatam_payment_methods_ids">
+                                            <t t-if="1 in website_sale_order.main_product_id.payulatam_payment_methods_ids.ids">
+                                                <a class="nav-item nav-link" 
+                                                    id="nav-home-tab" 
+                                                    data-toggle="tab" 
+                                                    href="#nav-home" 
+                                                    role="tab"
+                                                    aria-controls="nav-home"
+                                                    aria-selected="true">
+                                                    TARJETA DE CRÉDITO
+                                                </a>
+                                            </t>
+                                            <t t-if="2 in website_sale_order.main_product_id.payulatam_payment_methods_ids.ids">
+                                                <a class="nav-item nav-link" 
+                                                   id="nav-profile-tab" 
+                                                   data-toggle="tab" 
+                                                   href="#nav-profile" 
+                                                   role="tab" 
+                                                   aria-controls="nav-profile" 
+                                                   aria-selected="false">
+                                                    EFECTIVO
+                                                </a>
+                                            </t>
+                                            <t t-if="3 in website_sale_order.main_product_id.payulatam_payment_methods_ids.ids">
+                                                <a class="nav-item nav-link" 
+                                                   id="nav-contact-tab" 
+                                                   data-toggle="tab" 
+                                                   href="#nav-contact" 
+                                                   role="tab"
+                                                   aria-controls="nav-contact" 
+                                                   aria-selected="false">
+                                                    TRANSFERENCIA PSE
+                                                </a>
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            <a class="nav-item nav-link active" 
+                                               id="nav-home-tab" 
+                                               data-toggle="tab" 
+                                               href="#nav-home" 
+                                               role="tab"
+                                               aria-controls="nav-home" 
+                                               aria-selected="true">
+                                                TARJETA DE CRÉDITO
+                                            </a>
+                                            <a class="nav-item nav-link" 
+                                               id="nav-profile-tab" 
+                                               data-toggle="tab" 
+                                               href="#nav-profile" 
+                                               role="tab" 
+                                               aria-controls="nav-profile" 
+                                               aria-selected="false">
+                                                EFECTIVO
+                                            </a>
+                                            <a class="nav-item nav-link" 
+                                               id="nav-contact-tab" 
+                                               data-toggle="tab" 
+                                               href="#nav-contact" 
+                                               role="tab"
+                                               aria-controls="nav-contact" 
+                                               aria-selected="false">
+                                                TRANSFERENCIA PSE
+                                            </a>
+                                        </t>
                                   </div>
                                 </nav>
                             </div>
@@ -1172,47 +1293,11 @@
                                                 <div class="form-group">
                                                     <label class="col-form-label" for="credit_card_due_year" style="color:#FFF !important;">.</label>
                                                     <select name="credit_card_due_year" class="form-control">
-                                                        <option value="2021">2021</option>
-                                                        <option value="2022">2022</option>
-                                                        <option value="2023">2023</option>
-                                                        <option value="2024">2024</option>
-                                                        <option value="2025">2025</option>
-                                                        <option value="2026">2026</option>
-                                                        <option value="2027">2027</option>
-                                                        <option value="2028">2028</option>
-                                                        <option value="2029">2029</option>
-                                                        <option value="2030">2030</option>
-                                                        <option value="2030">2031</option>
-                                                        <option value="2030">2032</option>
-                                                        <option value="2030">2033</option>
-                                                        <option value="2030">2034</option>
-                                                        <option value="2030">2035</option>
-                                                        <option value="2030">2036</option>
-                                                        <option value="2030">2037</option>
-                                                        <option value="2030">2038</option>
-                                                        <option value="2030">2039</option>
-                                                        <option value="2030">2040</option>
-                                                        <option value="2030">2041</option>
-                                                        <option value="2030">2042</option>
-                                                        <option value="2030">2043</option>
-                                                        <option value="2030">2044</option>
-                                                        <option value="2030">2045</option>
-                                                        <option value="2030">2046</option>
-                                                        <option value="2030">2047</option>
-                                                        <option value="2030">2048</option>
-                                                        <option value="2030">2049</option>
-                                                        <option value="2030">2050</option>
-                                                        <option value="2030">2051</option>
-                                                        <option value="2030">2052</option>
-                                                        <option value="2030">2053</option>
-                                                        <option value="2030">2054</option>
-                                                        <option value="2030">2055</option>
-                                                        <option value="2030">2056</option>
-                                                        <option value="2030">2057</option>
-                                                        <option value="2030">2058</option>
-                                                        <option value="2030">2059</option>
-                                                        <option value="2030">2060</option>
-                                                        <option value="2030">2061</option>
+                                                        <t t-foreach="credit_card_due_year_ids" t-as="years">
+                                                            <option t-att-value="years">
+                                                                <t t-esc="years"/>
+                                                            </option>
+                                                        </t>
                                                     </select> 
                                                 </div>
                                             </div>
@@ -1649,38 +1734,11 @@
                                                     <label class="col-form-label" for="pse_bank" style="color:#FFF !important;">.</label>
                                                     <select name="pse_bank" class="form-control">
                                                         <option value="">A continuación seleccione su banco</option>
-                                                        <option value="1059">BANCAMIA S.A.</option>
-                                                        <option value="1040">BANCO AGRARIO</option>
-                                                        <option value="1052">BANCO AV VILLAS</option>
-                                                        <option value="1013">BANCO BBVA COLOMBIA S.A.</option>    
-                                                        <option value="1032">BANCO CAJA SOCIAL</option>
-                                                        <option value="1066">BANCO COOPERATIVO COOPCENTRAL</option>
-                                                        <option value="1558">BANCO CREDIFINANCIERA</option>
-                                                        <option value="1051">BANCO DAVIVIENDA</option>
-                                                        <option value="1001">BANCO DE BOGOTA</option>
-                                                        <option value="1023">BANCO DE OCCIDENTE</option>
-                                                        <option value="1062">BANCO FALABELLA</option>
-                                                        <option value="1012">BANCO GNB SUDAMERIS</option>
-                                                        <option value="1006">BANCO ITAU</option>
-                                                        <option value="1060">BANCO PICHINCHA S.A.</option>
-                                                        <option value="1002">BANCO POPULAR</option>
-                                                        <option value="1065">BANCO SANTANDER COLOMBIA</option>
-                                                        <option value="1069">BANCO SERFINANZA</option>
-                                                        <option value="1007">BANCOLOMBIA</option>
-                                                        <option value="1061">BANCOOMEVA S.A.</option>
-                                                        <option value="1283">CFA COOPERATIVA FINANCIERA</option>
-                                                        <option value="1009">CITIBANK</option>
-                                                        <option value="1370">COLTEFINANCIERA</option>
-                                                        <option value="1292">CONFIAR COOPERATIVA FINANCIERA</option>
-                                                        <option value="1289">COTRAFA</option>
-                                                        <option value="1097">DALE</option>
-                                                        <option value="1551">DAVIPLATA</option>
-                                                        <option value="1303">GIROS Y FINANZAS COMPAÑIA DE FINANCIAMIENTO S.A.</option>
-                                                        <option value="1637">IRIS</option>
-                                                        <option value="1801">MOVII S.A.</option>
-                                                        <option value="1507">NEQUI</option>
-                                                        <option value="1151">RAPPIPAY</option>
-                                                        <option value="1019">SCOTIABANK COLPATRIA</option>
+                                                        <t t-foreach="bank_list" t-as="ccm">
+                                                            <option t-att-value="bank_list[ccm]">
+                                                                <t t-esc="ccm"/>
+                                                            </option>
+                                                        </t>
                                                     </select>
                                                 </div>
                                             </div>
@@ -1857,7 +1915,7 @@
                                         <p/>
                                         <div class="d-flex justify-content-end">
                                             <button class="btn btn-custom mb32 submit_payment">
-                                                <span>Realizar Pago</span>
+                                                <span>Pagar</span>
                                                 <i class="fa fa-chevron-right"/>
                                             </button>
                                         </div>
