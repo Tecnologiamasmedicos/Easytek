@@ -758,6 +758,7 @@ class AccountMove(models.Model):
             subscription = self.env['sale.subscription'].search([('code', '=', invoice.invoice_origin)])
             sale_order = self.env['sale.order'].search([('subscription_id', '=', subscription.id)])
             deal_id = self.env['api.hubspot'].search_deal_id(subscription)
+            _logger.info(invoice)
             _logger.info(diff)
             _logger.info(subscription.number)
             _logger.info(subscription.policy_number)
