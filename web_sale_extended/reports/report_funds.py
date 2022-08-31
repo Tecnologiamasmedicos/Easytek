@@ -40,7 +40,13 @@ class ReportSubscriptionFundsLine(models.Model):
     cancel_date = fields.Date('Fecha de cancelacion', readonly=True)
     number_of_plan_installments = fields.Integer('Cuotas plan', readonly=True)
     subscription_duration = fields.Integer('Duración de Suscripción', readonly=True)
-    recurring_rule_type = fields.Char('Recurrencia', readonly=True)
+    recurring_rule_type = fields.Selection(
+        [("daily", "Dias"), 
+        ("weekly", "Semanas"), 
+        ("monthly", "Meses"),
+        ("yearly", "Años"),],
+        string="Recurencia"
+    )
     sale_order_id = fields.Many2one('sale.order', string='Orden de Venta', readonly=True)
     sale_order_state = fields.Selection([
         ('draft', 'Presupuesto'),
