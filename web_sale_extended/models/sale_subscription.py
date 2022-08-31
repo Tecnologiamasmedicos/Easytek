@@ -275,7 +275,10 @@ class SaleSubscription(models.Model):
                                         values={'self': new_invoice, 'origin': subscription},
                                         subtype_id=self.env.ref('mail.mt_note').id)
                                     invoices += new_invoice
-                                    next_date = subscription.recurring_next_date + timedelta(days=4) or current_date
+                                    if subscription.invoice_count == 0:
+                                        next_date = subscription.recurring_next_date or current_date
+                                    else:
+                                        next_date = subscription.recurring_next_date + timedelta(days=4) or current_date
                                     rule, interval = subscription.recurring_rule_type, subscription.recurring_interval
                                     new_date = subscription._get_recurring_next_date(rule, interval, next_date, subscription.recurring_invoice_day)
                                     # Felipeeeee
