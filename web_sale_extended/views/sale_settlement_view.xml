@@ -27,6 +27,9 @@
                     <field name="payulatam_state" optional="show" />
                     <field name="subscription_code" optional="show" />
                     <field name="subscription_state" optional="show" />
+                    <field name="number_of_plan_installments" optional="show" />
+                    <field name="subscription_duration" optional="show" />
+                    <field name="recurring_rule_type" optional="show" />
                     <field name="sale_order_id" optional="show" />
                     <field name="sale_order_state" optional="show" />
                 </tree>

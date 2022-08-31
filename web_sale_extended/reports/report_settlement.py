@@ -53,6 +53,15 @@ class ReportSubscriptionSettlement(models.Model):
     ], string="Estado PayU")
     subscription_id = fields.Many2one('sale.subscription', string='Suscripcion', readonly=True)
     subscription_code = fields.Char('Suscripcion', readonly=True)
+    number_of_plan_installments = fields.Integer('Cuotas plan', readonly=True)
+    subscription_duration = fields.Integer('Duración de Suscripción', readonly=True)
+    recurring_rule_type = fields.Selection(
+        [("daily", "Dias"), 
+        ("weekly", "Semanas"), 
+        ("monthly", "Meses"),
+        ("yearly", "Años"),],
+        string="Recurencia"
+    )
     subscription_state = fields.Char('Estado Suscripcion', readonly=True)
     sale_order_id = fields.Many2one('sale.order', string='Orden de Venta', readonly=True)
     sale_order_state = fields.Selection([
@@ -92,7 +101,10 @@ class ReportSubscriptionSettlement(models.Model):
         inv.payulatam_state as payulatam_state,
         sub.id as subscription_id,
         sub.code as subscription_code,
-        substage.name as subscription_state,     
+        substage.name as subscription_state,
+        subtmpl.recurring_rule_count as number_of_plan_installments,
+        subtmpl.recurring_interval as subscription_duration,
+        subtmpl.recurring_rule_type as recurring_rule_type,  
         sorder.id as sale_order_id,
         sorder.state as sale_order_state,
         inv.send_payment as send_payment
@@ -100,6 +112,7 @@ class ReportSubscriptionSettlement(models.Model):
         from account_move inv
         left join sale_subscription sub on sub.code = inv.invoice_origin
         left join sale_subscription_stage substage on substage.id = sub.stage_id
+        left join sale_subscription_template subtmpl on subtmpl.id = sub.template_id
         left join sale_order sorder on sorder.subscription_id = sub.id
         left join res_partner p on p.id = inv.partner_id
         left join res_partner pap on pap.id = sorder.beneficiary0_id

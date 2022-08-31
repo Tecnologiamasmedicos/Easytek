@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+         <record id="report_subscription_funds_tree" model="ir.ui.view">
+            <field name="name">report.subscription.funds.tree</field>
+            <field name="type">tree</field>
+            <field name="model">report.subscription.funds</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte Fondos" create="0" edit="0">
+                    <field name="policy_number" optional="show" />
+                    <field name="certificate_number" optional="show" />
+                    <field name="buyer_name" optional="show" />
+                    <field name="ap_name" optional="hide" />
+                    <field name="subscription_code" optional="show" />
+                    <field name="sponsor_id" optional="show" />
+                    <field name="subscription_date_start" optional="show" />
+                    <field name="subscription_date_end" optional="show" />
+                    <field name="payment_method" optional="show" />
+                    <field name="product_code" optional="show" />
+                    <field name="product_name" optional="show" />
+                    <field name="value" optional="show" />
+                    <field name="subscription_state" optional="show" />
+                    <field name="cancel_date" optional="show" />
+                    <field name="number_of_plan_installments" optional="show" />
+                    <field name="subscription_duration" optional="show" />
+                    <field name="recurring_rule_type" optional="show" />
+                    <field name="sale_order_id" optional="show" />
+                    <field name="sale_order_state" optional="show" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="report_subscription_funds_view_search" model="ir.ui.view">
+            <field name="name">report.subscription.funds.view.search</field>
+            <field name="model">report.subscription.funds</field>
+            <field name="arch" type="xml">                
+                <search>
+                    <field name="policy_number" />
+                    <field name="certificate_number" />
+                    <filter string="Fecha Inicio" name="filter_subscription_date_start" date="subscription_date_start"/>
+                    <filter string="Orden de Venta" name="filter_subscription_sale_order" context="{'group_by': 'sale_order_id'}"/>
+                    <filter string="Suscripcion" name="filter_subscription" context="{'group_by': 'subscription_code'}"/>
+                    <filter string="Sponsor" name="filter_subscription_sponsor" context="{'group_by': 'sponsor_id'}"/>
+                    <filter string="Codigo producto" name="filter_subscription_product_code" context="{'group_by': 'product_code'}"/>
+                    <filter string="Fecha Final" name="filter_subscription_date_end" context="{'group_by': 'subscription_date_end'}"/>
+                </search>
+            </field>
+        </record>  
+
+        <record model="ir.actions.act_window" id="action_report_subscription_funds_tree">
+            <field name="name">Reporte Fondos</field>
+            <field name="res_model">report.subscription.funds</field>
+            <field name="view_mode">tree</field>
+        </record>
+    </data>
+    <menuitem 
+               id="report_subscription_funds" 
+               name="Reporte Fondos" 
+               parent="sale_subscription.menu_sale_subscription_report" 
+               sequence="5" 
+               action="web_sale_extended.action_report_subscription_funds_tree" 
+               groups="sale_subscription.group_sale_subscription_view"/>
+</odoo>

@@ -10,3 +10,4 @@ from . import payments_report
 from . import report_cancellation
 from . import report_settlement
 from . import report_sftp_cancellation
+from . import report_funds
