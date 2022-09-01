@@ -15,6 +15,7 @@
                     <field name="subscription_date_start" optional="show" />
                     <field name="subscription_date_end" optional="show" />
                     <field name="product_code" optional="show" />
+                    <field name="product_name" optional="show" />
                     <field name="value" optional="show" />
                     <field name="payment_method_type" optional="show" />
                     <field name="payulatam_datetime" optional="show" />

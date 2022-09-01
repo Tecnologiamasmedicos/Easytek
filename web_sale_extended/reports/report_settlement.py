@@ -21,6 +21,7 @@ class ReportSubscriptionSettlement(models.Model):
     subscription_date_start = fields.Date('Fecha de Inicio', readonly=True)
     subscription_date_end = fields.Date('Fecha Final', readonly=True)
     product_code = fields.Char(string='Código producto', readonly=True)
+    product_name = fields.Char(string='Nombre producto', readonly=True)
     value = fields.Float('Valor', readonly=True)
     payment_method_type = fields.Selection([
         ("Credit Card", "Tarjeta de Crédito"), 
@@ -89,6 +90,7 @@ class ReportSubscriptionSettlement(models.Model):
         sub.date_start as subscription_date_start,
         sub.date as subscription_date_end,
         pro.default_code as product_code,
+        pro.name as product_name,
         inv.amount_total as value,
         inv.payment_method_type as payment_method_type,
         inv.payulatam_datetime as payulatam_datetime,
