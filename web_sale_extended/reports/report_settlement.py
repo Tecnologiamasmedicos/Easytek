@@ -89,8 +89,8 @@ class ReportSubscriptionSettlement(models.Model):
         inv.sponsor_id as sponsor_id,
         sub.date_start as subscription_date_start,
         sub.date as subscription_date_end,
-        pro.default_code as product_code,
-        pro.name as product_name,
+        tmpl.default_code as product_code,
+        tmpl.name as product_name,
         inv.amount_total as value,
         inv.payment_method_type as payment_method_type,
         inv.payulatam_datetime as payulatam_datetime,
@@ -120,6 +120,7 @@ class ReportSubscriptionSettlement(models.Model):
         left join res_partner pap on pap.id = sorder.beneficiary0_id
         left join sale_subscription_line line on line.analytic_account_id = sub.id
         left join product_product pro on pro.id = line.product_id
+        left join product_template tmpl on tmpl.id = pro.product_tmpl_id
         
         where 1=1 and inv.state='finalized'	and inv.invoice_origin is not null
         order by inv.id desc
