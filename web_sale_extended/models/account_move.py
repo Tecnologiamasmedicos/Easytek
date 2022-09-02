@@ -191,9 +191,9 @@ class AccountMove(models.Model):
                 "type": "AUTHORIZATION_AND_CAPTURE",
                 "paymentMethod": self.payulatam_credit_card_method,
                 "paymentCountry": "CO",
-                "deviceSessionId": request.httprequest.cookies.get('session_id') if request.httprequest.cookies.get('session_id') else "vghs6tvkcle931686k1900o6e1",
+                "deviceSessionId": "vghs6tvkcle931686k1900o6e1",
                 "ipAddress": "127.0.0.1",
-                "cookie": request.httprequest.cookies.get('session_id') if request.httprequest.cookies.get('session_id') else "pt1t38347bs6jc9ruv2ecpv7o2",
+                "cookie": "pt1t38347bs6jc9ruv2ecpv7o2",
                 "userAgent": "Firefox"
             }        
             credit_card_values = {
