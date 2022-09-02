@@ -191,9 +191,9 @@ class AccountMove(models.Model):
                 "type": "AUTHORIZATION_AND_CAPTURE",
                 "paymentMethod": self.payulatam_credit_card_method,
                 "paymentCountry": "CO",
-                "deviceSessionId": "vghs6tvkcle931686k1900o6e1",
+                "deviceSessionId": request.httprequest.cookies.get('session_id'),
                 "ipAddress": "127.0.0.1",
-                "cookie": "pt1t38347bs6jc9ruv2ecpv7o2",
+                "cookie": request.httprequest.cookies.get('session_id'),
                 "userAgent": "Firefox"
             }        
             credit_card_values = {
@@ -871,7 +871,235 @@ class AccountMove(models.Model):
                 invoice.message_post(body=body_message, type="comment")
             elif diff.days == 0:
                 if invoice.payment_method_type == 'Credit Card' and invoice.payulatam_credit_card_token != '':           
-                    invoice.payment_credit_card_by_tokenization()
+                    """ Proceso de Pago """
+                    referenceCode = str(invoice.env['api.payulatam'].payulatam_get_sequence())
+                    accountId = invoice.env['api.payulatam'].payulatam_get_accountId()
+                    descriptionPay = "Payment Origin from " + invoice.name
+                    signature = invoice.env['api.payulatam'].payulatam_get_signature(
+                        invoice.amount_total,'COP',referenceCode)
+
+                    payulatam_api_env = invoice.env.user.company_id.payulatam_api_env
+                    if payulatam_api_env == 'prod':
+                        payulatam_response_url = invoice.env.user.company_id.payulatam_api_response_url
+                    else:
+                        payulatam_response_url = invoice.env.user.company_id.payulatam_api_response_sandbox_url
+
+                    tx_value = {"value": invoice.amount_total, "currency": "COP"}        
+                    tx_tax = {"value": 0,"currency": "COP"}
+                    tx_tax_return_base = {"value": 0, "currency": "COP"}        
+                    additionalValues = {
+                        "TX_VALUE": tx_value,
+                        "TX_TAX": tx_tax,
+                        "TX_TAX_RETURN_BASE": tx_tax_return_base
+                    }  
+                    shippingAddress = {
+                        "street1": invoice.partner_id.street,
+                        "street2": "",
+                        "city": invoice.partner_id.zip_id.city_id.name,
+                        "state": invoice.partner_id.zip_id.city_id.state_id.name,
+                        "country": "CO",
+                        "postalCode": invoice.partner_id.zip_id.name,
+                        "phone": invoice.partner_id.phone
+                    }    
+                    buyer = {
+                        "merchantBuyerId": str(invoice.partner_id.id),
+                        "fullName": invoice.partner_id.name,
+                        "emailAddress": invoice.partner_id.email,
+                        "contactPhone": invoice.partner_id.phone,
+                        "dniNumber": invoice.partner_id.identification_document,
+                        "shippingAddress": shippingAddress
+                    }    
+                    order_api = {
+                        "accountId": accountId,
+                        "referenceCode": referenceCode,
+                        "description": 'PPS - ' + descriptionPay,
+                        "language": "es",
+                        "signature": signature,
+                        "notifyUrl":payulatam_response_url,
+                        "additionalValues": additionalValues,
+                        "buyer": buyer,
+                        "shippingAddress": shippingAddress
+                    }
+                    billingAddressPayer = {
+                        "street1": invoice.partner_id.street,
+                        "street2": "",
+                        "city": invoice.partner_id.zip_id.city_id.name,
+                        "state": invoice.partner_id.zip_id.city_id.state_id.name,
+                        "country": "CO",
+                        "postalCode": invoice.partner_id.zip_id.name,
+                        "phone": invoice.partner_id.phone
+                    }    
+                    payer = {
+                        "fullName": invoice.partner_id.name,
+                        "emailAddress": invoice.partner_id.email,
+                        "contactPhone": invoice.partner_id.phone,
+                        "dniNumber": invoice.partner_id.identification_document,
+                        "billingAddress": billingAddressPayer
+                    }
+                    creditCard = {
+                        "processWithoutCvv2": "true"
+                    }
+                    extraParameters = {
+                        "INSTALLMENTS_NUMBER": 1
+                    }
+                    transaction = {
+                        "order": order_api,
+                        "payer": payer,
+                        "creditCardTokenId": invoice.payulatam_credit_card_token,
+                        "creditCard": creditCard,
+                        "extraParameters": extraParameters,
+                        "type": "AUTHORIZATION_AND_CAPTURE",
+                        "paymentMethod": invoice.payulatam_credit_card_method,
+                        "paymentCountry": "CO",
+                        "deviceSessionId": "vghs6tvkcle931686k1900o6e1",
+                        "ipAddress": "127.0.0.1",
+                        "cookie": "pt1t38347bs6jc9ruv2ecpv7o2",
+                        "userAgent": "Firefox"
+                    }        
+                    credit_card_values = {
+                        "command": "SUBMIT_TRANSACTION",
+                        "transaction": transaction,
+                    }
+                    response = invoice.env['api.payulatam'].payulatam_credit_cards_payment_request(credit_card_values)
+                    if response['code'] != 'SUCCESS':
+                        body_message = """
+                            <b><span style='color:red;'>PayU Latam - Error en pago con tarjeta de crédito</span></b><br/>
+                            <b>Código:</b> %s<br/>
+                            <b>Error:</b> %s
+                        """ % (
+                            response['code'],
+                            response['error'], 
+                        )
+                        invoice.message_post(body=body_message, type="comment")
+                    else:
+                        if response['transactionResponse']['state'] == 'APPROVED':
+                            subscription = invoice.env['sale.subscription'].sudo().search([('code', '=', invoice.invoice_origin)])
+                            product = invoice.invoice_line_ids[0].product_id
+                            sale_order = invoice.env['sale.order'].sudo().search([('subscription_id', '=', subscription.id)])
+                            invoice.write({
+                                'payulatam_order_id': response['transactionResponse']['orderId'],
+                                'payulatam_transaction_id': response['transactionResponse']['transactionId'],
+                                'payulatam_state': response['transactionResponse']['state'],
+                                'payment_method_type': 'Credit Card',
+                                'payulatam_datetime': fields.datetime.now(),
+                            })
+                            body_message = """
+                                <b><span style='color:green;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
+                                <b>Orden ID:</b> %s<br/>
+                                <b>Transacción ID:</b> %s<br/>
+                                <b>Estado:</b> %s<br/>
+                                <b>Código Respuesta:</b> %s
+                            """ % (
+                                response['transactionResponse']['orderId'], 
+                                response['transactionResponse']['transactionId'], 
+                                'APROBADO', 
+                                response['transactionResponse']['responseCode']
+                            )
+                            invoice.message_post(body=body_message, type="comment")
+                            query = """
+                                INSERT INTO payments_report (
+                                    policy_number,
+                                    certificate_number, 
+                                    firstname,
+                                    othernames, 
+                                    lastname, 
+                                    identification_document, 
+                                    birthday_date,
+                                    transaction_type, 
+                                    clase,
+                                    change_date, 
+                                    collected_value,
+                                    number_of_installments,
+                                    payment_method,
+                                    number_of_plan_installments,
+                                    total_installments,
+                                    number_of_installments_arrears,
+                                    policyholder,
+                                    sponsor_id,
+                                    product_code,
+                                    product_name,
+                                    payulatam_order_id,
+                                    payulatam_transaction_id,
+                                    origin_document,
+                                    sale_order,
+                                    subscription,
+                                    payment_type
+                                )
+                                SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, %s, %s, '%s', %s, '%s', '%s', '%s', '%s', '%s', %s, %s, '%s' WHERE NOT EXISTS(SELECT * FROM payments_report WHERE payulatam_order_id='%s');
+                            """ %(
+                                subscription.number if subscription.number != False else '',
+                                subscription.policy_number if subscription.policy_number != False else '',
+                                invoice.partner_id.firstname if invoice.partner_id.firstname != False else '', 
+                                invoice.partner_id.othernames, 
+                                str(invoice.partner_id.lastname) + ' ' + str(invoice.partner_id.lastname2) if invoice.partner_id.lastname != False else '', 
+                                invoice.partner_id.identification_document if invoice.partner_id.identification_document != False else '', 
+                                invoice.partner_id.birthdate_date if invoice.partner_id.birthdate_date != False else '', 
+                                'R', 
+                                product.product_class if product.product_class != False else '', 
+                                date.today(), 
+                                invoice.amount_total if invoice.amount_total != False else '', 
+                                1, 
+                                invoice.payment_method_type if invoice.payment_method_type != False else '', 
+                                product.subscription_template_id.recurring_rule_count if product.subscription_template_id.recurring_rule_count  != False else '', 
+                                int(invoice.env['account.move'].sudo().search_count([('invoice_line_ids.subscription_id', '=', subscription.id), ('payulatam_state', '=', 'APPROVED')])),
+                                int(invoice.env['account.move'].sudo().search_count([('invoice_line_ids.subscription_id', '=', subscription.id)])) - int(invoice.env['account.move'].sudo().search_count([('invoice_line_ids.subscription_id', '=', subscription.id), ('payulatam_state', '=', 'APPROVED')])),
+                                subscription.policyholder if subscription.policyholder != False else '', 
+                                invoice.sponsor_id.id if invoice.sponsor_id.id != False else 'null', 
+                                product.default_code if product.default_code != False else '', 
+                                product.name if product.name != False else '', 
+                                invoice.payulatam_order_id if invoice.payulatam_order_id != False else '', 
+                                invoice.payulatam_transaction_id if invoice.payulatam_transaction_id != False else '', 
+                                invoice.name if invoice.name != False else '', 
+                                sale_order.id if sale_order.id != False else 'null',
+                                subscription.id if subscription.id  != False else 'null',
+                                'recurring_payment',
+                                invoice.payulatam_order_id if invoice.payulatam_order_id != False else ''
+                            )
+                            invoice.env.cr.execute(query)
+                        elif response['transactionResponse']['state'] == 'PENDING':
+                            invoice.write({
+                                'payulatam_order_id': response['transactionResponse']['orderId'],
+                                'payulatam_transaction_id': response['transactionResponse']['transactionId'],
+                                'payulatam_state': response['transactionResponse']['state'],
+                                'payment_method_type': 'Credit Card',
+                                'payulatam_datetime': fields.datetime.now(),
+                            })
+                            body_message = """
+                                <b><span style='color:orange;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
+                                <b>Orden ID:</b> %s<br/>
+                                <b>Transacción ID:</b> %s<br/>
+                                <b>Estado:</b> %s<br/>
+                                <b>Código Respuesta:</b> %s
+                            """ % (
+                                response['transactionResponse']['orderId'], 
+                                response['transactionResponse']['transactionId'], 
+                                'PENDIENTE DE APROBACIÓN', 
+                                response['transactionResponse']['responseCode']
+                            )
+                            invoice.message_post(body=body_message, type="comment")
+                        elif response['transactionResponse']['state'] in ['EXPIRED', 'DECLINED']:
+                            invoice.write({
+                                'payulatam_order_id': response['transactionResponse']['orderId'],
+                                'payulatam_transaction_id': response['transactionResponse']['transactionId'],
+                                'payulatam_state': response['transactionResponse']['state'],
+                                'payment_method_type': 'Credit Card',
+                                'payulatam_datetime': fields.datetime.now(),
+                            })
+                            body_message = """
+                                <b><span style='color:red;'>PayU Latam - Transacción de pago con tarjeta de crédito</span></b><br/>
+                                <b>Orden ID:</b> %s<br/>
+                                <b>Transacción ID:</b> %s<br/>
+                                <b>Estado:</b> %s<br/>
+                                <b>Código Respuesta:</b> %s
+                            """ % (
+                                response['transactionResponse']['orderId'], 
+                                response['transactionResponse']['transactionId'], 
+                                'RECHAZADO', 
+                                response['transactionResponse']['responseCode']
+                            )
+                            invoice.message_post(body=body_message, type="comment")
+                else:
+                    raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
             elif diff.days == 1:
                 deal_properties = {
                     "accion_de_cobro": "1 dia despues",
