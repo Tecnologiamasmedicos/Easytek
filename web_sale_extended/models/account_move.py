@@ -749,7 +749,8 @@ class AccountMove(models.Model):
             ('state', '=', 'finalized'),
             ('payulatam_state', 'in', [False, "EXPIRED", "DECLINED"]),
             ('payment_method_type', '!=', 'Product Without Price'),
-            ('action_date_billing_cycle', '!=', today)
+            ('action_date_billing_cycle', '!=', today),
+            ('id', '=', '7468')
         ], limit=45)
         _logger.info('********************************* Bot Accion de cobro *********************************')
         _logger.info(invoice_payment_ids)
@@ -870,6 +871,8 @@ class AccountMove(models.Model):
                 )
                 invoice.message_post(body=body_message, type="comment")
             elif diff.days == 0:
+                _logger.info(invoice.payment_method_type)
+                _logger.info(invoice.payulatam_credit_card_token)
                 if invoice.payment_method_type == 'Credit Card' and invoice.payulatam_credit_card_token != '':           
                     """ Proceso de Pago """
                     referenceCode = str(invoice.env['api.payulatam'].payulatam_get_sequence())
