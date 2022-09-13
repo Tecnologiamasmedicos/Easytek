@@ -160,7 +160,7 @@ class SftpReportLine(models.Model):
         #(select to_char(mp.date_planned_start,'mm')) as month,
 
     def _cron_generate_ap_sftp_report(self):        
-        current_date = fields.Date.today()
+        current_date = (datetime.now() - timedelta(hours=5)).date()
         nombre_archivo_ap = 'Odoo_Prin_' + current_date.strftime('%d%m%Y')
         nombre_archivo_bef = 'Odoo_Ben_' + current_date.strftime('%d%m%Y')
         data = []
