@@ -885,7 +885,7 @@ class AccountMove(models.Model):
                 if invoice.payment_method_type == 'Credit Card' and invoice.payulatam_credit_card_token != '':
                     _logger.info("Puede pagar por token")
                     invoice.payment_credit_card_by_tokenization()
-                    time.sleep(2)
+                    time.sleep(5)
             elif diff.days == 1:
                 deal_properties = {
                     "accion_de_cobro": "1 dia despues",
@@ -1093,102 +1093,4 @@ class AccountMove(models.Model):
                 sale_order.write({
                     'state': 'done',
                     'cancel_date': today
-                })
-
-    def _cron_update_invoices_date(self):
-        periods = {'daily': 'days', 'weekly': 'weeks', 'monthly': 'months', 'yearly': 'years'}
-        subscription_ids = self.env['sale.subscription'].search([
-            ('id', 'in', [49, 219, 232, 233, 234, 236, 239, 241, 242, 247, 248, 250, 253, 267, 270, 271, 276, 277, 278, 280, 281, 284, 288, 289, 290, 291, 292, 294, 315, 316, 319, 320, 322, 324, 326, 327, 328, 329, 336, 384, 385, 390, 391, 399, 400, 401, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 417, 418, 419, 420, 422, 423, 424, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 440, 441, 442, 443, 445, 447, 449, 450, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 465, 466, 467, 468, 470, 471, 472, 473, 476, 479, 481, 483, 484, 486, 487, 488, 492, 493, 494, 495, 496, 497, 498, 501, 502, 503, 506, 507, 508, 512, 513, 516, 517, 518, 519, 522, 523, 526, 528, 529, 530, 531, 532, 534, 536, 538, 539, 540, 541, 542, 543, 545, 546, 549, 550, 552, 553, 558, 562, 564, 565, 566, 567, 570, 571, 572, 573, 575, 576, 577, 578, 580, 582, 584, 586, 588, 590, 591, 593, 594, 596, 598, 599, 600, 601, 602, 603, 604, 607, 610, 611, 612, 613, 614, 615, 617, 618, 622, 623, 624, 625, 628, 629, 630, 631, 632, 633, 634, 635, 636, 639, 640, 641, 642, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658, 659, 660, 661, 662, 663, 664, 665, 666, 667, 668, 669, 670, 671, 672, 673, 674, 675, 676, 677, 678, 679, 680, 681, 682, 683, 684, 685, 686, 687, 688, 689, 690, 691, 692, 693, 694, 695, 696, 697, 698, 699, 700, 701, 705, 706, 707, 708, 709, 710, 711, 712, 713, 714, 717, 718, 719, 720, 721, 722, 723, 724, 725, 726, 727, 728, 730, 731, 732, 733, 734, 735, 736, 737, 738, 739, 740, 741, 742, 743, 744, 745, 746, 747, 748, 749, 750, 751, 752, 753, 754, 755, 756, 757, 758, 759, 760, 761, 762, 763, 764, 765, 766, 767, 768, 769, 770, 771, 772, 773, 774, 775, 776, 777, 778, 779, 780, 781, 782])
-        ])
-        _logger.info('********************************* Bot actualizacion de fechas *********************************')
-        _logger.info(subscription_ids)
-        for subscription in subscription_ids:
-            _logger.info(subscription)
-            _logger.info(subscription.date_start)
-            interval_type = subscription.template_id.recurring_rule_type
-            interval_type = periods[interval_type]
-            invoice_ids = self.env['account.move'].search([
-                ('state', '=', 'finalized'),
-                ('date', 'in', ['2022-03-01', '2022-03-08', '2022-03-26']),
-                ('invoice_origin', '=', str(subscription.code))
-            ])
-            _logger.info('********************************* Facturas *********************************')
-            _logger.info(invoice_ids)
-            if len(invoice_ids) >= 3:
-                _logger.info('3 facturas')
-                for invoice in invoice_ids:
-                    _logger.info(invoice)
-                    if invoice.create_date.date() == datetime.strptime('2022-03-01', '%Y-%m-%d').date():
-                        _logger.info('Inicio')
-                        _logger.info(subscription.date_start)
-                        invoice.write({
-                            'date': subscription.date_start,
-                            'invoice_date': subscription.date_start,
-                            'invoice_date_due': subscription.date_start
-                        })
-                    elif invoice.create_date.date() == datetime.strptime('2022-03-08', '%Y-%m-%d').date():
-                        new_date = subscription.date_start + relativedelta(**{interval_type: 1})
-                        _logger.info('Mes 1')
-                        _logger.info(new_date)
-                        invoice.write({
-                            'date': new_date,
-                            'invoice_date': new_date,
-                            'invoice_date_due': new_date
-                        })
-                    elif invoice.create_date.date() == datetime.strptime('2022-03-26', '%Y-%m-%d').date():
-                        new_date = subscription.date_start + relativedelta(**{interval_type: 2})
-                        _logger.info('Mes 2')
-                        _logger.info(new_date)
-                        invoice.write({
-                            'date': new_date,
-                            'invoice_date': new_date,
-                            'invoice_date_due': new_date
-                        })
-            elif len(invoice_ids) == 2:
-                _logger.info('2 facturas')
-                if invoice_ids[0].create_date.date() < invoice_ids[1].create_date.date():
-                    _logger.info(invoice_ids[0])
-                    _logger.info('Inicio')
-                    _logger.info(subscription.date_start)
-                    invoice_ids[0].write({
-                        'date': subscription.date_start,
-                        'invoice_date': subscription.date_start,
-                        'invoice_date_due': subscription.date_start
-                    })
-                    new_date = subscription.date_start + relativedelta(**{interval_type: 1})
-                    _logger.info(invoice_ids[1])
-                    _logger.info('Mes 1')
-                    _logger.info(new_date)
-                    invoice_ids[1].write({
-                        'date': new_date,
-                        'invoice_date': new_date,
-                        'invoice_date_due': new_date
-                    })
-                else:
-                    _logger.info(invoice_ids[1])
-                    _logger.info('Inicio')
-                    _logger.info(subscription.date_start)
-                    invoice_ids[1].write({
-                        'date': subscription.date_start,
-                        'invoice_date': subscription.date_start,
-                        'invoice_date_due': subscription.date_start
-                    })
-                    new_date = subscription.date_start + relativedelta(**{interval_type: 1})
-                    _logger.info(invoice_ids[0])
-                    _logger.info('Mes 1')
-                    _logger.info(new_date)
-                    invoice_ids[0].write({
-                        'date': new_date,
-                        'invoice_date': new_date,
-                        'invoice_date_due': new_date
-                    })
-            elif len(invoice_ids) == 1:
-                _logger.info('1 facturas')
-                _logger.info(invoice_ids[0])
-                _logger.info('Inicio')
-                _logger.info(subscription.date_start)
-                invoice_ids[0].write({
-                    'date': subscription.date_start,
-                    'invoice_date': subscription.date_start,
-                    'invoice_date_due': subscription.date_start
                 })
