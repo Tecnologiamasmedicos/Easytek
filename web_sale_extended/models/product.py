@@ -13,7 +13,7 @@ class ProductCategory(models.Model):
     sequence_id = fields.Many2one('ir.sequence','Secuencia del Patrocinador')
     sponsor_id = fields.Many2one('res.partner', 'Sponsor', required=True, domain=[('company_type', '=', 'sponsor')])
     journal_id = fields.Many2one('account.journal', string='Diario', domain=[('type', '=', 'sale')])
-    
+    welcome_mail_template_id = fields.Many2one('mail.template', string='Correo de Bienvenida', domain=[('model', '=', 'sale.order')])
     
 class ProductProduct(models.Model):
     _inherit = 'product.product'
@@ -34,7 +34,8 @@ class ProductTemplate(models.Model):
     product_class = fields.Char('Clase del producto')    
     sequence_id = fields.Many2one('ir.sequence','Secuencia del Producto')    
     product_landpage_url = fields.Char('URL para Landpage')
-    is_beneficiary = fields.Boolean('Es un beneficio')
+    is_beneficiary = fields.Boolean('Saltar pasarela de pago (Beneficio)')
+    payulatam_payment_methods_ids = fields.Many2many('payu.payment.methods', string='Metodos de pago')
     
     
 #     logo_website_pdf  = fields.Binary(string="Image del Plan para el documento PDF", readonly=False)

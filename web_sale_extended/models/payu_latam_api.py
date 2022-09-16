@@ -306,3 +306,9 @@ class PayULatamApi(models.TransientModel):
     def search_city_name(self, city_id: int) -> str:
         city = self.env['res.city'].browse(int(city_id))
         return str(city.name)
+
+class PayuPaymentMethods(models.Model):
+    _name = 'payu.payment.methods'
+    _description = 'Payu latam payment methods'
+    
+    name = fields.Char(string='Nombre')
