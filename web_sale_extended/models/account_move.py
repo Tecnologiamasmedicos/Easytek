@@ -765,9 +765,13 @@ class AccountMove(models.Model):
             _logger.info(subscription.policy_number)
             _logger.info('deal_id')
             _logger.info(deal_id)
+            _logger.info('action date billing cycle')
+            _logger.info(invoice.action_date_billing_cycle)
             invoice.write({
-                'action_date_billing_cycle': today
+                'action_date_billing_cycle': today,
             })
+            _logger.info('action date billing cycle')
+            _logger.info(invoice.action_date_billing_cycle)
             if deal_id == False or subscription.stage_id == 4:
                 invoice.write({
                     'payulatam_state': 'no_payment'
