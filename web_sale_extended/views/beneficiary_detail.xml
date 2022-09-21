@@ -70,7 +70,14 @@
                                         <p>
                                             <font color="#39b54a">
                                                 <span style="color: #333333; font-size: 16px;">
-                                                    <b>Certificado de póliza de accidentes personales No <!--<t t-esc="partner.firstname"/> <t t-esc="partner.lastname"/>-->  No. <t t-esc="order_detail.subscription_id.number"/> - <t t-esc="order_detail.subscription_id.policy_number"/></b>
+                                                    <b>Certificado de póliza de accidentes personales No. 
+                                                        <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
+                                                            <t t-esc="order_detail.subscription_id.policy_number"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-esc="order_detail.subscription_id.number"/> - <t t-esc="order_detail.subscription_id.policy_number"/>
+                                                        </t>
+                                                    </b>
                                                 </span>
                                             </font>
                                             <br/>

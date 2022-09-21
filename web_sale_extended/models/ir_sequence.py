@@ -19,4 +19,6 @@ class IrSequence(models.Model):
     sponsor_nit = fields.Char('Identificación del Sponsor')
     sponsor_payment_url = fields.Char('URL de la Plataforma de Pagos')
     value_policy = fields.Float('Valor Poliza')
+    number_next_actual = fields.Float(compute='_get_number_next_actual', inverse='_set_number_next_actual', string='Actual Next Number', help="Next number that will be used. This number can be incremented ", size=15, digits=(15, 0))
+    number_next = fields.Float(string='Next Number', required=True, default=1, help="Next number of this sequence", size=15, digits=(15, 0))
     
