@@ -114,126 +114,81 @@ class WebsiteSaleExtended(WebsiteSale):
         payulatam_transaction_id = request.env['sale.order'].sudo().search(domain, limit=1)
         if payulatam_transaction_id:
             if lapTransactionState == 'APPROVED':
-                payulatam_transaction_id.write({
-                    'payulatam_state': 'TRANSACCIÓN APROBADA',
-                    'state': 'payu_approved'
-                })
-                query = """
-                    INSERT INTO payments_report (
-                        policy_number,
-                        certificate_number, 
-                        firstname,
-                        othernames, 
-                        lastname, 
-                        identification_document, 
-                        birthday_date,
-                        transaction_type, 
-                        clase,
-                        change_date, 
-                        collected_value,
-                        number_of_installments,
-                        payment_method,
-                        number_of_plan_installments,
-                        total_installments,
-                        number_of_installments_arrears,
-                        policyholder,
-                        sponsor_id,
-                        product_code,
-                        product_name,
-                        payulatam_order_id,
-                        payulatam_transaction_id,
-                        origin_document,
-                        sale_order,
-                        subscription,
-                        payment_type
-                    )
-                    SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, %s, %s, '%s', %s, '%s', '%s', '%s', '%s', '%s', %s, %s, '%s' WHERE NOT EXISTS(SELECT * FROM payments_report WHERE payulatam_order_id='%s');
-                """ %(
-                    order.subscription_id.number if order.subscription_id.number != False else '',
-                    order.subscription_id.policy_number if order.subscription_id.policy_number != False else '',
-                    order.partner_id.firstname if order.partner_id.firstname != False else '', 
-                    order.partner_id.othernames, 
-                    str(order.partner_id.lastname) + ' ' + str(order.partner_id.lastname2) if order.partner_id.lastname != False else '', 
-                    order.partner_id.identification_document if order.partner_id.identification_document != False else '', 
-                    order.partner_id.birthdate_date if order.partner_id.birthdate_date != False else '', 
-                    'R', 
-                    order.main_product_id.product_class if order.main_product_id.product_class != False else '', 
-                    date.today(), 
-                    order.amount_total if order.amount_total != False else '', 
-                    1, 
-                    order.payment_method_type if order.payment_method_type != False else '', 
-                    order.main_product_id.subscription_template_id.recurring_rule_count if order.main_product_id.subscription_template_id.recurring_rule_count  != False else '', 
-                    1, 
-                    0, 
-                    order.subscription_id.policyholder if order.subscription_id.policyholder != False else '', 
-                    order.sponsor_id.id if order.sponsor_id.id != False else 'null', 
-                    order.main_product_id.default_code if order.main_product_id.default_code != False else '', 
-                    order.main_product_id.name if order.main_product_id.name != False else '', 
-                    order.payulatam_order_id if order.payulatam_order_id != False else '', 
-                    order.payulatam_transaction_id if order.payulatam_transaction_id != False else '', 
-                    order.name if order.name != False else '', 
-                    order.id if order.id != False else 'null',
-                    order.subscription_id.id if order.subscription_id.id  != False else 'null',
-                    'new_sale',
-                    order.payulatam_order_id if order.payulatam_order_id != False else ''
-                )
-                order.env.cr.execute(query)
-                if request.session['sale_order_id'] and order == payulatam_transaction_id:
-                    """ En este caso el usuario puede continuar directamente la transacción """
-                    render_values = {}
-                    render_values.update({
-                        'website_sale_order': order,
-                        'order_id': order,
-                        'response': dict(kwargs),
-                        'order_detail': order.order_line[0],
-                        'access_token': str(request.env['sale.order'].generate_access_token(order.id))
+                if payulatam_transaction_id.state != 'sale':
+                    payulatam_transaction_id.write({
+                        'payulatam_state': 'TRANSACCIÓN APROBADA',
+                        'state': 'payu_approved'
                     })
-                    """ Mensaje en la orden de venta con la respuesta de PayU """
-                    body_message = """
-                        <b><span style='color:green;'>PayU Latam - Transacción de Pago Aprobada</span></b><br/>
-                        <b>Orden ID:</b> %s<br/>
-                        <b>Transacción ID:</b> %s<br/>
-                        <b>Estado:</b> %s<br/>
-                        <b>Código Respuesta:</b> %s<br/>
-                    """ % (
-                        kwargs['reference_pol'], 
-                        kwargs['transactionId'],
-                        kwargs['lapTransactionState'],
-                        kwargs['lapResponseCode'],
+                    query = """
+                        INSERT INTO payments_report (
+                            policy_number,
+                            certificate_number,
+                            firstname,
+                            othernames,
+                            lastname,
+                            identification_document,
+                            birthday_date,
+                            transaction_type,
+                            clase,
+                            change_date,
+                            collected_value,
+                            number_of_installments,
+                            payment_method,
+                            number_of_plan_installments,
+                            total_installments,
+                            number_of_installments_arrears,
+                            policyholder,
+                            sponsor_id,
+                            product_code,
+                            product_name,
+                            payulatam_order_id,
+                            payulatam_transaction_id,
+                            origin_document,
+                            sale_order,
+                            subscription,
+                            payment_type
+                        )
+                        SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, %s, %s, '%s', %s, '%s', '%s', '%s', '%s', '%s', %s, %s, '%s' WHERE NOT EXISTS(SELECT * FROM payments_report WHERE payulatam_order_id='%s');
+                    """ %(
+                        order.subscription_id.number if order.subscription_id.number != False else '',
+                        order.subscription_id.policy_number if order.subscription_id.policy_number != False else '',
+                        order.beneficiary0_id.firstname if order.beneficiary0_id.firstname != False else '', 
+                        order.beneficiary0_id.othernames, 
+                        str(order.beneficiary0_id.lastname) + ' ' + str(order.beneficiary0_id.lastname2) if order.beneficiary0_id.lastname != False else '', 
+                        order.beneficiary0_id.identification_document if order.beneficiary0_id.identification_document != False else '', 
+                        order.beneficiary0_id.birthdate_date if order.beneficiary0_id.birthdate_date != False else '',
+                        'R', 
+                        order.main_product_id.product_class if order.main_product_id.product_class != False else '', 
+                        date.today(), 
+                        order.amount_total if order.amount_total != False else '', 
+                        1, 
+                        order.payment_method_type if order.payment_method_type != False else '', 
+                        order.main_product_id.subscription_template_id.recurring_rule_count if order.main_product_id.subscription_template_id.recurring_rule_count  != False else '', 
+                        1, 
+                        0, 
+                        order.subscription_id.policyholder if order.subscription_id.policyholder != False else '', 
+                        order.sponsor_id.id if order.sponsor_id.id != False else 'null', 
+                        order.main_product_id.default_code if order.main_product_id.default_code != False else '', 
+                        order.main_product_id.name if order.main_product_id.name != False else '', 
+                        order.payulatam_order_id if order.payulatam_order_id != False else '', 
+                        order.payulatam_transaction_id if order.payulatam_transaction_id != False else '', 
+                        order.name if order.name != False else '', 
+                        order.id if order.id != False else 'null',
+                        order.subscription_id.id if order.subscription_id.id  != False else 'null',
+                        'new_sale',
+                        order.payulatam_order_id if order.payulatam_order_id != False else ''
                     )
-                    payulatam_transaction_id.message_post(body=body_message, type="comment")
-                    return request.render("web_sale_extended.web_sale_extended_payment_response_process", render_values)
-                else:
-                    """ En caso contrario se envía correo con la información para seguir """
-                    render_values = {}
-                    render_values.update({
-                        'website_sale_order': order,
-                        'order_id': order,
-                        'response': dict(kwargs),
-                    })
-                    template = request.env['mail.template'].sudo().search([('payulatam_approved_process', '=', True)], limit=1)
-                    context = dict(request.env.context)
-                    if template:
-                        _logger.error('*************+******+++++++++++***+*')
-                        _logger.error(template)
-                        _logger.error(payulatam_transaction_id.id)
-                        #template.sudo().send_mail(payulatam_transaction_id.id)
-                        payulatam_transaction_id._send_order_payu_latam_approved()
-                        """
-                        template_values = template.generate_email(payulatam_transaction_id.id, fields=None)
-                        template_values.update({
-                            #'email_to': sale_id.tusdatos_email,
-                            'email_to': payulatam_transaction_id.partner_id.email,
-                            'auto_delete': False,
-                            #'partner_to': False,
-                            'scheduled_date': False,
+                    order.env.cr.execute(query)
+                    if request.session['sale_order_id'] and order == payulatam_transaction_id:
+                        """ En este caso el usuario puede continuar directamente la transacción """
+                        render_values = {}
+                        render_values.update({
+                            'website_sale_order': order,
+                            'order_id': order,
+                            'response': dict(kwargs),
+                            'order_detail': order.order_line[0],
+                            'access_token': str(request.env['sale.order'].generate_access_token(order.id))
                         })
-                        template.write(template_values)
-                        cleaned_ctx = dict(request.env.context)
-                        cleaned_ctx.pop('default_type', None)
-                        template.with_context(lang=request.env.user.lang).send_mail(payulatam_transaction_id.id, force_send=True, raise_exception=True)
-                        """
-
                         """ Mensaje en la orden de venta con la respuesta de PayU """
                         body_message = """
                             <b><span style='color:green;'>PayU Latam - Transacción de Pago Aprobada</span></b><br/>
@@ -242,15 +197,61 @@ class WebsiteSaleExtended(WebsiteSale):
                             <b>Estado:</b> %s<br/>
                             <b>Código Respuesta:</b> %s<br/>
                         """ % (
-                            kwargs['reference_pol'], 
+                            kwargs['reference_pol'],
                             kwargs['transactionId'],
                             kwargs['lapTransactionState'],
                             kwargs['lapResponseCode'],
                         )
                         payulatam_transaction_id.message_post(body=body_message, type="comment")
                         return request.render("web_sale_extended.web_sale_extended_payment_response_process", render_values)
-                #request.session['sale_order_id'] = None
-                #request.session['sale_transaction_id'] = None
+                    else:
+                        """ En caso contrario se envía correo con la información para seguir """
+                        render_values = {}
+                        render_values.update({
+                            'website_sale_order': order,
+                            'order_id': order,
+                            'response': dict(kwargs),
+                        })
+                        template = request.env['mail.template'].sudo().search([('payulatam_approved_process', '=', True)], limit=1)
+                        context = dict(request.env.context)
+                        if template:
+                            _logger.error('*************+******+++++++++++***+*')
+                            _logger.error(template)
+                            _logger.error(payulatam_transaction_id.id)
+                            #template.sudo().send_mail(payulatam_transaction_id.id)
+                            payulatam_transaction_id._send_order_payu_latam_approved()
+                            """
+                            template_values = template.generate_email(payulatam_transaction_id.id, fields=None)
+                            template_values.update({
+                                #'email_to': sale_id.tusdatos_email,
+                                'email_to': payulatam_transaction_id.partner_id.email,
+                                'auto_delete': False,
+                                #'partner_to': False,
+                                'scheduled_date': False,
+                            })
+                            template.write(template_values)
+                            cleaned_ctx = dict(request.env.context)
+                            cleaned_ctx.pop('default_type', None)
+                            template.with_context(lang=request.env.user.lang).send_mail(payulatam_transaction_id.id, force_send=True, raise_exception=True)
+                            """
+
+                            """ Mensaje en la orden de venta con la respuesta de PayU """
+                            body_message = """
+                                <b><span style='color:green;'>PayU Latam - Transacción de Pago Aprobada</span></b><br/>
+                                <b>Orden ID:</b> %s<br/>
+                                <b>Transacción ID:</b> %s<br/>
+                                <b>Estado:</b> %s<br/>
+                                <b>Código Respuesta:</b> %s<br/>
+                            """ % (
+                                kwargs['reference_pol'],
+                                kwargs['transactionId'],
+                                kwargs['lapTransactionState'],
+                                kwargs['lapResponseCode'],
+                            )
+                            payulatam_transaction_id.message_post(body=body_message, type="comment")
+                            return request.render("web_sale_extended.web_sale_extended_payment_response_process", render_values)
+                    #request.session['sale_order_id'] = None
+                    #request.session['sale_transaction_id'] = None
             else:
                 render_values = {}
                 render_values.update({
@@ -374,11 +375,11 @@ class WebsiteSaleExtended(WebsiteSale):
             """ %(
                 subscription.number if subscription.number != False else '',
                 subscription.policy_number if subscription.policy_number != False else '',
-                origin_document.partner_id.firstname if origin_document.partner_id.firstname != False else '', 
-                origin_document.partner_id.othernames, 
-                str(origin_document.partner_id.lastname) + ' ' + str(origin_document.partner_id.lastname2) if origin_document.partner_id.lastname != False else '', 
-                origin_document.partner_id.identification_document if origin_document.partner_id.identification_document != False else '', 
-                origin_document.partner_id.birthdate_date if origin_document.partner_id.birthdate_date != False else '', 
+                sale_order.beneficiary0_id.firstname if sale_order.beneficiary0_id.firstname != False else '', 
+                sale_order.beneficiary0_id.othernames, 
+                str(sale_order.beneficiary0_id.lastname) + ' ' + str(sale_order.beneficiary0_id.lastname2) if sale_order.beneficiary0_id.lastname != False else '', 
+                sale_order.beneficiary0_id.identification_document if sale_order.beneficiary0_id.identification_document != False else '', 
+                sale_order.beneficiary0_id.birthdate_date if sale_order.beneficiary0_id.birthdate_date != False else '',
                 'R', 
                 product.product_class if product.product_class != False else '', 
                 date.today(), 

@@ -354,7 +354,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 lastname: {
                     required: true,
                     minlength: 3,
-                    maxlength: 11,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 othernames: {
@@ -363,7 +363,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 },
                 lastname2: {
                     minlength: 3,
-                    maxlength: 8,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 email: {
@@ -515,10 +515,10 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 lastname: {
                     required: "¡Upss! tu apellido es requerido",
                     minlength: "¡Upss! tu apellido debe contener más de 3 caracteres",
-                    maxlength: "¡Upss! tu apellido debe contener más de 11 caracteres"
+                    maxlength: "¡Upss! tu apellido debe contener más de 20 caracteres"
                 },
                 lastname2: {
-                    maxlength: "¡Upss! tu apellido no debe contener más de 8 caracteres"
+                    maxlength: "¡Upss! tu apellido no debe contener más de 20 caracteres"
                 },
                 email: {
                     required: "¡Upss! tu email es requerido",
@@ -1718,7 +1718,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 lastname: {
                     required: true,
                     minlength: 3,
-                    maxlength: 11,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 othername: {
@@ -1728,7 +1728,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 lastname2: {
                     minlength: 3,
-                    maxlength: 8,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 email: {
@@ -1848,7 +1848,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bflastname1: {
                     required: true,
                     minlength: 3,
-                    maxlength: 11,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 bfothername1: {
@@ -1858,7 +1858,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bflastname12: {
                     minlength: 3,
-                    maxlength: 8,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 bfemail1: {
@@ -1957,7 +1957,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bflastname2: {
                     required: true,
                     minlength: 3,
-                    maxlength: 11,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 bfothername2: {
@@ -1967,7 +1967,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bflastname22: {
                     minlength: 3,
-                    maxlength: 8,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 bfemail2: {
@@ -2066,7 +2066,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bflastname3: {
                     required: true,
                     minlength: 3,
-                    maxlength: 11,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 bfothername3: {
@@ -2076,7 +2076,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bflastname32: {
                     minlength: 3,
-                    maxlength: 8,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 bfemail3: {
@@ -2175,7 +2175,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bflastname4: {
                     required: true,
                     minlength: 3,
-                    maxlength: 11,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 bfothername4: {
@@ -2185,7 +2185,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bflastname42: {
                     minlength: 3,
-                    maxlength: 8,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 bfemail4: {
@@ -2284,7 +2284,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bflastname5: {
                     required: true,
                     minlength: 3,
-                    maxlength: 11,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 bfothername5: {
@@ -2294,7 +2294,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bflastname52: {
                     minlength: 3,
-                    maxlength: 8,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 bfemail5: {
@@ -2393,7 +2393,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bflastname6: {
                     required: true,
                     minlength: 3,
-                    maxlength: 11,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 bfothername6: {
@@ -2403,7 +2403,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 bflastname62: {
                     minlength: 3,
-                    maxlength: 8,
+                    maxlength: 20,
                     lettersonly: true,
                 },
                 bfemail6: {
@@ -2506,12 +2506,12 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 }, 
                 lastname2: {
                     minlength: "¡Upss! un apellido contiene más de 3 caracteres",
-                    maxlength: "¡Upss! un apellido no debe contener más de 8 caracteres"
+                    maxlength: "¡Upss! un apellido no debe contener más de 20 caracteres"
                 },
                 lastname: {
                     required: "¡Upss! un apellido es requerido",
                     minlength: "¡Upss! un apellido contiene más de 3 caracteres",
-                    maxlength: "¡Upss! un apellido no debe contener más de 11 caracteres"
+                    maxlength: "¡Upss! un apellido no debe contener más de 20 caracteres"
                 },
                 email: {
                     required: "¡Upss! un email es requerido",
@@ -2585,13 +2585,13 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 }, 
                 bflastname12: {
                     minlength: "¡Upss! un apellido contiene más de 3 caracteres",
-                    maxlength: "¡Upss! un apellido no debe contener más de 8 caracteres"
+                    maxlength: "¡Upss! un apellido no debe contener más de 20 caracteres"
                 },
 
                 bflastname1: {
                     required: "¡Upss! un apellido es requerido",
                     minlength: "¡Upss! un apellido contiene más de 3 caracteres",
-                    maxlength: "¡Upss! un apellido no debe contener más de 11 caracteres"
+                    maxlength: "¡Upss! un apellido no debe contener más de 20 caracteres"
                 },
                 bfemail1: {
                     required: "¡Upss! un email es requerido",
@@ -2658,12 +2658,12 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 }, 
                 bflastname22: {
                     minlength: "¡Upss! un apellido contiene más de 3 caracteres",
-                    maxlength: "¡Upss! un apellido no debe contener más de 8 caracteres"
+                    maxlength: "¡Upss! un apellido no debe contener más de 20 caracteres"
                 },
                 bflastname2: {
                     required: "¡Upss! un apellido es requerido",
                     minlength: "¡Upss! un apellido contiene más de 3 caracteres",
-                    maxlength: "¡Upss! un apellido no debe contener más de 11 caracteres"
+                    maxlength: "¡Upss! un apellido no debe contener más de 20 caracteres"
                 },
                 bfemail2: {
                     required: "¡Upss! un email es requerido",
@@ -2730,12 +2730,12 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 }, 
                 bflastname32: {
                     minlength: "¡Upss! un apellido contiene más de 3 caracteres",
-                    maxlength: "¡Upss! un apellido no debe contener más de 7 caracteres"
+                    maxlength: "¡Upss! un apellido no debe contener más de 20 caracteres"
                 },
                 bflastname3: {
                     required: "¡Upss! tu apellido es requerido",
                     minlength: "Un apellido contiene más de 3 caracteres",
-                    maxlength: "¡Upss! un apellido no debe contener más de 12 caracteres"
+                    maxlength: "¡Upss! un apellido no debe contener más de 20 caracteres"
                 },
                 bfemail3: {
                     required: "¡Upss! tu email es requerido",
@@ -2802,12 +2802,12 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 }, 
                 bflastname42: {
                     minlength: "¡Upss! un apellido contiene más de 3 caracteres",
-                    maxlength: "¡Upss! un apellido no debe contener más de 8 caracteres"
+                    maxlength: "¡Upss! un apellido no debe contener más de 20 caracteres"
                 },
                 bflastname4: {
                     required: "¡Upss! tu apellido es requerido",
                     minlength: "Un apellido contiene más de 3 caracteres",
-                    maxlength: "¡Upss! un apellido no debe contener más de 11 caracteres"
+                    maxlength: "¡Upss! un apellido no debe contener más de 20 caracteres"
                 },
                 bfemail4: {
                     required: "¡Upss! tu email es requerido",
@@ -2874,12 +2874,12 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 }, 
                 bflastname52: {
                     minlength: "¡Upss! un apellido contiene más de 3 caracteres",
-                    maxlength: "¡Upss! un apellido no debe contener más de 8 caracteres"
+                    maxlength: "¡Upss! un apellido no debe contener más de 20 caracteres"
                 },
                 bflastname5: {
                     required: "¡Upss! tu apellido es requerido",
                     minlength: "Un apellido contiene más de 3 caracteres",
-                    maxlength: "¡Upss! un apellido no debe contener más de 11 caracteres"
+                    maxlength: "¡Upss! un apellido no debe contener más de 20 caracteres"
                 },
                 bfemail5: {
                     required: "¡Upss! tu email es requerido",
@@ -2946,12 +2946,12 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 }, 
                 bflastname62: {
                     minlength: "¡Upss! un apellido contiene más de 3 caracteres",
-                    maxlength: "¡Upss! un apellido no debe contener más de 8 caracteres"
+                    maxlength: "¡Upss! un apellido no debe contener más de 20 caracteres"
                 },
                 bflastname6: {
                     required: "¡Upss! tu apellido es requerido",
                     minlength: "Un apellido contiene más de 3 caracteres",
-                    maxlength: "¡Upss! un apellido no debe contener más de 11 caracteres"
+                    maxlength: "¡Upss! un apellido no debe contener más de 20 caracteres"
                 },
                 bfemail6: {
                     required: "¡Upss! tu email es requerido",
@@ -3065,7 +3065,6 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
         }
     }
     
-    
     if ($('#submit_beneficiaries').length) {
         $("#submit_beneficiaries").on('click', function(e){
             e.preventDefault();
@@ -3076,7 +3075,6 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
             $('#beneficiary').submit();
         });
     }
-
 });
 
 
@@ -3096,6 +3094,10 @@ odoo.define('web_sale_extended.welcome_masmedicos', function(require) {
 
 odoo.define('web_sale_extended.payment_process', function(require) {
     'use strict';
+
+    if ($('#nav-tab').length) {
+        document.getElementById("nav-tab").firstChild.nextSibling.click();
+    }
 
     $(function() {
         $('#credit_card_country_id').selectpicker();

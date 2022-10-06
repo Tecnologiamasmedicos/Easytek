@@ -450,6 +450,7 @@ class SaleOrder(models.Model):
                         if response['result']['payload']['state'] == 'APPROVED':
                             sale.write({
                                 'payulatam_state': 'TRANSACCIÓN EN EFECTIVO APROBADA',
+                                'payulatam_datetime': datetime.fromtimestamp(int(response['result']['payload']['operationDate']) / 1e3)
                             })
                             query = """
                                 INSERT INTO payments_report (
@@ -484,14 +485,14 @@ class SaleOrder(models.Model):
                             """ %(
                                 sale.subscription_id.number if sale.subscription_id.number != False else '',
                                 sale.subscription_id.policy_number if sale.subscription_id.policy_number != False else '',
-                                sale.partner_id.firstname if sale.partner_id.firstname != False else '', 
-                                sale.partner_id.othernames, 
-                                str(sale.partner_id.lastname) + ' ' + str(sale.partner_id.lastname2) if sale.partner_id.lastname != False else '', 
-                                sale.partner_id.identification_document if sale.partner_id.identification_document != False else '', 
-                                sale.partner_id.birthdate_date if sale.partner_id.birthdate_date != False else '', 
+                                sale.beneficiary0_id.firstname if sale.beneficiary0_id.firstname != False else '', 
+                                sale.beneficiary0_id.othernames, 
+                                str(sale.beneficiary0_id.lastname) + ' ' + str(sale.beneficiary0_id.lastname2) if sale.beneficiary0_id.lastname != False else '', 
+                                sale.beneficiary0_id.identification_document if sale.beneficiary0_id.identification_document != False else '', 
+                                sale.beneficiary0_id.birthdate_date if sale.beneficiary0_id.birthdate_date != False else '',
                                 'R', 
                                 sale.main_product_id.product_class if sale.main_product_id.product_class != False else '', 
-                                date.today(), 
+                                sale.payulatam_datetime.date(), 
                                 sale.amount_total if sale.amount_total != False else '', 
                                 1, 
                                 sale.payment_method_type if sale.payment_method_type != False else '', 
@@ -544,6 +545,7 @@ class SaleOrder(models.Model):
                         if response['result']['payload']['state'] == 'APPROVED':
                             sale.write({
                                 'payulatam_state': 'TRANSACCIÓN PSE APROBADA',
+                                'payulatam_datetime': datetime.fromtimestamp(int(response['result']['payload']['operationDate']) / 1e3)
                             })
                             query = """
                                 INSERT INTO payments_report (
@@ -578,14 +580,14 @@ class SaleOrder(models.Model):
                             """ %(
                                 sale.subscription_id.number if sale.subscription_id.number != False else '',
                                 sale.subscription_id.policy_number if sale.subscription_id.policy_number != False else '',
-                                sale.partner_id.firstname if sale.partner_id.firstname != False else '', 
-                                sale.partner_id.othernames, 
-                                str(sale.partner_id.lastname) + ' ' + str(sale.partner_id.lastname2) if sale.partner_id.lastname != False else '', 
-                                sale.partner_id.identification_document if sale.partner_id.identification_document != False else '', 
-                                sale.partner_id.birthdate_date if sale.partner_id.birthdate_date != False else '', 
+                                sale.beneficiary0_id.firstname if sale.beneficiary0_id.firstname != False else '', 
+                                sale.beneficiary0_id.othernames, 
+                                str(sale.beneficiary0_id.lastname) + ' ' + str(sale.beneficiary0_id.lastname2) if sale.beneficiary0_id.lastname != False else '', 
+                                sale.beneficiary0_id.identification_document if sale.beneficiary0_id.identification_document != False else '', 
+                                sale.beneficiary0_id.birthdate_date if sale.beneficiary0_id.birthdate_date != False else '',
                                 'R', 
                                 sale.main_product_id.product_class if sale.main_product_id.product_class != False else '', 
-                                date.today(), 
+                                sale.payulatam_datetime.date(), 
                                 sale.amount_total if sale.amount_total != False else '', 
                                 1, 
                                 sale.payment_method_type if sale.payment_method_type != False else '', 
@@ -638,6 +640,7 @@ class SaleOrder(models.Model):
                         if response['result']['payload']['state'] == 'APPROVED':
                             sale.write({
                                 'payulatam_state': 'TRANSACCIÓN CON TARJETA DE CRÉDITO APROBADA',
+                                'payulatam_datetime': datetime.fromtimestamp(int(response['result']['payload']['operationDate']) / 1e3)
                             })
                             query = """
                                 INSERT INTO payments_report (
@@ -672,14 +675,14 @@ class SaleOrder(models.Model):
                             """ %(
                                 sale.subscription_id.number if sale.subscription_id.number != False else '',
                                 sale.subscription_id.policy_number if sale.subscription_id.policy_number != False else '',
-                                sale.partner_id.firstname if sale.partner_id.firstname != False else '', 
-                                sale.partner_id.othernames, 
-                                str(sale.partner_id.lastname) + ' ' + str(sale.partner_id.lastname2) if sale.partner_id.lastname != False else '', 
-                                sale.partner_id.identification_document if sale.partner_id.identification_document != False else '', 
-                                sale.partner_id.birthdate_date if sale.partner_id.birthdate_date != False else '', 
+                                sale.beneficiary0_id.firstname if sale.beneficiary0_id.firstname != False else '', 
+                                sale.beneficiary0_id.othernames, 
+                                str(sale.beneficiary0_id.lastname) + ' ' + str(sale.beneficiary0_id.lastname2) if sale.beneficiary0_id.lastname != False else '', 
+                                sale.beneficiary0_id.identification_document if sale.beneficiary0_id.identification_document != False else '', 
+                                sale.beneficiary0_id.birthdate_date if sale.beneficiary0_id.birthdate_date != False else '',
                                 'R', 
                                 sale.main_product_id.product_class if sale.main_product_id.product_class != False else '', 
-                                date.today(), 
+                                sale.payulatam_datetime.date(), 
                                 sale.amount_total if sale.amount_total != False else '', 
                                 1, 
                                 sale.payment_method_type if sale.payment_method_type != False else '', 

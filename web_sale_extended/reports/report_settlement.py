@@ -82,7 +82,7 @@ class ReportSubscriptionSettlement(models.Model):
         CREATE or REPLACE VIEW report_subscription_settlement AS(
         select 
         row_number() OVER (ORDER BY sub.id) as id,
-        sub.number as policy_number,
+        LPAD(sub.number::text, 5, '0') as policy_number,
         sub.policy_number as certificate_number,
         p.name as buyer_name,
         pap.name as ap_name,

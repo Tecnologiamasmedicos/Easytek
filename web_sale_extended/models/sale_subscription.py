@@ -338,6 +338,45 @@ class SaleSubscription(models.Model):
             )
             self.message_post(body=body_message, type="comment")
 
+    @api.model
+    def cron_account_analytic_account(self):
+        res = super(SaleSubscription, self).cron_account_analytic_account()
+        subscriptions_close_ids = res['closed']
+        _logger.info('***************** subscriptions_close_ids *******************')
+        _logger.info(subscriptions_close_ids)
+        for subscription_close_id in subscriptions_close_ids:
+            subscription = self.env['sale.subscription'].browse(subscription_close_id)
+            deal_id = self.env['api.hubspot'].search_deal_id(subscription)
+            if deal_id != False:
+                deal_properties = {
+                    "estado_de_la_poliza": "Cancelado",
+                    "causal_de_cancelacion": 'Sin renovación',
+                    "fecha_efectiva_de_cancelacion": subscription.date
+                }
+                self.env['api.hubspot'].update_deal(deal_id, deal_properties)
+                body_message = """
+                    <b><span style='color: darkblue;'>API HubSpot - Cancelación poliza</span></b><br/>
+                    <b>Estado:</b> %s<br/>
+                    <b>Causal de cancelación:</b> %s<br/>
+                    <b>Fecha efectiva de cancelación:</b> %s
+                """ % (
+                    deal_properties['estado_de_la_poliza'],
+                    deal_properties['causal_de_cancelacion'],
+                    deal_properties['fecha_efectiva_de_cancelacion']
+                )
+                subscription.message_post(body=body_message, type="comment")
+            else:
+                body_message = """
+                    <b><span style='color: red;'>API HubSpot - Error buscar poliza</span></b><br/>
+                    <b>N° Poliza:</b> %s<br/>
+                    <b>N° Certificado:</b> %s
+                """ % (
+                    subscription.number,
+                    subscription.policy_number
+                )
+                subscription.message_post(body=body_message, type="comment")
+        return res
+
 class SaleSubscriptionCloseReasonWizard(models.TransientModel):
     _inherit = "sale.subscription.close.reason.wizard"
     

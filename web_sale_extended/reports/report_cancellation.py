@@ -11,11 +11,10 @@ _logger = logging.getLogger(__name__)
 class ReportSubscriptionCancellation(models.Model):
     _name = 'report.subscription.cancellation'
     _auto = False
-    _description = 'Subscription Settlement Report'
+    _description = 'Subscription cancelation Report'
 
     sale_order = fields.Many2one('sale.order', string='Orden de Venta', readonly=True)
     subscription = fields.Many2one('sale.subscription', string='Suscripcion', readonly=True)
-    
     policy_number = fields.Char('Número de Póliza',readonly=True)
     certificate_number = fields.Char('Número de Certificado',readonly=True)
     subscription_date_start = fields.Date('Fecha de Inicio',readonly=True)
@@ -32,8 +31,8 @@ class ReportSubscriptionCancellation(models.Model):
         row_number() OVER (ORDER BY sub.id) as id,
 
         so.id as sale_order,    
-        sub.id as subscription, 
-        sub.number as policy_number,
+        sub.id as subscription,
+        LPAD(sub.number::text, 5, '0') as policy_number, 
         sub.policy_number as certificate_number,
         sub.date_start as subscription_date_start,
         sub.date as subscription_date_end,

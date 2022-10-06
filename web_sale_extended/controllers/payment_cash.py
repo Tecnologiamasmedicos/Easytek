@@ -289,10 +289,7 @@ class WebsiteSaleExtended(WebsiteSale):
         full_name = post['cash_billing_firstname']
         if 'cash_billing_lastname' in post:
             full_name = post['cash_billing_firstname'] + ' ' + post['cash_billing_lastname']
-        
-        _logger.info('*********************** full_name ******************')
-        _logger.info(full_name)
-
+            
         shippingAddress = {
             "street1": partner.street,
             "street2": "",
