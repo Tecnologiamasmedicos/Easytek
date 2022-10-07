@@ -179,7 +179,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 order.subscription_id.number if order.subscription_id.number != False else '',
                 order.subscription_id.policy_number if order.subscription_id.policy_number != False else '',
                 order.beneficiary0_id.firstname if order.beneficiary0_id.firstname != False else '', 
-                order.beneficiary0_id.othernames, 
+                order.beneficiary0_id.othernames if order.beneficiary0_id.othernames != False else '',
                 str(order.beneficiary0_id.lastname) + ' ' + str(order.beneficiary0_id.lastname2) if order.beneficiary0_id.lastname != False else '', 
                 order.beneficiary0_id.identification_document if order.beneficiary0_id.identification_document != False else '', 
                 order.beneficiary0_id.birthdate_date if order.beneficiary0_id.birthdate_date != False else '',
