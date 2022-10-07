@@ -489,7 +489,7 @@ class SaleOrder(models.Model):
                                 sale.beneficiary0_id.othernames if sale.beneficiary0_id.othernames != False else '',
                                 (str(sale.beneficiary0_id.lastname) + ' ' + str(sale.beneficiary0_id.lastname2))[:20] if sale.beneficiary0_id.lastname != False else '', 
                                 sale.beneficiary0_id.identification_document if sale.beneficiary0_id.identification_document != False else '', 
-                                sale.beneficiary0_id.birthdate_date if sale.beneficiary0_id.birthdate_date != False else '',
+                                sale.beneficiary0_id.birthdate_date if sale.beneficiary0_id.birthdate_date != False else 'null',
                                 'R', 
                                 sale.main_product_id.product_class if sale.main_product_id.product_class != False else '', 
                                 sale.payulatam_datetime.date(), 
