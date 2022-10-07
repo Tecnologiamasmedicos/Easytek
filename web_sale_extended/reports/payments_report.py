@@ -69,7 +69,7 @@ class PaymentsReport(models.Model):
                 collection.policyholder = subscription.policyholder
                 collection.firstname  = ap.firstname
                 collection.othernames = ap.othernames
-                collection.lastname = str(ap.lastname) + ' ' + str(ap.lastname2)
+                collection.lastname = (str(ap.lastname) + ' ' + str(ap.lastname2))[:20]
                 collection.identification_document = ap.identification_document
                 collection.birthday_date = ap.birthdate_date
 
