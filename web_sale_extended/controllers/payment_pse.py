@@ -174,7 +174,7 @@ class WebsiteSaleExtended(WebsiteSale):
                     subscription,
                     payment_type
                 )
-                SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, %s, %s, '%s', %s, '%s', '%s', '%s', '%s', '%s', %s, %s, '%s' WHERE NOT EXISTS(SELECT * FROM payments_report WHERE payulatam_order_id='%s');
+                SELECT '%s', '%s', '%s', '%s', '%s', '%s', %s, '%s', '%s', '%s', %s, %s, '%s', %s, %s, %s, '%s', %s, '%s', '%s', '%s', '%s', '%s', %s, %s, '%s' WHERE NOT EXISTS(SELECT * FROM payments_report WHERE payulatam_order_id='%s');
             """ %(
                 order.subscription_id.number if order.subscription_id.number != False else '',
                 order.subscription_id.policy_number if order.subscription_id.policy_number != False else '',
@@ -182,7 +182,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 order.beneficiary0_id.othernames if order.beneficiary0_id.othernames != False else '',
                 (str(order.beneficiary0_id.lastname) + ' ' + str(order.beneficiary0_id.lastname2))[:20] if order.beneficiary0_id.lastname != False else '', 
                 order.beneficiary0_id.identification_document if order.beneficiary0_id.identification_document != False else '', 
-                order.beneficiary0_id.birthdate_date if order.beneficiary0_id.birthdate_date != False else '',
+                str(order.beneficiary0_id.birthdate_date) if order.beneficiary0_id.birthdate_date != False else 'null',
                 'R', 
                 order.main_product_id.product_class if order.main_product_id.product_class != False else '', 
                 date.today(), 
