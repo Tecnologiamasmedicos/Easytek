@@ -191,16 +191,16 @@ class AccountMove(models.Model):
                 "type": "AUTHORIZATION_AND_CAPTURE",
                 "paymentMethod": self.payulatam_credit_card_method,
                 "paymentCountry": "CO",
-                "deviceSessionId": request.httprequest.cookies.get('session_id') if request.httprequest.cookies.get('session_id') else "vghs6tvkcle931686k1900o6e1",
+                "deviceSessionId": "vghs6tvkcle931686k1900o6e1",
                 "ipAddress": "127.0.0.1",
-                "cookie": request.httprequest.cookies.get('session_id') if request.httprequest.cookies.get('session_id') else "pt1t38347bs6jc9ruv2ecpv7o2",
+                "cookie": "pt1t38347bs6jc9ruv2ecpv7o2",
                 "userAgent": "Firefox"
             }        
             credit_card_values = {
                 "command": "SUBMIT_TRANSACTION",
                 "transaction": transaction,
             }
-            response = request.env['api.payulatam'].payulatam_credit_cards_payment_request(credit_card_values)
+            response = self.env['api.payulatam'].payulatam_credit_cards_payment_request(credit_card_values)
             if response['code'] != 'SUCCESS':
                 body_message = """
                     <b><span style='color:red;'>PayU Latam - Error en pago con tarjeta de crédito</span></b><br/>
@@ -213,9 +213,9 @@ class AccountMove(models.Model):
                 self.message_post(body=body_message, type="comment")
             else:
                 if response['transactionResponse']['state'] == 'APPROVED':
-                    subscription = request.env['sale.subscription'].sudo().search([('code', '=', self.invoice_origin)])
+                    subscription = self.env['sale.subscription'].sudo().search([('code', '=', self.invoice_origin)])
                     product = self.invoice_line_ids[0].product_id
-                    sale_order = request.env['sale.order'].sudo().search([('subscription_id', '=', subscription.id)])
+                    sale_order = self.env['sale.order'].sudo().search([('subscription_id', '=', subscription.id)])
                     self.write({
                         'payulatam_order_id': response['transactionResponse']['orderId'],
                         'payulatam_transaction_id': response['transactionResponse']['transactionId'],

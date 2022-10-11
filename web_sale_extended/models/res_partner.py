@@ -54,8 +54,8 @@ class ResPartner(models.Model):
     sponsor_id = fields.Many2one('res.partner', 'Sponsor', domain=[('company_type', '=', 'sponsor')])
     campo_vacio = fields.Boolean('Campo vacio', default=False)  
     generates_accounting = fields.Boolean('Generar liquidacion de suscripcion', default=False)  
-
     send_sftp_ok = fields.Boolean('Enviado por sftp', default=False)
+    send_sftp_cancellation_ok = fields.Boolean('Enviado por sftp de cancelaciones', default=False)
 
     """
     def _compute_clerk_code(self):

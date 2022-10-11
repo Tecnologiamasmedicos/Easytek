@@ -67,8 +67,7 @@ class SftpReportLineCancellation(models.Model):
     sponsor_payment_url = fields.Char('Pasarela de Pagos',readonly=True)
     phone2 = fields.Char('Teléfono Fijo 2',readonly=True)
     partner_id = fields.Many2one('res.partner')
-    send_sftp_ok = fields.Boolean('Asegurado Reportado')
-    
+    send_sftp_cancellation_ok = fields.Boolean('Asegurado Cancelado')
     
     def init(self):
         tools.drop_view_if_exists(self._cr, 'report_sftp_cancellation')
@@ -132,9 +131,7 @@ class SftpReportLineCancellation(models.Model):
         tmpl.product_class as palig,
         (case when p.marital_status='Unión Libre' then 'Union Libre' else p.marital_status end)as marital_status,
         p.id as partner_id,
-        p.send_sftp_ok as send_sftp_ok
-        
-        
+        p.send_sftp_cancellation_ok as send_sftp_cancellation_ok
         
         from sale_subscription sub
         left join res_partner p on p.subscription_id = sub.id
@@ -197,7 +194,7 @@ class SftpReportBeneficiaryLineCancellation(models.Model):
     sponsor_nit = fields.Char('Nit del Tomador',readonly=True)
     sponsor_payment_url = fields.Char('Pasarela de Pagos',readonly=True)
     partner_id = fields.Many2one('res.partner')
-    send_sftp_ok = fields.Boolean('Beneficiario Reportado')
+    send_sftp_cancellation_ok = fields.Boolean('Beneficiario Cancelado')
     
     
     def init(self):
@@ -261,8 +258,7 @@ class SftpReportBeneficiaryLineCancellation(models.Model):
         'T'::text as change_type,
         ''::text as date_end,
         p.id as partner_id,
-        p.send_sftp_ok as send_sftp_ok
-        
+        p.send_sftp_cancellation_ok as send_sftp_cancellation_ok
         
         from sale_subscription sub
         left join res_partner p on p.subscription_id = sub.id
