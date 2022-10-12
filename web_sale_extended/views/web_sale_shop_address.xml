@@ -4,7 +4,7 @@
         <title>Página comprador | www.masmedicos.co</title>
         <t t-set="no_footer" t-value="1"/>
         <t t-call="website.layout">
-            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                 <style>
                     *{
                         font-family: 'Maven Pro', sans-serif;
@@ -33,7 +33,7 @@
                                     <div class="container">
                                         <div class="row">
                                             <div class="col-lg-12 pb0 pt0">
-                                                <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                                <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                                                     <div class="s_alert clearfix s_alert_sm w-100" data-name="Alert" style="background: #FFFFFF; border: 1px solid #43b12e; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(67, 177, 46, 0.5); border-radius: 5px;">
                                                         <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Robot-falabella.png" width="92" style="margin-top: 12px;" data-original-title="" title="" aria-describedby="tooltip561547"/>
                                                         <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip831158"/>
@@ -327,7 +327,7 @@
                                                 <input class="form-check-input" type="checkbox" value="" name="tyc" id="defaultCheck1"/>
                                                 <label class="form-check-label" for="tyc">
                                                     Acepto términos y condiciones
-                                                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                                                         <a href="#terminos" id="btn_terminos" style="color: #43b12e;"> (leer)</a>
                                                     </t>
                                                     <t t-else="">
@@ -341,7 +341,7 @@
                                                 <input class="form-check-input" type="checkbox" value="" name="aceptacion_datos" id="defaultCheck2"/>
                                                 <label class="form-check-label" for="aceptacion_datos" style="text-size:10px;">
                                                     Acepto política de tratamiento de datos
-                                                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                                                         <a href="#politica" id="btn_politica" style="color: #43b12e;"> (leer)</a>
                                                     </t>
                                                     <t t-else="">
@@ -373,7 +373,7 @@
                                     <input type="hidden" name="callback" t-att-value="callback" />
                                     <p/>
                                     <div class="d-flex justify-content-end">
-                                        <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                        <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                                             <button style="background-color: #43b12e;" class="btn btn-custom mb32" id="submit_shop">
                                                 <span>Comprar</span>
                                                 <i class="fa fa-chevron-right" />

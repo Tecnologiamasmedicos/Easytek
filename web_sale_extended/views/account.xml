@@ -56,6 +56,7 @@
         <field name="arch" type="xml">                
             <xpath expr="//tree/field[@name='state']" position="after">
                 <field name="payulatam_state" readonly="1"/>
+                <field name="hubspot_payment_action" readonly="1"/>
             </xpath>    
         </field>
     </record>

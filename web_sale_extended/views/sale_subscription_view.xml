@@ -5,6 +5,9 @@
             <field name="model">sale.subscription</field>
             <field name="inherit_id" ref="sale_subscription.sale_subscription_view_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button string="Activar" name="set_open" type="object" attrs="{'invisible': [('in_progress', '=', True)]}"/>
+                </xpath>
                 <xpath expr="//notebook" position="inside">
                     <page string="Beneficiarios" id="beneficiaries">                        
                         <field name="subscription_partner_ids">

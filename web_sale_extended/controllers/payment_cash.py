@@ -71,10 +71,10 @@ class WebsiteSaleExtended(WebsiteSale):
             "phone": order.partner_id.phone if order.partner_id.phone else order.partner_id.mobile
         }
         buyer = {
-            "merchantBuyerId": order.partner_id.id,
+            "merchantBuyerId": str(order.partner_id.id),
             "fullName": order.partner_id.name,
             "emailAddress": order.partner_id.email,
-            "contactPhone": order.partner_id.phone,
+            "contactPhone": order.partner_id.phone if order.partner_id.phone else order.partner_id.mobile,
             "dniNumber": order.partner_id.identification_document,
             "shippingAddress": shippingAddress
         }
@@ -102,11 +102,11 @@ class WebsiteSaleExtended(WebsiteSale):
             "signature": signature,
             "notifyUrl": payulatam_response_url,
             "additionalValues": additionalValues,
-            "buyer": buyer,
-            "payer": payer
+            "buyer": buyer
         }
         transaction = {
             "order": order_api,
+            "payer": payer,
             "type": "AUTHORIZATION_AND_CAPTURE",
             "paymentMethod": post['cash_bank'],
             "expirationDate": expiration_date,
@@ -117,7 +117,11 @@ class WebsiteSaleExtended(WebsiteSale):
             "command": "SUBMIT_TRANSACTION",
             "transaction": transaction,
         }
+        _logger.info('************************ CASH REQUEST **************************')
+        _logger.info(cash_payment_values)
         response = request.env['api.payulatam'].payulatam_cash_payment_request(cash_payment_values)
+        _logger.info('************************ CASH RESPONSE **************************')
+        _logger.info(response)
         render_values = {'error': response['error'], 'website_sale_order': order, 'order_id': order}
         if response['code'] != 'SUCCESS':
             """ Retornando error manteniendo la misma orden y dando la oportunidad de intentar de nuevo """
@@ -238,7 +242,6 @@ class WebsiteSaleExtended(WebsiteSale):
         
     @http.route(['/shop/payment/payulatam-gateway-api/cash_process_recurring'], type='http', auth="public", website=True, sitemap=False, csrf=False)
     def payulatam_gateway_api_cash_payment_recurring(self, **post):
-        
         if post['invoice_id']:
             origin_document = request.env['account.move'].sudo().browse(int(post['invoice_id']))
             subscription = request.env['sale.subscription'].sudo().search([('code', '=', origin_document.invoice_origin)])
@@ -283,7 +286,7 @@ class WebsiteSaleExtended(WebsiteSale):
         }
         full_name = post['cash_billing_firstname']
         if 'cash_billing_lastname' in post:
-            fullName = post['cash_billing_firstname'] + ' ' + post['cash_billing_lastname'],
+            full_name = post['cash_billing_firstname'] + ' ' + post['cash_billing_lastname']
             
         shippingAddress = {
             "street1": partner.street,
@@ -295,7 +298,7 @@ class WebsiteSaleExtended(WebsiteSale):
             "phone": partner.phone if partner.phone else partner.mobile
         }
         buyer = {
-            "merchantBuyerId": "1",
+            "merchantBuyerId": str(partner.id),
             "fullName": full_name,
             "emailAddress": post['cash_billing_email'],
             "contactPhone": post['cash_partner_phone'],
@@ -303,7 +306,6 @@ class WebsiteSaleExtended(WebsiteSale):
             "shippingAddress": shippingAddress
         }
         payer = {
-            "merchantPayerId": "1",
             "fullName": full_name,
             "emailAddress": post['cash_billing_email'],
             "contactPhone": post['cash_partner_phone'],
@@ -342,7 +344,11 @@ class WebsiteSaleExtended(WebsiteSale):
             "command": "SUBMIT_TRANSACTION",
             "transaction": transaction,
         }
+        _logger.info('************************ CASH REQUEST **************************')
+        _logger.info(cash_payment_values)
         response = request.env['api.payulatam'].payulatam_cash_payment_request(cash_payment_values)
+        _logger.info('************************ CASH RESPONSE **************************')
+        _logger.info(response)
         render_values = {'error': response['error'], 'website_sale_order': sale_order}
         if response['code'] != 'SUCCESS':
             render_values.update({

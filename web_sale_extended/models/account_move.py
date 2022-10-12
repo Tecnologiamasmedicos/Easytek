@@ -4,6 +4,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_compare
 from odoo.http import request
 from datetime import datetime, date, timedelta 
+from dateutil.relativedelta import relativedelta
 from werkzeug import urls
 import time, json
 
@@ -26,6 +27,7 @@ class AccountMove(models.Model):
         ("DECLINED", "DECLINADO"),
         ("without_payment", "SIN COBRO"),
         ("no_payment", "NO PAGO"),
+        ("Cancel", "CANCELADO"),
     ])
     payulatam_datetime = fields.Datetime('Fecha y Hora de la Transacción')
     payulatam_credit_card_token = fields.Char('Token Para Tarjetas de Crédito')
@@ -47,6 +49,15 @@ class AccountMove(models.Model):
     ])
     send_payment = fields.Boolean('Cobro realizado', default=False)
     action_date_billing_cycle = fields.Date(string='Fecha accion ciclo de cobro')
+    hubspot_payment_action = fields.Selection([
+        ("5_days_before", "5 dias antes"),
+        ("1_day_before", "1 dia antes"),
+        ("1_days_after", "1 dia despues"),
+        ("10_days_after", "10 dias despues"),
+        ("20_days_after", "20 dias despues"),
+        ("25_days_after", "PC 25 dias despues"),
+        ("36_days_after", "C 36 dias despues"),
+    ])
 
     def post(self):
         res = super(AccountMove, self).post()
@@ -131,7 +142,7 @@ class AccountMove(models.Model):
                 "phone": self.partner_id.phone
             }    
             buyer = {
-                "merchantBuyerId": "1",
+                "merchantBuyerId": str(self.partner_id.id),
                 "fullName": self.partner_id.name,
                 "emailAddress": self.partner_id.email,
                 "contactPhone": self.partner_id.phone,
@@ -159,7 +170,6 @@ class AccountMove(models.Model):
                 "phone": self.partner_id.phone
             }    
             payer = {
-                "merchantPayerId": "1",
                 "fullName": self.partner_id.name,
                 "emailAddress": self.partner_id.email,
                 "contactPhone": self.partner_id.phone,
@@ -181,16 +191,16 @@ class AccountMove(models.Model):
                 "type": "AUTHORIZATION_AND_CAPTURE",
                 "paymentMethod": self.payulatam_credit_card_method,
                 "paymentCountry": "CO",
-                "deviceSessionId": request.httprequest.cookies.get('session_id'),
+                "deviceSessionId": "vghs6tvkcle931686k1900o6e1",
                 "ipAddress": "127.0.0.1",
-                "cookie": request.httprequest.cookies.get('session_id'),
+                "cookie": "pt1t38347bs6jc9ruv2ecpv7o2",
                 "userAgent": "Firefox"
             }        
             credit_card_values = {
                 "command": "SUBMIT_TRANSACTION",
                 "transaction": transaction,
             }
-            response = request.env['api.payulatam'].payulatam_credit_cards_payment_request(credit_card_values)
+            response = self.env['api.payulatam'].payulatam_credit_cards_payment_request(credit_card_values)
             if response['code'] != 'SUCCESS':
                 body_message = """
                     <b><span style='color:red;'>PayU Latam - Error en pago con tarjeta de crédito</span></b><br/>
@@ -203,9 +213,9 @@ class AccountMove(models.Model):
                 self.message_post(body=body_message, type="comment")
             else:
                 if response['transactionResponse']['state'] == 'APPROVED':
-                    subscription = request.env['sale.subscription'].sudo().search([('code', '=', self.invoice_origin)])
+                    subscription = self.env['sale.subscription'].sudo().search([('code', '=', self.invoice_origin)])
                     product = self.invoice_line_ids[0].product_id
-                    sale_order = request.env['sale.order'].sudo().search([('subscription_id', '=', subscription.id)])
+                    sale_order = self.env['sale.order'].sudo().search([('subscription_id', '=', subscription.id)])
                     self.write({
                         'payulatam_order_id': response['transactionResponse']['orderId'],
                         'payulatam_transaction_id': response['transactionResponse']['transactionId'],
@@ -259,11 +269,11 @@ class AccountMove(models.Model):
                     """ %(
                         subscription.number if subscription.number != False else '',
                         subscription.policy_number if subscription.policy_number != False else '',
-                        self.partner_id.firstname if self.partner_id.firstname != False else '', 
-                        self.partner_id.othernames, 
-                        str(self.partner_id.lastname) + ' ' + str(self.partner_id.lastname2) if self.partner_id.lastname != False else '', 
-                        self.partner_id.identification_document if self.partner_id.identification_document != False else '', 
-                        self.partner_id.birthdate_date if self.partner_id.birthdate_date != False else '', 
+                        sale_order.beneficiary0_id.firstname if sale_order.beneficiary0_id.firstname != False else '', 
+                        sale_order.beneficiary0_id.othernames if sale_order.beneficiary0_id.othernames != False else '',
+                        (str(sale_order.beneficiary0_id.lastname) + ' ' + str(sale_order.beneficiary0_id.lastname2))[:20] if sale_order.beneficiary0_id.lastname != False else '', 
+                        sale_order.beneficiary0_id.identification_document if sale_order.beneficiary0_id.identification_document != False else '', 
+                        sale_order.beneficiary0_id.birthdate_date if sale_order.beneficiary0_id.birthdate_date != False else '',
                         'R', 
                         product.product_class if product.product_class != False else '', 
                         date.today(), 
@@ -453,14 +463,14 @@ class AccountMove(models.Model):
                         """ %(
                             subscription.number if subscription.number != False else '',
                             subscription.policy_number if subscription.policy_number != False else '',
-                            invoice.partner_id.firstname if invoice.partner_id.firstname != False else '', 
-                            invoice.partner_id.othernames, 
-                            str(invoice.partner_id.lastname) + ' ' + str(invoice.partner_id.lastname2) if invoice.partner_id.lastname != False else '', 
-                            invoice.partner_id.identification_document if invoice.partner_id.identification_document != False else '', 
-                            invoice.partner_id.birthdate_date if invoice.partner_id.birthdate_date != False else '', 
+                            sale_order.beneficiary0_id.firstname if sale_order.beneficiary0_id.firstname != False else '', 
+                            sale_order.beneficiary0_id.othernames if sale_order.beneficiary0_id.othernames != False else '',
+                            (str(sale_order.beneficiary0_id.lastname) + ' ' + str(sale_order.beneficiary0_id.lastname2))[:20] if sale_order.beneficiary0_id.lastname != False else '', 
+                            sale_order.beneficiary0_id.identification_document if sale_order.beneficiary0_id.identification_document != False else '', 
+                            sale_order.beneficiary0_id.birthdate_date if sale_order.beneficiary0_id.birthdate_date != False else '',
                             'R', 
                             product.product_class if product.product_class != False else '', 
-                            date.today(), 
+                            invoice.payulatam_datetime.date(),
                             invoice.amount_total if invoice.amount_total != False else '', 
                             1, 
                             invoice.payment_method_type if invoice.payment_method_type != False else '', 
@@ -533,7 +543,7 @@ class AccountMove(models.Model):
                 "phone": invoice_payment.partner_id.phone
             }
             buyer = {
-                "merchantBuyerId": "1",
+                "merchantBuyerId": str(invoice_payment.partner_id.id),
                 "fullName": invoice_payment.partner_id.name,
                 "emailAddress": invoice_payment.partner_id.email,
                 "contactPhone": invoice_payment.partner_id.phone,
@@ -561,7 +571,6 @@ class AccountMove(models.Model):
                 "phone": invoice_payment.partner_id.phone
             }
             payer = {
-                "merchantPayerId": "1",
                 "fullName": invoice_payment.partner_id.name,
                 "emailAddress": invoice_payment.partner_id.email,
                 "contactPhone": invoice_payment.partner_id.phone,
@@ -664,11 +673,11 @@ class AccountMove(models.Model):
                     """ %(
                         subscription.number if subscription.number != False else '',
                         subscription.policy_number if subscription.policy_number != False else '',
-                        invoice_payment.partner_id.firstname if invoice_payment.partner_id.firstname != False else '',
-                        invoice_payment.partner_id.othernames,
-                        str(invoice_payment.partner_id.lastname) + ' ' + str(invoice_payment.partner_id.lastname2) if invoice_payment.partner_id.lastname != False else '',
-                        invoice_payment.partner_id.identification_document if invoice_payment.partner_id.identification_document != False else '',
-                        invoice_payment.partner_id.birthdate_date if invoice_payment.partner_id.birthdate_date != False else '',
+                        sale_order.beneficiary0_id.firstname if sale_order.beneficiary0_id.firstname != False else '', 
+                        sale_order.beneficiary0_id.othernames if sale_order.beneficiary0_id.othernames != False else '',
+                        (str(sale_order.beneficiary0_id.lastname) + ' ' + str(sale_order.beneficiary0_id.lastname2))[:20] if sale_order.beneficiary0_id.lastname != False else '', 
+                        sale_order.beneficiary0_id.identification_document if sale_order.beneficiary0_id.identification_document != False else '', 
+                        sale_order.beneficiary0_id.birthdate_date if sale_order.beneficiary0_id.birthdate_date != False else '',
                         'R',
                         product.product_class if product.product_class != False else '',
                         date.today(),
@@ -738,22 +747,47 @@ class AccountMove(models.Model):
         today = fields.Date.today()
         invoice_payment_ids = self.env['account.move'].search([
             ('state', '=', 'finalized'),
-            ('payulatam_state', '=', False),
+            ('payulatam_state', 'in', [False, "EXPIRED", "DECLINED"]),
             ('payment_method_type', '!=', 'Product Without Price'),
             ('action_date_billing_cycle', '!=', today)
-        ], limit=150)
+        ], limit=45)
+        _logger.info('********************************* Bot Accion de cobro *********************************')
+        _logger.info(invoice_payment_ids)
         for invoice in invoice_payment_ids:
-            time.sleep(0.2)
+            time.sleep(10)
             diff = today - invoice.invoice_date
             subscription = self.env['sale.subscription'].search([('code', '=', invoice.invoice_origin)])
             sale_order = self.env['sale.order'].search([('subscription_id', '=', subscription.id)])
             deal_id = self.env['api.hubspot'].search_deal_id(subscription)
-            if deal_id == False:
+            _logger.info(invoice)
+            _logger.info(diff)
+            _logger.info(subscription.number)
+            _logger.info(subscription.policy_number)
+            _logger.info('deal_id')
+            _logger.info(deal_id)
+            _logger.info('action date billing cycle')
+            _logger.info(invoice.action_date_billing_cycle)
+            invoice.write({
+                'action_date_billing_cycle': today,
+            })
+            _logger.info('action date billing cycle')
+            _logger.info(invoice.action_date_billing_cycle)
+            if deal_id == False or subscription.stage_id == 4:
+                invoice.write({
+                    'payulatam_state': 'no_payment'
+                })
                 continue
-            # Bsuscar comprador
+            search_policy_state = ['estado_de_la_poliza']
+            policy_state = self.env['api.hubspot'].search_deal_properties_values(deal_id, search_policy_state)
+            if policy_state['estado_de_la_poliza'] == 'Cancelado':
+                invoice.write({
+                    'payulatam_state': 'no_payment'
+                })
+                continue
+            # Buscando el comprador
             contact_id = self.env['api.hubspot'].search_contact_id(invoice.partner_id)
             if contact_id:
-                # Verificar valor de propiedad de 
+                _logger.info('*********** Actualizando comprador ***********')
                 search_properties = ['es_comprador_']
                 properties = self.env['api.hubspot'].search_contact_properties_values(contact_id, search_properties)
                 if properties['es_comprador_'] != 'SI':
@@ -763,11 +797,16 @@ class AccountMove(models.Model):
                     }
                     self.env['api.hubspot'].update_contact_id(contact_id, update_properties)
             else:
+                _logger.info('*********** Creando comprador ***********')
                 contact_id = self.env['api.hubspot'].create_contact(invoice.partner_id)
                 self.env['api.hubspot'].associate_deal(str(deal_id), str(contact_id))
                 company_id = self.env['api.hubspot'].search_company_id(sale_order.beneficiary0_id)
+                _logger.info('*********** Compañia ***********')
+                _logger.info(company_id)
                 if company_id:
                     self.env['api.hubspot'].associate_company_with_contact(str(company_id), str(contact_id))
+            _logger.info('contact_id')
+            _logger.info(contact_id)
             if diff.days == -4:
                 deal_properties = {
                     "accion_de_cobro": "5 dias antes",
@@ -791,7 +830,7 @@ class AccountMove(models.Model):
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
                 self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
                 invoice.write({
-                    'action_date_billing_cycle': today
+                    "hubspot_payment_action": "5_days_before"
                 })
                 body_message = """
                     <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
@@ -829,7 +868,7 @@ class AccountMove(models.Model):
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
                 self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
                 invoice.write({
-                    'action_date_billing_cycle': today
+                    "hubspot_payment_action": "1_day_before"
                 })
                 body_message = """
                     <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
@@ -845,11 +884,12 @@ class AccountMove(models.Model):
                 )
                 invoice.message_post(body=body_message, type="comment")
             elif diff.days == 0:
-                invoice.write({
-                    'action_date_billing_cycle': today
-                })
-                if invoice.payment_method_type == 'Credit Card' and invoice.payulatam_credit_card_token != '':           
+                _logger.info(invoice.payment_method_type)
+                _logger.info(invoice.payulatam_credit_card_token)
+                if invoice.payment_method_type == 'Credit Card' and invoice.payulatam_credit_card_token != '':
+                    _logger.info("Puede pagar por token")
                     invoice.payment_credit_card_by_tokenization()
+                    time.sleep(5)
             elif diff.days == 1:
                 deal_properties = {
                     "accion_de_cobro": "1 dia despues",
@@ -874,7 +914,7 @@ class AccountMove(models.Model):
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
                 self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
                 invoice.write({
-                    'action_date_billing_cycle': today
+                    "hubspot_payment_action": "1_days_after"
                 })
                 body_message = """
                     <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
@@ -913,7 +953,7 @@ class AccountMove(models.Model):
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
                 self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
                 invoice.write({
-                    'action_date_billing_cycle': today
+                    "hubspot_payment_action": "10_days_after"
                 })
                 body_message = """
                     <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
@@ -952,7 +992,7 @@ class AccountMove(models.Model):
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
                 self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
                 invoice.write({
-                    'action_date_billing_cycle': today
+                    "hubspot_payment_action": "20_days_after"
                 })
                 body_message = """
                     <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
@@ -991,7 +1031,7 @@ class AccountMove(models.Model):
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
                 self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
                 invoice.write({
-                    'action_date_billing_cycle': today
+                    "hubspot_payment_action": "25_days_after"
                 })
                 body_message = """
                     <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
@@ -1006,7 +1046,7 @@ class AccountMove(models.Model):
                     deal_properties['link_de_cobro_odoo'] if 'link_de_cobro_odoo' in deal_properties else ''
                 )
                 invoice.message_post(body=body_message, type="comment")
-            elif diff.days == 36:
+            elif diff.days >= 36:
                 deal_properties = {
                     "accion_de_cobro": "C 36 dias despues",
                     "estado_de_accion_de_cobro": "SI",
@@ -1032,10 +1072,8 @@ class AccountMove(models.Model):
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
                 self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
                 invoice.write({
-                    'payulatam_state': 'no_payment'
-                })
-                invoice.write({
-                    'action_date_billing_cycle': today
+                    'payulatam_state': 'no_payment',
+                    "hubspot_payment_action": "36_days_after"
                 })
                 body_message = """
                     <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>

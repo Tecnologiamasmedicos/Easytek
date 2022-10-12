@@ -37,7 +37,7 @@ class ProductTemplate(models.Model):
     is_beneficiary = fields.Boolean('Saltar pasarela de pago (Beneficio)')
     is_plan_with_pet = fields.Boolean('Es un Plan que incluye mascotas?')
     payulatam_payment_methods_ids = fields.Many2many('payu.payment.methods', string='Metodos de pago')
-
+    
     # @api.onchange('default_code', 'name', 'id')
     # def _compute_url_product(self):
     #     base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')

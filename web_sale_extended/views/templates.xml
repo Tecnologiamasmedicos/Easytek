@@ -121,7 +121,7 @@
             <div class="input-group w-100">
                 <input name="promo" class="form-control" type="text" placeholder="Código..." t-att-value="website_sale_order.pricelist_id.code or None"/>
                 <div class="input-group-append">
-                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                         <a href="#" role="button" class="btn btn-primary a-submit" style="background-color: #43b12e;">Aplicar</a>
                     </t>
                     <t t-else="">
@@ -151,14 +151,14 @@
             <div class="mt32">
                 <div align="center">
                     <a href="mailto:contacto@masmedicos.co" data-original-title="" title="" aria-describedby="tooltip65226">
-                        <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                        <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                             <img src="/web_sale_extended/static/src/images/mail_falabella.png" width="70" heigth="70"/>
                         </t>
                         <t t-else="">
                             <img src="/web_sale_extended/static/src/images/Emailweb.png" width="70" heigth="70"/>
                         </t>
                     </a>
-                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                         <a href="https://wa.me/573057044444" data-original-title="" title="" aria-describedby="tooltip65226" target="_blank">
                             <img src="/web_sale_extended/static/src/images/wpp_falabella.png" width="70" heigth="70"/>
                         </a>

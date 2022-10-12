@@ -128,7 +128,7 @@ class WebsiteSaleExtended(WebsiteSale):
             "phone": order.partner_id.phone
         }    
         buyer = {
-            "merchantBuyerId": order.partner_id.id,
+            "merchantBuyerId": str(order.partner_id.id),
             "fullName": order.partner_id.name,
             "emailAddress": order.partner_id.email,
             "contactPhone": order.partner_id.phone,
@@ -265,15 +265,15 @@ class WebsiteSaleExtended(WebsiteSale):
                     subscription,
                     payment_type
                 )
-                SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, %s, %s, '%s', %s, '%s', '%s', '%s', '%s', '%s', %s, %s, '%s' WHERE NOT EXISTS(SELECT * FROM payments_report WHERE payulatam_order_id='%s');
+                SELECT '%s', '%s', '%s', '%s', '%s', '%s', %s, '%s', '%s', '%s', %s, %s, '%s', %s, %s, %s, '%s', %s, '%s', '%s', '%s', '%s', '%s', %s, %s, '%s' WHERE NOT EXISTS(SELECT * FROM payments_report WHERE payulatam_order_id='%s');
             """ %(
                 order.subscription_id.number if order.subscription_id.number != False else '',
                 order.subscription_id.policy_number if order.subscription_id.policy_number != False else '',
-                order.partner_id.firstname if order.partner_id.firstname != False else '', 
-                order.partner_id.othernames, 
-                str(order.partner_id.lastname) + ' ' + str(order.partner_id.lastname2) if order.partner_id.lastname != False else '', 
-                order.partner_id.identification_document if order.partner_id.identification_document != False else '', 
-                order.partner_id.birthdate_date if order.partner_id.birthdate_date != False else '', 
+                order.beneficiary0_id.firstname if order.beneficiary0_id.firstname != False else '', 
+                order.beneficiary0_id.othernames if order.beneficiary0_id.othernames != False else '', 
+                (str(order.beneficiary0_id.lastname) + ' ' + str(order.beneficiary0_id.lastname2))[:20] if order.beneficiary0_id.lastname != False else '', 
+                order.beneficiary0_id.identification_document if order.beneficiary0_id.identification_document != False else '', 
+                str(order.beneficiary0_id.birthdate_date) if order.beneficiary0_id.birthdate_date != False else 'null',
                 'R', 
                 order.main_product_id.product_class if order.main_product_id.product_class != False else '', 
                 date.today(), 
@@ -485,7 +485,7 @@ class WebsiteSaleExtended(WebsiteSale):
             "phone": partner.phone if partner.phone else partner.mobile
         }    
         buyer = {
-            "merchantBuyerId": "1",
+            "merchantBuyerId": str(partner.id),
             "fullName": partner.name,
             "emailAddress": partner.email,
             "contactPhone": partner.phone if partner.phone else partner.mobile,
@@ -515,7 +515,6 @@ class WebsiteSaleExtended(WebsiteSale):
             "phone": partner.phone if partner.phone else partner.mobile
         }    
         payer = {
-            "merchantPayerId": "1",
             "fullName": partner.name,
             "emailAddress": partner.email,
             "contactPhone": partner.phone if partner.phone else partner.mobile,
@@ -738,11 +737,11 @@ class WebsiteSaleExtended(WebsiteSale):
             """ %(
                 subscription.number if subscription.number != False else '',
                 subscription.policy_number if subscription.policy_number != False else '',
-                origin_document.partner_id.firstname if origin_document.partner_id.firstname != False else '', 
-                origin_document.partner_id.othernames, 
-                str(origin_document.partner_id.lastname) + ' ' + str(origin_document.partner_id.lastname2) if origin_document.partner_id.lastname != False else '', 
-                origin_document.partner_id.identification_document if origin_document.partner_id.identification_document != False else '', 
-                origin_document.partner_id.birthdate_date if origin_document.partner_id.birthdate_date != False else '', 
+                sale_order.beneficiary0_id.firstname if sale_order.beneficiary0_id.firstname != False else '', 
+                sale_order.beneficiary0_id.othernames if sale_order.beneficiary0_id.othernames != False else '', 
+                (str(sale_order.beneficiary0_id.lastname) + ' ' + str(sale_order.beneficiary0_id.lastname2))[:20] if sale_order.beneficiary0_id.lastname != False else '', 
+                sale_order.beneficiary0_id.identification_document if sale_order.beneficiary0_id.identification_document != False else '', 
+                sale_order.beneficiary0_id.birthdate_date if sale_order.beneficiary0_id.birthdate_date != False else '',
                 'R', 
                 product.product_class if product.product_class != False else '', 
                 date.today(), 

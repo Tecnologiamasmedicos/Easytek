@@ -47,6 +47,7 @@
         'views/response_transaction.xml',
         'views/sale_cancellation_view.xml',
         'views/sale_settlement_view.xml',
+        'views/sale_funds_view.xml',
         'views/payu_payment_methods_view.xml',
         #'reports/sale_order_report.xml',
         #'reports/res_partner_report.xml',

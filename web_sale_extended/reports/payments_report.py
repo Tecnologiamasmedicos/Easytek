@@ -62,10 +62,16 @@ class PaymentsReport(models.Model):
         for collection in collections_ids:
             if collection.sale_order.state == 'sale' and collection.sale_order.subscription_id: 
                 subscription = collection.sale_order.subscription_id
+                ap = collection.sale_order.beneficiary0_id
                 collection.policy_number = subscription.number
                 collection.certificate_number = subscription.policy_number
                 collection.subscription = subscription.id
                 collection.policyholder = subscription.policyholder
+                collection.firstname  = ap.firstname
+                collection.othernames = ap.othernames
+                collection.lastname = (str(ap.lastname) + ' ' + str(ap.lastname2))[:20]
+                collection.identification_document = ap.identification_document
+                collection.birthday_date = ap.birthdate_date
 
     def get_week_of_month(self, year, month, day):
         x = np.array(calendar.monthcalendar(year, month))

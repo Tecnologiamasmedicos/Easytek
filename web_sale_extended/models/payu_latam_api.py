@@ -294,7 +294,7 @@ class PayULatamApi(models.TransientModel):
         })
         response = self.request_payulatam_api(command, query, report=True)
         return response
-    
+
     def search_country_code(self, country_id: int) -> str:
         country = self.env['res.country'].browse(int(country_id))
         return str(country.code)
@@ -306,7 +306,7 @@ class PayULatamApi(models.TransientModel):
     def search_city_name(self, city_id: int) -> str:
         city = self.env['res.city'].browse(int(city_id))
         return str(city.name)
-    
+
 class PayuPaymentMethods(models.Model):
     _name = 'payu.payment.methods'
     _description = 'Payu latam payment methods'

@@ -3,7 +3,7 @@
     <template id="beneficiary">
         <title>Registro asegurado principal y beneficiarios | www.masmedicos.co</title>
         <t t-call="website.layout">
-            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                 <style>
                     *{
                         font-family: 'Maven Pro', sans-serif;
@@ -24,7 +24,7 @@
                             <div class="row">
                                 <div class="col-lg-12 pt0 pb0">
                                     <div class="s_alert clearfix s_alert_md w-100" data-name="Alert" style="border: 1px solid #39B54A; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(0, 153, 51, 0.5); border-radius: 5px;">
-                                        <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                        <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                                             <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Robot-falabella.png" width="128" data-original-title="" title="" aria-describedby="tooltip557569"/>
                                         </t>
                                         <t t-else="">
@@ -199,7 +199,7 @@
                                     <abbr title="Para registrar tus beneficiarios, ten a mano su documento de identificación, o registrarlos después con nuestra asesoría" style="text-decoration: none;">
                                         <label class="col-form-label" for="beneficiario">Número de beneficiarios a incluir</label>
                                         <select name="beneficiario" id="cant_beneficiarios" class="form-control">
-                                            <option value="0">...</option>                                        
+                                            <option value="0">...</option>
                                         </select>
                                     </abbr>
                                 </div>

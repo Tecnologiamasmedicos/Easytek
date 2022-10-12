@@ -69,6 +69,7 @@ class SftpReportLine(models.Model):
     phone2 = fields.Char('Teléfono Fijo 2',readonly=True)
     partner_id = fields.Many2one('res.partner')
     send_sftp_ok = fields.Boolean('Asegurado Reportado')
+    sale_order_id = fields.Many2one('sale.order', string='Order', readonly=True)
     
     
     def init(self):
@@ -82,7 +83,7 @@ class SftpReportLine(models.Model):
         LPAD(sub.number::text, 5, '0') as policy_number,
         p.firstname,
         p.othernames,
-        p.lastname || ' ' || p.lastname2 as lastname,
+        substr(p.lastname || ' ' || p.lastname2, 1, 20) as lastname,
         TO_CHAR(p.birthdate_date, 'mm/dd/yyyy')as birthdate_date,
         TO_CHAR(sub.date_start, 'mm/dd/yyyy') as date_start,        
         TO_CHAR(sub.date_start, 'mm/dd/yyyy') as date_start2,
@@ -133,7 +134,8 @@ class SftpReportLine(models.Model):
         tmpl.product_class as palig,
         (case when p.marital_status='Unión Libre' then 'Union Libre' else p.marital_status end)as marital_status,
         p.id as partner_id,
-        p.send_sftp_ok as send_sftp_ok
+        p.send_sftp_ok as send_sftp_ok,
+        sorder.id as sale_order_id
         
         
         
@@ -143,6 +145,7 @@ class SftpReportLine(models.Model):
         left join res_city_zip rcz on rcz.id = p.beneficiary_zip_id
         left join res_city city on rcz.city_id = city.id
         left join sale_subscription_line line on line.analytic_account_id = sub.id
+        left join sale_order sorder on sorder.subscription_id = sub.id
         left join product_product pro on pro.id = line.product_id
         left join product_template tmpl on tmpl.id = pro.product_tmpl_id
         left join product_category cat on cat.id = tmpl.categ_id
@@ -157,7 +160,7 @@ class SftpReportLine(models.Model):
         #(select to_char(mp.date_planned_start,'mm')) as month,
 
     def _cron_generate_ap_sftp_report(self):        
-        current_date = fields.Date.today()
+        current_date = (datetime.now() - timedelta(hours=5)).date()
         nombre_archivo_ap = 'Odoo_Prin_' + current_date.strftime('%d%m%Y')
         nombre_archivo_bef = 'Odoo_Ben_' + current_date.strftime('%d%m%Y')
         data = []
@@ -454,7 +457,7 @@ class SftpReportBeneficiaryLine(models.Model):
         LPAD(sub.number::text, 5, '0') as policy_number,
         p.firstname,
         p.othernames,
-        p.lastname || ' ' || p.lastname2 as lastname,
+        substr(p.lastname || ' ' || p.lastname2, 1, 20) as lastname,
         TO_CHAR(p.birthdate_date, 'mm/dd/yyyy')as birthdate_date,
         TO_CHAR(p.birthdate_date, 'mm/dd/yyyy')as birthdate_date2,
         TO_CHAR(sub.date_start, 'mm/dd/yyyy')as date_start,

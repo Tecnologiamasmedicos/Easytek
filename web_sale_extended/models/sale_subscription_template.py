@@ -29,7 +29,7 @@ class SaleSubscriptionTemplate(models.Model):
     final_date = fields.Date(string='Fecha final', store=True)
     is_fixed_policy = fields.Boolean(string='Es una poliza fija', default=False) 
     cutoff_day = fields.Integer(string='Dia de corte', store=True)
-    
+
     @api.onchange('is_fixed_policy')
     def _compute_values_fixed(self):
         if self.is_fixed_policy == True:

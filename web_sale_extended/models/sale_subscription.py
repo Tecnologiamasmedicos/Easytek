@@ -41,8 +41,8 @@ class SaleSubscription(models.Model):
         else:
             policyholder = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.categ_id.sequence_id.sponsor_name
         res.write({
-            'policy_number': str(sequence_id.number_next_actual).zfill(10),
-            'number': str(sequence_id.code),
+            'policy_number': (str(sequence_id.number_next_actual).zfill(10)).split(".")[0],
+            'number': str(sequence_id.code).zfill(5),
             'recurring_next_date': date.today(),
             'sponsor_id': res.recurring_invoice_line_ids[0].product_id.categ_id.sponsor_id,
             'policyholder': str(policyholder),
@@ -161,15 +161,13 @@ class SaleSubscription(models.Model):
                 context_invoice = dict(self.env.context, type='out_invoice', company_id=company_id, force_company=company_id)
                 for subscription in subs:
                     subscription = subscription[0]  # Trick to not prefetch other subscriptions, as the cache is currently invalidated at each iteration
-                    if subscription.invoice_count < subscription.template_id.recurring_rule_count:
+                    if not subscription.recurring_invoice_line_ids[0].product_id.is_beneficiary:
                         if automatic and auto_commit:
                             cr.commit()
-
                         # if we reach the end date of the subscription then we close it and avoid to charge it
                         if automatic and subscription.date and subscription.date <= current_date:
                             subscription.set_close()
                             continue
-
                         # payment + invoice (only by cron)
                         if subscription.template_id.payment_mode in ['validate_send_payment', 'success_payment'] and subscription.recurring_total and automatic:
                             try:
@@ -257,7 +255,6 @@ class SaleSubscription(models.Model):
                                 last_tx = self.env['payment.transaction'].search([('reference', 'like', 'SUBSCRIPTION-%s-%s' % (subscription.id, datetime.date.today().strftime('%y%m%d')))], limit=1)
                                 error_message = "Error during renewal of subscription %s (%s)" % (subscription.code, 'Payment recorded: %s' % last_tx.reference if last_tx and last_tx.state == 'done' else 'No payment recorded.')
                                 _logger.error(error_message)
-
                         # invoice only
                         elif subscription.template_id.payment_mode in ['draft_invoice', 'manual', 'validate_send']:
                             try:
@@ -274,7 +271,10 @@ class SaleSubscription(models.Model):
                                     values={'self': new_invoice, 'origin': subscription},
                                     subtype_id=self.env.ref('mail.mt_note').id)
                                 invoices += new_invoice
-                                next_date = subscription.recurring_next_date + timedelta(days=4) or current_date
+                                if subscription.invoice_count == 0:
+                                    next_date = subscription.recurring_next_date or current_date
+                                else:
+                                    next_date = subscription.recurring_next_date + timedelta(days=4) or current_date
                                 rule, interval = subscription.recurring_rule_type, subscription.recurring_interval
                                 new_date = subscription._get_recurring_next_date(rule, interval, next_date, subscription.recurring_invoice_day)
                                 # Felipeeeee
@@ -303,6 +303,80 @@ class SaleSubscription(models.Model):
             sub.write({'stage_id': stage.id, 'to_renew': False, 'date': end_date})
         return True
 
+    def set_open(self):
+        self.ensure_one()
+        order = self.env['sale.order'].search([('subscription_id', '=', self.id)], limit=1)
+        self.onchange_date_start()
+        self.write({
+            'stage_id': 2,
+            'close_reason_id': False
+        })
+        order.write({'state': 'sale', 'cancel_date': False})
+        deal_id = self.env['api.hubspot'].search_deal_id(self)
+        if deal_id != False:
+            deal_properties = {
+                "estado_de_la_poliza": "Activo",
+                "causal_de_cancelacion": "",
+                "fecha_efectiva_de_cancelacion": ""
+            }
+            self.env['api.hubspot'].update_deal(deal_id, deal_properties)
+            body_message = """
+                <b><span style='color: darkblue;'>API HubSpot - Activación poliza</span></b><br/>
+                <b>Estado:</b> %s
+            """ % (
+                deal_properties['estado_de_la_poliza']
+            )
+            self.message_post(body=body_message, type="comment")
+        else:
+            body_message = """
+                <b><span style='color: red;'>API HubSpot - Error buscar poliza</span></b><br/>
+                <b>N° Poliza:</b> %s<br/>
+                <b>N° Certificado:</b> %s
+            """ % (
+                self.number,
+                self.policy_number
+            )
+            self.message_post(body=body_message, type="comment")
+
+    @api.model
+    def cron_account_analytic_account(self):
+        res = super(SaleSubscription, self).cron_account_analytic_account()
+        subscriptions_close_ids = res['closed']
+        _logger.info('***************** subscriptions_close_ids *******************')
+        _logger.info(subscriptions_close_ids)
+        for subscription_close_id in subscriptions_close_ids:
+            subscription = self.env['sale.subscription'].browse(subscription_close_id)
+            deal_id = self.env['api.hubspot'].search_deal_id(subscription)
+            if deal_id != False:
+                deal_properties = {
+                    "estado_de_la_poliza": "Cancelado",
+                    "causal_de_cancelacion": 'Sin renovación',
+                    "fecha_efectiva_de_cancelacion": subscription.date
+                }
+                self.env['api.hubspot'].update_deal(deal_id, deal_properties)
+                body_message = """
+                    <b><span style='color: darkblue;'>API HubSpot - Cancelación poliza</span></b><br/>
+                    <b>Estado:</b> %s<br/>
+                    <b>Causal de cancelación:</b> %s<br/>
+                    <b>Fecha efectiva de cancelación:</b> %s
+                """ % (
+                    deal_properties['estado_de_la_poliza'],
+                    deal_properties['causal_de_cancelacion'],
+                    deal_properties['fecha_efectiva_de_cancelacion']
+                )
+                subscription.message_post(body=body_message, type="comment")
+            else:
+                body_message = """
+                    <b><span style='color: red;'>API HubSpot - Error buscar poliza</span></b><br/>
+                    <b>N° Poliza:</b> %s<br/>
+                    <b>N° Certificado:</b> %s
+                """ % (
+                    subscription.number,
+                    subscription.policy_number
+                )
+                subscription.message_post(body=body_message, type="comment")
+        return res
+
 class SaleSubscriptionCloseReasonWizard(models.TransientModel):
     _inherit = "sale.subscription.close.reason.wizard"
     
@@ -315,3 +389,32 @@ class SaleSubscriptionCloseReasonWizard(models.TransientModel):
         subscription.close_reason_id = self.close_reason_id
         subscription.set_close(self.end_date)
         order.write({'state': 'done', 'cancel_date': self.end_date})
+        deal_id = self.env['api.hubspot'].search_deal_id(subscription)
+        if deal_id != False:
+            deal_properties = {
+                "estado_de_la_poliza": "Cancelado",
+                "causal_de_cancelacion": subscription.close_reason_id.name,
+                "fecha_efectiva_de_cancelacion": self.end_date
+            }
+            self.env['api.hubspot'].update_deal(deal_id, deal_properties)
+            body_message = """
+                <b><span style='color: darkblue;'>API HubSpot - Cancelación poliza</span></b><br/>
+                <b>Estado:</b> %s<br/>
+                <b>Causal de cancelación:</b> %s<br/>
+                <b>Fecha efectiva de cancelación:</b> %s
+            """ % (
+                deal_properties['estado_de_la_poliza'],
+                deal_properties['causal_de_cancelacion'],
+                deal_properties['fecha_efectiva_de_cancelacion']
+            )
+            subscription.message_post(body=body_message, type="comment")
+        else:
+            body_message = """
+                <b><span style='color: red;'>API HubSpot - Error buscar poliza</span></b><br/>
+                <b>N° Poliza:</b> %s<br/>
+                <b>N° Certificado:</b> %s
+            """ % (
+                subscription.number,
+                subscription.policy_number
+            )
+            subscription.message_post(body=body_message, type="comment")

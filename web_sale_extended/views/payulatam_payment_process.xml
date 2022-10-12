@@ -17,7 +17,7 @@
         <title>Pasarela de pagos | www.masmedicos.co</title>
         <t t-set="no_footer" t-value="1"/>
         <t t-call="website.layout">
-            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                 <style>
                     *{
                         font-family: 'Maven Pro', sans-serif;
@@ -687,7 +687,7 @@
      <template id="web_sale_extended_payment_response_process" name="PayU Latam Payment Response Process PSE">
         <t t-set="no_footer" t-value="1"/>
         <t t-call="website.layout">
-            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                 <style>
                     *{
                         font-family: 'Maven Pro', sans-serif;
@@ -992,7 +992,7 @@
         <t t-call="website.layout">
             <t t-set="additional_title">Compra - Metodo de Pago</t>
             <t t-set="no_footer">1</t>
-            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                 <style>
                     *{
                         font-family: 'Maven Pro', sans-serif;
@@ -1031,7 +1031,7 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-lg-12 pb0 pt0">
-                                            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 4499">
+                                            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                                                 <div class="s_alert clearfix s_alert_sm w-100" data-name="Alert" style="background: #FFFFFF; border: 1px solid #43b12e; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(67, 177, 46, 0.5); border-radius: 5px;">
                                                     <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Robot-falabella.png" width="92" data-original-title="" title="" aria-describedby="tooltip561547"/>
                                                     <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip831158"/>
@@ -1514,9 +1514,6 @@
                                                         <img class="img-fluid o_we_custom_image float-right" src="/web_sale_extended/static/src/img/ganagana.png" data-original-title="" title="" aria-describedby="tooltip561548"/>
                                                     </div>
                                                     <div class="col-lg-2 col-md-2">
-                                                        <img class="img-fluid o_we_custom_image float-right" src="/web_sale_extended/static/src/img/baloto.png" data-original-title="" title="" aria-describedby="tooltip561548"/>
-                                                    </div>
-                                                    <div class="col-lg-2 col-md-2">
                                                         <img class="img-fluid o_we_custom_image float-right"  src="/web_sale_extended/static/src/img/suchance.png" data-original-title="" title="" aria-describedby="tooltip561548"/>
                                                     </div>
                                                     <div class="col-lg-2 col-md-2">
@@ -1543,7 +1540,6 @@
                                                     <label class="col-form-label" for="cash_bank" style="color:#FFF !important;">.</label>
                                                     <select name="cash_bank" id="cash_bank" t-attf-class="form-control">
                                                         <option value="">Seleccione su Medio de Pago</option>
-                                                        <option value="BALOTO">BALOTO</option>
                                                         <option value="EFECTY">EFECTY</option>
                                                         <option value="BANK_REFERENCED">REFERENCIA BANCARIA</option>
                                                         <option value="OTHERS_CASH">APUESTAS CUCUTA</option>

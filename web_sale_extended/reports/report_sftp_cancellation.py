@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import logging, time, csv
-import paramiko
 from odoo import fields, models, tools, api,_
 from datetime import date, timedelta, datetime
 from odoo.osv import expression
@@ -146,7 +145,7 @@ class SftpReportLineCancellation(models.Model):
         left join ir_sequence seq on seq.id = cat.sequence_id
         left join sale_subscription_template subtmpl on subtmpl.id = sub.template_id
         
-        where 1=1 and p.main_insured='t' and sub.stage_id=4
+        where 1=1 and p.main_insured='t' and sub.stage_id in (4, 5)
         order by sub.id desc
         );
         """
@@ -275,7 +274,7 @@ class SftpReportBeneficiaryLineCancellation(models.Model):
         left join ir_sequence seq on seq.id = cat.sequence_id
         left join sale_subscription_template subtmpl on subtmpl.id = sub.template_id
         
-        where 1=1 and p.beneficiary='t' and sub.stage_id=4
+        where 1=1 and p.beneficiary='t' and sub.stage_id in (4, 5)
         order by sub.id desc
         );
         """
