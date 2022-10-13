@@ -110,7 +110,8 @@ class AccountMove(models.Model):
         self.send_payment = True
     
     def payment_credit_card_by_tokenization(self):
-        if self.payment_method_type == 'Credit Card' and self.payulatam_credit_card_token != '':           
+        subscription = self.env['sale.subscription'].sudo().search([('code', '=', self.invoice_origin)])
+        if self.payment_method_type == 'Credit Card' and self.payulatam_credit_card_token != '' and subscription.stage_id not in (4, 5):           
             """ Proceso de Pago """
             referenceCode = str(self.env['api.payulatam'].payulatam_get_sequence())
             accountId = self.env['api.payulatam'].payulatam_get_accountId()
@@ -213,7 +214,6 @@ class AccountMove(models.Model):
                 self.message_post(body=body_message, type="comment")
             else:
                 if response['transactionResponse']['state'] == 'APPROVED':
-                    subscription = self.env['sale.subscription'].sudo().search([('code', '=', self.invoice_origin)])
                     product = self.invoice_line_ids[0].product_id
                     sale_order = self.env['sale.order'].sudo().search([('subscription_id', '=', subscription.id)])
                     self.write({
@@ -339,7 +339,7 @@ class AccountMove(models.Model):
                     )
                     self.message_post(body=body_message, type="comment")
         else:
-            raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
+            raise UserError('El metodo de pago no es Tarjeta de Credito, no tiene token o la suscripcion esta en estado cerrado')
             
     def cron_get_status_payu_latam_account_move(self):
         """ selección de liquidaciones de pedidos a procesar, que están pendientes de respuesta de payu """
@@ -772,7 +772,9 @@ class AccountMove(models.Model):
             })
             _logger.info('action date billing cycle')
             _logger.info(invoice.action_date_billing_cycle)
-            if deal_id == False or subscription.stage_id == 4:
+            if deal_id == False:
+                continue            
+            if subscription.stage_id == 4:
                 invoice.write({
                     'payulatam_state': 'no_payment'
                 })

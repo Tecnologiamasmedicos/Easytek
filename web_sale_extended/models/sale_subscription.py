@@ -41,7 +41,7 @@ class SaleSubscription(models.Model):
         else:
             policyholder = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.categ_id.sequence_id.sponsor_name
         res.write({
-            'policy_number': (str(sequence_id.number_next_actual).zfill(10)).split(".")[0],
+            'policy_number': (str(sequence_id.number_next_actual).split(".")[0]).zfill(10),
             'number': str(sequence_id.code).zfill(5),
             'recurring_next_date': date.today(),
             'sponsor_id': res.recurring_invoice_line_ids[0].product_id.categ_id.sponsor_id,
