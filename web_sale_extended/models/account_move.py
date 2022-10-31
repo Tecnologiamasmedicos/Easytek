@@ -111,7 +111,7 @@ class AccountMove(models.Model):
     
     def payment_credit_card_by_tokenization(self):
         subscription = self.env['sale.subscription'].sudo().search([('code', '=', self.invoice_origin)])
-        if self.payment_method_type == 'Credit Card' and self.payulatam_credit_card_token != '' and subscription.stage_id not in (4, 5):           
+        if self.payment_method_type == 'Credit Card' and self.payulatam_credit_card_token != '' and subscription.stage_id not in (4, 5):
             """ Proceso de Pago """
             referenceCode = str(self.env['api.payulatam'].payulatam_get_sequence())
             accountId = self.env['api.payulatam'].payulatam_get_accountId()
@@ -212,6 +212,14 @@ class AccountMove(models.Model):
                     response['error'], 
                 )
                 self.message_post(body=body_message, type="comment")
+                mail_values = {
+                    'subject': 'Error cobro liquidación %s'%(self.name),
+                    'body_html' : 'Se presento un error en el cobro de la liquidación %s<br/><br/><b>Cliente: </b> %s <span style="color: red;">error:</span> %s<br/><br/>Se envio correo con link de pago. '%(self.name, self.partner_id.name ,response['error']),
+                    'email_to': 'analistaprocesos@masmedicos.co, analistaux@masmedicos.co',
+                    'email_from': 'contacto@masmedicos.co'
+                }
+                self.env['mail.mail'].sudo().create(mail_values).send()
+                self.send_recurring_payment_pse_cash()
             else:
                 if response['transactionResponse']['state'] == 'APPROVED':
                     product = self.invoice_line_ids[0].product_id
@@ -338,6 +346,13 @@ class AccountMove(models.Model):
                         response['transactionResponse']['responseCode']
                     )
                     self.message_post(body=body_message, type="comment")
+                    mail_values = {
+                        'subject': 'Cobro liquidación %s %s'%(self.name, response['transactionResponse']['state']),
+                        'body_html' : 'El cobro de la liquidación <b>$s</b> fue <b style="color: red;">%s</b><br/><br/>Cliente: %s'%(self.name, response['transactionResponse']['state'], self.partner_id.name),
+                        'email_to': 'analistaprocesos@masmedicos.co, analistaux@masmedicos.co',
+                        'email_from': 'contacto@masmedicos.co'
+                    }
+                    self.env['mail.mail'].sudo().create(mail_values).send()
         else:
             raise UserError('El metodo de pago no es Tarjeta de Credito, no tiene token o la suscripcion esta en estado cerrado')
             
