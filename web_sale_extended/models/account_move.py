@@ -201,6 +201,7 @@ class AccountMove(models.Model):
                 "transaction": transaction,
             }
             response = self.env['api.payulatam'].payulatam_credit_cards_payment_request(credit_card_values)
+            _logger.info(response)
             if response['code'] != 'SUCCESS':
                 body_message = """
                     <b><span style='color:red;'>PayU Latam - Error en pago con tarjeta de crédito</span></b><br/>
@@ -211,6 +212,15 @@ class AccountMove(models.Model):
                     response['error'], 
                 )
                 self.message_post(body=body_message, type="comment")
+                mail_values = {
+                    'subject': 'Error cobro liquidación %s'%(self.name),
+                    'body_html' : 'Se presento un error en el cobro de la liquidación %s<br/><br/><b>Cliente: </b> %s <span style="color: red;">error:</span> %s<br/><br/>Se envio correo con link de pago. '%(self.name, self.partner_id.name ,response['error']),
+                    'email_to': 'dv1@masmedicos.co',
+                    # 'email_to': 'analistaprocesos@masmedicos.co, analistaux@masmedicos.co',
+                    'email_from': 'contacto@masmedicos.co'
+                }
+                self.env['mail.mail'].sudo().create(mail_values).send()
+                self.send_recurring_payment_pse_cash()
             else:
                 if response['transactionResponse']['state'] == 'APPROVED':
                     subscription = self.env['sale.subscription'].sudo().search([('code', '=', self.invoice_origin)])
@@ -338,6 +348,14 @@ class AccountMove(models.Model):
                         response['transactionResponse']['responseCode']
                     )
                     self.message_post(body=body_message, type="comment")
+                    mail_values = {
+                        'subject': 'Cobro liquidación %s %s'%(self.name, response['transactionResponse']['state']),
+                        'body_html' : 'El cobro de la liquidación <b>$s</b> fue <b style="color: red;">%s</b><br/><br/>Cliente: %s'%(self.name, response['transactionResponse']['state'], self.partner_id.name),
+                        'email_to': 'dv1@masmedicos.co',
+                        # 'email_to': 'analistaprocesos@masmedicos.co, analistaux@masmedicos.co',
+                        'email_from': 'contacto@masmedicos.co'
+                    }
+                    self.env['mail.mail'].sudo().create(mail_values).send()
         else:
             raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
             

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+         <record id="report_bancolombia_billing_entry_tree" model="ir.ui.view">
+            <field name="name">report.bancolombia.billing.entry.tree</field>
+            <field name="type">tree</field>
+            <field name="model">bancolombia.billing.entry</field>
+            <field name="arch" type="xml">
+                <tree string="Entrada facturacion Bancolombia Registro de detalle" create="0" edit="0">
+                    <field name="type_register" />
+                    <field name="buyer_nit" />
+                    <field name="buyer_name" />
+                    <field name="buyer_bank_account" />
+                    <field name="number_account_debited" />
+                    <field name="transaction_type" />
+                    <field name="transaction_value" />
+                    <field name="validation_indicator" />
+                    <field name="ref1" />
+                    <field name="ref2" />
+                    <field name="expiration_date" />
+                    <field name="billed_periods" />
+                    <field name="cycle" />
+                    <field name="reserved" />
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_report_bancolombia_billing_entry_tree">
+            <field name="name">Reporte Facturacion Bancolombia</field>
+            <field name="res_model">bancolombia.billing.entry</field>
+            <field name="view_mode">tree</field>
+        </record>
+        
+        <record id="report_bancolombia_news_entry_tree" model="ir.ui.view">
+            <field name="name">report.bancolombia.news.entry.tree</field>
+            <field name="type">tree</field>
+            <field name="model">bancolombia.news.entry</field>
+            <field name="arch" type="xml">
+                <tree string="Entrada Novedades Bancolombia" create="0" edit="0">
+                    <field name="agreement" />
+                    <field name="agreement_name" />
+                    <field name="buyer_document_type" />
+                    <field name="identification_buyer" />
+                    <field name="buyer_name" />
+                    <field name="buyer_account_number" />
+                    <field name="buyer_account_type" />
+                    <field name="efr_id" />
+                    <field name="ref1" />
+                    <field name="ref2" />
+                    <field name="ref3" />
+                    <field name="value_to_be_debited" />
+                    <field name="debit_schedule_start_date" />
+                    <field name="debit_schedule_end_date" />
+                    <field name="novelty_type" />
+                    <field name="number_retry_days" />
+                    <field name="application_criteria" />
+                    <field name="payment_frequency" />
+                    <field name="n_days" />
+                    <field name="payday" />
+                    <field name="debit_type" />
+                    <field name="response_code" />
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_report_bancolombia_news_entry_tree">
+            <field name="name">Reporte Novedades Bancolombia</field>
+            <field name="res_model">bancolombia.news.entry</field>
+            <field name="view_mode">tree</field>
+        </record>
+    </data>
+    <menuitem id="report_bancolombia_billing_entry" name="Reporte Facturacion Bancolombia" parent="sale_subscription.menu_sale_subscription_report" sequence="5" action="web_sale_extended.action_report_bancolombia_billing_entry_tree" groups="sale_subscription.group_sale_subscription_view"/>
+    <menuitem id="report_bancolombia_news_entry" name="Reporte Novedades Bancolombia" parent="sale_subscription.menu_sale_subscription_report" sequence="5" action="web_sale_extended.action_report_bancolombia_news_entry_tree" groups="sale_subscription.group_sale_subscription_view"/>
+</odoo>
