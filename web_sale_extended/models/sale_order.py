@@ -71,6 +71,15 @@ class SaleOrder(models.Model):
         ("window_payment", "Pago por ventanilla"),
         ("libranza_discount", "Descuento por libranza"),
     ], string="Tipo descuento Sponsor")
+    collection_attempts = fields.Integer('Intentos de cobro', store=True, default=0)
+    buyer_account_type = fields.Selection([
+        ("1", "Cuenta Corriente"), 
+        ("7", "Cuenta de Ahorros"), 
+        ("2", "Tarjeta de Crédito MasterCard"),
+        ("3", "Tarjeta de Crédito Visa"),
+        ("4", "Tarjeta de Crédito Amex"),
+    ])
+    buyer_account_number = fields.Char('Numero de cuenta')
     
     @api.depends('order_line', 'state', 'partner_id')
     def _compute_sponsor_id(self):
