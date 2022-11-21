@@ -348,7 +348,7 @@ class AccountMove(models.Model):
                     self.message_post(body=body_message, type="comment")
                     mail_values = {
                         'subject': 'Cobro liquidación %s %s'%(self.name, response['transactionResponse']['state']),
-                        'body_html' : 'El cobro de la liquidación <b>$s</b> fue <b style="color: red;">%s</b><br/><br/>Cliente: %s'%(self.name, response['transactionResponse']['state'], self.partner_id.name),
+                        'body_html' : 'El cobro de la liquidación <b>%s</b> fue <b style="color: red;">%s</b><br/><br/>Cliente: %s'%(self.name, response['transactionResponse']['state'], self.partner_id.name),
                         'email_to': 'analistaprocesos@masmedicos.co, analistaux@masmedicos.co',
                         'email_from': 'contacto@masmedicos.co'
                     }
