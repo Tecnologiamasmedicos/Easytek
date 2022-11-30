@@ -50,6 +50,8 @@
         'views/sale_funds_view.xml',
         'views/payu_payment_methods_view.xml',
         'views/bancolombia_reports_view.xml',
+        'views/beneficiaries_bancolombia.xml',
+        'views/web_sale_shop_address_bancolombia.xml',
         #'reports/sale_order_report.xml',
         #'reports/res_partner_report.xml',
         'data/mail_template_cancellation_plan.xml',

@@ -234,6 +234,11 @@ class WebsiteSaleExtended(WebsiteSale):
                     'benefice_payment_method': kw['type_payment'],
                     'payment_method_type': 'Product Without Price'
                 })
+            if 'bancolombia_types_account' in kw:
+                order.write({
+                    'buyer_account_type': kw['bancolombia_types_account'],
+                    'buyer_account_number': kw['account_number']
+                })
             order.write({'tusdatos_email': kw['email']})
             _logger.info("****FORMULARIO*****")
             pre_values = self.values_preprocess(order, mode, kw)
@@ -365,13 +370,17 @@ class WebsiteSaleExtended(WebsiteSale):
             'cities': [],
             'document_types': self.get_document_types('payment'),
             'payment_types': self.get_payment_types('beneficio'),
+            'bancolombia_types_account': self.get_bancolombia_types_account(),
             'product': request.env['product.template'].sudo().browse(order_detail.product_id.id),
             # 'fiscal_position': self.get_fiscal_position(),
             'only_services': order and order.only_services,
             'order_detail': order_detail,
             'assisted_purchase': assisted_purchase,
         }
-        return request.render("web_sale_extended.address", render_values)
+        if order_detail.product_id.categ_id.buyer_view:
+            return request.render(order_detail.product_id.categ_id.buyer_view, render_values)
+        else:
+            return request.render("web_sale_extended.address", render_values)
     
 
     @http.route(['/shop/confirm_order'], type='http', auth="public", website=True, sitemap=False)
@@ -412,7 +421,8 @@ class WebsiteSaleExtended(WebsiteSale):
             """
             order.message_post(body=body_message, type="comment")
             return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)))
-
+        if order.main_product_id.categ_id.sponsor_id.id == 5132:
+            return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)))
         return request.redirect("/shop/payment")
     
     
@@ -444,6 +454,10 @@ class WebsiteSaleExtended(WebsiteSale):
         else:
             payment_type = (dict(request.env['sale.order'].fields_get(allfields=['payment_method_type'])['payment_method_type']['selection']))
         return payment_type
+
+    def get_bancolombia_types_account(self):
+        bancolombia_types_account = (dict(request.env['sale.order'].fields_get(allfields=['buyer_account_type'])['buyer_account_type']['selection']))
+        return bancolombia_types_account
 
     @http.route(['/my/order/beneficiaries/<int:order_id>'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def get_data_beneficiary(self, order_id, access_token=None, **kwargs):        
@@ -490,7 +504,10 @@ class WebsiteSaleExtended(WebsiteSale):
                     'pets_number': pets_number,
                 }
                 _logger.info(render_values)
-                return request.render("web_sale_extended.beneficiary", render_values)
+                if order.main_product_id.categ_id.sponsor_id.id == 5132:
+                    return request.render("web_sale_extended.beneficiaries_bancolombia", render_values)
+                else:
+                    return request.render("web_sale_extended.beneficiary", render_values)
             else:
                 raise werkzeug.exceptions.NotFound
 
@@ -1186,6 +1203,9 @@ class WebsiteSaleExtended(WebsiteSale):
         PaymentProcessing.add_payment_transaction(tx)
         return request.redirect('/payment/process')
 
+    @http.route('/shop/bancolombia', type='http', auth='public', website=True, sitemap=False)
+    def bancolombia(self, pm_id=None, **kwargs):
+        return request.render("web_sale_extended.beneficiaries_bancolombia", {})
 
 class SalePortalExtended(CustomerPortal):
 

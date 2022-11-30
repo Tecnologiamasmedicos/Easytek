@@ -13,6 +13,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         $('#city').selectpicker();
         $('#document').selectpicker('val', '');
         $('#fiscal_position').selectpicker();
+        $('#bancolombia_types_account').selectpicker();
                
         function consultarZipcode(ciudad){
             $.ajax({
@@ -369,6 +370,18 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i.test(value);
         }, "¡Upss! deben contener caracteres validos");
 
+        $.validator.addMethod("account_numbers_same", function(value, element) {
+            let account_number = $("input[name='account_number']").val();
+            let confirm_account_number = $("input[name='confirm_account_number']").val();
+            if (account_number ==='' || confirm_account_number === ''){
+                return true;
+            }
+            if (account_number === confirm_account_number){
+                return false;
+            }
+            return true;
+        }, "¡Upss! Los numeros de cuenta no son iguales");
+
         $("#shop").validate({
             rules: {
                 name: {
@@ -470,6 +483,20 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 },
                 type_payment: {
                     required: true
+                },
+                bancolombia_types_account: {
+                    required: true
+                },
+                account_number: {
+                    required: true,
+                    number: true,
+                    account_numbers_same: true
+
+                },
+                confirm_account_number: {
+                    required: true,
+                    number: true,
+                    account_numbers_same: true
                 },
                 birthdate_date: {
                     required: true,
@@ -600,6 +627,17 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 },
                 type_payment: {
                     required: "¡Upss! El tipo de pago es requerido",
+                },
+                bancolombia_types_account: {
+                    required: "¡Upss! Es necesario que escojas un tipo de cuenta",
+                },
+                account_number: {
+                    required: "¡Upss! Es necesario que escribas tu numero de cuenta",
+                    number: "¡Upss! solo se permiten numeros"
+                },
+                confirm_account_number: {
+                    required: "¡Upss! Es necesario que escribas tu numero de cuenta",
+                    number: "¡Upss! solo se permiten numeros"
                 },
                 birthdate_date: {
                     required: "¡Upss! tu fecha de nacimiento es requerido",

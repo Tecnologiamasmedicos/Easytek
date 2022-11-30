@@ -60,15 +60,15 @@ class BancolombiaNewsEntry(models.Model):
         sorder.name as ref1,
         ''::text as ref2,
         ''::text as ref3,
-        sorder.amount_total as value_to_be_debited,
-        TO_CHAR(sorder.date_order, 'ddmmyyyy') as debit_schedule_start_date,
+        '0'::text as value_to_be_debited,
+        TO_CHAR(cast(now() as date), 'ddmmyyyy') as debit_schedule_start_date, 
         ''::text as debit_schedule_end_date,
         'ING'::text as novelty_type,
-        '0'::text as number_retry_days,
+        '3'::text as number_retry_days,
         '01'::text as application_criteria,
-        ''::text as payment_frequency,
-        ''::text as n_days,
-        ''::text as payday,
+        '00'::text as payment_frequency,
+        '0'::text as n_days,
+        '0'::text as payday,
         '02'::text as debit_type,
         ''::text as response_code
         
@@ -154,8 +154,8 @@ class BancolombiaBillingEntry(models.Model):
         
     def _cron_generate_bancolombia_files(self):
         current_date = (datetime.now() - timedelta(hours=5)).date()
-        name_billing_file = 'FC_VNUEVA_' + current_date.strftime("%Y%m%d")
-        name_news_file = 'NV_VNUEVA_' + current_date.strftime("%Y%m%d")
+        name_billing_file = 'FC_VNUEVA_' + current_date.strftime("%y%m%d")
+        name_news_file = 'NV_VNUEVA_' + current_date.strftime("%y%m%d")
         records_billing_entries_bancolombia =  self.env['bancolombia.billing.entry'].search([])
         records_news_entries_bancolombia =  self.env['bancolombia.news.entry'].search([])
         data = []
@@ -205,7 +205,7 @@ class BancolombiaBillingEntry(models.Model):
                 record.response_code
             ])
         billing_control = ['1', '860038299'.zfill(13), 'Pan American Life de Colombia'[:20], '12710'.zfill(15), current_date.strftime("%Y%m%d"), '1', current_date.strftime("%Y%m%d"), str(len(data)).zfill(8), str(sum).split(".")[0].zfill(15) + str(sum).split(".")[-1].zfill(2), "".ljust(79)]
-        with open('tmp/%s.txt'%(name_billing_file), 'w', encoding='utf-8', newline='') as file, open('tmp/%s.csv'%(name_news_file), 'w', encoding='utf-8', newline='') as file2:
+        with open('tmp/%s.txt'%(name_billing_file), 'w', encoding='utf-8', newline='') as file, open('tmp/%s.txt'%(name_news_file), 'w', encoding='utf-8', newline='') as file2:
             for x in billing_control:
                 file.write(x)
             for x in range(len(data)):

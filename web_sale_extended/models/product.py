@@ -14,6 +14,7 @@ class ProductCategory(models.Model):
     sponsor_id = fields.Many2one('res.partner', 'Sponsor', required=True, domain=[('company_type', '=', 'sponsor')])
     journal_id = fields.Many2one('account.journal', string='Diario', domain=[('type', '=', 'sale')])
     welcome_mail_template_id = fields.Many2one('mail.template', string='Correo de Bienvenida', domain=[('model', '=', 'sale.order')])
+    buyer_view = fields.Many2one('ir.ui.view', string='Pantalla comprador')
     
 class ProductProduct(models.Model):
     _inherit = 'product.product'
