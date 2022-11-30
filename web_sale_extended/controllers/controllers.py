@@ -378,7 +378,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'assisted_purchase': assisted_purchase,
         }
         if order_detail.product_id.categ_id.buyer_view:
-            return request.render(order_detail.product_id.categ_id.buyer_view, render_values)
+            return request.render(order_detail.product_id.categ_id.buyer_view.xml_id, render_values)
         else:
             return request.render("web_sale_extended.address", render_values)
     

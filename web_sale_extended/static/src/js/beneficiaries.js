@@ -18,12 +18,19 @@ odoo.define('web_sale_extended.beneficiaries_bancolombia', function (require) {
     }
     mostrar();
     $("#add_beneficiaries").on('click', function(e){
-        let beneficiaries_number = parseInt($('#beneficiaries_number'));
-        let last_beneficiary = parseInt($('#beneficiaries_container a:last').text().split(" ").at(-1));
+        let beneficiaries_number = parseInt($('#beneficiaries_number').val());
+        let last_beneficiary = $('#beneficiaries_container a:last').text().split(" ").at(-1);
+        if (last_beneficiary === "Principal"){
+            last_beneficiary = 0;
+        }
+        else{
+            last_beneficiary = parseInt(last_beneficiary);
+        }
         if (last_beneficiary < beneficiaries_number){
             let objTo = document.getElementById('beneficiaries_container');
             let formPetSpace = document.createElement("div");
             formPetSpace.innerHTML = '\
+            <br/>\
             <a class="btn btn-dark btn-lg btn-block collapsible"><i class="fa-solid fa-user"/> Datos del beneficiario ' + (last_beneficiary + 1) + '</a>\
             <div class="content">\
                 <div class="form-check">\
