@@ -5,14 +5,21 @@
         <t t-set="no_footer" t-value="1"/>
         <t t-call="website.layout">
             <style>
+                @font-face {
+                    font-family: CIBFontSans-Regular;
+                    src: url('../static/src/fonts/CIBFontSans-Regular.woff') format("woff"),
+                    url('../static/src/fonts/CIBFontSans-Regular.otf') format('truetype');
+                }
+                *{
+                    font-family: CIBFontSans-Regular;
+                }
                 #submit_shop {
                     background-color: #FDDA24; 
                     color: black;
                 }
 
                 #submit_shop:hover {
-                    background-color: black; 
-                    color: #FDDA24; 
+                    opacity: 0.7;
                 }
             </style>
             <div id="wrap">
@@ -226,10 +233,12 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" name="ada" id="defaultCheck3"/>
-                                                <label class="form-check-label" for="ada">
-                                                    Acepto débito automático
-                                                </label>
+                                                <abbr title='Autorizo a BANCOLOMBIA S.A para debitar la suma informada por Pan-American Life de Colombia con ocasión del pago de la póliza que en este documento se constituye, de mi Cuenta de Ahorros o Cuenta Corriente, Depósito de Bajo Monto “Bancolombia a la Mano” o realizar el cargo a mi Tarjeta de Crédito. Me comprometo a tener los fondos suficientes en mi Cuenta de Ahorros o Corriente Depósito de Bajo Monto “Bancolombia a la Mano”, o a mantener la disponibilidad de cupo de mi Tarjeta de Crédito, según el caso, para cubrir el valor facturado el día de cobro. Si no se encontraren fondos en mi Cuenta Corriente, autorizo para que se afecte el cupo de sobregiro disponible. Así mismo, me comprometo a actualizar cualquier cambio de cuenta o número de Tarjeta de Crédito para continuar con el débito o cargo automático.' style="text-decoration: none;">
+                                                    <input class="form-check-input" type="checkbox" value="" name="ada" id="defaultCheck3"/>
+                                                    <label class="form-check-label" for="ada">
+                                                        Acepto débito automático
+                                                    </label>
+                                                </abbr>
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
@@ -237,11 +246,11 @@
                                                 <input class="form-check-input" type="checkbox" value="" name="tycp" id="defaultCheck4"/>
                                                 <label class="form-check-label" for="tycp">
                                                     Acepto términos, condiciones y politica de tratamiento de datos
-                                                    <a href="#terminos" id="btn_terminos" style="color: #59CBE8;"> (leer)</a>
+                                                    <a href="#terminos_bancolombia" id="btn_terminos_bancolombia" style="color: #59CBE8;"> (leer)</a>
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12" id="terminos" style='display: none;'/>
+                                        <div class="col-lg-12" id="terminos_bancolombia" style='display: none;'/>
                                         <div class="w-100"/>
                                         <t t-if="mode == ('new', 'billing') and not only_services">
                                             <div class="col-lg-12">
@@ -266,7 +275,7 @@
                                     <p/>
                                     <div class="d-flex justify-content-end">
                                         <button class="btn btn-custom mb32" id="submit_shop">
-                                            <span>Siguiente>></span>
+                                            <span>Siguiente ></span>
                                             <i class="fa fa-chevron-right" />
                                         </button>
                                     </div>

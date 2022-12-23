@@ -902,17 +902,20 @@ class WebsiteSaleExtended(WebsiteSale):
             kwargs['order_detail'] = order_detail
             kwargs['partner'] = Partner
             kwargs['website_sale_order'] = order
-
-            """ Confirmando Orden de Venta luego del proceso exitoso de beneficiarios """
-            order.action_confirm()
-            order._send_order_confirmation_mail()
-            
-            order.subscription_id.write({
-                'subscription_partner_ids': beneficiary_list,
-            })
             request.session['sale_order_id'] = None
             request.session['sale_transaction_id'] = None
-            return request.render("web_sale_extended.beneficiary_detail", kwargs)
+
+            if sponsor_id.id == 5132:
+                order.action_payu_confirm()
+                return request.render("web_sale_extended.bancolombia_confirmation_sale", kwargs)
+            else:
+                order.subscription_id.write({
+                    'subscription_partner_ids': beneficiary_list,
+                })
+                """ Confirmando Orden de Venta luego del proceso exitoso de beneficiarios """
+                order.action_confirm()
+                order._send_order_confirmation_mail()
+                return request.render("web_sale_extended.beneficiary_detail", kwargs)
 
 
     @http.route(['/beneficiary-submit'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)

@@ -176,7 +176,7 @@
                             </a>
                         </t>
                         <t t-elif="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5132">
-                            <a href="https://wa.me/573057044444" data-original-title="" title="" aria-describedby="tooltip65226" target="_blank">
+                            <a href="https://wa.me/573057111111" data-original-title="" title="" aria-describedby="tooltip65226" target="_blank">
                                 <i class="fa-brands fa-square-whatsapp" style="font-size: 60px; color: #00C389;"></i>
                             </a>
                         </t>

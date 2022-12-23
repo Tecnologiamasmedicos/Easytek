@@ -373,13 +373,10 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         $.validator.addMethod("account_numbers_same", function(value, element) {
             let account_number = $("input[name='account_number']").val();
             let confirm_account_number = $("input[name='confirm_account_number']").val();
-            if (account_number ==='' || confirm_account_number === ''){
+            if (account_number === confirm_account_number){
                 return true;
             }
-            if (account_number === confirm_account_number){
-                return false;
-            }
-            return true;
+            return false;
         }, "¡Upss! Los numeros de cuenta no son iguales");
 
         $("#shop").validate({
@@ -481,6 +478,12 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 tyc: {
                     required: true
                 },
+                ada: {
+                    required: true
+                },
+                tycp: {
+                    required: true
+                },
                 type_payment: {
                     required: true
                 },
@@ -490,8 +493,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 account_number: {
                     required: true,
                     number: true,
-                    account_numbers_same: true
-
                 },
                 confirm_account_number: {
                     required: true,
@@ -624,6 +625,12 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 tyc: {
                     required: "¡Upss! Acepte terminos y condiciones para continuar",
 
+                },
+                ada: {
+                    required: "¡Upss! Acepte débito automático para continuar",
+                },
+                tycp: {
+                    required: "¡Upss! Acepte términos, condiciones y politica de tratamiento de datos para continuar",
                 },
                 type_payment: {
                     required: "¡Upss! El tipo de pago es requerido",
@@ -1283,6 +1290,11 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         document.getElementById("terminos").innerHTML = '';
         document.getElementById("politica").innerHTML = '<iframe src="/web_sale_extended/static/src/files/tratamiento_de_datos.pdf#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="680px"/>';
         $("#politica").toggle();
+    });
+
+    $("#btn_terminos_bancolombia").click(function() {
+        document.getElementById("terminos_bancolombia").innerHTML = '<iframe src="/web_sale_extended/static/src/files/Manual-Plan-Familia-Protegida.pdf#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="680px"/>';
+        $("#terminos_bancolombia").toggle();
     });
 
     $("#posicion_fiscal_help_icon").on('click', function posicion_fiscal_help() {
@@ -4037,5 +4049,3 @@ odoo.define('web_sale_extended.payment_process', function(require) {
         }
     });   
 });
-
- 
