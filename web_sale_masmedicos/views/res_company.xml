@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="res_company_sftp_bancolombia" model="ir.ui.view">
+            <field name="name">res.company.sftp.bancolombia</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook" position="inside">
+                    <!-- Add your fields or attributes here -->
+                    <page string="SFTP Bancolombia">
+                        <group>
+                            <group>
+                                <field name="sftp_server_env_bancolombia"/>
+                            </group>
+                            <group string="Servidor SFTP Producción" groups="base.group_no_one"
+                                   attrs="{'invisible':[('sftp_server_env_bancolombia','!=','prod')]}">
+                                <field name="sftp_hostname_bancolombia"/>
+                                <field name="sftp_port_bancolombia"/>
+                                <field name="sftp_user_bancolombia"/>
+                                <field name="sftp_password_bancolombia" password="True"/>
+                                <field name="sftp_path_output_bancolombia"/>
+                            </group>
+                            <group string="Servidor SFTP Producción QA" groups="base.group_no_one"
+                                   attrs="{'invisible':[('sftp_server_env_bancolombia','!=','test')]}">
+                                <field name="sftp_hostname_QA_bancolombia"/>
+                                <field name="sftp_port_QA_bancolombia"/>
+                                <field name="sftp_user_QA_bancolombia"/>
+                                <field name="sftp_password_QA_bancolombia" password="True"/>
+                                <field name="sftp_path_output_QA_bancolombia"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Contact Center">
+                                <field name="contact_center_id"/>
+                            </group>
+                        </group>
+
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

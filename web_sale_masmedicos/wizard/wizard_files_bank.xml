@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_files_bank_update_form" model="ir.ui.view">
+            <field name="name">view.files.bank.update.form</field>
+            <field name="model">files.bank.update</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="files_wizard_form">
+                    <sheet>
+                        <group>
+                            <span class="oe_inline">
+                                <field name='file_name' class="oe_inline" invisible='1'/>
+                                <field name='file_import' style="margin-left:10px" class="oe_inline"
+                                       filename='file_name'/>
+                            </span>
+                            <button name="update_data" string="Cargar datos"
+                                    type="object" class="btn-primary" data-hotkey="q"/>
+                        </group>
+                        <group>
+                            <field name="orders_update" readonly="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="apply" string="Guardar" type="object" class="oe_highlight" data-hotkey="q"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_update_account_bank" model="ir.actions.act_window">
+            <field name="name">Actualizar cuentas archivo banco</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">files.bank.update</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_files_bank_update_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem parent="sale.sale_order_menu" name="Actualizar cuentas archivo banco"
+                  action="action_view_update_account_bank" id="menu_action_view_update_account_bank"/>
+
+    </data>
+</odoo>

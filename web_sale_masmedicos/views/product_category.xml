@@ -1,0 +1,21 @@
+<odoo>
+  <data>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="product_category_inherit_masmedicos" model="ir.ui.view">
+        <field name="name">product.category.inherit.masmedicos</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <!-- Add your fields or attributes here -->
+                <field name="certified_policy_id" domain="[('type', '=', 'qweb')]"/>
+                <field name="policy_type"/>
+            </xpath>
+
+        </field>
+    </record>
+
+  </data>
+</odoo>
