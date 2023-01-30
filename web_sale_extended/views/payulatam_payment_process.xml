@@ -38,7 +38,7 @@
                                             <div class="card-body text-center pb-2 pt-3">
                                                 <h2 class="mb-0">
                                                     <b data-id="total_amount">
-                                                    $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                    $ <span class="oe_currency_value"><t t-esc="website_sale_order.amount_total" 
                                                     t-options='{"widget": "float", "precision": 2}'/></span></b> 
                                                 </h2>
                                             </div>
@@ -189,7 +189,7 @@
                                         <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
                                             <div class="card-body text-center pb-2 pt-3">
                                                 <h2 class="mb-0"><b data-id="total_amount">
-                                                    $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                    $ <span class="oe_currency_value"><t t-esc="website_sale_order.amount_total" 
                                                         t-options='{"widget": "float", "precision": 2}'/></span></b> 
                                                 </h2>
                                             </div>
@@ -302,7 +302,7 @@
                                                             t-options='{"widget": "float", "precision": 2}'/></span>
                                                         </t>
                                                         <t t-else="">
-                                                            $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                            $ <span class="oe_currency_value"><t t-esc="website_sale_order.amount_total" 
                                                             t-options='{"widget": "float", "precision": 2}'/></span>
                                                         </t>
                                                     </b>
@@ -389,7 +389,7 @@
                                         <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
                                             <div class="card-body text-center pb-2 pt-3">
                                                 <h2 class="mb-0"><b data-id="total_amount">
-                                                    $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                    $ <span class="oe_currency_value"><t t-esc="website_sale_order.amount_total" 
                                                         t-options='{"widget": "float", "precision": 2}'/></span></b> 
                                                 </h2>
                                             </div>
@@ -503,7 +503,7 @@
                                         <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
                                             <div class="card-body text-center pb-2 pt-3">
                                                 <h2 class="mb-0"><b data-id="total_amount">
-                                                    $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                    $ <span class="oe_currency_value"><t t-esc="website_sale_order.amount_total" 
                                                         t-options='{"widget": "float", "precision": 2}'/></span></b> 
                                                 </h2>
                                             </div>
@@ -591,7 +591,7 @@
                                         <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
                                             <div class="card-body text-center pb-2 pt-3">
                                                 <h2 class="mb-0"><b data-id="total_amount">
-                                                    $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                    $ <span class="oe_currency_value"><t t-esc="website_sale_order.amount_total" 
                                                         t-options='{"widget": "float", "precision": 2}'/></span></b> 
                                                 </h2>
                                             </div>
@@ -707,7 +707,7 @@
                                         <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
                                             <div class="card-body text-center pb-2 pt-3">
                                                 <h2 class="mb-0"><b data-id="total_amount">
-                                                    $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                    $ <span class="oe_currency_value"><t t-esc="website_sale_order.amount_total" 
                                                         t-options='{"widget": "float", "precision": 2}'/></span></b> 
                                                 </h2>
                                             </div>
@@ -903,7 +903,7 @@
                                         <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
                                             <div class="card-body text-center pb-2 pt-3">
                                                 <h2 class="mb-0"><b data-id="total_amount">
-                                                    $ <span class="oe_currency_value"><t t-esc="order_id.amount_total" 
+                                                    $ <span class="oe_currency_value"><t t-esc="website_sale_order.amount_total" 
                                                         t-options='{"widget": "float", "precision": 2}'/></span></b> 
                                                 </h2>
                                             </div>

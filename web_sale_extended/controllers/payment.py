@@ -156,7 +156,7 @@ class WebsiteSaleExtended(WebsiteSale):
                         order.beneficiary0_id.othernames if order.beneficiary0_id.othernames != False else '', 
                         (str(order.beneficiary0_id.lastname) + ' ' + str(order.beneficiary0_id.lastname2))[:20] if order.beneficiary0_id.lastname != False else '', 
                         order.beneficiary0_id.identification_document if order.beneficiary0_id.identification_document != False else '', 
-                        str(order.beneficiary0_id.birthdate_date) if order.beneficiary0_id.birthdate_date != False else 'null',
+                        'null',
                         'R', 
                         order.main_product_id.product_class if order.main_product_id.product_class != False else '', 
                         date.today(), 
@@ -179,7 +179,7 @@ class WebsiteSaleExtended(WebsiteSale):
                         order.payulatam_order_id if order.payulatam_order_id != False else ''
                     )
                     order.env.cr.execute(query)
-                    if request.session['sale_order_id'] and order == payulatam_transaction_id:
+                    if order == payulatam_transaction_id:
                         """ En este caso el usuario puede continuar directamente la transacción """
                         render_values = {}
                         render_values.update({
@@ -379,7 +379,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 sale_order.beneficiary0_id.othernames if sale_order.beneficiary0_id.othernames != False else '',
                 (str(sale_order.beneficiary0_id.lastname) + ' ' + str(sale_order.beneficiary0_id.lastname2))[:20] if sale_order.beneficiary0_id.lastname != False else '', 
                 sale_order.beneficiary0_id.identification_document if sale_order.beneficiary0_id.identification_document != False else '', 
-                sale_order.beneficiary0_id.birthdate_date if sale_order.beneficiary0_id.birthdate_date != False else '',
+                sale_order.beneficiary0_id.birthdate_date,
                 'R', 
                 product.product_class if product.product_class != False else '', 
                 date.today(), 

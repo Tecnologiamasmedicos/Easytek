@@ -103,7 +103,7 @@ odoo.define('web_sale_extended.beneficiaries_bancolombia', function (require) {
                 let formPetSpace = document.createElement("div");
                 formPetSpace.innerHTML = '\
                 <br/>\
-                <a class="btn btn-dark btn-lg btn-block collapsible active"><i class="fa-solid fa-user"></i> Datos del beneficiario ' + (last_beneficiary + 1) + '</a>\
+                <a class="btn btn-dark btn-lg btn-block collapsible active"><img src="/web_sale_extended/static/src/images/user_bancol.svg" width="25" style="padding-bottom: 5px;"/> Datos del beneficiario ' + (last_beneficiary + 1) + '</a>\
                 <div class="content">\
                     <br/>\
                     <div class="form-check">\
@@ -115,25 +115,25 @@ odoo.define('web_sale_extended.beneficiaries_bancolombia', function (require) {
                     <div class="row">\
                         <div class="col-lg-3">\
                             <div class="form-group">\
-                                <label class="col-form-label" for="bfirstname' + (last_beneficiary + 1) + '">Primer Nombre*</label>\
+                                <label class="col-form-label" for="bfirstname' + (last_beneficiary + 1) + '">Primer nombre*</label>\
                                 <input class="form-control" type="text" name="bfirstname' + (last_beneficiary + 1) + '" />\
                             </div>\
                         </div>\
                         <div class="col-lg-3">\
                             <div class="form-group">\
-                                <label class="col-form-label" for="bfothername' + (last_beneficiary + 1) + '">Segundo Nombre</label>\
+                                <label class="col-form-label" for="bfothername' + (last_beneficiary + 1) + '">Segundo nombre</label>\
                                 <input class="form-control" type="text" name="bfothername' + (last_beneficiary + 1) + '" />\
                             </div>\
                         </div>\
                         <div class="col-lg-3">\
                             <div class="form-group">\
-                                <label class="col-form-label" for="bflastname' + (last_beneficiary + 1) + '">Primer Apellido*</label>\
+                                <label class="col-form-label" for="bflastname' + (last_beneficiary + 1) + '">Primer apellido*</label>\
                                 <input class="form-control" type="text" name="bflastname' + (last_beneficiary + 1) + '" />\
                             </div>\
                         </div>\
                         <div class="col-lg-3">\
                             <div class="form-group">\
-                                <label class="col-form-label" for="bflastname' + (last_beneficiary + 1) + '2">Segundo Apellido</label>\
+                                <label class="col-form-label" for="bflastname' + (last_beneficiary + 1) + '2">Segundo apellido</label>\
                                 <input class="form-control" type="text" name="bflastname' + (last_beneficiary + 1) + '2" />\
                             </div>\
                         </div>\
@@ -157,10 +157,9 @@ odoo.define('web_sale_extended.beneficiaries_bancolombia', function (require) {
                                 <label class="col-form-label" for="bfdocument' + (last_beneficiary + 1) + '">Tipo de documento*</label>\
                                 <select name="bfdocument' + (last_beneficiary + 1) + '" class="form-control">\
                                     <option value="">...</option>\
+                                    <option value="16">Carné diplomático</option>\
                                     <option value="3">Cédula de Ciudadanía </option>\
                                     <option value="5">Cédula de Extranjería</option>\
-                                    <option value="8">Documento de Identificación Extranjero</option>\
-                                    <option value="11">NUIP</option>\
                                     <option value="7">Pasaporte</option>\
                                     <option value="1">Registro Civil de Nacimiento</option>\
                                     <option value="2">Tarjeta de Identidad</option>\
@@ -195,7 +194,7 @@ odoo.define('web_sale_extended.beneficiaries_bancolombia', function (require) {
                         </div>\
                         <div class="col-lg-3">\
                             <div class="form-group">\
-                                <label class="col-form-label" for="bfphone' + (last_beneficiary + 1) + '">Teléfono Móvil*</label>\
+                                <label class="col-form-label" for="bfphone' + (last_beneficiary + 1) + '">Teléfono móvil*</label>\
                                 <input class="form-control" type="text" name="bfphone' + (last_beneficiary + 1) + '"/>\
                             </div>\
                         </div>\
@@ -521,4 +520,9 @@ odoo.define('web_sale_extended.beneficiaries_bancolombia', function (require) {
             $(this).hide();
         }
     });
+    
+    if($("#add_beneficiaries").is(":visible") === true){
+        $("#add_beneficiaries").addClass("btn_principal");
+        $("#submit_beneficiaries").removeClass("btn_principal").addClass("btn_secundario");
+    }
 });

@@ -37,9 +37,15 @@ class WebsiteSaleExtended(WebsiteSale):
             order.amount_total,'COP',referenceCode)
         payulatam_api_env = request.env.user.company_id.payulatam_api_env
         if payulatam_api_env == 'prod':
-            payulatam_response_url = request.env.user.company_id.payulatam_api_response_url
+            if order.website_id.domain:
+                payulatam_response_url = "https://" + str(order.website_id.domain) + str(request.env.user.company_id.payulatam_api_response_url)
+            else:
+                payulatam_response_url = str(request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + str(request.env.user.company_id.payulatam_api_response_url)
         else:
-            payulatam_response_url = request.env.user.company_id.payulatam_api_response_sandbox_url
+            if order.website_id.domain:
+                payulatam_response_url = "https://" + str(order.website_id.domain) + str(request.env.user.company_id.payulatam_api_response_sandbox_url)
+            else:
+                payulatam_response_url = str(request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + str(request.env.user.company_id.payulatam_api_response_sandbox_url)
         tx_value = {"value": order.amount_total, "currency": "COP"}
         tx_tax = {"value": 0,"currency": "COP"}
         tx_tax_return_base = {"value": 0, "currency": "COP"}
@@ -182,7 +188,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 order.beneficiary0_id.othernames if order.beneficiary0_id.othernames != False else '',
                 (str(order.beneficiary0_id.lastname) + ' ' + str(order.beneficiary0_id.lastname2))[:20] if order.beneficiary0_id.lastname != False else '', 
                 order.beneficiary0_id.identification_document if order.beneficiary0_id.identification_document != False else '', 
-                str(order.beneficiary0_id.birthdate_date) if order.beneficiary0_id.birthdate_date != False else 'null',
+                'null',
                 'R', 
                 order.main_product_id.product_class if order.main_product_id.product_class != False else '', 
                 date.today(), 
@@ -348,10 +354,12 @@ class WebsiteSaleExtended(WebsiteSale):
         descriptionPay = "Payment Origin from " + str(origin_document.name)
         signature = request.env['api.payulatam'].payulatam_get_signature(origin_document.amount_total,'COP',referenceCode)
         payulatam_api_env = request.env.user.company_id.payulatam_api_env
-        if payulatam_api_env == 'prod':
-            payulatam_response_url = request.env.user.company_id.payulatam_api_response_url
+
+        if sale_order.website_id.domain:
+            payulatam_response_url = "https://" + str(sale_order.website_id.domain) + '/shop/payment/payulatam-gateway-api/response_recurring'
         else:
-            payulatam_response_url = request.env.user.company_id.payulatam_api_response_sandbox_url
+            payulatam_response_url = str(request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + '/shop/payment/payulatam-gateway-api/response_recurring'
+
         tx_value = {"value": amount, "currency": "COP"}
         tx_tax = {"value": 0,"currency": "COP"}
         tx_tax_return_base = {"value": 0, "currency": "COP"}
@@ -394,7 +402,7 @@ class WebsiteSaleExtended(WebsiteSale):
             }
         }
         extraParameters = {
-            "RESPONSE_URL": str(http.request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + '/shop/payment/payulatam-gateway-api/response_recurring',
+            "RESPONSE_URL": payulatam_response_url,
             "PSE_REFERENCE1": request.httprequest.environ['REMOTE_ADDR'],
             "FINANCIAL_INSTITUTION_CODE": post['pse_bank'],
             "USER_TYPE": post['pse_person_type'],
@@ -509,7 +517,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 sale_order.beneficiary0_id.othernames if sale_order.beneficiary0_id.othernames != False else '',
                 (str(sale_order.beneficiary0_id.lastname) + ' ' + str(sale_order.beneficiary0_id.lastname2))[:20] if sale_order.beneficiary0_id.lastname != False else '', 
                 sale_order.beneficiary0_id.identification_document if sale_order.beneficiary0_id.identification_document != False else '', 
-                sale_order.beneficiary0_id.birthdate_date if sale_order.beneficiary0_id.birthdate_date != False else '',
+                sale_order.beneficiary0_id.birthdate_date,
                 'R', 
                 product.product_class if product.product_class != False else '', 
                 date.today(), 

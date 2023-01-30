@@ -110,7 +110,9 @@ class AccountMove(models.Model):
         self.send_payment = True
     
     def payment_credit_card_by_tokenization(self):
-        if self.payment_method_type == 'Credit Card' and self.payulatam_credit_card_token != '':           
+        subscription = self.env['sale.subscription'].sudo().search([('code', '=', self.invoice_origin)])
+        if self.payment_method_type == 'Credit Card' and self.payulatam_credit_card_token != '' and self.payulatam_state not in ("APPROVED", "PENDING") and subscription.stage_id not in (4, 5):
+            sale_order = request.env['sale.order'].sudo().search([('subscription_id', '=', subscription.id)])
             """ Proceso de Pago """
             referenceCode = str(self.env['api.payulatam'].payulatam_get_sequence())
             accountId = self.env['api.payulatam'].payulatam_get_accountId()
@@ -119,10 +121,17 @@ class AccountMove(models.Model):
                 self.amount_total,'COP',referenceCode)
 
             payulatam_api_env = self.env.user.company_id.payulatam_api_env
+
             if payulatam_api_env == 'prod':
-                payulatam_response_url = self.env.user.company_id.payulatam_api_response_url
+                if sale_order.website_id.domain:
+                    payulatam_response_url = "https://" + str(sale_order.website_id.domain) + str(self.env.user.company_id.payulatam_api_response_url)
+                else:
+                    payulatam_response_url = str(request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + str(self.env.user.company_id.payulatam_api_response_url)
             else:
-                payulatam_response_url = self.env.user.company_id.payulatam_api_response_sandbox_url
+                if sale_order.website_id.domain:
+                    payulatam_response_url = "https://" + str(sale_order.website_id.domain) + str(self.env.user.company_id.payulatam_api_response_sandbox_url)
+                else:
+                    payulatam_response_url = str(request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + str(self.env.user.company_id.payulatam_api_response_sandbox_url)
 
             tx_value = {"value": self.amount_total, "currency": "COP"}        
             tx_tax = {"value": 0,"currency": "COP"}
@@ -201,7 +210,6 @@ class AccountMove(models.Model):
                 "transaction": transaction,
             }
             response = self.env['api.payulatam'].payulatam_credit_cards_payment_request(credit_card_values)
-            _logger.info(response)
             if response['code'] != 'SUCCESS':
                 body_message = """
                     <b><span style='color:red;'>PayU Latam - Error en pago con tarjeta de crédito</span></b><br/>
@@ -223,7 +231,6 @@ class AccountMove(models.Model):
                 self.send_recurring_payment_pse_cash()
             else:
                 if response['transactionResponse']['state'] == 'APPROVED':
-                    subscription = self.env['sale.subscription'].sudo().search([('code', '=', self.invoice_origin)])
                     product = self.invoice_line_ids[0].product_id
                     sale_order = self.env['sale.order'].sudo().search([('subscription_id', '=', subscription.id)])
                     self.write({
@@ -350,14 +357,14 @@ class AccountMove(models.Model):
                     self.message_post(body=body_message, type="comment")
                     mail_values = {
                         'subject': 'Cobro liquidación %s %s'%(self.name, response['transactionResponse']['state']),
-                        'body_html' : 'El cobro de la liquidación <b>$s</b> fue <b style="color: red;">%s</b><br/><br/>Cliente: %s'%(self.name, response['transactionResponse']['state'], self.partner_id.name),
+                        'body_html' : 'El cobro de la liquidación <b>%s</b> fue <b style="color: red;">%s</b><br/><br/>Cliente: %s'%(self.name, response['transactionResponse']['state'], self.partner_id.name),
                         'email_to': 'dv1@masmedicos.co',
                         # 'email_to': 'analistaprocesos@masmedicos.co, analistaux@masmedicos.co',
                         'email_from': 'contacto@masmedicos.co'
                     }
                     self.env['mail.mail'].sudo().create(mail_values).send()
         else:
-            raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
+            raise UserError('El metodo de pago no es Tarjeta de Credito, no tiene token, el pago fue aprobado o esta pendiente o la suscripcion esta en estado cerrado')
             
     def cron_get_status_payu_latam_account_move(self):
         """ selección de liquidaciones de pedidos a procesar, que están pendientes de respuesta de payu """
@@ -790,7 +797,9 @@ class AccountMove(models.Model):
             })
             _logger.info('action date billing cycle')
             _logger.info(invoice.action_date_billing_cycle)
-            if deal_id == False or subscription.stage_id == 4:
+            if deal_id == False:
+                continue            
+            if subscription.stage_id == 4:
                 invoice.write({
                     'payulatam_state': 'no_payment'
                 })

@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="paperformat_sale_order_report_easytek" model="report.paperformat">
-            <field name="name">Formato de Papel easytek</field>
+        <report
+            id="falabella_custom_policy_certificate"
+            string="Certificado Poliza Falabella"
+            model="sale.order"
+            report_type="qweb-pdf"
+            name="web_sale_extended.report_falabella"
+        />
+
+        <record id="paperformat_low_monthly_report_account_purchase" model="report.paperformat">
+            <field name="name">Formato de papel informe de seguimineto</field>
             <field name="default" eval="True"/>
             <field name="format">A4</field>
             <field name="page_height">0</field>
             <field name="page_width">0</field>
             <field name="orientation">Portrait</field>
             <field name="margin_top">10</field>
-            <field name="margin_bottom">13</field>
+            <field name="margin_bottom">15</field>
             <field name="margin_left">7</field>
             <field name="margin_right">7</field>
             <field name="header_line" eval="False"/>
-            <field name="header_spacing">15</field>
+            <field name="header_spacing">3</field>
             <field name="dpi">90</field>
-	    </record>
+        </record>
 
         <template id="report_falabella">
             <t t-call="web.html_container">
-                <t t-foreach="docs" t-as="doc">
+                <t t-foreach="docs" t-as="doc">                    
                     <div class="header">
                         <div class="container">
                             <div style="height: 50px;">
@@ -43,8 +51,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="page">
-                        <t t-foreach="doc.partner_id" t-as="p">
+                    <div class="article o_report_layout_standard">
+                        <div class="page">
+                            <t t-foreach="doc.partner_id" t-as="p">
                             <table style="width:100%;">
                                 <thead>
                                     <tr>
@@ -820,17 +829,9 @@
                             </strong> que en adelante se denominará PALIG conviene otorgar las coberturas incorporadas en el presente Certificado individual con sujeción a los términos y condiciones de esta póliza y sus anexos.
                         </p>
                     </div>
+                    </div>
                 </t>
             </t>
         </template>
-
-            
-        <report
-            id="falabella_custom_policy_certificate"
-            string="Certificado Poliza Falabella"
-            model="sale.order"
-            report_type="qweb-pdf"
-            name="web_sale_extended.falabella_custom_policy_certificate"
-        />
     </data>
 </odoo>

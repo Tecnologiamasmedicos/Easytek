@@ -35,6 +35,7 @@ class BancolombiaNewsEntry(models.Model):
     payday = fields.Char('Día de Pago',readonly=True)
     debit_type = fields.Char('Tipo de debito',readonly=True)
     response_code = fields.Char('Código de respuesta',readonly=True)
+    sale_order_id = fields.Many2one('sale.order', string='Order', readonly=True)
     
     def init(self):
         tools.drop_view_if_exists(self._cr, 'bancolombia_news_entry')
@@ -45,13 +46,13 @@ class BancolombiaNewsEntry(models.Model):
         '12710'::text as agreement,
         'Plan Familia Protegida'::text as agreement_name,
         (case 
-            when rpdt.id=31 then '1'
-            when rpdt.id=13 then '2'
-            when rpdt.id=22 then '3'
-            when rpdt.id=12 then '4'
-            when rpdt.id=41 then '5'
-            when rpdt.id=11 then '6'
-            else rpdt.id end) as buyer_document_type,
+            when rpdt.code='31' then '1'
+            when rpdt.code='13' then '2'
+            when rpdt.code='22' then '3'
+            when rpdt.code='12' then '4'
+            when rpdt.code='41' then '5'
+            when rpdt.code='11' then '6'
+            else rpdt.code end) as buyer_document_type,
         p.identification_document as identification_buyer,
         substr(p.firstname || ' ' || p.lastname, 1, 22) as buyer_name,
         sorder.buyer_account_number as buyer_account_number,
@@ -61,7 +62,7 @@ class BancolombiaNewsEntry(models.Model):
         ''::text as ref2,
         ''::text as ref3,
         '0'::text as value_to_be_debited,
-        TO_CHAR(cast(now() as date), 'ddmmyyyy') as debit_schedule_start_date, 
+        ''::text as debit_schedule_start_date,
         ''::text as debit_schedule_end_date,
         'ING'::text as novelty_type,
         '3'::text as number_retry_days,
@@ -70,12 +71,13 @@ class BancolombiaNewsEntry(models.Model):
         '0'::text as n_days,
         '0'::text as payday,
         '02'::text as debit_type,
-        ''::text as response_code
+        ''::text as response_code,
+        sorder.id as sale_order_id
         
         from sale_order sorder
         left join res_partner p on p.id = sorder.partner_id
         left join res_partner_document_type rpdt on rpdt.id = p.document_type_id
-        where 1=1 and sorder.state='payu_pending' and sorder.collection_attempts < 4 and sorder.sponsor_id=5132
+        where 1=1 and sorder.state='payu_pending' and sorder.debit_request='f' and sorder.sponsor_id=5132
         order by sorder.id desc
         );
         """
@@ -100,6 +102,7 @@ class BancolombiaBillingEntry(models.Model):
     billed_periods = fields.Char('Periodos facturados',readonly=True)
     cycle = fields.Char('Ciclo',readonly=True)
     reserved = fields.Char('Reservado',readonly=True)
+    sale_order_id = fields.Many2one('sale.order', string='Order', readonly=True)
     
 #     transaction_type = fields.Selection(
 #         [("67", "Cuenta de Ahorros"), 
@@ -138,15 +141,16 @@ class BancolombiaBillingEntry(models.Model):
         'N'::text as validation_indicator,
         RPAD(sorder.name::text, 30, ' ') as ref1,
         RPAD(''::text, 30, ' ') as ref2,
-        TO_CHAR(sorder.date_order, 'yyyymmdd') as expiration_date,
+        ''::text as expiration_date,
         RPAD(''::text, 2, ' ') as billed_periods,
         RPAD(''::text, 3, ' ') as cycle,
-        RPAD(''::text, 17, ' ') as reserved
+        RPAD(''::text, 17, ' ') as reserved,
+        sorder.id as sale_order_id
         
         from sale_order sorder
         left join res_partner p on p.id = sorder.partner_id
         left join res_partner_document_type rpdt on rpdt.id = p.document_type_id
-        where 1=1 and sorder.state='payu_pending' and sorder.collection_attempts < 4 and sorder.sponsor_id=5132
+        where 1=1 and sorder.state='payu_pending' and sorder.debit_request='f' and sorder.sponsor_id=5132
         order by sorder.id desc
         );
         """
@@ -173,7 +177,7 @@ class BancolombiaBillingEntry(models.Model):
                 record.validation_indicator,
                 record.ref1,
                 record.ref2,
-                record.expiration_date,
+                current_date.strftime("%Y%m%d"),
                 record.billed_periods,
                 record.cycle,
                 record.reserved
@@ -193,7 +197,7 @@ class BancolombiaBillingEntry(models.Model):
                 record.ref2,
                 record.ref3,
                 record.value_to_be_debited,
-                record.debit_schedule_start_date,
+                current_date.strftime("%d%m%Y"),
                 record.debit_schedule_end_date,
                 record.novelty_type,
                 record.number_retry_days,
@@ -214,3 +218,19 @@ class BancolombiaBillingEntry(models.Model):
                     file.write(y)
             writer2 = csv.writer(file2, delimiter=',')
             writer2.writerows(data2)
+        for record in records_billing_entries_bancolombia:
+            record.write({
+                'expiration_date': current_date.strftime("%Y%m%d"),
+            })
+            # record.sale_order_id.write({
+            #     'debit_request': True,
+            #     'debit_request_date': current_date
+            # })
+        for record in records_news_entries_bancolombia:
+            record.write({
+                'debit_schedule_start_date': current_date.strftime("%d%m%Y"),
+            })
+            # record.sale_order_id.write({
+            #     'debit_request': True,
+            #     'debit_request_date': current_date
+            # })

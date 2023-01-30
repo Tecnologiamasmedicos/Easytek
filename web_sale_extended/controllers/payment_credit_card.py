@@ -46,9 +46,15 @@ class WebsiteSaleExtended(WebsiteSale):
         
         payulatam_api_env = request.env.user.company_id.payulatam_api_env
         if payulatam_api_env == 'prod':
-            payulatam_response_url = request.env.user.company_id.payulatam_api_response_url
+            if order.website_id.domain:
+                payulatam_response_url = "https://" + str(order.website_id.domain) + str(request.env.user.company_id.payulatam_api_response_url)
+            else:
+                payulatam_response_url = str(request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + str(request.env.user.company_id.payulatam_api_response_url)
         else:
-            payulatam_response_url = request.env.user.company_id.payulatam_api_response_sandbox_url
+            if order.website_id.domain:
+                payulatam_response_url = "https://" + str(order.website_id.domain) + str(request.env.user.company_id.payulatam_api_response_sandbox_url)
+            else:
+                payulatam_response_url = str(request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + str(request.env.user.company_id.payulatam_api_response_sandbox_url)
         
         """ TARJETA DE CREDITO LUNH """
         luhn_ok = request.env['api.payulatam'].luhn_checksum(post['credit_card_number'])
@@ -273,7 +279,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 order.beneficiary0_id.othernames if order.beneficiary0_id.othernames != False else '', 
                 (str(order.beneficiary0_id.lastname) + ' ' + str(order.beneficiary0_id.lastname2))[:20] if order.beneficiary0_id.lastname != False else '', 
                 order.beneficiary0_id.identification_document if order.beneficiary0_id.identification_document != False else '', 
-                str(order.beneficiary0_id.birthdate_date) if order.beneficiary0_id.birthdate_date != False else 'null',
+                'null',
                 'R', 
                 order.main_product_id.product_class if order.main_product_id.product_class != False else '', 
                 date.today(), 
@@ -449,9 +455,15 @@ class WebsiteSaleExtended(WebsiteSale):
         
         payulatam_api_env = request.env.user.company_id.payulatam_api_env
         if payulatam_api_env == 'prod':
-            payulatam_response_url = request.env.user.company_id.payulatam_api_response_url
+            if sale_order.website_id.domain:
+                payulatam_response_url = "https://" + str(sale_order.website_id.domain) + str(request.env.user.company_id.payulatam_api_response_url)
+            else:
+                payulatam_response_url = str(request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + str(request.env.user.company_id.payulatam_api_response_url)
         else:
-            payulatam_response_url = request.env.user.company_id.payulatam_api_response_sandbox_url
+            if sale_order.website_id.domain:
+                payulatam_response_url = "https://" + str(sale_order.website_id.domain) + str(request.env.user.company_id.payulatam_api_response_sandbox_url)
+            else:
+                payulatam_response_url = str(request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + str(request.env.user.company_id.payulatam_api_response_sandbox_url)
         
         """ TARJETA DE CREDITO LUNH """
         luhn_ok = request.env['api.payulatam'].luhn_checksum(post['credit_card_number'])
@@ -741,7 +753,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 sale_order.beneficiary0_id.othernames if sale_order.beneficiary0_id.othernames != False else '', 
                 (str(sale_order.beneficiary0_id.lastname) + ' ' + str(sale_order.beneficiary0_id.lastname2))[:20] if sale_order.beneficiary0_id.lastname != False else '', 
                 sale_order.beneficiary0_id.identification_document if sale_order.beneficiary0_id.identification_document != False else '', 
-                sale_order.beneficiary0_id.birthdate_date if sale_order.beneficiary0_id.birthdate_date != False else '',
+                sale_order.beneficiary0_id.birthdate_date,
                 'R', 
                 product.product_class if product.product_class != False else '', 
                 date.today(), 

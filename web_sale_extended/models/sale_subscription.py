@@ -41,7 +41,7 @@ class SaleSubscription(models.Model):
         else:
             policyholder = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.categ_id.sequence_id.sponsor_name
         res.write({
-            'policy_number': (str(sequence_id.number_next_actual).zfill(10)).split(".")[0],
+            'policy_number': (str(sequence_id.number_next_actual).split(".")[0]).zfill(10),
             'number': str(sequence_id.code).zfill(5),
             'recurring_next_date': date.today(),
             'sponsor_id': res.recurring_invoice_line_ids[0].product_id.categ_id.sponsor_id,
@@ -161,7 +161,7 @@ class SaleSubscription(models.Model):
                 context_invoice = dict(self.env.context, type='out_invoice', company_id=company_id, force_company=company_id)
                 for subscription in subs:
                     subscription = subscription[0]  # Trick to not prefetch other subscriptions, as the cache is currently invalidated at each iteration
-                    if not subscription.recurring_invoice_line_ids[0].product_id.is_beneficiary:
+                    if subscription.sponsor_id.generates_accounting:
                         if automatic and auto_commit:
                             cr.commit()
                         # if we reach the end date of the subscription then we close it and avoid to charge it

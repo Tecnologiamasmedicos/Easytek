@@ -74,12 +74,14 @@ class SaleOrder(models.Model):
     collection_attempts = fields.Integer('Intentos de cobro', store=True, default=0)
     buyer_account_type = fields.Selection([
         ("1", "Cuenta Corriente"), 
-        ("7", "Ahorro a la mano / Ahorros"), 
-        ("2", "Tarjeta de Crédito MasterCard"),
-        ("3", "Tarjeta de Crédito Visa"),
-        ("4", "Tarjeta de Crédito Amex"),
+        ("7", "A la mano / Ahorros"), 
+        # ("2", "Tarjeta de Crédito MasterCard"),
+        # ("3", "Tarjeta de Crédito Visa"),
+        # ("4", "Tarjeta de Crédito Amex"),
     ])
     buyer_account_number = fields.Char('Numero de cuenta')
+    debit_request = fields.Boolean('Solicitud debito', default=False, store=True)
+    debit_request_date = fields.Date(string='Fecha accion ciclo de cobro', store=True)
     
     @api.depends('order_line', 'state', 'partner_id')
     def _compute_sponsor_id(self):

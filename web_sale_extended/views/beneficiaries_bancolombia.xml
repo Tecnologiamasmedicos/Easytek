@@ -8,14 +8,16 @@
     <template id="beneficiaries_bancolombia">
         <title>Registro asegurado principal y beneficiarios | www.masmedicos.co</title>
         <t t-call="website.layout">
+            <t t-set="no_footer" t-value="1"/>
             <style>
                 @font-face {
-                    font-family: CIBFontSans-Regular;
-                    src: url('../static/src/fonts/CIBFontSans-Regular.woff') format("woff"),
-                    url('../static/src/fonts/CIBFontSans-Regular.otf') format('truetype');
+                    font-family: 'CIBFontSans Regular';
+                    src: url('/web_sale_extended/static/src/fonts/CIBFontSans-Regular.ttf') format('truetype');
                 }
+                
                 *{
-                    font-family: CIBFontSans-Regular;
+                    font-family: 'CIBFontSans Regular';
+                    color: black;
                 }
                 .collapsible {
                   background-color: #000;
@@ -54,14 +56,14 @@
                 }
                 
                 .btn_secundario {
-                    background-color: #CBCBCB;
-                    border: 1px black solid;
+                    border: 1px #2C2A29 solid;
                     color: black !important;
                     text-align: center;
                 }
                 
                 .btn_secundario:hover {
-                    opacity: 0.7;
+                    background-color: #2C2A29;
+                    color: white !important;;
                 }
 
                 .btn_principal {
@@ -70,7 +72,8 @@
                 }
 
                 .btn_principal:hover {
-                    opacity: 0.7;
+                    background-color: #2C2A29;
+                    color: white !important;
                 }
 
                 #add_beneficiaries {
@@ -87,18 +90,35 @@
                 }
 
                 #del_beneficiaries {
-                    background-color: #C4171E;
-                    color: #fff;
+                    background-color: #59CBE8;
+                    color: black !important;
                     float: right;
                     margin-right: 30px;
                     margin-top: 15px;
                 }
 
                 #del_beneficiaries:hover {
-                    opacity: 0.7;
+                    background-color: #2C2A29;
+                    color: white !important;
                 }
             </style>
             <div class="container" style="margin-bottom: 5%;">
+                <div class="progress-wizard" style="width: 150%;">
+                    <a class="no-decoration">
+                        <div id="wizard-step20" class="progress-wizard-step">
+                            <div class="progress-wizard-bar d-none d-md-block" style="background-color: #FDDA24;"/>
+                            <span class="progress-wizard-dot d-none d-md-inline-block" style="background-color: #00C389;"></span>
+                            <div class="text-center progress-wizard-steplabel">Datos del Asegurado Principal y Beneficiarios</div>
+                        </div>
+                    </a>
+                    <a class="no-decoration">
+                        <div id="wizard-step40" class="progress-wizard-step %s">
+                            <div class="progress-wizard-bar d-none d-md-block" style="background-color: #FDDA24;"/>
+                            <span class="progress-wizard-dot d-none d-md-inline-block"></span>
+                            <div class="text-center progress-wizard-steplabel">Confirmación de tu compra</div>
+                        </div>
+                    </a>
+                </div>
                 <br/><br/><br/>
                 <form id="beneficiary" action="/beneficiary-detail" method="post" class="checkout_autoformat">
                     <input type="hidden" name="beneficiaries_number" id="beneficiaries_number" t-att-value="beneficiaries_number"/>
@@ -106,13 +126,13 @@
                     <input type="hidden" name="beneficiario" value="0" />
                     <section class="s_text_block pt0 pb0" data-name="Text block">
                         <div class="container">
-                            <div class="row">
+                            <div class="row col-12">
                                 <div class="col-lg-12 pt0 pb0">
                                     <div class="clearfix s_alert_md w-100" data-name="Alert">
                                         <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Termina_diligencias.png" aria-describedby="tooltip557569" width="128"/>
                                         <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip947855"/>
                                         <div class="s_alert_content">
-                                            <p style="padding: 30px"><font color="#000000"><span style="font-size: 18px;"><b>Ahora vamos a diligenciar la información de tu Plan Familia Protegida.</b></span></font><br/></p>
+                                            <p style="padding: 30px"><font color="#000000"><span style="font-size: 18px;"><b>Ahora vamos a diligenciar la información de tu plan familia protegida.</b></span></font><br/></p>
                                         </div>
                                     </div>
                                 </div>
@@ -121,38 +141,38 @@
                     </section>
                     <br/>
                     <div id="div_error" class="alert alert-danger fade show" role="alert" style="background-color: #f2dede !important; border-color: #ebcccc !important; color: #a94442 !important; display: none;"></div>
-                    <a class="btn btn-dark btn-lg btn-block collapsible active"><i class="fa-solid fa-user"/> Datos del Asegurado Principal</a>
+                    <a class="btn btn-dark btn-lg btn-block collapsible active"><img src="/web_sale_extended/static/src/images/user_bancol.svg" width="25" style="padding-bottom: 5px;"/> Datos del asegurado principal</a>
                     <div id="primary_insured" class="content">
                         <div>
                             <br/>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="0" id="flexCheckDefault" name="infoBuyer"/>
                                 <label class="form-check-label" for="flexCheckDefault">
-                                    Comprador es el mismo asegurado principal
+                                    ¿El comprador es el mismo asegurado principal?
                                 </label>
                             </div>
                             <div class="row">
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <label class="col-form-label" for="name">Primer Nombre*</label>
+                                        <label class="col-form-label" for="name">Primer nombre*</label>
                                         <input class="form-control" type="text" name="name"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <label class="col-form-label" for="othername">Segundo Nombre</label>
+                                        <label class="col-form-label" for="othername">Segundo nombre</label>
                                         <input class="form-control" type="text" name="othername"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <label class="col-form-label" for="lastname">Primer Apellido*</label>
+                                        <label class="col-form-label" for="lastname">Primer apellido*</label>
                                         <input class="form-control" type="text" name="lastname"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <label class="col-form-label" for="lastname2">Segundo Apellido</label>
+                                        <label class="col-form-label" for="lastname2">Segundo apellido</label>
                                         <input class="form-control" type="text" name="lastname2"/>
                                     </div>
                                 </div>
@@ -162,11 +182,11 @@
                                     <div class="form-group">
                                         <label class="col-form-label" for="document_type">Tipo de documento*</label>
                                         <select name="document_type" class="form-control" id="document_type">
-                                            <t t-foreach="document_types_main_insured" t-as="dt">
-                                                <option t-att-value="dt.id">
-                                                    <t t-esc="dt.name" />
-                                                </option>
-                                            </t>
+                                            <option value="" selected="True">Tipo documento...</option>
+                                            <option value="16">Carné diplomático</option>
+                                            <option value="3">Cédula de ciudadanía</option>
+                                            <option value="5">Cédula de extranjería</option>
+                                            <option value="7">Pasaporte</option>
                                         </select>
                                     </div>
                                 </div>
@@ -200,7 +220,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <label class="col-form-label" for="estado_civil">Estado Civil*</label>
+                                        <label class="col-form-label" for="estado_civil">Estado civil*</label>
                                         <select id="estado_civil" name="estado_civil" class="form-control">
                                             <option value="Soltero" style="">Soltero/a</option>
                                             <option value="Casado" style="">Casado/a</option>
@@ -256,7 +276,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <label class="col-form-label" for="phone">Teléfono Móvil*</label>
+                                        <label class="col-form-label" for="phone">Teléfono móvil*</label>
                                         <input class="form-control" type="text" name="phone"/>
                                     </div>
                                 </div>
@@ -285,11 +305,11 @@
                         </div>
                     </div>
                     <div id="beneficiaries_container"></div>
-                    <a class="btn rounded-pill btn_secundario" id="submit_beneficiaries">Generar orden de compra ></a>
+                    <a class="btn rounded-pill btn_principal" id="submit_beneficiaries">Generar orden de compra ></a>
                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
                 </form>
-                <a class="btn rounded-pill btn_principal" id="add_beneficiaries">Agregar beneficiario</a>
-                <a class="btn rounded-pill" id="del_beneficiaries" style="display: none;">Eliminar beneficiario</a>
+                <a t-if="beneficiaries_number != '' and beneficiaries_number != 0" class="btn rounded-pill btn_secundario" id="add_beneficiaries">Agregar beneficiario</a>
+                <a class="btn rounded-pill" id="del_beneficiaries" style="display: none;"><img src="/web_sale_extended/static/src/images/trash_icon_bancol.svg" width="12" style="padding-bottom: 5px;"/> Eliminar beneficiario</a>
             </div>
             <br/><br/>
             <script src="https://kit.fontawesome.com/e3d39cbc1e.js" crossorigin="anonymous"></script>
@@ -297,18 +317,20 @@
     </template>
     <template id="bancolombia_confirmation_sale" name="Confirmacion venta bancolombia">
         <t t-call="website.layout">
+            <t t-set="no_footer" t-value="1"/>
             <style>
                 @font-face {
-                    font-family: CIBFontSans-Regular;
-                    src: url('../static/src/fonts/CIBFontSans-Regular.woff') format("woff"),
-                    url('../static/src/fonts/CIBFontSans-Regular.otf') format('truetype');
+                    font-family: 'CIBFontSans Regular';
+                    src: url('/web_sale_extended/static/src/fonts/CIBFontSans-Regular.ttf') format('truetype');
                 }
+                
                 *{
-                    font-family: CIBFontSans-Regular;
+                    font-family: 'CIBFontSans Regular';
+                    color: black;
                 }
             </style>
-            <div class="container">
-                <div class="progress-wizard">
+            <div class="container" style="height: 50vh;">
+                <div class="progress-wizard" style="width: 150%;">
                     <a class="no-decoration">
                         <div id="wizard-step20" class="progress-wizard-step">
                             <div class="progress-wizard-bar d-none d-md-block" style="background-color: #FDDA24"/>
@@ -324,11 +346,11 @@
                         </div>
                     </a>
                 </div>
-                <div style="display: inline-flex; margin-top: 10%;">
-                    <div>
+                <div class="row" style="align-items: center; height: 100%;">
+                    <div class="col-3" style="text-align: right;">
                         <img src="/web_sale_extended/static/src/images/Ilustraciones-Transversales-Exito-mensaje-confirmacion.png" width="120" />
                     </div>
-                    <div style="display: inline-block; text-align: center;">
+                    <div class="col-9" style="text-align: center; margin-left: -10%;">
                         <h1>¡Gracias!</h1>
                         <p>Ya recibimos tu información.</p>
                         <p>A tu correo te enviaremos la confirmación de tu afiliación para que todos estén protegidos.</p>

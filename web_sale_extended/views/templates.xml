@@ -131,7 +131,7 @@
                                 <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                                     <a href="#" role="button" class="btn btn-primary a-submit" style="background-color: #43b12e;">Aplicar</a>
                                 </t>
-                                <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5132">
+                                <t t-elif="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5132">
                                     <a href="#" role="button" class="btn btn-primary a-submit" style="background-color: #FDDA24; color: black;">Aplicar</a>
                                 </t>
                                 <t t-else="">
@@ -148,88 +148,66 @@
         </xpath>
 
         <xpath expr="//div[@class='card']" position="after">
-            <t t-foreach="website_sale_order.website_order_line[0]" t-as="line">
-                <div align="center" style="padding-top:15px;">
-                    <h5>Si eres una empresa y deseas dar este<br/>
-                    beneficio a tus empleados, contáctanos.</h5>
-                </div>
-                <div class="mt32">
-                    <div align="center">
-                        <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
-                            <a href="mailto:asfalabella@masmedicos.co" data-original-title="" title="" aria-describedby="tooltip65226">
-                                <img src="/web_sale_extended/static/src/images/mail_falabella.png" width="70" heigth="70"/>
-                            </a>
-                        </t>
-                        <t t-elif="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5132">
-                            <a href="mailto:planfamiliaprotegidaco@palig.com" data-original-title="" title="" aria-describedby="tooltip65226">
-                                <i class="fa-solid fa-envelope" style="font-size: 60px; color: #00C389; padding-right: 15px;"></i>
-                            </a>
-                        </t>
-                        <t t-else="">
+            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id not in (5111, 5132)">
+                <t t-foreach="website_sale_order.website_order_line[0]" t-as="line">
+                    <div align="center" style="padding-top:15px;">
+                        <h5>Si eres una empresa y deseas dar este<br/>
+                        beneficio a tus empleados, contáctanos.</h5>
+                    </div>
+                    <div class="mt32">
+                        <div align="center">
                             <a href="mailto:contacto@masmedicos.co" data-original-title="" title="" aria-describedby="tooltip65226">
                                 <img src="/web_sale_extended/static/src/images/Emailweb.png" width="70" heigth="70"/>
                             </a>
-                        </t>
-                        <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
-                            <a href="https://wa.me/573057044444" data-original-title="" title="" aria-describedby="tooltip65226" target="_blank">
-                                <img src="/web_sale_extended/static/src/images/wpp_falabella.png" width="70" heigth="70"/>
-                            </a>
-                        </t>
-                        <t t-elif="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5132">
-                            <a href="https://wa.me/573057111111" data-original-title="" title="" aria-describedby="tooltip65226" target="_blank">
-                                <i class="fa-brands fa-square-whatsapp" style="font-size: 60px; color: #00C389;"></i>
-                            </a>
-                        </t>
-                        <t t-else="">
                             <a href="https://wa.me/573057111111" data-original-title="" title="" aria-describedby="tooltip65226" target="_blank">
                                 <img src="/web_sale_extended/static/src/images/Whatsappweb.png" width="70" heigth="70"/>
                             </a>
-                        </t>
+                        </div>
                     </div>
-                </div>
-                <div class="container mt32" t-if="line.product_id.alternative_product_ids">
-                    <center>
-                        <h5>Productos Alternativos:</h5>
-                    </center>
-                    <div class="row mt16" style="">
-                        <t t-foreach="line.product_id.alternative_product_ids" t-as="alt_product">
-                            <div class="col-lg-12" style="width: 160px; height:120px; float:left; display:inline; margin-right: 10px; overflow:hidden;">                                <!--<div class="col-lg-12" style="width: 170px; height:130px; float:left; display:inline; margin-right: 10px; overflow:hidden;">-->
-                                <div class="mt16 text-center" style="height: 100%;">
-                                    <t t-set="combination_info" t-value="alt_product._get_combination_info()"/>
-                                    <t t-set="product_variant" t-value="alt_product.env['product.product'].browse(combination_info['product_id'])"/>
-                                    <a t-att-href="alt_product.website_url" style="display: block">
+                    <div class="container mt32" t-if="line.product_id.alternative_product_ids">
+                        <center>
+                            <h5>Productos Alternativos:</h5>
+                        </center>
+                        <div class="row mt16" style="">
+                            <t t-foreach="line.product_id.alternative_product_ids" t-as="alt_product">
+                                <div class="col-lg-12" style="width: 160px; height:120px; float:left; display:inline; margin-right: 10px; overflow:hidden;">                                <!--<div class="col-lg-12" style="width: 170px; height:130px; float:left; display:inline; margin-right: 10px; overflow:hidden;">-->
+                                    <div class="mt16 text-center" style="height: 100%;">
+                                        <t t-set="combination_info" t-value="alt_product._get_combination_info()"/>
+                                        <t t-set="product_variant" t-value="alt_product.env['product.product'].browse(combination_info['product_id'])"/>
+                                        <a t-att-href="alt_product.website_url" style="display: block">
 
 
-                                        <div class="product_image" t-if="product_variant" t-field="product_variant.image_256" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_alternative_product o_image_256_max' }" style=""/>
+                                            <div class="product_image" t-if="product_variant" t-field="product_variant.image_256" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_alternative_product o_image_256_max' }" style=""/>
 
-                                        <div class="product_image" t-else="" t-field="alt_product.image_256" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_alternative_product o_image_256_max' }" style=""/>
-                                        <!--<div t-else="" t-field="alt_product.image_256" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_alternative_product o_image_256_max' }"/>-->
-                                    </a>
-                                    <h6>
-                                        <!--<a t-att-href="alt_product.website_url" style="display: block">
-                                    <span t-att-title="alt_product.name" t-field="alt_product.name" class="o_text_overflow" style="display: block;"/>
-                                </a>-->
-                                    </h6>
+                                            <div class="product_image" t-else="" t-field="alt_product.image_256" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_alternative_product o_image_256_max' }" style=""/>
+                                            <!--<div t-else="" t-field="alt_product.image_256" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_alternative_product o_image_256_max' }"/>-->
+                                        </a>
+                                        <h6>
+                                            <!--<a t-att-href="alt_product.website_url" style="display: block">
+                                        <span t-att-title="alt_product.name" t-field="alt_product.name" class="o_text_overflow" style="display: block;"/>
+                                    </a>-->
+                                        </h6>
+                                    </div>
                                 </div>
-                            </div>
-                        </t>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+
+                <div>
+                    <div>
+                        <h5 align="center">Un producto de:</h5>
+                        <div align="center">
+                            <img src="/web_sale_extended/static/src/images/COLOMBIA.png" width="260" heigth="190"/>
+                        </div>
+                    </div>
+                    <h5 align="center">Con el respaldo de:</h5>
+                    <div align="center" class="mb-4">
+                        <img src="/web_sale_extended/static/src/images/IKE-asistencia.png" width="180" heigth="90"/>
+                        <img src="/web_sale_extended/static/src/images/easytek_bl.png" width="150" heigth="80"/>
                     </div>
                 </div>
             </t>
-
-            <div t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id != 5132">
-                <div>
-                    <h5 align="center">Un producto de:</h5>
-                    <div align="center">
-                        <img src="/web_sale_extended/static/src/images/COLOMBIA.png" width="260" heigth="190"/>
-                    </div>
-                </div>
-                <h5 align="center">Con el respaldo de:</h5>
-                <div align="center" class="mb-4">
-                    <img src="/web_sale_extended/static/src/images/IKE-asistencia.png" width="180" heigth="90"/>
-                    <img src="/web_sale_extended/static/src/images/easytek_bl.png" width="150" heigth="80"/>
-                </div>
-            </div>
         </xpath>
     </template>
 

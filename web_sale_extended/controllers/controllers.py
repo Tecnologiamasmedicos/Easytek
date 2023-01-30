@@ -312,7 +312,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 order.write({'require_signature': False, 'require_payment': True,})
                 if not errors:
                     if not order.tusdatos_request_id:
-                        document_types = {'3': 'CC', '5':'CE', '8':'PEP', '7':'PP'}                        
+                        document_types = {'3': 'CC', '5':'CE', '8':'PEP', '7':'PP', '16':'CD'}
                         order.write({'tusdatos_typedoc': document_types[str(kw["document"])]})  
                             
                         render_values = {'email': kw['email'],}
@@ -478,7 +478,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 else:
                     beneficiaries_number = product.categ_id.sequence_id.beneficiaries_number
 
-                if beneficiaries_number < 1 or beneficiaries_number > 6:
+                if beneficiaries_number > 6:
                     beneficiaries_number = 6
 
                 pets_number = 0
