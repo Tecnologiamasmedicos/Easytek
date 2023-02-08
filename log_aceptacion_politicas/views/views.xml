@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+        <!-- Activity types config -->
+        <record id="log_aceptacion_view_tree" model="ir.ui.view">
+            <field name="name">log.aceptacion.view_tree</field>
+            <field name="model">log.aceptacion.politicas</field>
+            <field name="arch" type="xml">
+                <tree string="log_aceptacion_tree" create="0">
+                    <field name="sponsor_id"/>
+                    <field name="date"/>
+                    <field name="ip"/>
+                    <field name="identificacion_cliente"/>
+                    <field name="estado" widget="label_selection" readonly="True" options="{'classes': {['no_efectivo']: 'danger', ['efectivo']: 'primary'}}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="log_aceptacion_action_config_sale" model="ir.actions.act_window">
+            <field name="name">Log aceptación policas</field>
+            <field name="res_model">log.aceptacion.politicas</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <menuitem id="log_aceptacion_politicas"
+                  name="Log aceptación poli."
+                  action="log_aceptacion_action_config_sale"
+                  parent="sale.menu_sale_config"
+                  groups="base.group_no_one"/>
+    </data>
+</odoo>

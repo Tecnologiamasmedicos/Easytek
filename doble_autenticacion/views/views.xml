@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="address_inherit" inherit_id="web_sale_extended.address">
+        <xpath expr="//button[@id='submit_shop']" position="replace">
+            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
+                <button style="background-color: #43b12e;" class="btn btn-custom mb32 o_hidden" id="submit_shop">
+                    <span>Comprar</span>
+                    <i class="fa fa-chevron-right" />
+                </button>
+                <button style="background-color: #43b12e;" class="btn btn-custom mb32" id="enviar_codigo">
+                    <span>Enviar código</span>
+                    <i class="fa fa-chevron-right"/>
+                </button>
+            </t>
+            <t t-else="">
+                <button class="btn btn-custom mb32 o_hidden" id="submit_shop">
+                    <span>Siguiente</span>
+                    <i class="fa fa-chevron-right"/>
+                </button>
+                <button class="btn btn-custom mb32" id="enviar_codigo">
+                    <span>Enviar código</span>
+                    <i class="fa fa-chevron-right"/>
+                </button>
+            </t>
+        </xpath>
+        <xpath expr="//input[@name='assisted_purchase']" position="before">
+            <br/>
+            <br/>
+            <div id="input_code" t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6 o_hidden">
+                <label class="col-form-label" for="birthdate_date">Código de verificación*</label>
+                <input type="number" name="codigo_verificacion" id="codigo_verificacion" tooltip="Ingrese el código que se envió al correo digitado"
+                    t-attf-class="form-control #{error.get('codigo_verificacion') and 'is-invalid' or ''}"
+                    t-att-value="'codigo_verificacion' in checkout and checkout['codigo_verificacion']" />
+                <div id="div_warning_code" class="alert alert-warning" role="alert" style="background-color: #fff3cd !important; border-color: #ffeeba !important; color: #856404 !important; display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="fa fa-times" aria-hidden="false"></i>
+                    </button>
+                    <strong>Inválido:</strong> EL código digitado no coincide con el enviado al correo o pasaron mas de 3 minutos después de ser enviado el codigo.
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="address_inherit_bancolombia" inherit_id="web_sale_extended.address_bancolombia">
+        <xpath expr="//button[@id='submit_shop']" position="replace">
+            <button class="btn btn-custom mb32 o_hidden" id="submit_shop">
+                <span>Siguiente ></span>
+                <i class="fa fa-chevron-right" />
+            </button>
+            <button class="btn btn-custom mb32" id="enviar_codigo" style="background-color: #FDDA24; color: black;">
+                <span>Enviar código ></span>
+                <i class="fa fa-chevron-right"/>
+            </button>
+        </xpath>
+        <xpath expr="//input[@name='assisted_purchase']" position="before">
+            <br/>
+            <br/>
+            <div id="input_code" t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6 o_hidden">
+                <label class="col-form-label" for="birthdate_date">Código de verificación*</label>
+                <input type="number" name="codigo_verificacion" id="codigo_verificacion" tooltip="Ingrese el código que se envió al correo digitado"
+                    t-attf-class="form-control #{error.get('codigo_verificacion') and 'is-invalid' or ''}"
+                    t-att-value="'codigo_verificacion' in checkout and checkout['codigo_verificacion']" />
+                <div id="div_warning_code" class="alert alert-warning" role="alert" style="background-color: #fff3cd !important; border-color: #ffeeba !important; color: #856404 !important; display: none;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="fa fa-times" aria-hidden="false"></i>
+                    </button>
+                    <strong>Inválido:</strong> EL código digitado no coincide con el enviado al correo o pasaron mas de 3 minutos después de ser enviado el codigo.
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>
