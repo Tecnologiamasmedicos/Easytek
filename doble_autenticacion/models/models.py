@@ -29,7 +29,7 @@ class SaleOrderExtend(models.Model):
             'codigo': str(self.codigo).zfill(6),
         }
         template = self.env.ref('doble_autenticacion.email_template_envio_codigo')
-        self.env['mail.template'].browse(template.id).with_context(ctx).send_mail(self.id)
+        template.sudo().with_context(ctx).send_mail(self.id, force_send=True)
 
     def GenerarCodigo(self):
         numero = random.randint(0, 999999)
@@ -37,4 +37,10 @@ class SaleOrderExtend(models.Model):
             numero = str(numero).zfill(6)
 
         return int(numero)
+
+
+class ProductCategory(models.Model):
+    _inherit = 'product.category'
+
+    servidor_de_correo = fields.Many2one('ir.mail_server', 'Servidor de correo')
 

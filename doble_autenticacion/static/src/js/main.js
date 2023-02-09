@@ -11,6 +11,14 @@ odoo.define('doble_autenticacion.show_button_code', function(require) {
             }
         });
 
+        $("#reenviar_codigo").on('click', function(e){
+            e.preventDefault()
+            if($('#shop').valid()){
+                $("#div_warning_code").hide();
+                EnviarCodigo(document.querySelector("input[name='email']").value);
+            }
+        });
+
         $("#submit_shop").on('click', async function(e){
             e.preventDefault();
             if ($("input[name='codigo_verificacion']")[0].value === ''){
