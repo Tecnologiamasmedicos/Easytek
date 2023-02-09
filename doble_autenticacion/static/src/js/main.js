@@ -1,5 +1,7 @@
 odoo.define('doble_autenticacion.show_button_code', function(require) {
     'use strict';
+    var ajax = require('web.ajax');
+
     $(function() {
         $("#enviar_codigo").on('click', function(e){
             e.preventDefault()
@@ -20,14 +22,11 @@ odoo.define('doble_autenticacion.show_button_code', function(require) {
                 }
                 var correo = document.querySelector("input[name='email']").value;
                 var codigo = document.querySelector("input[name='codigo_verificacion']").value
-                let dic = await $.ajax({
-                    data: {'correo': correo, 'codigo': codigo},
-                    url: "/verificar",
-                    type: 'post',
-                    success: function(data) {
+                var data = {'correo': correo, 'codigo': codigo};
+                let dic = await ajax.jsonRpc('/verificar', 'call', data)
+                     .then(function(data) {
                         return data
-                    }
-                });
+                    });
                 let diccionario = JSON.parse(dic);
                 if(diccionario.correo === 'Correo igual' && diccionario.respuesta === 'Correcto'){
                     $('#shop').submit();
@@ -46,13 +45,10 @@ odoo.define('doble_autenticacion.show_button_code', function(require) {
             document.querySelector("button[id='enviar_codigo']").classList.remove("o_hidden");
         });
 
-        function EnviarCodigo(correo){
+        async function EnviarCodigo(correo){
             var data = {'correo': correo}
-            $.ajax({
-                data: data,
-                url: "/send/code",
-                type: 'post',
-                success: function(data) {
+            await ajax.jsonRpc('/send/code', 'call', data)
+                .then(function(data) {
                     let decode_data = JSON.parse(data);
                     if(decode_data['respuesta'] === 'Correo enviado correctamente'){
                         document.querySelector("input[id='codigo_verificacion']").classList.remove("o_hidden");
@@ -60,8 +56,7 @@ odoo.define('doble_autenticacion.show_button_code', function(require) {
                         document.querySelector("button[id='enviar_codigo']").classList.add("o_hidden");
                         document.querySelector("button[id='submit_shop']").classList.remove("o_hidden");
                     }
-                }
-            });
+                });
         }
     });
 });

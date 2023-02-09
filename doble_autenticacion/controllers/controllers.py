@@ -9,16 +9,16 @@ import json
 _logger = logging.getLogger(__name__)
 
 
-class WebsiteSaleExtended(WebsiteSale):
-    @http.route(['/send/code'], methods=['POST'], type='http', auth="public", website=True)
+class WebsiteSaleExtended(http.Controller):
+    @http.route(['/send/code'], type='json', auth="public", method=['POST'], website=True)
     def send_code_mail(self, **kwargs):
         order = request.website.sale_get_order()
         correo = kwargs.get('correo')
         order.send_code(correo)
         data = {'respuesta': 'Correo enviado correctamente'}
-        return json.dumps(data)\
+        return json.dumps(data)
 
-    @http.route(['/verificar'], methods=['POST'], type='http', auth="public", website=True)
+    @http.route(['/verificar'], type='json', auth="public", method=['POST'], website=True)
     def verificar(self, **kwargs):
         order = request.website.sale_get_order()
         correo = kwargs.get('correo')
