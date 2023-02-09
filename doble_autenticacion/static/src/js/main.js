@@ -23,7 +23,7 @@ odoo.define('doble_autenticacion.show_button_code', function(require) {
                 let dic = await $.ajax({
                     data: {'correo': correo, 'codigo': codigo},
                     url: "/verificar",
-                    type: 'get',
+                    type: 'post',
                     success: function(data) {
                         return data
                     }
@@ -47,10 +47,11 @@ odoo.define('doble_autenticacion.show_button_code', function(require) {
         });
 
         function EnviarCodigo(correo){
+            var data = {'correo': correo}
             $.ajax({
-                data: {'correo': correo},
+                data: data,
                 url: "/send/code",
-                type: 'get',
+                type: 'post',
                 success: function(data) {
                     let decode_data = JSON.parse(data);
                     if(decode_data['respuesta'] === 'Correo enviado correctamente'){

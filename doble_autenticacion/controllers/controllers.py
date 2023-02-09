@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 
 
 class WebsiteSaleExtended(WebsiteSale):
-    @http.route(['/send/code'], methods=['GET'], type='http', auth="public", website=True)
+    @http.route(['/send/code'], methods=['POST'], type='http', auth="public", website=True)
     def send_code_mail(self, **kwargs):
         order = request.website.sale_get_order()
         correo = kwargs.get('correo')
@@ -18,7 +18,7 @@ class WebsiteSaleExtended(WebsiteSale):
         data = {'respuesta': 'Correo enviado correctamente'}
         return json.dumps(data)\
 
-    @http.route(['/verificar'], methods=['GET'], type='http', auth="public", website=True)
+    @http.route(['/verificar'], methods=['POST'], type='http', auth="public", website=True)
     def verificar(self, **kwargs):
         order = request.website.sale_get_order()
         correo = kwargs.get('correo')
