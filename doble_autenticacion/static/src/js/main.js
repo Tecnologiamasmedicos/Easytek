@@ -19,6 +19,10 @@ odoo.define('doble_autenticacion.show_button_code', function(require) {
             }
         });
 
+        $("#cerrar").on('click', function(e){
+            $("#div_warning_code").hide();
+        });
+
         $("#submit_shop").on('click', async function(e){
             e.preventDefault();
             if ($("input[name='codigo_verificacion']")[0].value === ''){
