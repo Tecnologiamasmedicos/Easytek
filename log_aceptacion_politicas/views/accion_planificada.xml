@@ -1,7 +1,7 @@
 <odoo>
     <data>
         <record id="log_aceptacion_cron" model="ir.cron">
-            <field name="name">Borrar datos no efectivos</field>
+            <field name="name">Borrar autorización políticas de tratamiento de datos no efectivas</field>
             <field name="model_id" ref="model_log_aceptacion_politicas"/>
             <field name="state">code</field>
             <field name="code">model.eliminar_no_validos()</field>
