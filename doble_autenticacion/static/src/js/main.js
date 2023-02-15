@@ -15,6 +15,8 @@ odoo.define('doble_autenticacion.show_button_code', function(require) {
             e.preventDefault()
             if($('#shop').valid()){
                 $("#div_warning_code").hide();
+                $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm preloader" role="status" aria-hidden="true" />Cargando...</div>');
+                $(this).prop('disabled', true);
                 EnviarCodigo(document.querySelector("input[name='email']").value);
             }
         });
@@ -63,10 +65,9 @@ odoo.define('doble_autenticacion.show_button_code', function(require) {
                 .then(function(data) {
                     let decode_data = JSON.parse(data);
                     if(decode_data['respuesta'] === 'Correo enviado correctamente'){
-                        document.querySelector("input[id='codigo_verificacion']").classList.remove("o_hidden");
-                        document.querySelector("div[id='input_code']").classList.remove("o_hidden");
-                        document.querySelector("button[id='enviar_codigo']").classList.add("o_hidden");
-                        document.querySelector("button[id='submit_shop']").classList.remove("o_hidden");
+                        $("#enviar_codigo").html('<span>Siguiente</span><i class="fa fa-chevron-right"/>');
+                        $("#enviar_codigo").prop('disabled', false);
+                        $("#codigo-verificacion-modal").modal('show');
                     }
                 });
         }
