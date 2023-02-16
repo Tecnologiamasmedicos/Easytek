@@ -92,12 +92,6 @@
     </template>
 
     <template id="address_inherit_bancolombia" inherit_id="web_sale_extended.address_bancolombia">
-        <xpath expr="//button[@id='submit_shop']" position="replace">
-            <button class="btn btn-custom mb32" style="background-color: #FDDA24;" id="enviar_codigo">
-                <span>Siguiente ></span>
-                <i class="fa fa-chevron-right" />
-            </button>
-        </xpath>
         <xpath expr="//form[@id='shop']" position="after">
             <div class="modal fade" id="codigo-verificacion-modal" role="dialog">
                 <div class="modal-dialog">
