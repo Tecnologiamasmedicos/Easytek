@@ -3,29 +3,16 @@ odoo.define('doble_autenticacion.show_button_code', function(require) {
     var ajax = require('web.ajax');
 
     $(function() {
-        $("#enviar_codigo").on('click', function(e){
-            e.preventDefault()
-            if($('#shop').valid()){
-                $("#div_warning_code").hide();
-                EnviarCodigo(document.querySelector("input[name='email']").value);
-            }
-        });
-
         $("#reenviar_codigo").on('click', function(e){
             e.preventDefault()
-            if($('#shop').valid()){
-                $("#div_warning_code").hide();
-                $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm preloader" role="status" aria-hidden="true" />Cargando...</div>');
-                $(this).prop('disabled', true);
-                EnviarCodigo(document.querySelector("input[name='email']").value);
-            }
+            EnviarCodigo(document.querySelector("input[name='email']").value);
         });
 
         $("#cerrar").on('click', function(e){
             $("#div_warning_code").hide();
         });
 
-        $("#submit_shop").on('click', async function(e){
+        $("#verificar").on('click', async function(e){
             e.preventDefault();
             if ($("input[name='codigo_verificacion']")[0].value === ''){
                 $("#div_warning_code").show();
@@ -45,18 +32,20 @@ odoo.define('doble_autenticacion.show_button_code', function(require) {
                 if(diccionario.correo === 'Correo igual' && diccionario.respuesta === 'Correcto'){
                     $('#shop').submit();
                 }else if(diccionario.correo === 'Correo diferente' || diccionario.respuesta === 'Incorrecto'){
-                    $(this).html('<span>Siguiente</span><i class="fa fa-chevron-right"/>');
+                    $(this).html('<span>Verificar</span><i class="fa fa-chevron-right"/>');
                     $(this).prop('disabled', false);
                     $("#div_warning_code").show();
                 }
             }
         });
 
-        $('input[name="email"]').change(function() {
-            document.querySelector("input[id='codigo_verificacion']").classList.add("o_hidden");
-            document.querySelector("button[id='submit_shop']").classList.add("o_hidden");
-            document.querySelector("div[id='input_code']").classList.add("o_hidden");
-            document.querySelector("button[id='enviar_codigo']").classList.remove("o_hidden");
+        $("#submit_shop").on('click', function(e){
+            e.preventDefault();
+            if($('#shop').valid()){ //checks if it's valid
+                $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm preloader" role="status" aria-hidden="true" />Cargando...</div>');
+                $(this).prop('disabled', true);
+            }
+            EnviarCodigo(document.querySelector("input[name='email']").value);
         });
 
         async function EnviarCodigo(correo){
@@ -65,9 +54,9 @@ odoo.define('doble_autenticacion.show_button_code', function(require) {
                 .then(function(data) {
                     let decode_data = JSON.parse(data);
                     if(decode_data['respuesta'] === 'Correo enviado correctamente'){
-                        $("#enviar_codigo").html('<span>Siguiente</span><i class="fa fa-chevron-right"/>');
-                        $("#enviar_codigo").prop('disabled', false);
                         $("#codigo-verificacion-modal").modal('show');
+                        $("#submit_shop").html('<span>Siguiente</span><i class="fa fa-chevron-right"/>');
+                        $("#submit_shop").prop('disabled', false);
                     }
                 });
         }
