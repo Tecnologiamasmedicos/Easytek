@@ -30,7 +30,7 @@
                         </div>
                         <div class="modal-body" style="background-color: white;">
                             <p style="color:black;">
-                                Ingrese el código que fue enviado al correo ingresado en el formulario,
+                                Digite el código que fue enviado al correo ingresado en el formulario,
                                 este código tiene una vigencia de 3 minutos.
                                 <br/>
                                 Si no recibio el código o el tiempo expiró puede reenviar el código con el siguiente
@@ -93,9 +93,33 @@
 
     <template id="address_inherit_bancolombia" inherit_id="web_sale_extended.address_bancolombia">
         <xpath expr="//form[@id='shop']" position="after">
-            <div class="modal fade" id="codigo-verificacion-modal" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
+            <style>
+                .modal-custom {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    z-index: 1050;
+                    display: none;
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                    outline: 0;
+                }
+                .modal-content-custom {
+                    border-radius: 0.3rem;
+                }
+                .modal-footer-verificacion {
+                    justify-content: end;
+                    display: flex;
+                    padding: 1rem;
+                }
+                .modal-dialog-custom {
+                    max-width: 650px;
+                }
+            </style>
+            <div class="modal fade modal-custom" id="codigo-verificacion-modal" role="dialog">
+                <div class="modal-dialog modal-dialog-custom">
+                    <div class="modal-content modal-content-custom">
                         <div class="modal-header modal-header-primary py-3 rounded-top text-light">
                             <h5 class="modal-title">Verificación del correo</h5>
                             <button type="button" class="close shadow-none" data-dismiss="modal">
@@ -104,7 +128,7 @@
                         </div>
                         <div class="modal-body" style="background-color: white;">
                             <p style="color:black;">
-                                Ingrese el código que fue enviado al correo ingresado en el formulario,
+                                Digite el código que fue enviado al correo ingresado en el formulario,
                                 este código tiene una vigencia de 3 minutos.
                                 <br/>
                                 Si no recibio el código o el tiempo expiró puede reenviar el código con el siguiente
@@ -137,7 +161,7 @@
                             </div>
                         </div>
 
-                        <div id="footer-modal" class="modal-footer">
+                        <div id="footer-modal" class="modal-footer-verificacion">
                             <div class="d-flex justify-content-end">
                                <button class="btn btn-custom mb32" id="verificar" style="background-color: #FDDA24;
                                                                                          color: black;">
