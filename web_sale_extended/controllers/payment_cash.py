@@ -45,9 +45,15 @@ class WebsiteSaleExtended(WebsiteSale):
         
         payulatam_api_env = request.env.user.company_id.payulatam_api_env
         if payulatam_api_env == 'prod':
-            payulatam_response_url = request.env.user.company_id.payulatam_api_response_url
+            if order.website_id.domain:
+                payulatam_response_url = "https://" + str(order.website_id.domain) + str(request.env.user.company_id.payulatam_api_response_url)
+            else:
+                payulatam_response_url = str(request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + str(request.env.user.company_id.payulatam_api_response_url)
         else:
-            payulatam_response_url = request.env.user.company_id.payulatam_api_response_sandbox_url
+            if order.website_id.domain:
+                payulatam_response_url = "https://" + str(order.website_id.domain) + str(request.env.user.company_id.payulatam_api_response_sandbox_url)
+            else:
+                payulatam_response_url = str(request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + str(request.env.user.company_id.payulatam_api_response_sandbox_url)
         tx_value = {"value": order.amount_total, "currency": "COP"}
         tx_tax = {"value": 0,"currency": "COP"}
         tx_tax_return_base = {"value": 0, "currency": "COP"}
@@ -242,8 +248,6 @@ class WebsiteSaleExtended(WebsiteSale):
         
     @http.route(['/shop/payment/payulatam-gateway-api/cash_process_recurring'], type='http', auth="public", website=True, sitemap=False, csrf=False)
     def payulatam_gateway_api_cash_payment_recurring(self, **post):
-        _logger.info('*********************************** post cash ************************************')
-        _logger.info(post)
         if post['invoice_id']:
             origin_document = request.env['account.move'].sudo().browse(int(post['invoice_id']))
             subscription = request.env['sale.subscription'].sudo().search([('code', '=', origin_document.invoice_origin)])
@@ -273,9 +277,15 @@ class WebsiteSaleExtended(WebsiteSale):
         
         payulatam_api_env = request.env.user.company_id.payulatam_api_env
         if payulatam_api_env == 'prod':
-            payulatam_response_url = request.env.user.company_id.payulatam_api_response_url
+            if sale_order.website_id.domain:
+                payulatam_response_url = "https://" + str(sale_order.website_id.domain) + str(request.env.user.company_id.payulatam_api_response_url)
+            else:
+                payulatam_response_url = str(request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + str(request.env.user.company_id.payulatam_api_response_url)
         else:
-            payulatam_response_url = request.env.user.company_id.payulatam_api_response_sandbox_url
+            if sale_order.website_id.domain:
+                payulatam_response_url = "https://" + str(sale_order.website_id.domain) + str(request.env.user.company_id.payulatam_api_response_sandbox_url)
+            else:
+                payulatam_response_url = str(request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + str(request.env.user.company_id.payulatam_api_response_sandbox_url)
         tx_value = {"value": amount, "currency": "COP"}
         tx_tax = {"value": 0,"currency": "COP"}
         tx_tax_return_base = {"value": 0, "currency": "COP"}
