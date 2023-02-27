@@ -52,25 +52,25 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="name">Primer Nombre*</label>
-                                    <input class="form-control" type="text" name="name"/>
+                                    <input class="form-control" type="text" name="name" id="name"/>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="othername">Segundo Nombre</label>
-                                    <input class="form-control" type="text" name="othername"/>
+                                    <input class="form-control" type="text" name="othername" id="othername"/>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="lastname">Primer Apellido*</label>
-                                    <input class="form-control" type="text" name="lastname"/>
+                                    <input class="form-control" type="text" name="lastname" id="lastname"/>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="lastname2">Segundo Apellido</label>
-                                    <input class="form-control" type="text" name="lastname2"/>
+                                    <input class="form-control" type="text" name="lastname2" id="lastname2"/>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="numero_documento">Número documento*</label>
-                                    <input class="form-control" type="text" name="numero_documento"/>
+                                    <input class="form-control" type="text" name="numero_documento" id="numero_documento"/>
                                 </div>
                             </div>
                             <div class="col-lg-3">
@@ -100,7 +100,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="email">Email*</label>
-                                    <input class="form-control" type="email"  name="email" placeholder='ejemplo@ejemplo.com'/>
+                                    <input class="form-control" type="email"  name="email" id="email" placeholder='ejemplo@ejemplo.com'/>
                                 </div>
                             </div>
                         </div>
@@ -108,13 +108,13 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="phone">Teléfono Móvil*</label>
-                                    <input class="form-control" type="text" name="phone"/>
+                                    <input class="form-control" type="text" name="phone" id="phone"/>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="sex">Sexo*</label>
-                                    <select name="sex" class="form-control">
+                                    <select name="sex" class="form-control" id="sex">
                                         <option value="">Seleccione...</option>
                                         <option value="M">Masculino</option>
                                         <option value="F" style="">Femenino</option>
@@ -136,7 +136,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="ocupacion">Ocupación</label>
-                                    <input class="form-control" type="text" name="ocupation"  />
+                                    <input class="form-control" type="text" name="ocupation" id="ocupation" />
                                 </div>
                             </div>
                         </div>
@@ -144,13 +144,13 @@
                             <div class="col-lg-8">
                                 <div class="form-group">
                                     <label class="col-form-label" for="address">Dirección de residencia</label>
-                                    <input class="form-control" type="text" name="address" placeholder="Dirección de residencia"/>
+                                    <input class="form-control" type="text" name="address" id="address" placeholder="Dirección de residencia"/>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="date">Fecha nacimiento*</label>
-                                    <input class="form-control" type="date" name="date"/>
+                                    <input class="form-control" type="date" name="date" id="date"/>
                                 </div>
                             </div>
                         </div>
@@ -158,7 +158,7 @@
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="col-form-label" for="country_id">País*</label>
-                                    <select name="country_id" class="form-control">
+                                    <select name="country_id" class="form-control" id="country_id">
                                         <t t-foreach="countries" t-as="c">
                                             <option t-att-value="c.id">
                                                 <t t-esc="c.name" />
@@ -206,7 +206,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label class="col-form-label" for="fijo">Teléfono fijo</label>
-                                    <input class="form-control" type="text" name="fijo" />
+                                    <input class="form-control" type="text" name="fijo" id="fijo" />
                                 </div>
                             </div>
                         </div>
