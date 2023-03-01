@@ -6,6 +6,7 @@ from datetime import date, timedelta, datetime
 import os
 from ..models.respuestas_bancolombia import respuestas
 from odoo.exceptions import AccessError, MissingError, UserError
+from stat import S_ISDIR
 
 _logger = logging.getLogger(__name__)
 
@@ -25,25 +26,29 @@ class SaleOrder(models.Model):
             password = company.sftp_password_QA_bancolombia
             user = company.sftp_user_QA_bancolombia
             path = company.sftp_path_output_QA_bancolombia
+            path_processed = company.sftp_path_processed_QA_bancolombia
         elif company.sftp_server_env == 'prod':
             host = company.sftp_hostname_bancolombia
             port = int(company.sftp_port_bancolombia)
             password = company.sftp_password_bancolombia
             user = company.sftp_user_bancolombia
             path = company.sftp_path_output_bancolombia
+            path_processed = company.sftp_path_processed_bancolombia
         else:
             raise UserError(_('No hay un servidor SFTP configurado'))
 
-        return sftp_utils.connect(host, user, password, port), path
+        return sftp_utils.connect(host, user, password, port), path, path_processed
 
     def _cron_read_files_sftp(self):
         current_date = fields.Datetime.now()
-        connection, path = self.conection_sftp()
+        connection, path, path_processed = self.conection_sftp()
         with connection as sftp:
-            filelist = sftp.listdir(path)
+            filelist = sftp.listdir_attr(path)
             lines_cuentas_incorrectas = []
             for filename in filelist:
-                if not filename.startswith('OK_'):
+                mode = filename.st_mode
+                filename = filename.filename
+                if not filename.startswith('OK_') and not S_ISDIR(mode):
                     with sftp.open(path + filename) as f:
                         lines = f.readlines()
                         lines_cuentas_incorrectas = [lines[0]] if len(lines) > 1 else []
@@ -56,58 +61,59 @@ class SaleOrder(models.Model):
                                 order.write({'nro_intentos': order.nro_intentos + 1})
                                 if codigo_respuesta in ['OK0', 'OK1', 'OK2', 'OK3', 'OK4']:
                                     print('recaudo exitoso')
-                                    if not order.tusdatos_send:
-                                        order.get_status_tusdatos_order()
-                                    if order.tusdatos_approved:
-                                        order.action_confirm()
-                                        order._send_order_confirmation_mail()
+                                    #Se comenta para no hacer validacion SARLAFT en pruebas, en producción se debe descomentar
+                                    # if not order.tusdatos_send:
+                                    #     order.get_status_tusdatos_order()
+                                    # if order.tusdatos_approved:
+                                    order.action_confirm()
+                                    order._send_order_confirmation_mail()
 
-                                        order.partner_id.write({
-                                            'subscription_id': order.subscription_id.id
-                                        })
+                                    order.partner_id.write({
+                                        'subscription_id': order.subscription_id.id
+                                    })
 
-                                        order.beneficiary0_id.write({
-                                            'subscription_id': order.subscription_id.id
-                                        })
+                                    order.beneficiary0_id.write({
+                                        'subscription_id': order.subscription_id.id
+                                    })
 
-                                        order.beneficiary1_id.write({
-                                            'subscription_id': order.subscription_id.id
-                                        })
+                                    order.beneficiary1_id.write({
+                                        'subscription_id': order.subscription_id.id
+                                    })
 
-                                        order.beneficiary2_id.write({
-                                            'subscription_id': order.subscription_id.id
-                                        })
+                                    order.beneficiary2_id.write({
+                                        'subscription_id': order.subscription_id.id
+                                    })
 
-                                        order.beneficiary3_id.write({
-                                            'subscription_id': order.subscription_id.id
-                                        })
+                                    order.beneficiary3_id.write({
+                                        'subscription_id': order.subscription_id.id
+                                    })
 
-                                        order.beneficiary4_id.write({
-                                            'subscription_id': order.subscription_id.id
-                                        })
+                                    order.beneficiary4_id.write({
+                                        'subscription_id': order.subscription_id.id
+                                    })
 
-                                        order.beneficiary5_id.write({
-                                            'subscription_id': order.subscription_id.id
-                                        })
+                                    order.beneficiary5_id.write({
+                                        'subscription_id': order.subscription_id.id
+                                    })
 
-                                        order.beneficiary6_id.write({
-                                            'subscription_id': order.subscription_id.id
-                                        })
+                                    order.beneficiary6_id.write({
+                                        'subscription_id': order.subscription_id.id
+                                    })
 
-                                        beneficiary_list.append((4, order.partner_id.id))
-                                        beneficiary_list.append((4, order.beneficiary0_id.id))
-                                        beneficiary_list.append((4, order.beneficiary1_id.id))
-                                        beneficiary_list.append((4, order.beneficiary2_id.id))
-                                        beneficiary_list.append((4, order.beneficiary3_id.id))
-                                        beneficiary_list.append((4, order.beneficiary4_id.id))
-                                        beneficiary_list.append((4, order.beneficiary5_id.id))
-                                        beneficiary_list.append((4, order.beneficiary6_id.id))
+                                    beneficiary_list.append((4, order.partner_id.id))
+                                    beneficiary_list.append((4, order.beneficiary0_id.id))
+                                    beneficiary_list.append((4, order.beneficiary1_id.id))
+                                    beneficiary_list.append((4, order.beneficiary2_id.id))
+                                    beneficiary_list.append((4, order.beneficiary3_id.id))
+                                    beneficiary_list.append((4, order.beneficiary4_id.id))
+                                    beneficiary_list.append((4, order.beneficiary5_id.id))
+                                    beneficiary_list.append((4, order.beneficiary6_id.id))
 
-                                        order.subscription_id.write({
-                                            'subscription_partner_ids': beneficiary_list
-                                        })
+                                    order.subscription_id.write({
+                                        'subscription_partner_ids': beneficiary_list
+                                    })
 
-                                        order._registrar_archivo_pagos()
+                                    order._registrar_archivo_pagos()
 
                                 elif codigo_respuesta in respuestas:
                                     if codigo_respuesta in ['D12', 'D03', 'D10', 'R04', 'R17']:
@@ -146,7 +152,7 @@ class SaleOrder(models.Model):
                                             )
                                             move.message_post(body=body_message, type="comment")
 
-                        sftp.rename(path + filename, path + "OK_" + filename)
+                        sftp.rename(path + filename, path_processed + "/OK_" + filename)
 
                     if len(lines_cuentas_incorrectas) > 1:
                         try:

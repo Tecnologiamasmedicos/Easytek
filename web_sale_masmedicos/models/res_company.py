@@ -12,9 +12,11 @@ class SaleOrder(models.Model):
     sftp_user_bancolombia = fields.Char(string="Usuario", groups='base.group_user')
     sftp_password_bancolombia = fields.Char(string="Contraseña", groups='base.group_user')
     sftp_path_output_bancolombia = fields.Char(string="Directorio archivo de salida", groups='base.group_user')
+    sftp_path_processed_bancolombia = fields.Char(string="Directorio archivos procesados", help='Ruta a donde se moveran archivos procesados', groups='base.group_user')
 
     sftp_hostname_QA_bancolombia = fields.Char(string="Hostname SFTP QA", groups='base.group_user')
     sftp_port_QA_bancolombia = fields.Char(string="Puerto Servidor QA", groups='base.group_user')
     sftp_user_QA_bancolombia = fields.Char(string="Usuario QA", groups='base.group_user')
     sftp_password_QA_bancolombia = fields.Char(string="Contraseña QA", groups='base.group_user')
     sftp_path_output_QA_bancolombia = fields.Char(string="Directorio archivo de salida QA", groups='base.group_user')
+    sftp_path_processed_QA_bancolombia = fields.Char(string="Directorio archivos procesados QA", groups='base.group_user')
