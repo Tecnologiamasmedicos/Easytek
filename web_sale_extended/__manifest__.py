@@ -74,7 +74,8 @@
         'data/payu_latam_account_move_bot.xml',
         'data/billing_cycle_api_hubspot_bot.xml',
         'data/mail_template_welcome_falabella.xml',
-        'data/mail_template_welcome_bancolombia.xml'
+        'data/mail_template_welcome_bancolombia.xml',
+        'bancolombia_input_files_boot.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
