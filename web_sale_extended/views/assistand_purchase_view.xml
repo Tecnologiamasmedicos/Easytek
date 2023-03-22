@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="assets_frontend_assistand_purchase" inherit_id="website.assets_frontend" name="JS and CSS Venta asistida">
-		<xpath expr="." position="inside">			
+		<xpath expr="." position="inside">
             <script type="text/javascript" src="/web_sale_extended/static/src/js/assisted_purchase.js"></script>
 		</xpath>
-	</template>    
+	</template>
     
     <template id="alternativo" name="Shop alternativo">
         <t t-call="website.layout">
@@ -99,7 +99,7 @@
                 }
             </style>
 
-            <h1>Venta Asistida</h1>       
+            <h1>Venta Asistida</h1>
             
             <form method="get" class="o_wsale_products_searchbar_form w-100 w-md-auto mt-2" action="/shop/assisted_purchase">
                 <div role="search" class="input-group">
@@ -109,9 +109,9 @@
                         <a href="/shop/assisted_purchase" class="btn borrar">Borrar</a>
                     </div>
                 </div>
-            </form>            
+            </form>
             
-            <div class="contenedor-menu">                
+            <div class="contenedor-menu">
                 <ul class="menu">
                     <t t-foreach='data' t-as='d'>
                         <li>
@@ -141,7 +141,7 @@
                         </li>
                     </t>
                 </ul>
-            </div>            
+            </div>
         </t>
     </template>
 </odoo>

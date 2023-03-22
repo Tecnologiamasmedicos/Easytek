@@ -49,6 +49,9 @@
         'views/sale_settlement_view.xml',
         'views/sale_funds_view.xml',
         'views/payu_payment_methods_view.xml',
+        'views/bancolombia_reports_view.xml',
+        'views/beneficiaries_bancolombia.xml',
+        'views/web_sale_shop_address_bancolombia.xml',
         #'reports/sale_order_report.xml',
         #'reports/res_partner_report.xml',
         'data/mail_template_cancellation_plan.xml',
@@ -70,7 +73,8 @@
         'data/payu_latam_creditcard_payment_bot.xml',
         'data/payu_latam_account_move_bot.xml',
         'data/billing_cycle_api_hubspot_bot.xml',
-        'data/mail_template_welcome_falabella.xml'
+        'data/mail_template_welcome_falabella.xml',
+        'data/mail_template_welcome_bancolombia.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

@@ -30,20 +30,38 @@
                     <div class="text-center progress-wizard-steplabel">Review Order</div>
                   </div>
                 </a>-->
-                <a class="no-decoration" t-att-href="step&gt;=20 and '/shop/checkout' or '#'">
-                    <div id="wizard-step20" t-att-class="'progress-wizard-step %s' % (step == 20 and 'active' or step&gt;20 and 'complete' or 'disabled')">
-                        <div class="progress-wizard-bar d-none d-md-block"/>
-                        <span class="progress-wizard-dot d-none d-md-inline-block"></span>
-                        <div class="text-center progress-wizard-steplabel">Datos del Comprador</div>
-                    </div>
-                </a>
-                <a class="no-decoration" t-att-href="step&gt;=40 and '/shop/payment' or '#'">
-                    <div id="wizard-step40" t-att-class="'progress-wizard-step %s' % (step == 40 and 'active' or step&gt;40 and 'complete' or 'disabled')">
-                        <div class="progress-wizard-bar d-none d-md-block"/>
-                        <span class="progress-wizard-dot d-none d-md-inline-block"></span>
-                        <div class="text-center progress-wizard-steplabel">Confirmar Orden</div>
-                    </div>
-                </a>
+                <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521">
+                    <a class="no-decoration" t-att-href="step&gt;=20 and '/shop/checkout' or '#'">
+                        <div id="wizard-step20" t-att-class="'progress-wizard-step %s' % (step == 20 and 'active' or step&gt;20 and 'complete' or 'disabled')">
+                            <div class="progress-wizard-bar d-none d-md-block" style="background-color: #FDDA24"/>
+                            <span class="progress-wizard-dot d-none d-md-inline-block" style="background-color: #00C389;"></span>
+                            <div class="text-center progress-wizard-steplabel">Datos del Comprador</div>
+                        </div>
+                    </a>
+                    <a class="no-decoration" t-att-href="step&gt;=40 and '/shop/payment' or '#'">
+                        <div id="wizard-step40" t-att-class="'progress-wizard-step %s' % (step == 40 and 'active' or step&gt;40 and 'complete' or 'disabled')">
+                            <div class="progress-wizard-bar d-none d-md-block" style="background-color: #FDDA24"/>
+                            <span class="progress-wizard-dot d-none d-md-inline-block"></span>
+                            <div class="text-center progress-wizard-steplabel">Datos del Asegurado Principal y Beneficiarios</div>
+                        </div>
+                    </a>
+                </t>
+                <t t-else="">
+                    <a class="no-decoration" t-att-href="step&gt;=20 and '/shop/checkout' or '#'">
+                        <div id="wizard-step20" t-att-class="'progress-wizard-step %s' % (step == 20 and 'active' or step&gt;20 and 'complete' or 'disabled')">
+                            <div class="progress-wizard-bar d-none d-md-block"/>
+                            <span class="progress-wizard-dot d-none d-md-inline-block"></span>
+                            <div class="text-center progress-wizard-steplabel">Datos del Comprador</div>
+                        </div>
+                    </a>
+                    <a class="no-decoration" t-att-href="step&gt;=40 and '/shop/payment' or '#'">
+                        <div id="wizard-step40" t-att-class="'progress-wizard-step %s' % (step == 40 and 'active' or step&gt;40 and 'complete' or 'disabled')">
+                            <div class="progress-wizard-bar d-none d-md-block"/>
+                            <span class="progress-wizard-dot d-none d-md-inline-block"></span>
+                            <div class="text-center progress-wizard-steplabel">Confirmar Orden</div>
+                        </div>
+                    </a>
+                </t>
             </div>
         </xpath>
     </template>

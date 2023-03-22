@@ -17,7 +17,7 @@
                         <group>
                             <group>
                                 <field name="logo_body_website_sponsor"/>
-                            </group>                            
+                            </group>
                             <group>
                                 <field name="beneficiaries_number"/>
                                 <field name="sponsor_name"/>

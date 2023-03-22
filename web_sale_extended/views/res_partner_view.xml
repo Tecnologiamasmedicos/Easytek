@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    
     <record model="ir.ui.view" id="view_res_partner_document_type_form">
         <field name="name">res.partner.document.type.form</field>
         <field name="model">res.partner.document.type</field>
@@ -14,7 +13,6 @@
             </form>
         </field>
     </record>
-
     <record model="ir.ui.view" id="view_res_partner_document_type_tree">
         <field name="name">res.partner.document.type.form</field>
         <field name="model">res.partner.document.type</field>
@@ -26,14 +24,12 @@
             </tree>
         </field>
     </record>
-    
     <record id="action_res_partner_document_type_tree" model="ir.actions.act_window">
         <field name="name">Tipos de Documento</field>
         <field name="res_model">res.partner.document.type</field>
         <field name="view_mode">tree,form</field>
         <field ref="view_res_partner_document_type_tree" name="view_id"/>
     </record>
-
     <menuitem
         name="Tipos de Documento"
         id="res_partner_document_types_menu"
@@ -41,41 +37,30 @@
         action="action_res_partner_document_type_tree"
         sequence="5"
         />
-    
-    
-    
     <record id="view_partner_form_partner" model="ir.ui.view">
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base_vat.view_partner_form"/>
-            <field name="arch" type="xml">
-                <field name="website" position="before">
-                    <field name='birthdate_date' />
-                    <!--<field
-                        name="age"
-                        attrs="{'invisible': [('birthdate_date', '=', False)]}"
-                    />-->
-                    <field name='ocupation' />
-                    <field name='gender' />
-                    <field name='relationship' />
-                    <field name='address_beneficiary' />
-                    <field name='beneficiary_country_id' />
-                    <field name='beneficiary_state_id' />
-                    <field name='beneficiary_zip_id' />
-                    <field name='expedition_date' />
-                    <field name='marital_status' />
-                    <field name='clerk_code' />
-                    <field name='sponsor_id' />
-                </field>
-                
-                <field name="street" position="after">
-                    <field name='city_2' placeholder="Ciudad" style="display: block" />                    
-                    <field name='state_2' placeholder="Departamento / Provincia / Estado" style="display: block" />
-                </field>
-                
-                
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base_vat.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="website" position="before">
+                <field name='birthdate_date' />
+                <field name='ocupation' />
+                <field name='gender' />
+                <field name='relationship' />
+                <field name='address_beneficiary' />
+                <field name='beneficiary_country_id' />
+                <field name='beneficiary_state_id' />
+                <field name='beneficiary_zip_id' />
+                <field name='expedition_date' />
+                <field name='marital_status' />
+                <field name='clerk_code' />
+                <field name='sponsor_id' />
             </field>
-        </record>
-    
+            <field name="street" position="after">
+                <field name='city_2' placeholder="Ciudad" style="display: block" />
+                <field name='state_2' placeholder="Departamento / Provincia / Estado" style="display: block" />
+            </field>
+        </field>
+    </record>
     <record id="view_partner_form_inherit" model="ir.ui.view">
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>

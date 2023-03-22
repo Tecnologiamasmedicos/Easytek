@@ -1,0 +1,10 @@
+<odoo>
+    <data noupdate="1">
+        <record id="log_acceptacion_politicas_rule" model="ir.rule">
+            <field name="name">Acceso a log por sponsor</field>
+            <field ref="model_log_aceptacion_politicas" name="model_id"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">['|',('sponsor_id', 'in', user.sponsor_ids.ids),('campo_vacio','=',len(user.sponsor_ids.ids))]</field>
+        </record>
+    </data>
+</odoo>

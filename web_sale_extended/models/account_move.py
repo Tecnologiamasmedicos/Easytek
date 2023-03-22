@@ -111,7 +111,8 @@ class AccountMove(models.Model):
     
     def payment_credit_card_by_tokenization(self):
         subscription = self.env['sale.subscription'].sudo().search([('code', '=', self.invoice_origin)])
-        if self.payment_method_type == 'Credit Card' and self.payulatam_credit_card_token != '' and subscription.stage_id not in (4, 5):
+        if self.payment_method_type == 'Credit Card' and self.payulatam_credit_card_token != '' and self.payulatam_state not in ("APPROVED", "PENDING") and subscription.stage_id not in (4, 5):
+            sale_order = request.env['sale.order'].sudo().search([('subscription_id', '=', subscription.id)])
             """ Proceso de Pago """
             referenceCode = str(self.env['api.payulatam'].payulatam_get_sequence())
             accountId = self.env['api.payulatam'].payulatam_get_accountId()
@@ -120,10 +121,17 @@ class AccountMove(models.Model):
                 self.amount_total,'COP',referenceCode)
 
             payulatam_api_env = self.env.user.company_id.payulatam_api_env
+
             if payulatam_api_env == 'prod':
-                payulatam_response_url = self.env.user.company_id.payulatam_api_response_url
+                if sale_order.website_id.domain:
+                    payulatam_response_url = "https://" + str(sale_order.website_id.domain) + str(self.env.user.company_id.payulatam_api_response_url)
+                else:
+                    payulatam_response_url = str(request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + str(self.env.user.company_id.payulatam_api_response_url)
             else:
-                payulatam_response_url = self.env.user.company_id.payulatam_api_response_sandbox_url
+                if sale_order.website_id.domain:
+                    payulatam_response_url = "https://" + str(sale_order.website_id.domain) + str(self.env.user.company_id.payulatam_api_response_sandbox_url)
+                else:
+                    payulatam_response_url = str(request.env['ir.config_parameter'].sudo().get_param('web.base.url')) + str(self.env.user.company_id.payulatam_api_response_sandbox_url)
 
             tx_value = {"value": self.amount_total, "currency": "COP"}        
             tx_tax = {"value": 0,"currency": "COP"}
@@ -354,7 +362,7 @@ class AccountMove(models.Model):
                     }
                     self.env['mail.mail'].sudo().create(mail_values).send()
         else:
-            raise UserError('El metodo de pago no es Tarjeta de Credito, no tiene token o la suscripcion esta en estado cerrado')
+            raise UserError('El metodo de pago no es Tarjeta de Credito, no tiene token, el pago fue aprobado o esta pendiente o la suscripcion esta en estado cerrado')
             
     def cron_get_status_payu_latam_account_move(self):
         """ selección de liquidaciones de pedidos a procesar, que están pendientes de respuesta de payu """

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Odoo Apps</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<style>section.oe_container.sync {
+    padding: 21px 0px;
+}
+section.oe_container.oe_dark {
+    padding: 21px 0px;
+}
+section.oe_container {
+    padding: 21px 0px;
+}
+section {
+    padding: 21px 0px;
+    width: 100%;
+    float: left;
+}
+.oe_row_img.oe_centered {
+    padding: 21px 0px;
+}
+.oe_span12 {
+    padding: 21px 0px;
+}
+.oe_span12 {
+    padding: 21px 0px;
+}
+
+</style>
+<body>
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan" style="text-align: center;">Log aceptación políticas de tratamiento de datos y
+                términos y condiciones</h2>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="pt-5 pb-5">
+        <div class="container">
+            <div class="row">
+                <div class="section-head col-sm-12 text-center">
+                    <h1 align="center">Decripción del módulo</h1>
+                    <p>Este modulo guarda el registro de los clientes que aceptan las políticas de tratamiento de datos
+                        y los terminos y condiciones.
+                        Mostrando los registros en el menu de informes del modulo de ventas en una ventana tipo lista
+                        para el control y depuración de los registros recopilados.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+<br/>
+<section class="oe_container sync">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="text-align: center;">Modelo</h2>
+        <div class="oe_span12">
+            <div class="oe_row_img oe_centered">
+                <p>Se crea un nuevo modelo para guardar registro de los usuarios que confirman un pedido.
+                    El modelo se llama "log.aceptacion.politicas" y tiene los siguientes campos:</p>
+                <ul>
+                    <li><p>date = fecha y hora cuando se confirma el pedido</p></li>
+                    <li><p>ip = IP del cliente</p></li>
+                    <li><p>identificacion_cliente = Número de identificación del cliente</p></li>
+                    <li><p>sponsor_id = campo relacionado con el sponsor del producto</p></li>
+                    <li><p>estado = Indica si la orden fue confirmada</p></li>
+                    <li><p>order_id = relaciona el log con la orden de venta</p></li>
+                    <li><p>campo_vacio = Variable que indica si un usuario puede acceder a los registros de cualquier sponsor</p></li>
+                    <li><p>politicas_name = campo donde se guarda el nombre del archivo de las políticas de tratamiento de datos</p></li>
+                    <li><p>politicas = se guarda los bytes del archivo</p></li>
+                    <li><p>terminos_condiciones_name = campo donde se guarda el nombre del archivo de terminos y condiciones</p></li>
+                    <li><p>terminos_condiciones = se guarda los bytes del archivo</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<br/>
+<section class="oe_container sync">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan" style="text-align: center;">Menú del log y vista tree</h2>
+        <div class="oe_span12">
+            <div class="oe_row_img oe_centered">
+                <p></p>
+                <img class="oe_picture oe_screenshot" style="margin-left: 8%; max-width: 80%" src="menú.jpg"
+                     alt="img2">
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

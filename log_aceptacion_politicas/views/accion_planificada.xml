@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <record id="log_aceptacion_cron" model="ir.cron">
+            <field name="name">Borrar autorización políticas de tratamiento de datos no efectivas</field>
+            <field name="model_id" ref="model_log_aceptacion_politicas"/>
+            <field name="state">code</field>
+            <field name="code">model.eliminar_no_validos()</field>
+            <field name='interval_number'>30</field>
+            <field name='interval_type'>days</field>
+            <field name="numbercall">-1</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_frontend_doble_autenticacion" name="doble_autenticacion assets" inherit_id="website.assets_frontend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/doble_autenticacion/static/src/js/main.js"/>
+        </xpath>
+    </template>
+</odoo>

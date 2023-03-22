@@ -51,7 +51,7 @@ class SaleOrder(models.Model):
     payulatam_credit_card_method = fields.Char('Metodo de Pago')
     payulatam_request_expired = fields.Boolean('Request Expired')
     payulatam_request_pending = fields.Boolean('Request Pending')
-    state =  fields.Selection(selection_add=[('payu_pending', 'PAYU ESPERANDO APROBACIÓN'),('payu_approved', 'PAYU APROBADO')])
+    state =  fields.Selection(selection_add=[('payu_pending', 'Esperando Aprobación'),('payu_approved', 'Pago Aprobado')])
     main_product_id = fields.Many2one('product.product', string="Plan Elegido", compute="_compute_main_product_id", store=True)
     payment_method_type = fields.Selection([
         ("Credit Card", "Tarjeta de Crédito"), 
@@ -65,6 +65,20 @@ class SaleOrder(models.Model):
         ("window_payment", "Pago por ventanilla"),
         ("libranza_discount", "Descuento por libranza"),
     ], string="Tipo descuento Sponsor")
+    collection_attempts = fields.Integer('Intentos de cobro', store=True, default=0)
+    buyer_account_type = fields.Selection([
+        ("1", "Cuenta Corriente"), 
+        ("7", "A la mano / Ahorros"), 
+        # ("2", "Tarjeta de Crédito MasterCard"),
+        # ("3", "Tarjeta de Crédito Visa"),
+        # ("4", "Tarjeta de Crédito Amex"),
+    ])
+    buyer_account_number = fields.Char('Numero de cuenta')
+    nonce = fields.Char('nonce')
+    auth_tag = fields.Char('auth_tag')
+    secretkey = fields.Char('secretkey')
+    debit_request = fields.Boolean('Solicitud debito', default=False, store=True)
+    debit_request_date = fields.Date(string='Fecha accion ciclo de cobro', store=True)
     
     @api.depends('order_line', 'state', 'partner_id')
     def _compute_sponsor_id(self):

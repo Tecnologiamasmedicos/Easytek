@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="address_bancolombia" name="Address Management Bancolombia">
+        <title>Página comprador | www.masmedicos.co</title>
+        <t t-set="no_footer" t-value="1"/>
+        <t t-call="website.layout">
+            <style>
+                @font-face {
+                    font-family: 'CIBFontSans Regular';
+                    src: url('/web_sale_extended/static/src/fonts/CIBFontSans-Regular.ttf') format('truetype');
+                }
+                
+                *{
+                    font-family: 'CIBFontSans Regular' !important;
+                    color: black;
+                }
+                #submit_shop {
+                    background-color: #FDDA24; 
+                    color: black !important;
+                }
+
+                #submit_shop:hover {
+                    background-color: #2C2A29;
+                    color: white !important;
+                }
+                
+                .form-control {
+                    box-shadow: none !important;
+                }
+
+                .modal-dialog {
+                    max-width: 800px;
+                }
+                .modal-footer {
+                    justify-content: center;
+                    border-top: none;
+                }
+
+                #ada_agree, #tycp_agree {
+                    background-color: #FDDA24; 
+                    border-radius: 100px; 
+                    color: black;
+                    padding: 5px 26px;
+                }
+                
+                #ada_agree:hover, #tycp_agree:hover {
+                    background-color: #2C2A29;
+                    color: white;
+                }
+
+                input.error {
+                    border: 1px solid #E20201;
+                    color: #E20201;
+                }
+
+                label.error {
+                    color: #E20201;
+                }
+
+                #shop label {
+                    width:100%;
+                    display:block;
+                }
+
+                input[type=checkbox] {
+                    accent-color: #FDDA24;
+                }
+
+                #progressbar {
+                    margin-bottom: 30px;
+                    overflow: hidden;
+                    color: lightgrey;
+                    text-align: center;
+                }
+
+                #progressbar .active {
+                    color: black;
+                }
+
+                #progressbar li {
+                    list-style-type: none;
+                    font-size: 15px;
+                    width: 33%;
+                    float: left;
+                    position: relative;
+                    font-weight: 400;
+                }
+
+                #progressbar #buyer_data:before {
+                    content: "1";
+                }
+
+                #progressbar #main_insured_data:before {
+                    content: "2";
+                }
+
+                #progressbar #confirm:before {
+                    content: "3";
+                }
+
+                #progressbar li:before {
+                    width: 50px;
+                    height: 50px;
+                    line-height: 45px;
+                    display: block;
+                    font-size: 20px;
+                    color: #ffffff;
+                    background: lightgray;
+                    border-radius: 50%;
+                    margin: 0 auto 10px auto;
+                    padding: 2px;
+                }
+
+                #progressbar li:after {
+                    content: '';
+                    width: 100%;
+                    height: 2px;
+                    background: lightgray;
+                    position: absolute;
+                    left: 0;
+                    top: 25px;
+                    z-index: -1;
+                }
+
+                #progressbar li.active:before, #progressbar li.active:after {
+                    background: #00C389;
+                }
+            </style>
+            <div id="wrap">
+                <div class="container oe_website_sale py-2">
+                    <div class="row">
+                        <div class="col col-xl-8">
+                            <ul id="progressbar" style="padding: 0;">
+                                <li class="active" id="buyer_data"><strong>Datos comprador</strong></li>
+                                <li id="main_insured_data"><strong>Datos asegurado principal y beneficiarios</strong></li>
+                                <li id="confirm"><strong>Confirmación de compra</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block">
+                            <t t-call="website_sale.cart_summary">
+                                <t t-set="hide_coupon">True</t>
+                                <t t-set="redirect" t-valuef="/shop/address"/>
+                            </t>
+                        </div>
+                        <div class="col-12 col-xl order-xl-1 oe_cart">
+                            <div>
+                                <section class="s_text_block pt0 pb0" data-name="Text block">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12 pb0 pt0">
+                                                <div class="clearfix s_alert_sm w-100" data-name="Alert">
+                                                    <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/il-help.svg" width="92" style="margin-top: 12px;" data-original-title="" title="" aria-describedby="tooltip561547"/>
+                                                    <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip831158"/>
+                                                    <div class="s_alert_content" style="padding-top: 20px;">
+                                                        <div style="text-align: left;">
+                                                            <font color="#000000" style="font-size: 23px;">
+                                                                <b>
+                                                                    Cuida a los que más amas. Llena la siguiente información.
+                                                                </b>
+                                                            </font>
+                                                            <br/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <div style="text-align: left;">
+                                                    <a class="btn btn-dark btn-lg btn-block" style="color: white; text-align: left; background-color: #2C2A29; border-color: #2C2A29;">
+                                                        <img src="/web_sale_extended/static/src/images/user_bancol.svg" width="25" style="padding-bottom: 5px;"/>
+                                                        Información del comprador
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <t t-if="error">
+                                    <div class="alert alert-success alert-dismissable d-print-none" role="status" style="text-align:center;">
+                                        <t t-if="error.get('error_message') == 'document_invalid'">
+                                            <h4 class="text-danger">Has registrado un documento que no es valido</h4>
+                                        </t>
+                                        <t t-else="">
+                                            <h5 class="text-danger" t-esc="error.get('error_message')" />
+                                        </t>
+                                    </div>
+                                </t>
+                                <br/>
+                                <form id="shop" action="/shop/address" method="post" class="checkout_autoformat" style="border: solid 1px rgba(0, 0, 0, 0.125); padding: 15px; border-radius: 10px;">
+                                    <div class="form-row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="name">Primer nombre*</label>
+                                                <input type="text" name="name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in checkout and checkout['name']" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="othernames">Segundo  nombre</label>
+                                                <input type="text" name="othernames" t-attf-class="form-control #{error.get('othernames') and 'is-invalid' or ''}" t-att-value="'othernames' in checkout and checkout['othernames']" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="lastname">Primer  apellido*</label>
+                                                <input type="text" name="lastname" t-attf-class="form-control #{error.get('lastname') and 'is-invalid' or ''}" t-att-value="'lastname' in checkout and checkout['lastname']"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="lastname2">Segundo  apellido</label>
+                                                <input type="text" name="lastname2" t-attf-class="form-control #{error.get('lastname2') and 'is-invalid' or ''}" t-att-value="'lastname2' in checkout and checkout['lastname2']" />
+                                            </div>
+                                        </div>
+                                        <div class="w-100"/>
+                                        <div t-attf-class="form-group #{error.get('email') and 'o_has_error' or ''} col-lg-6" id="div_email">
+                                            <label class="col-form-label" for="email">Email*</label>
+                                            <input type="email" name="email" t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}" t-att-value="'email' in checkout and checkout['email']" />
+                                        </div>
+                                        <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-lg-6" id="div_phone">
+                                            <label class="col-form-label" for="phone">Teléfono*</label>
+                                            <div class="input-group" style="flex-flow: wrap;">
+                                                <input type="text" name="code_phone" class="form-control col-3" readonly="True" />
+                                                <input type="text" name="phone" t-attf-class="form-control col-9 #{error.get('phone') and 'is-invalid' or ''}" t-att-value="'' in checkout and checkout['']" />
+                                            </div>
+                                        </div>
+                                        <div id="div_document" t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6">
+                                            <label class="col-form-label" for="document">Tipo de documento*</label>
+                                            <select name="document" class="selectpicker" id="document" t-attf-class="form-control #{error.get('') and 'is-invalid' or ''}" t-att-mode="mode[1]">
+                                                <option value="" selected="True">Tipo documento...</option>
+                                                <option value="16">Carné diplomático</option>
+                                                <option value="3">Cédula de ciudadanía</option>
+                                                <option value="5">Cédula de extranjería</option>
+                                                <option value="7">Pasaporte</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="identification_document">Número de documento*</label>
+                                                <input type="text" name="identification_document" t-attf-class="form-control #{error.get('identification_document') and 'is-invalid' or ''}" t-att-value="'identification_document' in checkout and checkout['identification_document']" />
+                                            </div>
+                                        </div>
+                                        <div t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6">
+                                            <label class="col-form-label" for="birthdate_date">Fecha nacimiento*</label>
+                                            <input type="date" name="birthdate_date" t-attf-class="form-control #{error.get('birthdate_date') and 'is-invalid' or ''}" t-att-value="'birthdate_date' in checkout and checkout['birthdate_date']" />
+                                            <div id="div_warning" class="alert alert-warning" role="alert" style="background-color: #fff3cd !important; border-color: #ffeeba !important; color: #856404 !important; display: none;">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <i class="fa fa-times" aria-hidden="false"></i>
+                                                </button>
+                                                <strong>Recuerda:</strong> El asegurado principal del plan debe tener entre 18 y 69 años.
+                                            </div>
+                                        </div>
+                                        <div t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6">
+                                            <label class="col-form-label" for="expedition_date">Fecha de exp del documento*</label>
+                                            <input type="date" name="expedition_date" t-attf-class="form-control #{error.get('expedition_date') and 'is-invalid' or ''}" t-att-value="'expedition_date' in checkout and checkout['expedition_date']" />
+                                        </div>
+                                        <div class="w-100"/>
+                                        <div t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-lg-6 div_street">
+                                            <label class="col-form-label" for="street">Dirección*
+                                                <span class="d-none d-md-inline"></span>
+                                            </label>
+                                            <input type="text" name="street" t-attf-class="form-control #{error.get('street') and 'is-invalid' or ''}" t-att-value="'street' in checkout and checkout['street']" />
+                                        </div>
+                                        <div t-attf-class="form-group #{error.get('country_address_id') and 'o_has_error' or ''} col-lg-6 div_country">
+                                            <label class="col-form-label" for="country_address_id">País*</label>
+                                            <select class="selectpicker" data-size="5" data-live-search="true" id="country_address_id" name="country_address_id" t-attf-class="form-control #{error.get('country_address_id') and 'is-invalid' or ''}" t-att-mode="mode[1]">
+                                                <t t-foreach="countries" t-as="c">
+                                                    <option t-att-value="c.id" t-att-selected="c.id == 49">
+                                                        <t t-esc="c.name" />
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+                                        <div t-attf-class="div_state_text form-group col-lg-6">
+                                            <label class="col-form-label" for="state_id_text">Departamento*</label>
+                                            <input type="text" name="state_id_text" id="state_id_text" t-attf-class="form-control" t-att-value="'state_id_text' in checkout and checkout['state_id_text']" />
+                                        </div>
+                                        <div t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-lg-6 div_state">
+                                            <label class="col-form-label" for="state_address_id">Departamento*</label>
+                                            <select class="selectpicker" data-size="4" id="state_address_id" data-live-search="true" name="state_address_id" t-attf-class="form-control #{error.get('state_address_id') and 'is-invalid' or ''}" data-init="1">
+                                                <option value="">Seleccione el Departamento </option>
+                                                <t t-foreach="country_states" t-as="s">
+                                                    <option t-att-value="s.id" t-att-selected="s.id == ('state_address_id' in checkout and country and checkout['state_address_id'] != '' and int(checkout['state_address_id']))">
+                                                        <t t-esc="s.name" />
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+                                        <div class="div_city_text form-group col-md-6">
+                                            <label class="col-form-label" for="city_text">Ciudad*</label>
+                                            <input type="text" name="city_id_text" id="city_id_text" t-attf-class="form-control" t-att-value="'city_2' in checkout and checkout['city_2']" />
+                                        </div>
+                                        <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-6 div_city">
+                                            <label class="col-form-label" for="city">Ciudad*</label>
+                                            <select class="selectpicker" data-size="10" data-live-search="true" id="city" name="city" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" t-att-value="'city' in checkout and checkout['city']" t-att-style="(not country or not country.state_ids) and 'display: none'">
+                                                <option value="">Seleccione la Ciudad</option>
+                                                <t t-foreach="cities" t-as="c">
+                                                    <option t-att-value="c.city_id.name" t-att-selected="c.name">
+                                                        <t t-esc="c.name" />
+                                                        <t t-esc="c.city_id.name" />
+                                                        <t t-esc="c.city_id.state_id.name" />
+                                                        <t t-esc="c.city_id.state_id.country_id.name" />
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+                                        <!-- Tipo de cuenta -->
+                                        <div t-attf-class="form-group col-md-6" t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521">
+                                            <label class="col-form-label" for="bancolombia_types_account">Tipo de cuenta*</label>
+                                            <select name="bancolombia_types_account" class="selectpicker" id="bancolombia_types_account" t-attf-class="form-control #{error.get('') and 'is-invalid' or ''}">
+                                                <t t-foreach="bancolombia_types_account" t-as="bta">
+                                                    <option t-att-value="bta" t-att-selected="bta == '7'">
+                                                        <t t-esc="bancolombia_types_account[bta]" />
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-6"/>
+                                        <!-- Numero de cuenta -->
+                                        <div class="col-lg-6" t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="account_number">Número de cuenta*</label>
+                                                <input type="text" name="account_number" t-attf-class="form-control #{error.get('account_number') and 'is-invalid' or ''}" t-att-value="'account_number' in checkout and checkout['account_number']" />
+                                            </div>
+                                        </div>
+                                        <!-- confirmar Numero de cuenta -->
+                                        <div class="col-lg-6" t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="confirm_account_number">Confirmar número de cuenta*</label>
+                                                <input type="text" name="confirm_account_number" t-attf-class="form-control #{error.get('confirm_account_number') and 'is-invalid' or ''}" t-att-value="'confirm_account_number' in checkout and checkout['confirm_account_number']" />
+                                            </div>
+                                        </div>
+                                        <t t-set='zip_city' />
+                                        <div t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-md-3 div_zip" style="color: transparent; display: none;">
+                                            <label class="col-form-label label-optional" for="zip">Código postal</label>
+                                            <input style="visibility: hidden;" type="text" name="zip" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="'zip' in checkout and checkout['zip']" readonly="true"/>
+                                            <input type="hidden" name="zip_id"/>
+                                        </div>
+                                        <div class="col-lg-12" id="div_ada">
+                                            <div class="form-check">
+                                                <label class="form-check-label" for="ada">
+                                                    <input type="checkbox"  name="ada" id="ada"/>
+                                                    Acepto
+                                                    <a href="" data-toggle="modal" data-target="#adaModalCenter" style="color: black; text-decoration: underline;">
+                                                        débito automático
+                                                    </a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12" id="div_tycp">
+                                            <div class="form-check">
+                                                <label class="form-check-label" for="tycp">
+                                                    <input type="checkbox" value="" name="tycp" id="tycp"/>
+                                                    Acepto 
+                                                    <a href="" data-toggle="modal" data-target="#tycpModalCenter" style="color: black; text-decoration: underline;">
+                                                        términos, condiciones y politica de tratamiento de datos
+                                                    </a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <!-- Modal Acepto debito automatico -->
+                                        <div class="modal fade" id="adaModalCenter" tabindex="-1" role="dialog" aria-labelledby="Acepto debito automatico" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Acepto débito automático</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span>&#215;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p style="text-align: justify; padding: 20px;">
+                                                            Autorizo a BANCOLOMBIA S.A para debitar la suma informada por Pan-American Life de Colombia con ocasión del pago de la póliza que en este documento se constituye, de mi Cuenta de Ahorros o Cuenta Corriente, Depósito de Bajo Monto “Bancolombia a la Mano” o realizar el cargo a mi Tarjeta de Crédito. Me comprometo a tener los fondos suficientes en mi Cuenta de Ahorros o Corriente Depósito de Bajo Monto “Bancolombia a la Mano”, o a mantener la disponibilidad de cupo de mi Tarjeta de Crédito, según el caso, para cubrir el valor facturado el día de cobro. Si no se encontraren fondos en mi Cuenta Corriente, autorizo para que se afecte el cupo de sobregiro disponible. Así mismo, me comprometo a actualizar cualquier cambio de cuenta o número de Tarjeta de Crédito para continuar con el débito o cargo automático.
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn" id="ada_agree" data-dismiss="modal">Aceptar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Modal Acepto términos, condiciones y politica de tratamiento de datos -->
+                                        <div class="modal fade" id="tycpModalCenter" tabindex="-1" role="dialog" aria-labelledby="Acepto términos, condiciones y politica de tratamiento de datos" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Acepto términos, condiciones y politica de tratamiento de datos</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span>&#215;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>
+                                                            <b>Habeas Data Bancolombia</b><br/>
+                                                            Autorizo de manera voluntaria, previa, expresa e informada al GRUPO BANCOLOMBIA para que recolecten, soliciten, almacenen, consulten, procesen, modifiquen, actualicen, aclaren, retiren, o divulguen los datos aquí suministrados con la finalidad de realizar análisis y tratamientos estadísticos, contactarme vía correo electrónico o mensaje de texto para el ofrecimiento de productos y servicios, y para que realicen cualquier actividad tendiente a brindarme información respecto a esta u otra similar que se realice por parte del responsable.
+                                                            <br/>
+                                                            Declaro que he sido informado sobre el derecho que tengo a conocer, actualizar y rectificar mis datos personales, solicitar prueba de la autorización, ser informado sobre el tratamiento que se ha dado a mis datos personales, presentar quejas ante la Superintendencia de Industria y Comercio (SIC), revocar la autorización otorgada y/o solicitar la supresión de mis datos en los casos en que sea procedente.
+                                                            <br/>
+                                                            Para conocer la Política para la administración de datos personales, ingrese al sitio web de <a href="https://www.grupobancolombia.com/personas/documentos-legales/proteccion-datos/bancolombia-sa" target="_blank" style="text-decoration: underline; color: -webkit-link; cursor: pointer;">https://www.grupobancolombia.com/personas/documentos-legales/proteccion-datos/bancolombia-sa</a>
+                                                        </p>
+                                                        <p>
+                                                            <b>Habeas Data Pan- American Life de Colombia Compañía de Seguros S.A</b><br/>
+                                                            Declaro que Pan American Life Colombia Compañía de Seguros S.A me ha informado: 1) Que el Aviso de Privacidad y el Manual de Tratamiento de Datos Personales se encuentran en la página web: <a href="https://www.palig.com/es/colombia/home/information-protection-policy" target="_blank" style="text-decoration: underline; color: -webkit-link; cursor: pointer;"> https://www.palig.com/es/colombia/home/information-protection-policy</a>; 2) Que son facultativas las respuestas a las preguntas sobre datos de niñas, niños, adolescentes y aquellas que versen sobre datos sensibles y en consecuencia no he sido obligado a responderlas; 3) Que como titular de la información, me asisten los derechos previstos en las Leyes 1266 de 2008 y 1581 de 2012. En especial, me asiste el derecho a conocer, actualizar, rectificar, revocar y suspender las informaciones que se hayan recogido sobre mí.
+                                                            <br/>
+                                                            Autorizo de manera previa, expresa e informada a LA ASEGURADORA a:
+                                                            <ol style="list-style-type: lower-alpha;">
+                                                                <li>
+                                                                    Recolectar, solicitar, consultar, verificar, almacenar, compartir, enviar, reportar, modificar, transferir, transmitir, actualizar, usar, grabar y conservar mis datos personales, financieros y crediticios, así como aquella información derivada de la relación contractual, siempre y cuando sea para las siguientes finalidades: 1) Desarrollar las actividades para los fines necesarios relacionados con la prestación del servicio contratado; 2) Ofrecer productos y servicios de LA ASEGURADORA, ser llamado para la realización de encuestas de satisfacción, confirmar la participación a eventos, y la realización de campañas promocionales de la ASEGURADORA. b) Recolectar, solicitar, consultar, verificar, almacenar, compartir, enviar, reportar, modificar, actualizar, usar, grabar y conservar los datos personales de mis hijos menores de edad en mi calidad de su representante legal, siempre y cuando se cumpla con el interés prevalente del menor conforme al artículo 12 del decreto 1377 de 2013. 
+                                                                </li>
+                                                                <li>
+                                                                    Recolectar, solicitar, consultar, verificar, almacenar, compartir, enviar, reportar, modificar, actualizar, usar, grabar y conservar mis datos personales sensibles incluyendo la Historia Clínica y datos sobre mi estado de salud, aún después de mi fallecimiento, entendiéndose la posibilidad de obtener copia de mi Historia Clínica, siempre y cuando se cumpla con lo previsto en el artículo 6 de la ley 1581 de 2012.
+                                                                </li>
+                                                                <li>
+                                                                    Transmitir y transferir mis datos personales a terceros países siempre que se requiera cumplir las finalidades descritas o se encuentre estipulada por el artículo 26 de la ley 1581 de 2012.
+                                                                </li>
+                                                            </ol>
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn" id="tycp_agree" data-dismiss="modal">Aceptar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-100"/>
+                                        <t t-if="mode == ('new', 'billing') and not only_services">
+                                            <div class="col-lg-12">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" id='shipping_use_same' class="mr8" name='use_same' value="1" checked='checked'/>
+                                                            Ship to the same address
+                                                        <span class='ship_to_other text-muted' style="display: none">&amp;nbsp;(<i>Your shipping address will be requested later) </i>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <input type="hidden" name="assisted_purchase" t-att-value="assisted_purchase" />
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                    <input type="hidden" name="submitted" value="1" />
+                                    <input type="hidden" name="partner_id" t-att-value="website_sale_order.partner_id and website_sale_order.partner_id.id or partner_id or '0'" />
+                                    <input type="hidden" name="partner_country_id" t-att-value="('country_id' in checkout and checkout['country_id'].id or website_sale_order.partner_id.country_id and website_sale_order.partner_id.country_id.id or '0')" />
+                                    <input type="hidden" name="partner_document_type" t-att-value="('document_type_id' in checkout and checkout['document_type_id'].id or website_sale_order.partner_id.document_type_id and website_sale_order.partner_id.document_type_id.id or '0')" />
+                                    <input type="hidden" name="callback" t-att-value="callback" />
+                                    <p/>
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn rounded-pill" id="submit_shop" style="height: 28px; padding: 0; width: 100px;">
+                                            Siguiente
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="https://kit.fontawesome.com/e3d39cbc1e.js" crossorigin="anonymous"></script>
+        </t>
+    </template>
+</odoo>

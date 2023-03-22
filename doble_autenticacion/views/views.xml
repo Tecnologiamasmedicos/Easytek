@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="address_inherit" inherit_id="web_sale_extended.address">
+        <xpath expr="//form[@id='shop']" position="after">
+<!--            <div class="modal fade" id="codigo-verificacion-modal" role="dialog">-->
+<!--                <div class="modal-dialog">-->
+<!--                    <div class="modal-content">-->
+<!--                        <div class="modal-header modal-header-primary py-3 rounded-top text-light">-->
+<!--                            <h5 class="modal-title" style="color: black;">Verificación del correo</h5>-->
+<!--                            <button type="button" class="close shadow-none" data-dismiss="modal">-->
+<!--                                <span aria-label="Close">&amp;times;</span>-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                        <div class="modal-body" style="background-color: white;">-->
+<!--                            <p style="color:black;">-->
+<!--                                Digite el código que fue enviado al correo ingresado en el formulario,-->
+<!--                                este código tiene una vigencia de 3 minutos.-->
+<!--                                <br/>-->
+<!--                                Si no recibio el código o el tiempo expiró puede reenviar el código con el siguiente-->
+<!--                                enlace-->
+<!--                                <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">-->
+<!--                                    <a href="#" id="reenviar_codigo" style="color: #43b12e;">Reenviar código</a>-->
+<!--                                </t>-->
+<!--                                <t t-else="">-->
+<!--                                    <a href="#" id="reenviar_codigo" style="color: #0837ba;">Reenviar código</a>-->
+<!--                                </t>-->
+<!--                            </p>-->
+<!--                            <br/>-->
+<!--                            <p id="reenvio" style="color: #E20201;" class="o_hidden">Código reenviado!</p>-->
+<!--                            <br/>-->
+<!--                            <div id="input_code"-->
+<!--                                 t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6">-->
+<!--                                <label class="col-form-label" for="birthdate_date" style="color:black;">Código de-->
+<!--                                    verificación*-->
+<!--                                </label>-->
+<!--                                <input type="number" name="codigo_verificacion" id="codigo_verificacion"-->
+<!--                                       style="background-color: white; border-color: black; color: black;"-->
+<!--                                       tooltip="Ingrese el código que se envió al correo digitado"-->
+<!--                                       t-attf-class="form-control #{error.get('codigo_verificacion') and 'is-invalid' or ''}"-->
+<!--                                       t-att-value="'codigo_verificacion' in checkout and checkout['codigo_verificacion']"/>-->
+<!--                                <div id="div_warning_code" class="alert alert-warning" role="alert"-->
+<!--                                     style="background-color: white !important; border-color: white; color: #E20201 !important; display: none;">-->
+<!--                                    EL código digitado no coincide con el enviado al correo o pasaron mas de 3 minutos-->
+<!--                                    después de ser enviado. Puede reintentar, o reenviarse el código.-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div id="footer-modal" class="modal-footer">-->
+<!--                            <div class="d-flex justify-content-end">-->
+<!--                                <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">-->
+<!--                                    <button style="background-color: #43b12e;" class="btn btn-custom mb32"-->
+<!--                                            id="verificar">-->
+<!--                                        <span>Verificar</span>-->
+<!--                                        <i class="fa fa-chevron-right"/>-->
+<!--                                    </button>-->
+<!--                                </t>-->
+<!--                                <t t-else="">-->
+<!--                                    <button class="btn btn-custom mb32" id="verificar">-->
+<!--                                        <span>Verificar</span>-->
+<!--                                        <i class="fa fa-chevron-right"/>-->
+<!--                                    </button>-->
+<!--                                </t>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+            <style>
+                .modal-footer-verificacion {
+                    justify-content: center;
+                    display: flex;
+                    padding: 1rem;
+                }
+            </style>
+            <div class="modal fade modal-custom" id="codigo-verificacion-modal" role="dialog">
+                <div class="modal-dialog modal-dialog-custom">
+                    <div class="modal-content modal-content-custom">
+                        <div class="modal-header modal-header-primary py-3 rounded-top text-light" style="border-bottom: 1px solid rgb(255 255 255 / 40%);">
+                            <button type="button" class="close shadow-none" data-dismiss="modal">
+                                <span aria-label="Close">&amp;times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="background-color: white;">
+                            <h4 class="modal-title d-flex justify-content-center"
+                                style="font-weight: bold; color: #222;">Queremos verificar tu correo</h4>
+                            <br/>
+                            <div class="d-flex justify-content-center ml-4 mr-4">
+                                <p style="text-align: justify; color:#292929; font-size: 16px" class="letter">
+                                    Digita el código que te enviamos al correo. Ten presente que este tiene una
+                                    vigencia de 3 minutos.
+                                </p>
+                            </div>
+                            <br/>
+                            <div class="d-flex justify-content-center">
+                                <div id="input_code" t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-7">
+                                    <label class="col-form-label" for="codigo_verificacion" style="color: #292929;">Código de
+                                        verificación*
+                                    </label>
+                                    <input type="number" name="codigo_verificacion" id="codigo_verificacion"
+                                           style="background-color: white; border-color: black; color: black;"
+                                           tooltip="Ingrese el código que se envió al correo digitado"
+                                           t-attf-class="form-control #{error.get('codigo_verificacion') and 'is-invalid' or ''} col-lg-10"/>
+                                    <div class="o_hidden" id="div_warning_code">
+                                        <label style="color: red;font-size: 0.875rem;" class="mt-2">El código no coincide o pasaron más de 3 minutos</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="d-flex justify-content-center">
+                                <a href="#" id="reenviar_codigo" class="letter" style="font-weight: bold;color: #222;">¿No te ha llegado el código o
+                                necesitas uno nuevo?</a>
+                            </div>
+                            <br/>
+                            <br/>
+                            <div id="reenvio" class="o_hidden">
+                                <div class="d-flex justify-content-center">
+                                    <p style="color: #222;">&#x2713; Código reenviado</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="footer-modal" class="modal-footer-verificacion">
+                            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
+                                <button style="background-color: #43b12e;color: black;width: 180px;" class="btn btn-custom mb32 text-center rounded-pill"
+                                            id="verificar">
+                                    <span style="font-weight: bold;color: black;">Verificar</span>
+                                </button>
+                            </t>
+                            <t t-else="">
+                                <button class="btn btn-custom mb32 text-center rounded-pill"
+                                        id="verificar" style="color: black;width: 180px;">
+                                    <span style="font-weight: bold;color: black;">Verificar</span>
+                                </button>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="address_inherit_bancolombia" inherit_id="web_sale_extended.address_bancolombia">
+        <xpath expr="//form[@id='shop']" position="after">
+            <style>
+                .modal-custom {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    z-index: 1050;
+                    display: none;
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                    outline: 0;
+                }
+                .modal-content-custom {
+                    border-radius: 0.3rem;
+                }
+                .modal-footer-verificacion {
+                    justify-content: center;
+                    display: flex;
+                    padding: 1rem;
+                }
+                .modal-dialog-custom {
+                    max-width: 650px;
+                .letter {
+                    font-family: Open Sans,sans-serif;
+                    font-size: 16px;
+                    line-height: 22px;
+                    letter-spacing: -.3px;
+                    color: #292929;
+                }
+                }
+            </style>
+            <div class="modal fade modal-custom" id="codigo-verificacion-modal" role="dialog">
+                <div class="modal-dialog modal-dialog-custom">
+                    <div class="modal-content modal-content-custom">
+                        <div class="modal-header modal-header-primary py-3 rounded-top text-light" style="border-bottom: 1px solid rgb(255 255 255 / 40%);">
+                            <button type="button" class="close shadow-none" data-dismiss="modal">
+                                <span aria-label="Close">&amp;times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="background-color: white;">
+                            <h4 class="modal-title d-flex justify-content-center"
+                                style="font-weight: bold; color: #222;">Queremos verificar tu correo</h4>
+                            <br/>
+                            <div class="d-flex justify-content-center ml-4 mr-4">
+                                <p style="text-align: justify; color:#292929; font-size: 16px" class="letter">
+                                    Digita el código que te enviamos al correo. Ten presente que este tiene una
+                                    vigencia de 3 minutos.
+                                </p>
+                            </div>
+                            <br/>
+                            <div class="d-flex justify-content-center">
+                                <div id="input_code" t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-7">
+                                    <label class="col-form-label" for="codigo_verificacion" style="color: #292929;">Código de
+                                        verificación*
+                                    </label>
+                                    <input type="number" name="codigo_verificacion" id="codigo_verificacion"
+                                           style="background-color: white; border-color: black; color: black;"
+                                           tooltip="Ingrese el código que se envió al correo digitado"
+                                           t-attf-class="form-control #{error.get('codigo_verificacion') and 'is-invalid' or ''} col-lg-10"
+                                           t-att-value="'codigo_verificacion' in checkout and checkout['codigo_verificacion']"/>
+                                    <div class="o_hidden" id="div_warning_code">
+                                        <label style="color: red;" class="mt-2">El código no coincide o pasaron más de 3 minutos</label>
+                                    </div>
+                            </div>
+                            </div>
+                            <br/>
+                            <div class="d-flex justify-content-center">
+                                <a href="#" id="reenviar_codigo" class="letter" style="font-weight: bold;color: #222;">¿No te ha llegado el código o
+                                necesitas uno nuevo?</a>
+                            </div>
+                            <br/>
+                            <div id="reenvio" class="o_hidden">
+                                <div class="d-flex justify-content-center">
+                                    <p class="letter">&#x2713; Código reenviado</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="footer-modal" class="modal-footer-verificacion">
+                            <button class="btn btn-custom mb32 text-center rounded-pill" id="verificar" style="background-color: #FDDA24;
+                                                                                     color: black;width: 180px;">
+                                <span class="letter" style="font-weight: bold;">Verificar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

@@ -1,5 +1,5 @@
 odoo.define('web_sale_extended.assisted_purchase', function (require) {
-"use strict";
+    "use strict";
     require('web.dom_ready');      
     $('.menu li:has(ul)').click(function (e) {
         if ($(this).hasClass('activado')) {
