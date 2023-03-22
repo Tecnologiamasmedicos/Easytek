@@ -75,34 +75,6 @@
                             <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)"
                                  width="50" height="140"/>
                         </div>
-                                                <div style="position:absolute;opacity:0.25;z-index:1000;margin-left: auto;top: 20em;
-margin-right: auto;
-left: 0;
-right: 0;
-text-align: center; transform:rotate(300deg);-webkit-transform:rotate(300deg);width:auto;height:auto;">
-
-                                    <p style="font-size:120px;color:#221E1F;">PRUEBAS </p>
-
-                            </div>
-                         <div style="position:absolute;opacity:0.25;z-index:1000; top: 80em; margin-left: auto;
-margin-right: auto;
-left: 0;
-right: 0;
-text-align: center; transform:rotate(300deg);-webkit-transform:rotate(300deg);width:auto;">
-
-                                    <p style="font-size:120px;color:#221E1F;">PRUEBAS </p>
-
-                            </div>
-                        <div style="position:absolute;opacity:0.25;z-index:1000; top: 140em; margin-left: auto;
-margin-right: auto;
-left: 0;
-right: 0;
-text-align: center; transform:rotate(300deg);-webkit-transform:rotate(300deg);width:auto;">
-
-                                    <p style="font-size:120px;color:#221E1F;">PRUEBAS </p>
-
-                            </div>
-
 
                         <div class="page" style="margin:0px 9px 0px 9px; letter-spacing: -0.01em;">
                             <t t-foreach="doc.partner_id" t-as="p">
@@ -1140,7 +1112,9 @@ text-align: center; transform:rotate(300deg);-webkit-transform:rotate(300deg);wi
                                                 <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
                                             </td>
                                             <td style="width:33%;" align="center"/>
-                                            <td style="width:33%;" align="center"/>
+                                            <td style="width:33%;" align="center">
+                                                <img t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.firma)" width="300" style="margin-top:-60px; text-align: center;" />
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td align="center">
