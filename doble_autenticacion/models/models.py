@@ -29,6 +29,7 @@ class SaleOrderExtend(models.Model):
         }
         template = self.env.ref('doble_autenticacion.email_template_envio_codigo')
         template.sudo().with_context(ctx).send_mail(self.id, force_send=True)
+        self.partner_id.email = False
 
     def GenerarCodigo(self):
         numero = random.randint(0, 999999)

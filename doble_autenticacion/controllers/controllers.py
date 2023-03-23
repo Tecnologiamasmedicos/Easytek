@@ -21,13 +21,8 @@ class WebsiteSaleExtended(http.Controller):
     @http.route(['/verificar'], type='json', auth="public", method=['POST'], website=True)
     def verificar(self, **kwargs):
         order = request.website.sale_get_order()
-        correo = kwargs.get('correo')
         codigo = kwargs.get('codigo')
         data = {}
-        if not order.partner_id.email == correo:
-            data['correo'] = 'Correo diferente'
-        else:
-            data['correo'] = 'Correo igual'
 
         order.VerificarCodigo(codigo, datetime.datetime.now())
         if order.verificado:

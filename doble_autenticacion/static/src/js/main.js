@@ -21,17 +21,16 @@ odoo.define('doble_autenticacion.show_button_code', function(require) {
                     $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm preloader" role="status" aria-hidden="true" />Cargando...</div>');
                     $(this).prop('disabled', true);
                 }
-                var correo = document.querySelector("input[name='email']").value;
                 var codigo = document.querySelector("input[name='codigo_verificacion']").value
-                var data = {'correo': correo, 'codigo': codigo};
+                var data = {'codigo': codigo};
                 let dic = await ajax.jsonRpc('/verificar', 'call', data)
                      .then(function(data) {
                         return data
                     });
                 let diccionario = JSON.parse(dic);
-                if(diccionario.correo === 'Correo igual' && diccionario.respuesta === 'Correcto'){
+                if(diccionario.respuesta === 'Correcto'){
                     $('#shop').submit();
-                }else if(diccionario.correo === 'Correo diferente' || diccionario.respuesta === 'Incorrecto'){
+                }else if(diccionario.respuesta === 'Incorrecto'){
                     $(this).html('<span>Verificar</span><i class="fa fa-chevron-right"/>');
                     $(this).prop('disabled', false);
                     $("#div_warning_code")[0].classList.remove("o_hidden");
