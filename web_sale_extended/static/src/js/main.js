@@ -653,14 +653,15 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         hide_beneficiaries();
     });
 
-    $("#submit_shop").on('click', function(e){
-        e.preventDefault();
-        if($('#shop').valid()){ //checks if it's valid
-            $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm preloader" role="status" aria-hidden="true" />Cargando...</div>');
-            $(this).prop('disabled', true);  
-       }
-        $('#shop').submit();
-    });
+    // Coment to open modal module doble_autentication
+    // $("#submit_shop").on('click', function(e){
+    //     e.preventDefault();
+    //     if($('#shop').valid()){ //checks if it's valid
+    //         $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm preloader" role="status" aria-hidden="true" />Cargando...</div>');
+    //         $(this).prop('disabled', true);  
+    //    }
+    //     $('#shop').submit();
+    // });
 
     $('#ada_agree').on('click', function() {
         $("#ada").prop("checked", true);
