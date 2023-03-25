@@ -203,56 +203,58 @@ class BancolombiaBillingEntry(models.Model):
                 record.response_code
             ])
         billing_control = ['1', '860038299'.zfill(13), 'Pan American Life de Colombia'[:20], '12710'.zfill(15), current_date.strftime("%Y%m%d"), '1', current_date.strftime("%Y%m%d"), str(len(data)).zfill(8), str(sum).split(".")[0].zfill(15) + str(sum).split(".")[-1].zfill(2), "".ljust(79)]
-        with open('tmp/%s.txt'%(name_billing_file), 'w', encoding='utf-8', newline='') as file, open('tmp/%s.txt'%(name_news_file), 'w', encoding='utf-8', newline='') as file2:
-            for x in billing_control:
-                file.write(x)
-            for x in range(len(data)):
-                file.write('\n')
-                for y in data[x]:
-                    file.write(y)
-            writer2 = csv.writer(file2, delimiter=',')
-            writer2.writerows(data2)
-        
-        sftp_server_env = self.env.user.company_id.sftp_server_env_bancolombia
-        if sftp_server_env:
-            if sftp_server_env == 'prod':
-                sftp_hostname = self.env.user.company_id.sftp_hostname_bancolombia
-                sftp_port = self.env.user.company_id.sftp_port_bancolombia
-                sftp_user = self.env.user.company_id.sftp_user_bancolombia
-                sftp_password = self.env.user.company_id.sftp_password_bancolombia
-                sftp_path_input = self.env.user.company_id.sftp_path_input_bancolombia
-            else:
-                sftp_hostname = self.env.user.company_id.sftp_hostname_QA_bancolombia
-                sftp_port = self.env.user.company_id.sftp_port_QA_bancolombia
-                sftp_user = self.env.user.company_id.sftp_user_QA_bancolombia
-                sftp_password = self.env.user.company_id.sftp_password_QA_bancolombia
-                sftp_path_input = self.env.user.company_id.sftp_path_input_QA_bancolombia
-            try: 
-                client = paramiko.SSHClient() 
-                client.set_missing_host_key_policy( paramiko.AutoAddPolicy )
-                client.connect(sftp_hostname, port=int(sftp_port), username=sftp_user, password=sftp_password)
-                sftp_client = client.open_sftp()
-                sftp_client.put(
-                    'tmp/%s.txt'%(name_billing_file), 
-                    '%s/%s.txt'%(sftp_path_input, name_billing_file) 
-                )
-                sftp_client.put(
-                    'tmp/%s.txt'%(name_news_file), 
-                    '%s/%s.txt'%(sftp_path_input, name_news_file) 
-                )
-                sftp_client.close() 
-                client.close()
-            except paramiko.ssh_exception.AuthenticationException as e:
-                _logger.info('Autenticacion fallida en el servidor SFTP')
 
-            else:
-                for record in records_billing_entries_bancolombia:
-                    record.sale_order_id.write({
-                        'debit_request': True,
-                        'debit_request_date': current_date
-                    })
-                for record in records_news_entries_bancolombia:
-                    record.sale_order_id.write({
-                        'debit_request': True,
-                        'debit_request_date': current_date
-                    })
+        if len(data2) != 0:
+            with open('tmp/%s.txt'%(name_billing_file), 'w', encoding='utf-8', newline='') as file, open('tmp/%s.txt'%(name_news_file), 'w', encoding='utf-8', newline='') as file2:
+                for x in billing_control:
+                    file.write(x)
+                for x in range(len(data)):
+                    file.write('\n')
+                    for y in data[x]:
+                        file.write(y)
+                file.write("\n")
+                writer2 = csv.writer(file2, delimiter=',')
+                writer2.writerows(data2)
+            
+            sftp_server_env = self.env.user.company_id.sftp_server_env_bancolombia
+            if sftp_server_env:
+                if sftp_server_env == 'prod':
+                    sftp_hostname = self.env.user.company_id.sftp_hostname_bancolombia
+                    sftp_port = self.env.user.company_id.sftp_port_bancolombia
+                    sftp_user = self.env.user.company_id.sftp_user_bancolombia
+                    sftp_password = self.env.user.company_id.sftp_password_bancolombia
+                    sftp_path_input = self.env.user.company_id.sftp_path_input_bancolombia
+                else:
+                    sftp_hostname = self.env.user.company_id.sftp_hostname_QA_bancolombia
+                    sftp_port = self.env.user.company_id.sftp_port_QA_bancolombia
+                    sftp_user = self.env.user.company_id.sftp_user_QA_bancolombia
+                    sftp_password = self.env.user.company_id.sftp_password_QA_bancolombia
+                    sftp_path_input = self.env.user.company_id.sftp_path_input_QA_bancolombia
+                try: 
+                    client = paramiko.SSHClient() 
+                    client.set_missing_host_key_policy( paramiko.AutoAddPolicy )
+                    client.connect(sftp_hostname, port=int(sftp_port), username=sftp_user, password=sftp_password)
+                    sftp_client = client.open_sftp()
+                    sftp_client.put(
+                        'tmp/%s.txt'%(name_billing_file), 
+                        '%s/%s.txt'%(sftp_path_input, name_billing_file) 
+                    )
+                    sftp_client.put(
+                        'tmp/%s.txt'%(name_news_file), 
+                        '%s/%s.txt'%(sftp_path_input, name_news_file) 
+                    )
+                    sftp_client.close() 
+                    client.close()
+                except paramiko.ssh_exception.AuthenticationException as e:
+                    _logger.info('Autenticacion fallida en el servidor SFTP')
+                else:
+                    for record in records_billing_entries_bancolombia:
+                        record.sale_order_id.write({
+                            'debit_request': True,
+                            'debit_request_date': current_date
+                        })
+                    for record in records_news_entries_bancolombia:
+                        record.sale_order_id.write({
+                            'debit_request': True,
+                            'debit_request_date': current_date
+                        })
