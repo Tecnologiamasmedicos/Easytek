@@ -275,7 +275,7 @@ class hubSpot(models.Model):
             hubspot_api_key = self.env.user.company_id.hubspot_api_key
         else:
             hubspot_api_key = self.env.user.company_id.hubspot_api_key_QA
-        client = hubspot.Client.create(api_key=hubspot_api_key)
+        client = hubspot.Client.create(access_token=hubspot_api_key)
         return client
         
     def search_deal_id(self, subscription):        
