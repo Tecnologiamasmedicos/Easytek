@@ -76,11 +76,6 @@ odoo.define('web_sale_extended.beneficiaries_bancolombia', function (require) {
         });
     }
 
-    $("#add_beneficiaries").one("click", function(event){
-        $(this).removeClass("btn_principal").addClass("btn_secundario");
-        $('#submit_beneficiaries').removeClass("btn_secundario").addClass("btn_principal");
-    })
-
     $("#add_beneficiaries").on('click', function(e){
         if ($("#beneficiary").valid()){
             let forms = document.getElementsByClassName("collapsible");
@@ -103,13 +98,13 @@ odoo.define('web_sale_extended.beneficiaries_bancolombia', function (require) {
                 let formPetSpace = document.createElement("div");
                 formPetSpace.innerHTML = '\
                 <br/>\
-                <a class="btn btn-dark btn-lg btn-block collapsible active"><img src="/web_sale_extended/static/src/images/user_bancol.svg" width="25" style="padding-bottom: 5px;"/> Datos del beneficiario ' + (last_beneficiary + 1) + '</a>\
+                <a class="btn btn-dark btn-lg btn-block collapsible active" style="background-color: #2C2A29; border-color: #2C2A29; border-radius: 0;"><img src="/web_sale_extended/static/src/images/user_bancol.svg" width="25" style="padding-bottom: 5px;"/> Datos del beneficiario ' + (last_beneficiary + 1) + '</a>\
                 <div class="content">\
                     <br/>\
                     <div class="form-check">\
                         <input class="form-check-input" type="checkbox" value="0" id="bfCheckBox' + (last_beneficiary + 1) + '" name="bfCheckBox' + (last_beneficiary + 1) + '"/>\
                         <label class="form-check-label" for="bfCheckBox' + (last_beneficiary + 1) + '">\
-                            ¿Vive conmigo?\
+                            ¿El beneficiario vive contigo?\
                         </label>\
                     </div>\
                     <div class="row">\
@@ -521,8 +516,9 @@ odoo.define('web_sale_extended.beneficiaries_bancolombia', function (require) {
         }
     });
     
-    if($("#add_beneficiaries").is(":visible") === true){
-        $("#add_beneficiaries").addClass("btn_principal");
-        $("#submit_beneficiaries").removeClass("btn_principal").addClass("btn_secundario");
-    }
+    $("#del_beneficiaries").hover(function(){
+        $("#trash_icon").css("fill", "black");
+        }, function(){
+        $("#trash_icon").css("fill", "#E20201");
+    });
 });

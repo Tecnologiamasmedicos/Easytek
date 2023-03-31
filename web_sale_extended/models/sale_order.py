@@ -80,6 +80,9 @@ class SaleOrder(models.Model):
         # ("4", "Tarjeta de Crédito Amex"),
     ])
     buyer_account_number = fields.Char('Numero de cuenta')
+    nonce = fields.Char('nonce')
+    auth_tag = fields.Char('auth_tag')
+    secretkey = fields.Char('secretkey')
     debit_request = fields.Boolean('Solicitud debito', default=False, store=True)
     debit_request_date = fields.Date(string='Fecha accion ciclo de cobro', store=True)
     

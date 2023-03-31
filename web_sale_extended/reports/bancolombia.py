@@ -5,7 +5,8 @@ from odoo import fields, models, tools, api,_
 from datetime import date, timedelta, datetime
 from odoo.osv import expression
 from odoo.tools import date_utils
-
+from Crypto.Cipher import AES
+from base64 import b64decode
 _logger = logging.getLogger(__name__)
 
 
@@ -67,9 +68,9 @@ class BancolombiaNewsEntry(models.Model):
         'ING'::text as novelty_type,
         '3'::text as number_retry_days,
         '01'::text as application_criteria,
-        '00'::text as payment_frequency,
-        '0'::text as n_days,
-        '0'::text as payday,
+        ''::text as payment_frequency,
+        ''::text as n_days,
+        ''::text as payday,
         '02'::text as debit_type,
         ''::text as response_code,
         sorder.id as sale_order_id
@@ -77,7 +78,7 @@ class BancolombiaNewsEntry(models.Model):
         from sale_order sorder
         left join res_partner p on p.id = sorder.partner_id
         left join res_partner_document_type rpdt on rpdt.id = p.document_type_id
-        where 1=1 and sorder.state='payu_pending' and sorder.debit_request='f' and sorder.sponsor_id=5132
+        where 1=1 and sorder.state='payu_pending' and sorder.debit_request='f' and sorder.sponsor_id=5521
         order by sorder.id desc
         );
         """
@@ -129,7 +130,7 @@ class BancolombiaBillingEntry(models.Model):
         LPAD(''::text, 13, ' ') as buyer_nit,
         RPAD(p.firstname || ' ' || p.lastname, 20, ' ') as buyer_name,
         RPAD('5600078'::text, 9, ' ') as buyer_bank_account,
-        LPAD(sorder.buyer_account_number::text, 17, '0') as number_account_debited,
+        sorder.buyer_account_number as number_account_debited,
         (case 
             when sorder.buyer_account_type='1' then '57'
             when sorder.buyer_account_type='7' then '67'
@@ -150,11 +151,17 @@ class BancolombiaBillingEntry(models.Model):
         from sale_order sorder
         left join res_partner p on p.id = sorder.partner_id
         left join res_partner_document_type rpdt on rpdt.id = p.document_type_id
-        where 1=1 and sorder.state='payu_pending' and sorder.debit_request='f' and sorder.sponsor_id=5132
+        where 1=1 and sorder.state='payu_pending' and sorder.debit_request='f' and sorder.sponsor_id=5521
         order by sorder.id desc
         );
         """
         self.env.cr.execute(query)
+
+    def decrypt_eas_gcm(self, encrypted_msg):
+        (ciphertext, nonce, authTag, secretKey) = encrypted_msg
+        aes_cipher = AES.new(secretKey, AES.MODE_GCM, nonce)
+        plaintext = aes_cipher.decrypt_and_verify(ciphertext, authTag)
+        return plaintext.decode('utf-8')
         
     def _cron_generate_bancolombia_files(self):
         current_date = (datetime.now() - timedelta(hours=5)).date()
@@ -166,12 +173,13 @@ class BancolombiaBillingEntry(models.Model):
         data2 = []
         sum = 0
         for record in records_billing_entries_bancolombia:
+            decrypted_number_account_debited = self.decrypt_eas_gcm((b64decode(record.number_account_debited), b64decode(record.sale_order_id.nonce), b64decode(record.sale_order_id.auth_tag), b64decode(record.sale_order_id.secretkey)))
             data.append([
                 record.type_register,
                 record.buyer_nit,
                 record.buyer_name,
                 record.buyer_bank_account,
-                record.number_account_debited,
+                str(decrypted_number_account_debited).zfill(17),
                 record.transaction_type,
                 (record.transaction_value).split(".")[0].zfill(15) + str(record.transaction_value).split(".")[-1].zfill(2),
                 record.validation_indicator,
@@ -184,13 +192,14 @@ class BancolombiaBillingEntry(models.Model):
             ])
             sum = sum + float(record.transaction_value)
         for record in records_news_entries_bancolombia:
+            decrypted_account_number = self.decrypt_eas_gcm((b64decode(record.buyer_account_number), b64decode(record.sale_order_id.nonce), b64decode(record.sale_order_id.auth_tag), b64decode(record.sale_order_id.secretkey)))
             data2.append([
                 record.agreement,
                 record.agreement_name,
                 record.buyer_document_type,
                 record.identification_buyer,
                 record.buyer_name,
-                record.buyer_account_number,
+                decrypted_account_number,
                 record.buyer_account_type,
                 record.efr_id,
                 record.ref1,
@@ -219,18 +228,12 @@ class BancolombiaBillingEntry(models.Model):
             writer2 = csv.writer(file2, delimiter=',')
             writer2.writerows(data2)
         for record in records_billing_entries_bancolombia:
-            record.write({
-                'expiration_date': current_date.strftime("%Y%m%d"),
+            record.sale_order_id.write({
+                'debit_request': True,
+                'debit_request_date': current_date
             })
-            # record.sale_order_id.write({
-            #     'debit_request': True,
-            #     'debit_request_date': current_date
-            # })
         for record in records_news_entries_bancolombia:
-            record.write({
-                'debit_schedule_start_date': current_date.strftime("%d%m%Y"),
+            record.sale_order_id.write({
+                'debit_request': True,
+                'debit_request_date': current_date
             })
-            # record.sale_order_id.write({
-            #     'debit_request': True,
-            #     'debit_request_date': current_date
-            # })

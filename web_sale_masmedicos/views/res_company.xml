@@ -21,6 +21,7 @@
                                 <field name="sftp_port_bancolombia"/>
                                 <field name="sftp_user_bancolombia"/>
                                 <field name="sftp_password_bancolombia" password="True"/>
+                                <field name="sftp_path_input_bancolombia"/>
                                 <field name="sftp_path_output_bancolombia"/>
                                 <field name="sftp_path_processed_bancolombia"/>
                             </group>
@@ -30,6 +31,7 @@
                                 <field name="sftp_port_QA_bancolombia"/>
                                 <field name="sftp_user_QA_bancolombia"/>
                                 <field name="sftp_password_QA_bancolombia" password="True"/>
+                                <field name="sftp_path_input_QA_bancolombia"/>
                                 <field name="sftp_path_output_QA_bancolombia"/>
                                 <field name="sftp_path_processed_QA_bancolombia"/>
                             </group>

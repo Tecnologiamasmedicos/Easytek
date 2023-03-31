@@ -19,6 +19,20 @@
                     font-family: 'CIBFontSans Regular';
                     color: black;
                 }
+
+                .form-control {
+                    box-shadow: none !important;
+                }
+
+                input.error {
+                    border: 1px solid #E20201;
+                    color: #E20201;
+                }
+
+                label.error {
+                    color: #E20201;
+                }
+
                 .collapsible {
                   background-color: #000;
                   color: white !important;
@@ -29,10 +43,6 @@
                   text-align: left;
                   outline: none;
                   font-size: 15px;
-                }
-
-                .active, .collapsible:hover {
-                  background-color: #555;
                 }
 
                 .collapsible:after {
@@ -48,11 +58,11 @@
                 }
 
                 .content {
+                  border: 1px solid black;
                   padding: 0 18px;
                   max-height: 0;
                   overflow: hidden;
                   transition: max-height 0.2s ease-out;
-                  background-color: #f1f1f1;
                 }
                 
                 .btn_secundario {
@@ -90,36 +100,91 @@
                 }
 
                 #del_beneficiaries {
-                    background-color: #59CBE8;
-                    color: black !important;
+                    color: #E20201 !important;
                     float: right;
                     margin-right: 30px;
                     margin-top: 15px;
                 }
-
+                
                 #del_beneficiaries:hover {
-                    background-color: #2C2A29;
-                    color: white !important;
+                    color: black !important;
+                }
+                
+                #trash_icon {
+                    fill: #E20201;
+                }
+
+                #progressbar {
+                    margin-bottom: 30px;
+                    overflow: hidden;
+                    color: lightgrey;
+                    text-align: center;
+                }
+
+                #progressbar .active {
+                    color: black;
+                }
+
+                #progressbar li {
+                    list-style-type: none;
+                    font-size: 15px;
+                    width: 33%;
+                    float: left;
+                    position: relative;
+                    font-weight: 400;
+                }
+
+                #progressbar #buyer_data:before {
+                    content: "1";
+                }
+
+                #progressbar #main_insured_data:before {
+                    content: "2";
+                }
+
+                #progressbar #confirm:before {
+                    content: "3";
+                }
+
+                #progressbar li:before {
+                    width: 50px;
+                    height: 50px;
+                    line-height: 45px;
+                    display: block;
+                    font-size: 20px;
+                    color: #ffffff;
+                    background: lightgray;
+                    border-radius: 50%;
+                    margin: 0 auto 10px auto;
+                    padding: 2px;
+                }
+
+                #progressbar li:after {
+                    content: '';
+                    width: 100%;
+                    height: 2px;
+                    background: lightgray;
+                    position: absolute;
+                    left: 0;
+                    top: 25px;
+                    z-index: -1;
+                }
+
+                #progressbar li.active:before, #progressbar li.active:after {
+                    background: #00C389;
                 }
             </style>
             <div class="container" style="margin-bottom: 5%;">
-                <div class="progress-wizard" style="width: 150%;">
-                    <a class="no-decoration">
-                        <div id="wizard-step20" class="progress-wizard-step">
-                            <div class="progress-wizard-bar d-none d-md-block" style="background-color: #FDDA24;"/>
-                            <span class="progress-wizard-dot d-none d-md-inline-block" style="background-color: #00C389;"></span>
-                            <div class="text-center progress-wizard-steplabel">Datos del Asegurado Principal y Beneficiarios</div>
-                        </div>
-                    </a>
-                    <a class="no-decoration">
-                        <div id="wizard-step40" class="progress-wizard-step %s">
-                            <div class="progress-wizard-bar d-none d-md-block" style="background-color: #FDDA24;"/>
-                            <span class="progress-wizard-dot d-none d-md-inline-block"></span>
-                            <div class="text-center progress-wizard-steplabel">Confirmación de tu compra</div>
-                        </div>
-                    </a>
+                <br/><br/>
+                <div class="row">
+                    <div class="col col-xl-12">
+                        <ul id="progressbar" style="padding: 0;">
+                            <li class="active" id="buyer_data"><strong>Datos comprador</strong></li>
+                            <li class="active" id="main_insured_data"><strong>Datos asegurado principal y beneficiarios</strong></li>
+                            <li id="confirm"><strong>Confirmación de compra</strong></li>
+                        </ul>
+                    </div>
                 </div>
-                <br/><br/><br/>
                 <form id="beneficiary" action="/beneficiary-detail" method="post" class="checkout_autoformat">
                     <input type="hidden" name="beneficiaries_number" id="beneficiaries_number" t-att-value="beneficiaries_number"/>
                     <input type="hidden" name="order_id" id="order_id" t-att-value="order_id"/>
@@ -141,7 +206,7 @@
                     </section>
                     <br/>
                     <div id="div_error" class="alert alert-danger fade show" role="alert" style="background-color: #f2dede !important; border-color: #ebcccc !important; color: #a94442 !important; display: none;"></div>
-                    <a class="btn btn-dark btn-lg btn-block collapsible active"><img src="/web_sale_extended/static/src/images/user_bancol.svg" width="25" style="padding-bottom: 5px;"/> Datos del asegurado principal</a>
+                    <a class="btn btn-dark btn-lg btn-block collapsible active" style="background-color: #2C2A29; border-color: #2C2A29; border-radius: 0;"><img src="/web_sale_extended/static/src/images/user_bancol.svg" width="25" style="padding-bottom: 5px;"/> Datos del asegurado principal</a>
                     <div id="primary_insured" class="content">
                         <div>
                             <br/>
@@ -305,11 +370,16 @@
                         </div>
                     </div>
                     <div id="beneficiaries_container"></div>
-                    <a class="btn rounded-pill btn_principal" id="submit_beneficiaries">Generar orden de compra ></a>
+                    <a class="btn rounded-pill btn_principal" id="submit_beneficiaries">Generar orden de compra</a>
                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
                 </form>
                 <a t-if="beneficiaries_number != '' and beneficiaries_number != 0" class="btn rounded-pill btn_secundario" id="add_beneficiaries">Agregar beneficiario</a>
-                <a class="btn rounded-pill" id="del_beneficiaries" style="display: none;"><img src="/web_sale_extended/static/src/images/trash_icon_bancol.svg" width="12" style="padding-bottom: 5px;"/> Eliminar beneficiario</a>
+                <a class="btn" id="del_beneficiaries" style="display: none; text-decoration: underline;">
+                    Eliminar beneficiario
+                    <svg id="trash_icon" width="14" height="16" viewBox="0 0 19 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.2619 1.75H7.07142V3.69118H2.88095C2.26427 3.69118 1.83333 4.22352 1.83333 4.82353V6.60294H2.88095V18.25H15.4524V6.60294H16.5V4.82353C16.5 4.22352 16.069 3.69118 15.4524 3.69118H11.2619V1.75ZM14.4048 6.60294H3.92857V17.2794H14.4048V6.60294ZM15.4524 5.63235V4.82353C15.4524 4.77393 15.4453 4.73698 15.4403 4.71101L15.4402 4.711L15.4402 4.711L15.4402 4.71098C15.436 4.68892 15.4333 4.67479 15.4378 4.66758L15.4524 4.66177L11.2619 4.66177H7.07142L2.88095 4.66177C2.90257 4.66177 2.89964 4.67692 2.89307 4.711C2.88807 4.73697 2.88095 4.77392 2.88095 4.82353V5.63235H15.4524ZM10.2143 3.69118V2.72059H8.11904V3.69118H10.2143ZM6.54761 16.3088V7.57353H5.49999V16.3088H6.54761ZM9.69047 7.57353V16.3088H8.64285V7.57353H9.69047ZM12.8333 7.57353V16.3088H11.7857V7.57353H12.8333Z"/>
+                    </svg>
+                </a>
             </div>
             <br/><br/>
             <script src="https://kit.fontawesome.com/e3d39cbc1e.js" crossorigin="anonymous"></script>
@@ -328,32 +398,83 @@
                     font-family: 'CIBFontSans Regular';
                     color: black;
                 }
+
+                #progressbar {
+                    margin-bottom: 30px;
+                    overflow: hidden;
+                    color: lightgrey;
+                    text-align: center;
+                }
+
+                #progressbar .active {
+                    color: black;
+                }
+
+                #progressbar li {
+                    list-style-type: none;
+                    font-size: 15px;
+                    width: 33%;
+                    float: left;
+                    position: relative;
+                    font-weight: 400;
+                }
+
+                #progressbar #buyer_data:before {
+                    content: "1";
+                }
+
+                #progressbar #main_insured_data:before {
+                    content: "2";
+                }
+
+                #progressbar #confirm:before {
+                    content: "3";
+                }
+
+                #progressbar li:before {
+                    width: 50px;
+                    height: 50px;
+                    line-height: 45px;
+                    display: block;
+                    font-size: 20px;
+                    color: #ffffff;
+                    background: lightgray;
+                    border-radius: 50%;
+                    margin: 0 auto 10px auto;
+                    padding: 2px;
+                }
+
+                #progressbar li:after {
+                    content: '';
+                    width: 100%;
+                    height: 2px;
+                    background: lightgray;
+                    position: absolute;
+                    left: 0;
+                    top: 25px;
+                    z-index: -1;
+                }
+
+                #progressbar li.active:before, #progressbar li.active:after {
+                    background: #00C389;
+                }
             </style>
             <div class="container" style="height: 50vh;">
-                <div class="progress-wizard" style="width: 150%;">
-                    <a class="no-decoration">
-                        <div id="wizard-step20" class="progress-wizard-step">
-                            <div class="progress-wizard-bar d-none d-md-block" style="background-color: #FDDA24"/>
-                            <span class="progress-wizard-dot d-none d-md-inline-block"></span>
-                            <div class="text-center progress-wizard-steplabel">Datos del Asegurado Principal y Beneficiarios</div>
-                        </div>
-                    </a>
-                    <a class="no-decoration">
-                        <div id="wizard-step40" class="progress-wizard-step %s">
-                            <div class="progress-wizard-bar d-none d-md-block" style="background-color: #FDDA24"/>
-                            <span class="progress-wizard-dot d-none d-md-inline-block" style="background-color: #00C389;"></span>
-                            <div class="text-center progress-wizard-steplabel">Confirmación de tu compra</div>
-                        </div>
-                    </a>
+                <br/><br/>
+                <div class="row">
+                    <div class="col col-xl-12">
+                        <ul id="progressbar" style="padding: 0;">
+                            <li class="active" id="buyer_data"><strong>Datos comprador</strong></li>
+                            <li class="active" id="main_insured_data"><strong>Datos asegurado principal y beneficiarios</strong></li>
+                            <li class="active" id="confirm"><strong>Confirmación de compra</strong></li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="row" style="align-items: center; height: 100%;">
-                    <div class="col-3" style="text-align: right;">
+                    <div class="col-12" style="text-align: center;">
                         <img src="/web_sale_extended/static/src/images/Ilustraciones-Transversales-Exito-mensaje-confirmacion.png" width="120" />
-                    </div>
-                    <div class="col-9" style="text-align: center; margin-left: -10%;">
-                        <h1>¡Gracias!</h1>
-                        <p>Ya recibimos tu información.</p>
-                        <p>A tu correo te enviaremos la confirmación de tu afiliación para que todos estén protegidos.</p>
+                        <p><b>¡Muchas gracias por tu compra!</b></p>
+                        <p>A tu correo te enviaremos la confirmación de tu afiliación.</p>
                     </div>
                 </div>
             </div>

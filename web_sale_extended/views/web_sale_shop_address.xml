@@ -194,14 +194,14 @@
                                         </div>
                                         <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-lg-6" id="div_phone">
                                             <label class="col-form-label" for="phone">Teléfono*</label>
-                                            <div class="input-group">
-                                                <input type="text" name="code_phone" class="form-control col-lg-3" readonly="True" />
+                                            <div class="input-group" style="flex-flow: wrap;">
+                                                <input type="text" name="code_phone" class="form-control col-3" readonly="True" />
                                                 <input type="text" name="phone" id="phoneComprador" 
-                                                    t-attf-class="form-control col-lg-9 #{error.get('phone') and 'is-invalid' or ''}" 
+                                                    t-attf-class="form-control col-9 #{error.get('phone') and 'is-invalid' or ''}" 
                                                     t-att-value="'' in checkout and checkout['']" />
                                             </div>
                                         </div>
-                                        <div t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6">
+                                        <div id="div_document" t-attf-class="form-group #{error.get('') and 'o_has_error' or ''} col-lg-6">
                                             <label class="col-form-label" for="document">Tipo de documento*</label>
                                             <select name="document" class="selectpicker" id="document" 
                                                 t-attf-class="form-control #{error.get('') and 'is-invalid' or ''}" 

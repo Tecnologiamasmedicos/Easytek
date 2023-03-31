@@ -12,7 +12,6 @@ class ResUsers(models.Model):
     _inherit = 'res.users'
     
     sponsor_ids = fields.Many2many('res.partner', string='Sponsors', domain=[('company_type', '=', 'sponsor')])
-    is_seller = fields.Boolean('Es vendedor')
     
 #     @api.model
 #     def _signup_create_user(self, values):

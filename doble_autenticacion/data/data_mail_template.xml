@@ -18,7 +18,6 @@
                     </p>
                 </div>
             </field>
-            <field name="lang">${object.company_id.contact_center_id.lang}</field>
             <field name="user_signature" eval="False"/>
             <field name="auto_delete" eval="True"/>
         </record>

@@ -13,7 +13,6 @@ class SaleOrderExtend(models.Model):
     codigo = fields.Integer("Codigo de verficación")
     tiempovencimiento = fields.Datetime("tiempo en que vence el codigo")
     verificado = fields.Boolean("Verificado", default=False)
-    compare_code = fields.Integer("Código a comparar")
 
     def VerificarCodigo(self, codigo, fecha):
         if self.codigo == int(codigo) and fecha <= self.tiempovencimiento:
@@ -30,6 +29,7 @@ class SaleOrderExtend(models.Model):
         }
         template = self.env.ref('doble_autenticacion.email_template_envio_codigo')
         template.sudo().with_context(ctx).send_mail(self.id, force_send=True)
+        self.partner_id.email = False
 
     def GenerarCodigo(self):
         numero = random.randint(0, 999999)

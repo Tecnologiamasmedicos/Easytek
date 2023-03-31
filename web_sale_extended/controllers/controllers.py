@@ -14,7 +14,9 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 from odoo.addons.payment.controllers.portal import PaymentProcessing
 from odoo.addons.sale.controllers.portal import CustomerPortal
 from odoo.osv import expression
-import time
+from Crypto.Cipher import AES
+from base64 import b64encode
+import time, os
 
 from odoo import api, fields, models, _
 from odoo.tools import ustr, consteq, float_compare
@@ -25,6 +27,13 @@ _logger = logging.getLogger(__name__)
 
 
 class WebsiteSaleExtended(WebsiteSale):
+
+    def encrypt_aes_gcm(self, msg, secretkey=None):
+        secretkey = os.urandom(32) if not secretkey else secretkey
+        msg = bytes(msg, 'utf-8')
+        aes_cipher = AES.new(secretkey, AES.MODE_GCM)
+        ciphertext, auth_tag = aes_cipher.encrypt_and_digest(msg)
+        return ciphertext, aes_cipher.nonce, auth_tag, secretkey
 
     def generate_access_token(self, order_id):        
         order = request.env['sale.order'].sudo().browse(order_id)
@@ -235,9 +244,17 @@ class WebsiteSaleExtended(WebsiteSale):
                     'payment_method_type': 'Product Without Price'
                 })
             if 'bancolombia_types_account' in kw:
+                encrypt_msg = self.encrypt_aes_gcm(kw['account_number'])
+                ciphertext = b64encode(encrypt_msg[0]).decode('utf-8')
+                nonce = b64encode(encrypt_msg[1]).decode('utf-8')
+                auth_tag = b64encode(encrypt_msg[2]).decode('utf-8')
+                secretkey = b64encode(encrypt_msg[3]).decode('utf-8')
                 order.write({
                     'buyer_account_type': kw['bancolombia_types_account'],
-                    'buyer_account_number': kw['account_number']
+                    'buyer_account_number': ciphertext,
+                    'nonce': nonce,
+                    'auth_tag': auth_tag,
+                    'secretkey': secretkey
                 })
             order.write({'tusdatos_email': kw['email']})
             _logger.info("****FORMULARIO*****")
@@ -421,7 +438,7 @@ class WebsiteSaleExtended(WebsiteSale):
             """
             order.message_post(body=body_message, type="comment")
             return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)))
-        if order.main_product_id.categ_id.sponsor_id.id == 5132:
+        if order.main_product_id.categ_id.sponsor_id.id == 5521:
             return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)))
         return request.redirect("/shop/payment")
     
@@ -504,7 +521,7 @@ class WebsiteSaleExtended(WebsiteSale):
                     'pets_number': pets_number,
                 }
                 _logger.info(render_values)
-                if order.main_product_id.categ_id.sponsor_id.id == 5132:
+                if order.main_product_id.categ_id.sponsor_id.id == 5521:
                     return request.render("web_sale_extended.beneficiaries_bancolombia", render_values)
                 else:
                     return request.render("web_sale_extended.beneficiary", render_values)
@@ -905,7 +922,7 @@ class WebsiteSaleExtended(WebsiteSale):
             request.session['sale_order_id'] = None
             request.session['sale_transaction_id'] = None
 
-            if sponsor_id.id == 5132:
+            if sponsor_id.id == 5521:
                 order.action_payu_confirm()
                 return request.render("web_sale_extended.bancolombia_confirmation_sale", kwargs)
             else:

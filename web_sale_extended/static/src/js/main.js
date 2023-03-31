@@ -380,6 +380,21 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         }, "Los numeros de cuenta no son iguales");
 
         $("#shop").validate({
+            errorPlacement: function( error, element ) {
+                var n = element.attr("name");
+                if (n == "document"){
+                    error.appendTo('#div_document');
+                }
+                else if (n == "ada"){
+                    error.appendTo('#div_ada');
+                }
+                else if (n == "tycp"){
+                    error.appendTo('#div_tycp');
+                }
+                else {
+                    error.insertAfter(element);
+                }
+            },
             rules: {
                 name: {
                     required: true,
@@ -493,11 +508,15 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 account_number: {
                     required: true,
                     number: true,
+                    minlength: 11,
+                    maxlength: 11
                 },
                 confirm_account_number: {
                     required: true,
                     number: true,
-                    account_numbers_same: true
+                    account_numbers_same: true,
+                    minlength: 11,
+                    maxlength: 11
                 },
                 birthdate_date: {
                     required: true,
@@ -559,7 +578,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
             },
             messages: {
                 name: {
-                    required: "¡Tu nombre es requerido",
+                    required: "Tu nombre es requerido",
                     minlength: "Tu nombre debe contener más de 3 caracteres",
                     maxlength: "Tu nombre no puede tener más de 20 caracteres"
                 },
@@ -588,7 +607,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 },
                 document: {
                     required: "Tu tipo de documento es requerido",
-                    
                 },
                 identification_document: {
                     required: "Tu numero de documento es requerido",
@@ -603,14 +621,12 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 },
                 city: {
                     required: "Tu ciudad es requerida",
-
                 },
                 country_address_id: {
                     required: "Tu país es requerido",
                 },
                 state_address_id: {
                     required: "Tu departamento es requerido",
-
                 },
                 state_id_text: {
                     required: "Tu departamento es requerido",
@@ -619,18 +635,16 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                     required: "Tu ciudad es requerida",
                 },
                 aceptacion_datos: {
-                    required: "Acepte política de tratamiento de datos para continuar",
-
+                    required: "Acepta política de tratamiento de datos para continuar",
                 },
                 tyc: {
-                    required: "Acepte terminos y condiciones para continuar",
-
+                    required: "Acepta terminos y condiciones para continuar",
                 },
                 ada: {
-                    required: "Acepte débito automático para continuar",
+                    required: "Acepta débito automático para continuar",
                 },
                 tycp: {
-                    required: "Acepte términos, condiciones y politica de tratamiento de datos para continuar",
+                    required: "Acepta términos, condiciones y politica de tratamiento de datos para continuar",
                 },
                 type_payment: {
                     required: "El tipo de pago es requerido",
@@ -640,20 +654,23 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 },
                 account_number: {
                     required: "Es necesario que escribas tu numero de cuenta",
-                    number: "Solo se permiten numeros"
+                    number: "Solo se permiten numeros",
+                    minlength: "El número de cuenta debe tener 11 caracteres",
+                    maxlength: "El número de cuenta debe tener 11 caracteres"
                 },
                 confirm_account_number: {
                     required: "Es necesario que escribas tu numero de cuenta",
-                    number: "Solo se permiten numeros"
+                    number: "Solo se permiten numeros",
+                    minlength: "El número de cuenta debe tener 11 caracteres",
+                    maxlength: "El número de cuenta debe tener 11 caracteres"
                 },
                 birthdate_date: {
-                    required: "Tu fecha de nacimiento es requerido",
+                    required: "Tu fecha de nacimiento es requerida",
                     min: "Fecha invalida",
                     max: "Debes de ser  menor de 116 años para continuar"
-
                 },
                 expedition_date: {
-                    required: "Tu fecha de expedición es requerido",
+                    required: "Tu fecha de expedición es requerida",
                     min: "Debe ser superior a la fecha de nacimiento",
                     max: "Debe ser igual o inferior a la fecha actual"
                 },
@@ -670,14 +687,14 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         $("#tycp").prop("checked", true);
     });
 
-    $("#submit_shop").on('click', function(e){
-        e.preventDefault();
-        if($('#shop').valid()){ //checks if it's valid
-            $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm preloader" role="status" aria-hidden="true" />Cargando...</div>');
-            $(this).prop('disabled', true);  
-       }
-        $('#shop').submit();
-    });
+//    $("#submit_shop").on('click', function(e){
+//        e.preventDefault();
+//        if($('#shop').valid()){ //checks if it's valid
+//            $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm preloader" role="status" aria-hidden="true" />Cargando...</div>');
+//            $(this).prop('disabled', true);
+//       }
+//        $('#shop').submit();
+//    });
 
     function hide_beneficiaries() {
         $("#beneficiary1").hide();
@@ -2725,7 +2742,6 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     minlength: "un apellido contiene más de 3 caracteres",
                     maxlength: "un apellido no debe contener más de 20 caracteres"
                 },
-
                 bflastname1: {
                     required: "un apellido es requerido",
                     minlength: "un apellido contiene más de 3 caracteres",

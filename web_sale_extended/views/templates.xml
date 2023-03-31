@@ -30,7 +30,7 @@
                     <div class="text-center progress-wizard-steplabel">Review Order</div>
                   </div>
                 </a>-->
-                <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5132">
+                <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521">
                     <a class="no-decoration" t-att-href="step&gt;=20 and '/shop/checkout' or '#'">
                         <div id="wizard-step20" t-att-class="'progress-wizard-step %s' % (step == 20 and 'active' or step&gt;20 and 'complete' or 'disabled')">
                             <div class="progress-wizard-bar d-none d-md-block" style="background-color: #FDDA24"/>
@@ -131,7 +131,7 @@
                                 <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                                     <a href="#" role="button" class="btn btn-primary a-submit" style="background-color: #43b12e;">Aplicar</a>
                                 </t>
-                                <t t-elif="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5132">
+                                <t t-elif="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521">
                                     <a href="#" role="button" class="btn btn-primary a-submit" style="background-color: #FDDA24; color: black;">Aplicar</a>
                                 </t>
                                 <t t-else="">
@@ -148,7 +148,7 @@
         </xpath>
 
         <xpath expr="//div[@class='card']" position="after">
-            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id not in (5111, 5132)">
+            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id not in (5111, 5521)">
                 <t t-foreach="website_sale_order.website_order_line[0]" t-as="line">
                     <div align="center" style="padding-top:15px;">
                         <h5>Si eres una empresa y deseas dar este<br/>

@@ -28,7 +28,6 @@
         'views/res_company.xml',
         'wizard/wizard_files_bank.xml',
         'reports/bancolombia_policy_certificate.xml',
-        #'reports/bancolombia_policy_certificate1.xml',
         'data/cron_tusdatos.xml',
         'data/cron_sftp_bancolombia.xml',
         'data/data_mail_template.xml',
