@@ -85,6 +85,7 @@ class SaleOrder(models.Model):
     secretkey = fields.Char('secretkey')
     debit_request = fields.Boolean('Solicitud debito', default=False, store=True)
     debit_request_date = fields.Date(string='Fecha accion ciclo de cobro', store=True)
+    update_bancolombia_account = fields.Boolean('Actualizar cuenta bancolombia', default=False, store=True)
     
     @api.depends('order_line', 'state', 'partner_id')
     def _compute_sponsor_id(self):
@@ -817,8 +818,8 @@ class SaleOrder(models.Model):
     def generate_access_token(self, order_id):        
         order = self.env['sale.order'].sudo().browse(order_id)
         secret = self.env['ir.config_parameter'].sudo().get_param('database.secret')
-        token_str = '%s%s%s' % (order.partner_id, order.amount_total, order.currency_id)
-        access_token = hmac.new(secret.encode('utf-8'), token_str.encode('utf-8'), hashlib.sha256).hexdigest()        
+        token_str = '%s%s%s' % (order.partner_id.id, order.amount_total, order.currency_id.id)
+        access_token = hmac.new(secret.encode('utf-8'), token_str.encode('utf-8'), hashlib.sha256).hexdigest()
         return access_token
     
     
@@ -828,6 +829,20 @@ class SaleOrder(models.Model):
         link = ('%s/shop/payment/assisted_purchase/%s?access_token=%s') % (
             base_url,
             order_id,
+            token
+        )        
+        return link
+    
+    def generate_link_update_bancolombia_account(self, sale_order_id):
+        token = self.generate_access_token(sale_order_id)
+        order_id = self.env['sale.order'].sudo().browse(sale_order_id)
+        product_id = order_id.main_product_id
+        base_url = "https://" + product_id.website_id.domain if product_id.website_id.domain else self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        link = ('%s/update/bancolombia/account?reference=%s&order_id=%s&partner_id=%s&access_token=%s') % (
+            base_url,
+            order_id.name,
+            order_id.id,
+            order_id.partner_id.id,
             token
         )        
         return link
@@ -904,3 +919,8 @@ class SaleOrder(models.Model):
                 })
         else:
             raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
+        
+    def update_bancolombia_account(self):
+        self.update_bancolombia_account = True
+        template = self.env.ref('web_sale_extended.email_template_update_bancolombia_account')
+        template.sudo().send_mail(self.id, force_send=True)

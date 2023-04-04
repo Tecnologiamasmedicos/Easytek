@@ -1223,9 +1223,41 @@ class WebsiteSaleExtended(WebsiteSale):
         PaymentProcessing.add_payment_transaction(tx)
         return request.redirect('/payment/process')
 
-    @http.route('/shop/bancolombia', type='http', auth='public', website=True, sitemap=False)
-    def bancolombia(self, pm_id=None, **kwargs):
-        return request.render("web_sale_extended.beneficiaries_bancolombia", {})
+    @http.route('/update/bancolombia/account', type='http', auth='public', website=True, sitemap=False)
+    def update_bancolombia_account(self, order_id=None, partner_id=None, access_token=None, **kwargs):
+        order_id = request.env['sale.order'].sudo().browse(int(order_id))
+        partner_id = order_id.partner_id
+        amount = order_id.amount_total
+        currency_id = order_id.currency_id.id
+        if 'submitted' in kwargs:
+            encrypt_msg = self.encrypt_aes_gcm(kwargs['account_number'])
+            ciphertext = b64encode(encrypt_msg[0]).decode('utf-8')
+            nonce = b64encode(encrypt_msg[1]).decode('utf-8')
+            auth_tag = b64encode(encrypt_msg[2]).decode('utf-8')
+            secretkey = b64encode(encrypt_msg[3]).decode('utf-8')
+            order_id.write({
+                'update_bancolombia_account': False,
+                'buyer_account_type': kwargs['bancolombia_types_account'],
+                'buyer_account_number': ciphertext,
+                'nonce': nonce,
+                'auth_tag': auth_tag,
+                'secretkey': secretkey
+            })
+            return request.render("web_sale_extended.bancolombia_confirmation_update_account", {})
+        if partner_id and not access_token or order_id.sponsor_id.id != 5521 or order_id.update_bancolombia_account != True:
+            raise werkzeug.exceptions.NotFound
+        if partner_id and access_token:
+            token_ok = request.env['payment.link.wizard'].check_token(access_token, int(partner_id.id), float(amount), int(currency_id))
+            if not token_ok:
+                raise werkzeug.exceptions.NotFound
+        
+        render_values = {
+            'bancolombia_types_account': self.get_bancolombia_types_account(),
+            'website_sale_order': order_id,
+            'partner_id': partner_id
+        }
+        return request.render("web_sale_extended.update_bancolombia_account", render_values)
+    
 
 class SalePortalExtended(CustomerPortal):
 

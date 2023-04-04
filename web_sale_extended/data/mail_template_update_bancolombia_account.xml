@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="email_template_update_bancolombia_account" model="mail.template">
+            <field name="name">Actualizacion de cuneta Bancolombia</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="email_from">${object.order_line.product_id.categ_id.servidor_de_correo.smtp_user or user.email_formatted}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="subject">Código de verificación</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Para actualizar el numero de cuenta ingrese aqui:
+                        <br/>
+                        <a href="${object.generate_link_update_bancolombia_account(object.id, object.main_product_id)}" target="_blank">
+                            ACTUALIZAR
+                        </a>
+                    </p>
+                </div>
+            </field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>
