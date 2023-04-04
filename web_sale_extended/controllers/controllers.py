@@ -1236,7 +1236,7 @@ class WebsiteSaleExtended(WebsiteSale):
             auth_tag = b64encode(encrypt_msg[2]).decode('utf-8')
             secretkey = b64encode(encrypt_msg[3]).decode('utf-8')
             order_id.write({
-                'update_bancolombia_account': False,
+                'update_account_bancolombia': False,
                 'buyer_account_type': kwargs['bancolombia_types_account'],
                 'buyer_account_number': ciphertext,
                 'nonce': nonce,
