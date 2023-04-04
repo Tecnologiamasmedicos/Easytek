@@ -85,7 +85,7 @@ class SaleOrder(models.Model):
     secretkey = fields.Char('secretkey')
     debit_request = fields.Boolean('Solicitud debito', default=False, store=True)
     debit_request_date = fields.Date(string='Fecha accion ciclo de cobro', store=True)
-    update_bancolombia_account = fields.Boolean('Actualizar cuenta bancolombia', default=False, store=True)
+    update_account_bancolombia = fields.Boolean('Actualizar cuenta bancolombia', default=False, store=True)
     
     @api.depends('order_line', 'state', 'partner_id')
     def _compute_sponsor_id(self):
@@ -921,6 +921,6 @@ class SaleOrder(models.Model):
             raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
         
     def update_bancolombia_account(self):
-        self.update_bancolombia_account = True
+        self.update_account_bancolombia = True
         template = self.env.ref('web_sale_extended.email_template_update_bancolombia_account')
         template.sudo().send_mail(self.id, force_send=True)

@@ -1244,7 +1244,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 'secretkey': secretkey
             })
             return request.render("web_sale_extended.bancolombia_confirmation_update_account", {})
-        if partner_id and not access_token or order_id.sponsor_id.id != 5521 or order_id.update_bancolombia_account != True:
+        if partner_id and not access_token or order_id.sponsor_id.id != 5521 or order_id.update_account_bancolombia != True:
             raise werkzeug.exceptions.NotFound
         if partner_id and access_token:
             token_ok = request.env['payment.link.wizard'].check_token(access_token, int(partner_id.id), float(amount), int(currency_id))
