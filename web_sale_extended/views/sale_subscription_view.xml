@@ -509,7 +509,7 @@
                     <field name="subsidiary" string="Subsidiaria"/>
                     <field name="phone" string="Teléfono Fijo"/>
                     <field name="ocupation2" string="Ocupación"/>
-                    <field name="send_sftp_cancellation_ok" string="Reportado SFTP"/>
+                    <field name="send_sftp_cancellation_ok" string="Reportado SFTP Cancelado"/>
                 </tree>
             </field>
         </record>
@@ -574,7 +574,7 @@
                     <field name="state_id" string="Estado"/>
                     <field name="city_name" string="Ciudad"/>
                     <field name="ocupation" string="Ocupación"/>
-                    <field name="send_sftp_cancellation_ok" string="Reportado SFTP"/>
+                    <field name="send_sftp_cancellation_ok" string="Reportado SFTP Cancelado"/>
                 </tree>
             </field>
         </record>

@@ -678,7 +678,17 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
         });
         hide_beneficiaries();
     });
-    
+
+    // Coment to open modal module doble_autentication
+    // $("#submit_shop").on('click', function(e){
+    //     e.preventDefault();
+    //     if($('#shop').valid()){ //checks if it's valid
+    //         $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm preloader" role="status" aria-hidden="true" />Cargando...</div>');
+    //         $(this).prop('disabled', true);  
+    //    }
+    //     $('#shop').submit();
+    // });
+
     $('#ada_agree').on('click', function() {
         $("#ada").prop("checked", true);
     });
@@ -686,15 +696,6 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
     $('#tycp_agree').on('click', function() {
         $("#tycp").prop("checked", true);
     });
-
-//    $("#submit_shop").on('click', function(e){
-//        e.preventDefault();
-//        if($('#shop').valid()){ //checks if it's valid
-//            $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm preloader" role="status" aria-hidden="true" />Cargando...</div>');
-//            $(this).prop('disabled', true);
-//       }
-//        $('#shop').submit();
-//    });
 
     function hide_beneficiaries() {
         $("#beneficiary1").hide();

@@ -76,7 +76,8 @@
         'data/billing_cycle_api_hubspot_bot.xml',
         'data/mail_template_welcome_falabella.xml',
         'data/mail_template_welcome_bancolombia.xml',
-        'data/mail_template_update_bancolombia_account.xml'
+        'data/mail_template_update_bancolombia_account.xml',
+        'data/bancolombia_input_files_boot.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

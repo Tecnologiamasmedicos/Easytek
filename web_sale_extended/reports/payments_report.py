@@ -214,7 +214,7 @@ class PaymentsReport(models.Model):
                 mail_values = {
                     'subject': 'Recaudos %s Semana %s - %s hasta %s'%(self.monthToNum(str(start_date_date.month)), self.get_week_of_month(start_date_date.year, start_date_date.month, start_date_date.day), start_date_date.strftime('%d/%m/%Y'), end_date_date.strftime('%d/%m/%Y')),
                     'body_html' : 'Cordial saludo,<br/>Adjunto enviamos el archivo de recaudos semanal del %s al %s.<br/>Quedamos atentos a cualquier inquietud.<br/>Saludos,<br/>Más Médicos'%(start_date_date.strftime('%d/%m/%Y'), end_date_date.strftime('%d/%m/%Y')),
-                    'email_to': 'asistenteop@masmedicos.co',
+                    'email_to': 'analistaprocesos@masmedicos.co',
                     'email_cc': 'operaciones@masmedicos.co',
                     # 'email_to': 'WMartinez@palig.com',
                     # 'email_cc': 'contabilidad@masmedicos.co, operaciones@masmedicos.co, directordeproyectos@masmedicos.co',
@@ -225,7 +225,7 @@ class PaymentsReport(models.Model):
                 mail_values2 = {
                     'subject': 'Recaudos %s Semana %s - %s hasta %s'%(self.monthToNum(str(start_date2_date.month)), self.get_week_of_month(start_date2_date.year, start_date2_date.month, start_date2_date.day), start_date2_date.strftime('%d/%m/%Y'), end_date2_date.strftime('%d/%m/%Y')),
                     'body_html' : 'Cordial saludo,<br/>Adjunto enviamos el archivo de recaudos semanal del %s al %s.<br/>Quedamos atentos a cualquier inquietud.<br/>Saludos,<br/>Más Médicos'%(start_date2_date.strftime('%d/%m/%Y'), end_date2_date.strftime('%d/%m/%Y')),
-                    'email_to': 'asistenteop@masmedicos.co',
+                    'email_to': 'analistaprocesos@masmedicos.co',
                     'email_cc': 'operaciones@masmedicos.co',
                     # 'email_to': 'WMartinez@palig.com',
                     # 'email_cc': 'contabilidad@masmedicos.co, operaciones@masmedicos.co, directordeproyectos@masmedicos.co',
@@ -264,7 +264,7 @@ class PaymentsReport(models.Model):
                 mail_values = {
                     'subject': 'Recaudos %s Semana %s - %s hasta %s'%(self.monthToNum(str(start_date_date.month)), self.get_week_of_month(start_date_date.year, start_date_date.month, start_date_date.day), start_date_date.strftime('%d/%m/%Y'), end_date_date.strftime('%d/%m/%Y')),
                     'body_html' : 'Cordial saludo,<br/>Adjunto enviamos el archivo de recaudos semanal del %s al %s.<br/>Quedamos atentos a cualquier inquietud.<br/>Saludos,<br/>Más Médicos'%(start_date_date.strftime('%d/%m/%Y'), end_date_date.strftime('%d/%m/%Y')),
-                    'email_to': 'asistenteop@masmedicos.co',
+                    'email_to': 'analistaprocesos@masmedicos.co',
                     'email_cc': 'operaciones@masmedicos.co',
                     # 'email_to': 'WMartinez@palig.com',
                     # 'email_cc': 'contabilidad@masmedicos.co, operaciones@masmedicos.co, directordeproyectos@masmedicos.co',
