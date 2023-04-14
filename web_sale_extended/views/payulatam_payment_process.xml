@@ -97,14 +97,14 @@
                                                 <t t-if="not order_id.assisted_purchase and order_id.state != 'sale'">
                                                     <div class="contenedor" style="background-color: #fff200; display: grid; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; grid-template: auto auto / 100px auto 100px; text-align: center; padding: 10px;">
                                                         <div class="img" style="display:flex; justify-content: center; align-items: center;">
-                                                            <img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/616330_598192/Atencion.png" width="75"/>
+                                                            <img src="/web_sale_extended/static/src/images/Atencion.png?access_token=4f64d7e2-6cde-4d08-87f0-b6219acbce0b" width="75"/>
                                                         </div>
                                                         <div class="texto" style="line-height:40px; color: #555555;">
                                                             <span style="font-size: 23px;"> <strong>ATENCIÓN</strong></span> <br/>
                                                             <span style="font-size: 18px; padding: 10px;"><strong>¡Ups,</strong> falta información <strong>para activar tu plan!</strong></span>
                                                         </div>
                                                         <div class="img" style="display:flex; justify-content: center; align-items: center;">
-                                                            <img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/616330_598192/Atencion.png" width="75"/>
+                                                            <img src="/web_sale_extended/static/src/images/Atencion.png?access_token=4f64d7e2-6cde-4d08-87f0-b6219acbce0b" width="75"/>
                                                         </div>
                                                     </div>
                                                     <p></p>
@@ -771,14 +771,14 @@
                                                 <t t-if="not order_id.assisted_purchase and order_id.state != 'sale'">
                                                     <div class="contenedor" style="background-color: #fff200; display: grid; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; grid-template: auto auto / 100px auto 100px; text-align: center; padding: 10px;">
                                                         <div class="img" style="display:flex; justify-content: center; align-items: center;">
-                                                            <img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/616330_598192/Atencion.png" width="75"/>
+                                                            <img src="/web_sale_extended/static/src/images/Atencion.png?access_token=4f64d7e2-6cde-4d08-87f0-b6219acbce0b" width="75"/>
                                                         </div>
                                                         <div class="texto" style="line-height:40px; color: #555555;">
                                                             <span style="font-size: 23px;"> <strong>ATENCIÓN</strong></span> <br/>
                                                             <span style="font-size: 18px; padding: 10px;"><strong>¡Ups,</strong> falta información <strong>para activar tu plan!</strong></span>
                                                         </div>
                                                         <div class="img" style="display:flex; justify-content: center; align-items: center;">
-                                                            <img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/616330_598192/Atencion.png" width="75"/>
+                                                            <img src="/web_sale_extended/static/src/images/Atencion.png?access_token=4f64d7e2-6cde-4d08-87f0-b6219acbce0b" width="75"/>
                                                         </div>
                                                     </div>
                                                     <p></p>
