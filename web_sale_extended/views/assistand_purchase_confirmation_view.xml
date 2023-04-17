@@ -43,7 +43,7 @@
                                                         <td
                                                             style="width:100%;padding-right:0px;padding-left:0px;padding-top:5px;padding-bottom:5px;">
                                                             <div align="center" style="line-height:10px"><img
-                                                                    src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/616330_598192/mail.png"
+                                                                    src="/web_sale_extended/static/src/images/Img_success.png?access_token=4f64d7e2-6cde-4d08-87f0-b6219acbce0b"
                                                                     style="display: block; height: auto; border: 0; width: 128px; max-width: 100%;"
                                                                     width="128" /></div>
                                                         </td>
@@ -155,7 +155,7 @@
                                                         <td
                                                             style="width:100%;padding-right:0px;padding-left:0px;padding-top:5px;padding-bottom:5px;">
                                                             <div align="center" style="line-height:10px">
-                                                                <img src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/616330_598192/mail.png"
+                                                                <img src="/web_sale_extended/static/src/images/Img_success.png?access_token=4f64d7e2-6cde-4d08-87f0-b6219acbce0b"
                                                                     style="display: block; height: auto; border: 0; width: 128px; max-width: 100%;"
                                                                     width="128" />
                                                             </div>
