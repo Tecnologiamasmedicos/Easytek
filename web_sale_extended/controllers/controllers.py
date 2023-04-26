@@ -38,8 +38,8 @@ class WebsiteSaleExtended(WebsiteSale):
     def generate_access_token(self, order_id):        
         order = request.env['sale.order'].sudo().browse(order_id)
         secret = request.env['ir.config_parameter'].sudo().get_param('database.secret')
-        token_str = '%s%s%s' % (order.partner_id, order.amount_total, order.currency_id)
-        access_token = hmac.new(secret.encode('utf-8'), token_str.encode('utf-8'), hashlib.sha256).hexdigest()        
+        token_str = '%s%s%s' % (order.partner_id.id, order.amount_total, order.currency_id.id)
+        access_token = hmac.new(secret.encode('utf-8'), token_str.encode('utf-8'), hashlib.sha256).hexdigest()
         return access_token
     
     
@@ -913,6 +913,10 @@ class WebsiteSaleExtended(WebsiteSale):
                 request.session['sale_order_id'] = None
                 request.session['sale_transaction_id'] = None
                 return request.render("web_sale_extended.confirm_assisted_purchase_benefice", render_values)
+            elif order.sponsor_id.id == 5521:
+                order.action_payu_confirm()
+                return request.render("web_sale_extended.confirm_assisted_purchase_benefice", render_values)
+                
             else:
                 return request.render("web_sale_extended.confirm_assisted_purchase", render_values)
         else:

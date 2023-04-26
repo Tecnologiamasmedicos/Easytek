@@ -192,12 +192,12 @@
                                                                 <div
                                                                     style="font-size: 14px; color: #787777; line-height: 1.2; font-family: Arial, Helvetica Neue, Helvetica, sans-serif;">
                                                                     <p style="margin: 0; text-align: center;">
-                                                                        Producto: <t t-esc="order_detail.product_id.name" /> <br/>
-                                                                        Sponsor: <t t-esc="order.sponsor_id.name" /> <br/>
-                                                                        Comprador: <t t-esc="order.partner_id.name" /> <br/>
-                                                                        Asegurado Principal: <t t-esc="order.beneficiary0_id.name" /> <br/>
-                                                                        Metodo de pago: <span t-field="order.payment_method_type" />  <br/>
-                                                                        Valor: <span t-field="order.amount_total" /> 
+                                                                        Producto: <t t-if="order_detail.product_id.name" t-esc="order_detail.product_id.name" /> <br/>
+                                                                        Sponsor: <t t-if="order.sponsor_id.name" t-esc="order.sponsor_id.name" /> <br/>
+                                                                        Comprador: <t t-if="order.partner_id.name" t-esc="order.partner_id.name" /> <br/>
+                                                                        Asegurado Principal: <t t-if="order.beneficiary0_id.name" t-esc="order.beneficiary0_id.name" /> <br/>
+                                                                        Metodo de pago: <span t-if="order.payment_method_type" t-field="order.payment_method_type" />  <br/>
+                                                                        Valor: <span t-if="order.amount_total" t-field="order.amount_total" /> 
                                                                     </p>
                                                                 </div>
                                                             </div>
