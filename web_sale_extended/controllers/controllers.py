@@ -561,6 +561,17 @@ class WebsiteSaleExtended(WebsiteSale):
             }
             
             return request.render("web_sale_extended.confirm_assisted_purchase", render_values)
+        
+        if 'send_email_account_registration_Bancolombia' in request.params and request.params['send_email_account_registration_Bancolombia']:
+            order.update_bancolombia_account()
+            render_values = {
+            'link': self.generate_link(order.id),
+            "access_token": order.access_token,            
+            'order_id': order.id,
+            'order': order,
+            'website_sale_order': order,
+            }
+            return request.render("web_sale_extended.confirm_assisted_purchase_bancolombia", render_values)
 
         if 'download_documents' in request.params and request.params['download_documents']: 
             render_values = {
@@ -915,7 +926,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 return request.render("web_sale_extended.confirm_assisted_purchase_benefice", render_values)
             elif order.sponsor_id.id == 5521:
                 order.action_payu_confirm()
-                return request.render("web_sale_extended.confirm_assisted_purchase_benefice", render_values)
+                return request.render("web_sale_extended.confirm_assisted_purchase_bancolombia", render_values)
                 
             else:
                 return request.render("web_sale_extended.confirm_assisted_purchase", render_values)
