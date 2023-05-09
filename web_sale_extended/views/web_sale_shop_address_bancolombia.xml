@@ -4,6 +4,14 @@
         <title>Página comprador | www.masmedicos.co</title>
         <t t-set="no_footer" t-value="1"/>
         <t t-call="website.layout">
+            <script>
+                <![CDATA[
+                    var meta = document.createElement('meta');
+                    meta.httpEquiv = 'Content-Security-Policy';
+                    meta.content = "script-src 'unsafe-eval'";
+                    document.getElementsByTagName('head')[0].appendChild(meta);
+                ]]>
+            </script>
             <style>
                 @font-face {
                     font-family: 'CIBFontSans Regular';
