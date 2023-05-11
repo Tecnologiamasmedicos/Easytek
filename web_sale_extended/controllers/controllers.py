@@ -551,25 +551,16 @@ class WebsiteSaleExtended(WebsiteSale):
 
         if 'send_email' in request.params and request.params['send_email']: 
             order._send_payment_link_assisted_purchase_email()
-            
             render_values = {
-            'link': self.generate_link(order.id),
-            "access_token": order.access_token,            
-            'order_id': order.id,
-            'order': order,
-            'website_sale_order': order,
+                'order': order,
             }
             
             return request.render("web_sale_extended.confirm_assisted_purchase", render_values)
         
         if 'send_email_account_registration_Bancolombia' in request.params and request.params['send_email_account_registration_Bancolombia']:
-            order.update_bancolombia_account()
+            order.register_bancolombia_account()
             render_values = {
-            'link': self.generate_link(order.id),
-            "access_token": order.access_token,            
-            'order_id': order.id,
-            'order': order,
-            'website_sale_order': order,
+                'order': order,
             }
             return request.render("web_sale_extended.confirm_assisted_purchase_bancolombia", render_values)
 

@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <record id="email_template_update_bancolombia_account" model="mail.template">
-            <field name="name">Actualización de cuneta Bancolombia</field>
+            <field name="name">Actualización de cuenta Bancolombia</field>
             <field name="model_id" ref="sale.model_sale_order"/>
             <field name="email_from">${object.order_line.product_id.categ_id.servidor_de_correo.smtp_user or user.email_formatted}</field>
             <field name="partner_to">${object.partner_id.id}</field>

@@ -922,5 +922,12 @@ class SaleOrder(models.Model):
         
     def update_bancolombia_account(self):
         self.update_account_bancolombia = True
-        template = self.env.ref('web_sale_extended.email_template_update_bancolombia_account')
+        template_id = self.env.ref('web_sale_extended.email_template_update_bancolombia_account').id
+        template = self.env['mail.template'].browse(template_id)
+        template.sudo().send_mail(self.id, force_send=True)
+
+    def register_bancolombia_account(self):
+        self.update_account_bancolombia = True
+        template_id = self.env.ref('web_sale_extended.email_template_assisted_purchase_bancolombia').id
+        template = self.env['mail.template'].browse(template_id)
         template.sudo().send_mail(self.id, force_send=True)
