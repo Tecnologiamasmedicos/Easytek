@@ -326,11 +326,12 @@
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value="" name="tyc" id="defaultCheck1"/>
                                                 <label class="form-check-label" for="tyc">
-                                                    Acepto términos y condiciones
                                                     <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
+                                                        He leído y acepto los términos y condiciones y tratamiento de datos personales de la agencia de Seguros Falabella
                                                         <a href="#terminos" id="btn_terminos_falabella" style="color: #43b12e;"> (leer)</a>
                                                     </t>
                                                     <t t-else="">
+                                                        Acepto términos y condiciones
                                                         <a href="#terminos" id="btn_terminos"> (leer)</a>
                                                     </t>
                                                 </label>
@@ -340,11 +341,12 @@
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" value="" name="aceptacion_datos" id="defaultCheck2"/>
                                                 <label class="form-check-label" for="aceptacion_datos" style="text-size:10px;">
-                                                    Acepto política de tratamiento de datos
                                                     <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
+                                                        He leído y acepto los términos y condiciones y tratamiento de datos personales de la compañía aseguradora
                                                         <a href="#politica" id="btn_politica_falabella" style="color: #43b12e;"> (leer)</a>
                                                     </t>
                                                     <t t-else="">
+                                                        Acepto política de tratamiento de datos
                                                         <a href="#politica" id="btn_politica"> (leer)</a>
                                                     </t>
                                                 </label>

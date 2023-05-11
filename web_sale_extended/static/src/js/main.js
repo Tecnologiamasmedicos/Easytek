@@ -1320,13 +1320,13 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
 
     $("#btn_terminos_falabella").click(function() {
         document.getElementById("politica").innerHTML = '';
-        document.getElementById("terminos").innerHTML = '<iframe src="/web_sale_extended/static/src/files/terminos.pdf#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="680px"/>';
+        document.getElementById("terminos").innerHTML = '<iframe src="/web_sale_extended/static/src/files/falabella.pdf#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="680px"/>';
         $("#terminos").toggle();
     });
 
     $("#btn_politica_falabella").click(function() {
         document.getElementById("terminos").innerHTML = '';
-        document.getElementById("politica").innerHTML = '<iframe src="/web_sale_extended/static/src/files/tratamientos_de_datos_personales_falabella.pdf#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="680px"/>';
+        document.getElementById("politica").innerHTML = '<iframe src="/web_sale_extended/static/src/files/palig.pdf#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="680px"/>';
         $("#politica").toggle();
     });
 
