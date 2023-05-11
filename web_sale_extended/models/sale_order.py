@@ -931,3 +931,4 @@ class SaleOrder(models.Model):
         template_id = self.env.ref('web_sale_extended.email_template_assisted_purchase_bancolombia').id
         template = self.env['mail.template'].browse(template_id)
         template.sudo().send_mail(self.id, force_send=True)
+    
