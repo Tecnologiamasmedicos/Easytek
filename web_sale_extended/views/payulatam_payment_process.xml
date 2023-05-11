@@ -172,6 +172,15 @@
                     </div>
                 </div>   
             </div>
+            <script>
+                <![CDATA[
+                    window.dataLayer = window.dataLayer || [];
+                        window.dataLayer.push({
+                            'event': 'vpv',
+                            'page_path': '/MASMEDICOS/Pago/Pago-Aprobado'
+                    });
+                ]]>
+            </script>
         </t>
     </template>
     
@@ -283,7 +292,7 @@
     </template>
     
     <!-- Plantilla enviada luego del pago rechazado con tarjeta de crédito de payu -->
-    <template id="payulatam_rejected_process" name="PayU Latam Payment Rejected">     
+    <template id="payulatam_rejected_process" name="PayU Latam Payment Rejected">
         <t t-set="no_footer" t-value="1"/>
         <t t-call="website.layout">
             <div id="wrap">
@@ -372,6 +381,15 @@
                     </div>
                 </div>   
             </div>
+            <script>
+                <![CDATA[
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        'event': 'vpv',
+                        'page_path': '/MASMEDICOS/Pago/Pago-Rechazado'
+                    });
+                ]]>
+            </script>
         </t>
     </template>
     
@@ -486,6 +504,15 @@
                     </div>
                 </div>   
             </div>
+            <script>
+                <![CDATA[
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        'event': 'vpv',
+                        'page_path': '/MASMEDICOS/Pago/Pago-Aprobado'
+                    });
+                ]]>
+            </script>
         </t>
     </template>
     
@@ -574,11 +601,20 @@
                     </div>
                 </div> 
             </div>
+            <script>
+                <![CDATA[
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        'event': 'vpv',
+                        'page_path': '/MASMEDICOS/Pago/Pago-Rechazado'
+                    });
+                ]]>
+            </script>
         </t>
     </template>
     
     <!-- Plantilla enviada luego del pago exitoso con metodo PSE de payu -->
-     <template id="payulatam_success_process_pse" name="PayU Latam Payment Process PSE">
+    <template id="payulatam_success_process_pse" name="PayU Latam Payment Process PSE">
         <t t-set="no_footer" t-value="1"/>
         <t t-call="website.layout">
             <div id="wrap">
@@ -680,11 +716,20 @@
                     </div>
                 </div>
             </div>
+            <script>
+                <![CDATA[
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        'event': 'vpv',
+                         'page_path': '/MASMEDICOS/Pago/Pago-Aprobado'
+                    });
+                ]]>
+            </script>
         </t> 
     </template>
     
     <!-- Plantilla enviada luego de la respuesta del proceso PSE de payu -->
-     <template id="web_sale_extended_payment_response_process" name="PayU Latam Payment Response Process PSE">
+    <template id="web_sale_extended_payment_response_process" name="PayU Latam Payment Response Process PSE">
         <t t-set="no_footer" t-value="1"/>
         <t t-call="website.layout">
             <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
@@ -853,7 +898,16 @@
                                                        style="color:#FFF;">Descargar documentos
                                                        <i class="fa fa-chevron-right"/>
                                                     </a>                                            
-                                                </t>                                        
+                                                </t>  
+                                                <script>
+                                                    <![CDATA[
+                                                        window.dataLayer = window.dataLayer || [];
+                                                            window.dataLayer.push({
+                                                                'event': 'vpv',
+                                                                'page_path': '/MASMEDICOS/Pago/Pago-Aprobado'
+                                                        });
+                                                    ]]>
+                                                </script>                                      
                                             </t>
                                         </t>
                                         <t t-else="">
@@ -877,6 +931,15 @@
                                                <i class="fa fa-chevron-right"/>
                                             </a>
                                             <!--FIN Cambio de texto del boton cuando el pago por pse es rechazado-->
+                                            <script>
+                                                <![CDATA[
+                                                    window.dataLayer = window.dataLayer || [];
+                                                        window.dataLayer.push({
+                                                            'event': 'vpv',
+                                                            'page_path': '/MASMEDICOS/Pago/Pago-Rechazado'
+                                                    });
+                                                ]]>
+                                            </script>
                                         </t>
                                         <input type="hidden" name="order_id" t-att-value="order_id.id"/>
                                         <input type="hidden" name="token" t-att-value="access_token"/>
@@ -984,6 +1047,15 @@
                     </div>
                 </div>   
             </div>
+            <script>
+                <![CDATA[
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        'event': 'vpv',
+                        'page_path': '/MASMEDICOS/Pago/Pago-Rechazado'
+                    });
+                ]]>
+            </script>
         </t>
     </template>
     
