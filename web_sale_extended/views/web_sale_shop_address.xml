@@ -327,7 +327,7 @@
                                                 <input class="form-check-input" type="checkbox" value="" name="tyc" id="defaultCheck1"/>
                                                 <label class="form-check-label" for="tyc">
                                                     <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
-                                                        He leído y acepto los términos y condiciones y tratamiento de datos personales de la agencia de Seguros Falabella
+                                                        He leído y acepto el tratamiento de datos personales de la agencia de Seguros Falabella
                                                         <a href="#terminos" id="btn_terminos_falabella" style="color: #43b12e;"> (leer)</a>
                                                     </t>
                                                     <t t-else="">
