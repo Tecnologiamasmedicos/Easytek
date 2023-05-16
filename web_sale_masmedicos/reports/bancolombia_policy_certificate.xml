@@ -3,7 +3,7 @@
     <data>
         <report
                 id="bancolombia_custom_policy_certificate"
-                string="Certificado Poliza bancolombia"
+                string="Certificado Póliza bancolombia"
                 model="sale.order"
                 report_type="qweb-pdf"
                 name="web_sale_masmedicos.report_bancolombia"
@@ -110,15 +110,15 @@
                                 <tr>
                                     <td>
                                         <p align="justify"
-                                           style="font-size:13px !important;font-family: CIBFontSans-Regular;color:#2B282D;
-                                    line-height: 1.40em; letter-spacing: 0.078em; word-spacing: 0.05em;">
-                                            <strong>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A</strong><![CDATA[&nbsp;]]>
+                                           style="color:#4f4b4c;font-family: CIBFontSans-Regular;color:#2B282D;line-height: 1.1em;
+                                                font-size:16.5px !important;">
+                                            <strong>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A.</strong><![CDATA[&nbsp;]]>
                                             que
                                             en adelante se denominará <strong>PALIG</strong> certifica mediante este
                                             documento, que
-                                            forma parte integrante de la poliza, que el/los asegurados relacionados a
+                                            forma parte integrante de la póliza, que el/los asegurados relacionados a
                                             continuación se encuentran amparados, por ende, se compromete a pagar los
-                                            beneficios de acuerdo y con sujeción a las estipulaciones de esta poliza y
+                                            beneficios de acuerdo y con sujeción a las estipulaciones de esta póliza y
                                             que constan en el cuadro de coberturas en lo que respecta a:
                                         </p>
                                     </td>
@@ -127,7 +127,7 @@
                             </table>
 
                             <strong>
-                                <p style="font-size:17px !important;font-family:CIBFontSans-Regular;color:#231f20; font-style: italic; word-spacing: 0.01em;">
+                                <p style="font-size:17px !important;font-family:CIBFontSans-Regular;color:#231f20; font-style: italic;">
                                     <b>1. Nombre del Asegurado Principal</b>
                                 </p>
                             </strong>
@@ -906,7 +906,7 @@
                                     </p>
                                 </strong>
 
-                                <p align="justify" style="color:#4f4b4c; line-height: 1.33em;">
+                                <p align="justify" style="color:#4f4b4c;line-height: 1.1em; font-size:16.5px !important;">
                                     PALIG pagará a los beneficiaros de ley de acuerdo a las condiciones generales de la
                                     póliza, el valor indicado a continuación
                                     después de presentar la reclamación en la que se acredite que el fallecimiento se
@@ -1071,7 +1071,8 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div align="justify" style="font-family: CIBFontSans-Regular; color:#4f4b4c; line-height: 1em; letter-spacing: 0.078em; word-spacing: 0.05em;">
+                                    <div align="justify" style="font-family: CIBFontSans-Regular; color:#4f4b4c;
+                                    word-spacing: 0.01em;line-height: 1.1em; font-size:16.5px !important;">
                                         <p>
                                             Pan-American Life de Colombia Compañía de seguros S.A. asume exclusivamente
                                             la responsabilidad del cumplimiento de las obligaciones del producto frente
@@ -1099,7 +1100,8 @@
                                             </a>
                                         </p>
                                     </div>
-                                    <p align="justify" style="font-family: CIBFontSans-Regular; color:#4f4b4c;">Adicionalmente, puede contactar al Defensor del Consumidor
+                                    <p align="justify" style="font-family: CIBFontSans-Regular;
+                                    color:#4f4b4c;line-height: 1.1em;font-size:16.5px !important;">Adicionalmente, puede contactar al Defensor del Consumidor
                                         Financiero, cuya información de contacto podrá encontrar en nuestra página web
                                         <strong>
                                             <a href="https://bit.ly/3p63DFO" target="_blank" rel="noopener noreferrer">
@@ -1146,8 +1148,8 @@
                             <br/>
                             <br/>
                             <p align="justify"
-                               style="color:#4f4b4c; font-family: CIBFontSans-Regular; letter-spacing: 0.078em; word-spacing: 0.05em; line-height: 1.1em;">
-                                <b>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A</b><![CDATA[&nbsp;]]>que en
+                               style="color:#4f4b4c; font-family: CIBFontSans-Regular; word-spacing: 0.01em;line-height: 1.1em;font-size:16.5px !important;">
+                                <b>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A.</b><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>que en
                                 adelante se denominará PALIG conviene otorgar las coberturas incorporadas en el
                                 presente Certificado individual con sujeción a los términos y condiciones de esta póliza
                                 y sus anexos.
