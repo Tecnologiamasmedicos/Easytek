@@ -86,6 +86,7 @@ class SaleOrder(models.Model):
     debit_request = fields.Boolean('Solicitud debito', default=False, store=True)
     debit_request_date = fields.Date(string='Fecha accion ciclo de cobro', store=True)
     update_account_bancolombia = fields.Boolean('Actualizar cuenta bancolombia', default=False, store=True)
+    sent_hubspot = fields.Boolean('Enviado a HubSpot', default=False, store=True)
     
     @api.depends('order_line', 'state', 'partner_id')
     def _compute_sponsor_id(self):
@@ -931,4 +932,35 @@ class SaleOrder(models.Model):
         template_id = self.env.ref('web_sale_extended.email_template_assisted_purchase_bancolombia').id
         template = self.env['mail.template'].browse(template_id)
         template.sudo().send_mail(self.id, force_send=True)
+        
+    def _cron_register_assisted_purchase_hubspot(self):
+        sale_order_ids = self.env['sale.order'].search([
+            ('state', '=', 'sale'),
+            ('date_order', '<=', fields.datetime.now() - timedelta(hours=24)),
+            ('sent_hubspot', '=', False)
+        ], limit=45)
+        _logger.info('********************************* Venta Asistida *********************************')
+        _logger.info(sale_order_ids)
+        for sale_order_id in sale_order_ids:
+            time.sleep(2)
+            subscription = sale_order_id.subscription_id
+            deal_id = self.env['api.hubspot'].search_deal_id(subscription)
+            
+            if deal_id == False:
+                continue
+            else:
+                _logger.info(deal_id)
+                _logger.info(sale_order_id.assisted_purchase)
+                sale_order_id.write({
+                    'sent_hubspot': 't'
+                })
+                if sale_order_id.assisted_purchase == True:
+                    deal_properties = {
+                        "venta_asistida": "SI"
+                    }
+                else:
+                    deal_properties = {
+                        "venta_asistida": "NO"
+                    }
+                self.env['api.hubspot'].update_deal(deal_id, deal_properties)
     

@@ -1146,6 +1146,10 @@ class WebsiteSaleExtended(WebsiteSale):
                     
                 if 'assisted_purchase' in parametros.keys():
                     qcontext = '?assisted_purchase=' + str(parametros['assisted_purchase'])
+
+            if request.params.get('_ga'):
+                ag = request.params['_ga']
+                qcontext = '?_ga=' + ag
             """ 
                 Redireccionando al formulario de datos del comprador.
                 1er Paso, lanzado desde landpage(no hay proceso de token para saber si la petición es valida),
