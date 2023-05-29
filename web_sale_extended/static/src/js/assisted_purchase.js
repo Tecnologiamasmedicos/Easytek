@@ -14,7 +14,7 @@ odoo.define('web_sale_extended.assisted_purchase', function (require) {
         }
     }); 
     const valores = window.location.search;
-    if ('?send_email=1' == valores){
+    if ('?send_email=1' == valores || '?send_email_account_registration_Bancolombia=1' == valores){
         $('#btn_email').prop("disabled",true);   
         $('#response_email').show();
         alert('El correo ha sido enviado');

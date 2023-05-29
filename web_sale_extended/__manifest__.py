@@ -52,6 +52,7 @@
         'views/bancolombia_reports_view.xml',
         'views/beneficiaries_bancolombia.xml',
         'views/web_sale_shop_address_bancolombia.xml',
+        'views/bancolombia_update_account_view.xml',
         #'reports/sale_order_report.xml',
         #'reports/res_partner_report.xml',
         'data/mail_template_cancellation_plan.xml',
@@ -75,6 +76,8 @@
         'data/billing_cycle_api_hubspot_bot.xml',
         'data/mail_template_welcome_falabella.xml',
         'data/mail_template_welcome_bancolombia.xml',
+        'data/mail_template_update_bancolombia_account.xml',
+        'data/mail_template_assisted_purchase_bancolombia.xml',
         'data/bancolombia_input_files_boot.xml'
     ],
     # only loaded in demonstration mode

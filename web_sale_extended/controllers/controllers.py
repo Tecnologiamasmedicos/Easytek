@@ -38,8 +38,8 @@ class WebsiteSaleExtended(WebsiteSale):
     def generate_access_token(self, order_id):        
         order = request.env['sale.order'].sudo().browse(order_id)
         secret = request.env['ir.config_parameter'].sudo().get_param('database.secret')
-        token_str = '%s%s%s' % (order.partner_id, order.amount_total, order.currency_id)
-        access_token = hmac.new(secret.encode('utf-8'), token_str.encode('utf-8'), hashlib.sha256).hexdigest()        
+        token_str = '%s%s%s' % (order.partner_id.id, order.amount_total, order.currency_id.id)
+        access_token = hmac.new(secret.encode('utf-8'), token_str.encode('utf-8'), hashlib.sha256).hexdigest()
         return access_token
     
     
@@ -544,16 +544,18 @@ class WebsiteSaleExtended(WebsiteSale):
 
         if 'send_email' in request.params and request.params['send_email']: 
             order._send_payment_link_assisted_purchase_email()
-            
             render_values = {
-            'link': self.generate_link(order.id),
-            "access_token": order.access_token,            
-            'order_id': order.id,
-            'order': order,
-            'website_sale_order': order,
+                'order': order,
             }
             
             return request.render("web_sale_extended.confirm_assisted_purchase", render_values)
+        
+        if 'send_email_account_registration_Bancolombia' in request.params and request.params['send_email_account_registration_Bancolombia']:
+            order.register_bancolombia_account()
+            render_values = {
+                'order': order,
+            }
+            return request.render("web_sale_extended.confirm_assisted_purchase_bancolombia", render_values)
 
         if 'download_documents' in request.params and request.params['download_documents']: 
             render_values = {
@@ -832,6 +834,10 @@ class WebsiteSaleExtended(WebsiteSale):
                 request.session['sale_order_id'] = None
                 request.session['sale_transaction_id'] = None
                 return request.render("web_sale_extended.confirm_assisted_purchase_benefice", render_values)
+            elif order.sponsor_id.id == 5521:
+                order.action_payu_confirm()
+                return request.render("web_sale_extended.confirm_assisted_purchase_bancolombia", render_values)
+                
             else:
                 return request.render("web_sale_extended.confirm_assisted_purchase", render_values)
         else:
@@ -1146,6 +1152,41 @@ class WebsiteSaleExtended(WebsiteSale):
         PaymentProcessing.add_payment_transaction(tx)
         return request.redirect('/payment/process')
 
+    @http.route('/update/bancolombia/account', type='http', auth='public', website=True, sitemap=False)
+    def update_bancolombia_account(self, order_id=None, partner_id=None, access_token=None, **kwargs):
+        order_id = request.env['sale.order'].sudo().browse(int(order_id))
+        partner_id = order_id.partner_id
+        amount = order_id.amount_total
+        currency_id = order_id.currency_id.id
+        if 'submitted' in kwargs:
+            encrypt_msg = self.encrypt_aes_gcm(kwargs['account_number'])
+            ciphertext = b64encode(encrypt_msg[0]).decode('utf-8')
+            nonce = b64encode(encrypt_msg[1]).decode('utf-8')
+            auth_tag = b64encode(encrypt_msg[2]).decode('utf-8')
+            secretkey = b64encode(encrypt_msg[3]).decode('utf-8')
+            order_id.write({
+                'update_account_bancolombia': False,
+                'buyer_account_type': kwargs['bancolombia_types_account'],
+                'buyer_account_number': ciphertext,
+                'nonce': nonce,
+                'auth_tag': auth_tag,
+                'secretkey': secretkey
+            })
+            return request.render("web_sale_extended.bancolombia_confirmation_update_account", {})
+        if partner_id and not access_token or order_id.sponsor_id.id != 5521 or order_id.update_account_bancolombia != True:
+            raise werkzeug.exceptions.NotFound
+        if partner_id and access_token:
+            token_ok = request.env['payment.link.wizard'].check_token(access_token, int(partner_id.id), float(amount), int(currency_id))
+            if not token_ok:
+                raise werkzeug.exceptions.NotFound
+        
+        render_values = {
+            'bancolombia_types_account': self.get_bancolombia_types_account(),
+            'website_sale_order': order_id,
+            'partner_id': partner_id
+        }
+        return request.render("web_sale_extended.update_bancolombia_account", render_values)
+    
 
 class SalePortalExtended(CustomerPortal):
 

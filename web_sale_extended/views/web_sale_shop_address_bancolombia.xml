@@ -305,7 +305,7 @@
                                             </select>
                                         </div>
                                         <!-- Tipo de cuenta -->
-                                        <div t-attf-class="form-group col-md-6" t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521">
+                                        <div t-attf-class="form-group col-md-6" t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521 and assisted_purchase != '1'">
                                             <label class="col-form-label" for="bancolombia_types_account">Tipo de cuenta*</label>
                                             <select name="bancolombia_types_account" class="selectpicker" id="bancolombia_types_account" t-attf-class="form-control #{error.get('') and 'is-invalid' or ''}">
                                                 <t t-foreach="bancolombia_types_account" t-as="bta">
@@ -315,16 +315,16 @@
                                                 </t>
                                             </select>
                                         </div>
-                                        <div class="col-lg-6"/>
+                                        <div class="col-lg-6" t-if="assisted_purchase != '1'" />
                                         <!-- Numero de cuenta -->
-                                        <div class="col-lg-6" t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521">
+                                        <div class="col-lg-6" t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521 and assisted_purchase != '1'">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="account_number">Número de cuenta*</label>
                                                 <input type="text" name="account_number" t-attf-class="form-control #{error.get('account_number') and 'is-invalid' or ''}" t-att-value="'account_number' in checkout and checkout['account_number']" />
                                             </div>
                                         </div>
                                         <!-- confirmar Numero de cuenta -->
-                                        <div class="col-lg-6" t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521">
+                                        <div class="col-lg-6" t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521 and assisted_purchase != '1'">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="confirm_account_number">Confirmar número de cuenta*</label>
                                                 <input type="text" name="confirm_account_number" t-attf-class="form-control #{error.get('confirm_account_number') and 'is-invalid' or ''}" t-att-value="'confirm_account_number' in checkout and checkout['confirm_account_number']" />

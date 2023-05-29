@@ -8,19 +8,9 @@
             <field name="arch" type="xml">
                 <tree string="Entrada facturacion Bancolombia Registro de detalle" create="0" edit="0">
                     <field name="type_register" />
-                    <field name="buyer_nit" />
                     <field name="buyer_name" />
-                    <field name="buyer_bank_account" />
-                    <field name="number_account_debited" />
-                    <field name="transaction_type" />
                     <field name="transaction_value" />
-                    <field name="validation_indicator" />
                     <field name="ref1" />
-                    <field name="ref2" />
-                    <field name="expiration_date" />
-                    <field name="billed_periods" />
-                    <field name="cycle" />
-                    <field name="reserved" />
                 </tree>
             </field>
         </record>
@@ -36,28 +26,10 @@
             <field name="model">bancolombia.news.entry</field>
             <field name="arch" type="xml">
                 <tree string="Entrada Novedades Bancolombia" create="0" edit="0">
-                    <field name="agreement" />
-                    <field name="agreement_name" />
-                    <field name="buyer_document_type" />
-                    <field name="identification_buyer" />
-                    <field name="buyer_name" />
-                    <field name="buyer_account_number" />
-                    <field name="buyer_account_type" />
-                    <field name="efr_id" />
                     <field name="ref1" />
-                    <field name="ref2" />
-                    <field name="ref3" />
-                    <field name="value_to_be_debited" />
-                    <field name="debit_schedule_start_date" />
-                    <field name="debit_schedule_end_date" />
-                    <field name="novelty_type" />
-                    <field name="number_retry_days" />
-                    <field name="application_criteria" />
-                    <field name="payment_frequency" />
-                    <field name="n_days" />
-                    <field name="payday" />
-                    <field name="debit_type" />
-                    <field name="response_code" />
+                    <field name="buyer_name" />
+                    <field name="identification_buyer" />
+                    <field name="agreement_name" />
                 </tree>
             </field>
         </record>

@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="email_template_assisted_purchase_bancolombia" model="mail.template">
+            <field name="name">Inscribir cuenta Bancolombia Venta Asistida</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="email_from">Plan Familia Protegida &lt;${object.order_line.product_id.categ_id.servidor_de_correo.smtp_user or user.email_formatted}&gt;</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="subject">Termina de sacar tu Plan Familia Protegida</field>
+            <field name="body_html" type="html">
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+                <!-- <title>Fluid Grid Master</title> -->
+                <style type="text/css">
+                    body, table, td, a {
+                        -webkit-text-size-adjust: 100%;
+                        -ms-text-size-adjust: 100%;
+                    }
+
+                    table, td {
+                        mso-table-lspace: 0pt;
+                        mso-table-rspace: 0pt;
+                    }
+
+                    img {
+                        -ms-interpolation-mode: bicubic;
+                    }
+
+                    /* RESET STYLES */
+
+                    img {
+                        border: 0;
+                        outline: none;
+                        text-decoration: none;
+                    }
+
+                    table {
+                        border-spacing: 0 !important;
+                        border-collapse: collapse !important;
+                        table-layout: fixed !important;
+                        margin: 0 auto !important;
+                    }
+
+                    table table table {
+                        table-layout: auto;
+                    }
+
+
+                    body {
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        width: 100% !important;
+                    }
+
+                    /* iOS BLUE images */
+
+                    a[x-apple-data-detectors] {
+                        color: inherit !important;
+                        text-decoration: none !important;
+                        font-size: inherit !important;
+                        font-family: inherit !important;
+                        font-weight: inherit !important;
+                        line-height: inherit !important;
+                    }
+
+                    /* ANDROID CENTER FIX */
+
+                    div[style*="margin: 16px 0;"] {
+                        margin: 0 !important;
+                    }
+
+                    @media screen and (max-width: 600px) {
+                        .banner {
+                            width: 100% !important;
+                            height: auto !important;
+                        }
+
+                        .table-container {
+                            width: 100% !important;
+                        }
+
+                        .mobile-space {
+                            width: 15px !important;
+                        }
+
+                        .mobile-space-2 {
+                            width: 0px !important;
+                        }
+
+                        .content-row {
+                            display: inline-block;
+                        }
+
+                        .table_100 {
+                            width: 100% !important;
+                        }
+
+                        .table_85 {
+                            width: 85% !important;
+                        }
+
+                        .hide_mobile {
+                            display: none !important;
+                        }
+
+                        .text-yellow {
+                            font-size: 25px !important;
+                            line-height: 28px !important;
+                        }
+
+                        .text-white {
+                            font-size: 20px !important;
+                            line-height: 23px !important;
+                        }
+
+                        .mobile_height {
+                            height: 10px !important;
+                        }
+
+                        .align_center {
+                            text-align: center !important;
+                        }
+
+                        .cta_mobile {
+                            width: 200px !important;
+                        }
+
+                        .blue_text {
+                            font-size: 13px !important;
+                            padding: 10px 5px !important;
+                        }
+
+                        .text-yellow1 {
+                            font-size: 17px !important;
+                            line-height: 20px !important;
+                        }
+                    }
+
+                    @media screen and (max-width: 480px) {
+                        .banner {
+                            width: 100% !important;
+                            height: auto !important;
+                        }
+
+                        .table-container {
+                            width: 100% !important;
+                        }
+
+                        .mobile-space {
+                            width: 15px !important;
+                        }
+
+                        .mobile-space-2 {
+                            width: 0px !important;
+                        }
+
+                        .content-row {
+                            display: inline-block;
+                        }
+
+                        .table_100 {
+                            width: 100% !important;
+                        }
+
+                        .table_85 {
+                            width: 85% !important;
+                        }
+
+                        .hide_mobile {
+                            display: none !important;
+                        }
+
+                        .text-yellow {
+                            font-size: 25px !important;
+                            line-height: 28px !important;
+                        }
+
+                        .text-white {
+                            font-size: 20px !important;
+                            line-height: 23px !important;
+                        }
+
+                        .td-width {
+                            width: 65px !important;
+                        }
+
+                        .td-width-space {
+                            width: 15px !important;
+                        }
+
+                        .mobile_height {
+                            height: 10px !important;
+                        }
+
+                        .align_center {
+                            text-align: center !important;
+                        }
+
+                        .cta_mobile {
+                            width: 200px !important;
+                        }
+
+                        .blue_text {
+                            font-size: 13px !important;
+                            padding: 10px 5px !important;
+                        }
+
+                        .text-yellow1 {
+                            font-size: 13.5px !important;
+                            line-height: 16.5px !important;
+                        }
+                    }
+
+                    /* Media Queries */
+
+                    @media screen and (max-width: 600px) {
+                        .email-container {
+                            width: 100% !important;
+                        }
+
+                        /* What it does: Forces elements to resize to the full width of their container. Useful for resizing images beyond their max-width. */
+                        .fluid,
+                        .fluid-centered {
+                            max-width: 100% !important;
+                            height: auto !important;
+                            margin-left: auto !important;
+                            margin-right: auto !important;
+                        }
+
+                        /* And center justify these ones. */
+                        .fluid-centered {
+                            margin-left: auto !important;
+                            margin-right: auto !important;
+                        }
+
+                        /* What it does: Forces table cells into full-width rows. */
+                        .stack-column,
+                        .stack-column-center {
+                            display: block !important;
+                            width: 100% !important;
+                            max-width: 100% !important;
+                            direction: ltr !important;
+                        }
+
+                        /* And center justify these ones. */
+                        .stack-column-center {
+                            text-align: center !important;
+                        }
+
+                        /* What it does: Generic utility class for centering. Useful for images, buttons, and nested tables. */
+                        .center-on-narrow {
+                            text-align: center !important;
+                            display: block !important;
+                            margin-left: auto !important;
+                            margin-right: auto !important;
+                            float: none !important;
+                        }
+
+                        table.center-on-narrow {
+                            display: inline-block !important;
+                        }
+                    }
+                </style>
+                <div style="background-color:#ffffff; max-width: 600px; margin: auto;">
+                    <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="600">
+                        <tbody>
+                            <tr>
+                                <td align="center" valign="top">
+                                    <table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" class="table_100" style="max-width:600px; width:100%;background-color: #ffffff;" width="600">
+                                        <tbody>
+                                            <tr>
+                                                <td align="left" valign="top">
+                                                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td height="5" style="font-size:1px;line-height:1px;">&#160;</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" style="font-family: Arial, Helvetica, sans-serif; font-size: 6px; line-height: 9px; color: #DDDDDD; font-weight: normal;padding-left: 25px;">
+                                                                    Te falta poco, es rápido.<br/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td height="5" style="font-size:1px;line-height:1px;">&#160;</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table align="center" bgcolor="#2C2A29" border="0" cellpadding="0" cellspacing="0" class="table_100" style="max-width:600px; width:100%;background-color: #2C2A29;" width="600">
+                                        <tbody>
+                                            <tr>
+                                                <td align="left" style="width: 100%;" valign="top">
+                                                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td height="17" style="font-size:1px;line-height:1px;">&#160;</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" style="padding-left: 15px;" valign="top" width="175">
+                                                                    <img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/6064f921ac0d9878ad5f633e/img/header-logo.png" width="175" height="auto" border="0" alt="Logo Bancolombia" class="fr-fic fr-dii"/>
+                                                                    <div style="color: #ffffff; font-size: 0px; height: 0px">
+                                                                        Logo Bancolombia
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td height="17" style="font-size:1px;line-height:1px;">&#160;</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table align="center" border="0" cellpadding="0" cellspacing="0" class="table_100" style="max-width:600px; width:100%;" width="600">
+                                        <tbody>
+                                            <tr>
+                                                <td align="center" style="width: 100%;" valign="top">
+                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td bgcolor="#FDDA24" height="4" style="font-size:1px; line-height:1px;">&#160;</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="center" valign="top" width="600">
+                                                                    <img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/64342febe6d38911e1c05db0/img/Famseg_2.png" width="100%" height="auto" border="0" alt="Sara, Miguel y Sofía disfrutan del Plan Familia Protegida." class="fr-fic fr-dii"/>
+                                                                    <div style="color: #ffffff; font-size: 0px;">
+                                                                        Sara, Miguel y Sofía disfrutan del Plan Familia Protegida.
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="100%">
+                                        <tbody>
+                                            <tr>
+                                                <td align="center" valign="top">
+                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" class="table_95" width="90%">
+                                                        <tr>
+                                                            <td align="left" style="font-family:Arial, sans-serif;font-size:28px;line-height:32px;color:#000000;font-weight: bold;" valign="top">&#160;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="336" align="left" valign="top" style="font-family:Arial, sans-serif;font-size:24px;line-height:27px;color:#000000;font-weight: normal;"> Estamos para ti, continúa sacando</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" style="font-family:Arial, sans-serif;font-size:34px;line-height:36px;color:#000000;font-weight: bold;" valign="top"><span data-scheme-color="@2F2E2D,," data-usefontface="false" data-contrast="none" xml:lang="ES-CO" lang="ES-CO">tu Plan Familia Protegida</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td height="38" style="font-size:1px;line-height:1px;">&#160;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal;" valign="top"> 
+                                                                Hola ${object.partner_id.name},<br/><br/>
+                                                                Hace un momento hablaste con un asesor, donde te apoyaron en el
+                                                                formulario de solicitud de tu Plan Familia Protegida.
+                                                                <br/><br/>
+                                                                Solo te falta enviar la información de tu cuenta bancaria para sacar
+                                                                la póliza:<br/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center" style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal; background-color: #ffffff">&#160;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center" style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal; background-color: #ffffff">&#160;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center" style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal; background-color: #ffffff">
+                                                                <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 260px;" width="260">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td align="center" bgcolor="#fdda24" height="38" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: rgb(0, 0, 0); font-weight: bold; text-decoration: none; border-radius: 50px;" valign="middle">
+                                                                                <a href="${object.generate_link_update_bancolombia_account(object.id)}" name="mail" overwrite="true" style="font-family:Arial, Helvetica, sans-serif;font-size:14px;color:#000000;font-weight:bold;display:block;text-decoration:none;" target="_blank" xt="SPCLICK">
+                                                                                    <span style="color: rgb(0, 0, 0);">CONTINUAR AQUÍ</span>
+                                                                                </a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center" style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal; background-color: #ffffff"> &#160;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center" style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal; background-color: #ffffff"> &#160;</td>
+                                                        </tr>
+                                                        <td align="center" bgcolor="#F5B6CD" height="38" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: rgb(0, 0, 0); font-weight: bold; text-decoration: none; border-radius: 0px;" valign="middle">
+                                                            <a name="mail" overwrite="true" style="font-family:Arial, Helvetica, sans-serif;font-size:14px;color:#000000;font-weight:bold;display:block;text-decoration:none;" target="_blank" xt="SPCLICK">
+                                                                <span style="color: rgb(0, 0, 0);">Juntos protegemos lo que más quieres.</span>
+                                                            </a>
+                                                        </td>
+
+                                                        <!-- Two Even Columns : END -->
+                                                        <tr>
+                                                            <td style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal; background-color: #ffffff"> &#160;</td>
+                                                        </tr>
+                                                    </table>
+
+                                                    <!-- Footer -->
+
+                                                    <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="600">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="center" valign="top">
+                                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="600">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td align="center" valign="top">
+                                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td align="center" valign="top">
+                                                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                                                                        <tbody>
+                                                                                                            <tr>
+                                                                                                                <td align="center" valign="top" width="6%">
+                                                                                                                    <img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/618be0a580b4ca19c4ee2b0f/img/vigilado.png" width="10" height="auto" align="Legal" border="0" class="fr-fic fr-dii" alt="Vigilado"/>
+                                                                                                                </td>
+                                                                                                                <td align="center" valign="top">
+                                                                                                                    <table border="0" cellpadding="0" cellspacing="0" style=" padding:10px 0px;" width="100%">
+                                                                                                                        <tbody>
+                                                                                                                            <tr></tr>
+                                                                                                                            <tr>
+                                                                                                                                <td height="45" style="font-size:1px;line-height:1px;"> &#160;</td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td align="center" style="width: 410px; vertical-align: bottom; text-align: center;" valign="top" width="410">
+                                                                                                                                    <img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/6414bfedb28db76b927786a4/img/cobranding.jpg" width="100%" height="auto" border="0" alt="Una alianza Bancolombia y SURA" class="fr-fic fr-dii" style="max-width: 410px"/>
+                                                                                                                                    <div style="color: #ffffff; font-size: 0px;">
+                                                                                                                                        Una alianza Bancolombia y SURA
+                                                                                                                                    </div>
+                                                                                                                                </td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td height="40" style="font-size:1px;line-height:1px;">
+                                                                                                                                    &#160;
+                                                                                                                                </td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td style="padding-top:0px;">
+                                                                                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                                                                                                        <tbody>
+                                                                                                                                            <tr>
+                                                                                                                                                <td align="center" valign="top">
+                                                                                                                                                    <img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/6064f921ac0d9878ad5f633e/img/line.png" alt="footer-logo" width="100%" height="2" style="max-width: 538px;" border="0" class="fr-fic fr-dii"/>
+                                                                                                                                                </td>
+                                                                                                                                            </tr>
+                                                                                                                                        </tbody>
+                                                                                                                                    </table>
+                                                                                                                                </td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 12px; color: #000; font-weight: normal; text-align: left;padding-top: 20px;">
+                                                                                                                                    <p style="margin: unset;">
+                                                                                                                                        *Pan-American Life de Colombia Compañía de Seguros S.A. asume exclusivamente la responsabilidad del cumplimiento de las obligaciones del producto frente al consumidor financiero. Este producto es ofrecido por la red de BANCOLOMBIA S.A. limitándose única y exclusivamente al correcto cumplimiento de las instrucciones debidamente impartidas por Pan-American Life de Colombia Compañía de Seguros S.A. para la prestación del servicio en dicha red. <strong><br/><br/> Bancolombia</strong> nunca te solicitará datos financieros como usuarios, claves, números de tarjetas de crédito con sus códigos de seguridad y fechas de vencimiento mediante vínculos de correo electrónico o llamadas telefónicas. Para verificar la autenticidad de este correo electrónico puedes reenviarlo a
+                                                                                                                                        <a href="mailto:correosospechoso@bancolombia.com.co" name="qLink14" overwrite="true" rel="noopener noreferrer" style="text-decoration:underline;color:#000; font-family:Arial, sans-serif;font-size: 9px; font-weight: bold;" target="_blank" xt="SPCLICK">
+                                                                                                                                            correosospechoso@bancolombia.com.co
+                                                                                                                                        </a>
+                                                                                                                                    </p>
+                                                                                                                                </td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 12px; color: #000000; font-weight: normal; text-align: left; padding-top:22px;">
+                                                                                                                                    Si tienes alguna inquietud puedes contactarnos en nuestras líneas de atención telefónica: <br/> <br/> Bogotá
+                                                                                                                                    <a href="tel:(601)%20343%200000" name="qLink13" overwrite="true" rel="noopener noreferrer" style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 16px; color: #000000; font-weight: bold; text-align: left;text-decoration: none;" target="_blank" xt="SPCLICK">
+                                                                                                                                        (601) 343 0000
+                                                                                                                                    </a>
+                                                                                                                                    , Medellín
+                                                                                                                                    <a href="tel:(604)%20510%209000" name="qLink12" overwrite="true" rel="noopener noreferrer" style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 16px; color: #000000; font-weight: bold; text-align: left;text-decoration: none;" target="_blank" xt="SPCLICK">
+                                                                                                                                        (604) 510 9000
+                                                                                                                                    </a>
+                                                                                                                                    , Cali
+                                                                                                                                    <a href="tel:(602)%20554%200505" name="qLink11" overwrite="true" rel="noopener noreferrer" style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 16px; color: #000000; font-weight: bold; text-align: left;text-decoration: none;" target="_blank" xt="SPCLICK">
+                                                                                                                                        (602) 554 0505
+                                                                                                                                    </a>
+                                                                                                                                    , Barranquilla
+                                                                                                                                    <a href="tel:(605)%20361%208888" name="qLink10" overwrite="true" rel="noopener noreferrer" style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 16px; color: #000000; font-weight: bold; text-align: left;text-decoration: none;" target="_blank" xt="SPCLICK">
+                                                                                                                                        (605) 361 8888
+                                                                                                                                    </a>
+                                                                                                                                    , Bucaramanga
+                                                                                                                                    <a href="tel:(607)%20697%202525" name="qLink9" overwrite="true" rel="noopener noreferrer" style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 16px; color: #000000; font-weight: bold; text-align: left;text-decoration: none;" target="_blank" xt="SPCLICK">
+                                                                                                                                        (607) 697 2525
+                                                                                                                                    </a>
+                                                                                                                                    , Cartagena
+                                                                                                                                    <a href="tel:(605)%20693%204400" name="qLink8" overwrite="true" rel="noopener noreferrer" style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 16px; color: #000000; font-weight: bold; text-align: left;text-decoration: none;" target="_blank" xt="SPCLICK">
+                                                                                                                                        (605) 693 4400
+                                                                                                                                    </a>
+                                                                                                                                    , Resto del país
+                                                                                                                                    <a href="tel:018000912345" name="qLink7" overwrite="true" rel="noopener noreferrer" style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 16px; color: #000000; font-weight: bold; text-align: left;text-decoration: none;" target="_blank" xt="SPCLICK">
+                                                                                                                                        018000912345
+                                                                                                                                    </a>
+                                                                                                                                    Sede principal Cra. 48 Nro. 26-85 Torre Norte. Medellín - Colombia
+                                                                                                                                </td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td height="15" style="font-size:1px;line-height:1px;">&#160;</td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td style="font-family: Arial, Helvetica, sans-serif; font-size: 8.56px; line-height: 12px; color: #000; font-weight: normal; text-align: left;">
+                                                                                                                                    <p style="margin: unset;">
+                                                                                                                                        <a href="https://www.bancolombia.com/wps/portal/acerca-de/centro-preferencias?email=$(email)/?QCPARAMS" name="qLink6" overwrite="true" rel="noopener noreferrer" style="text-decoration:underline;color:#000; font-family:Arial, sans-serif;font-size:8.68px; font-weight: bold;" target="_blank" xt="SPCLICK">
+                                                                                                                                            &#160;Cancelar suscripción
+                                                                                                                                        </a>
+                                                                                                                                    </p>
+                                                                                                                                </td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td height="30" style="font-size:1px;line-height:1px;">&#160;</td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td>
+                                                                                                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" class="table-container" style="max-width: 260px;" width="260">
+                                                                                                                                        <tbody>
+                                                                                                                                            <tr>
+                                                                                                                                                <td align="left" class="button-wrapper" valign="top">
+                                                                                                                                                    <a href="https://www.facebook.com/bancolombia/" name="qLink6" overwrite="true" rel="noopener noreferrer" target="_blank" xt="SPCLICK">
+                                                                                                                                                        <img class="banner fr-fic fr-dii" src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/61154d31702d0f675d20ba2c/img/facebook1.png" width="52" height="21" style="max-width: 52px;" border="0" alt="Logo Facebook"/>
+                                                                                                                                                    </a>
+                                                                                                                                                    <div style="color: #ffffff; font-size: 0px;">
+                                                                                                                                                        Logo Facebook.
+                                                                                                                                                    </div>
+                                                                                                                                                </td>
+                                                                                                                                                <td align="left" class="button-wrapper" valign="top">
+                                                                                                                                                    <a href="https://twitter.com/Bancolombia" name="qLink5" overwrite="true" target="_blank" xt="SPCLICK">
+                                                                                                                                                        <img class="banner fr-fic fr-dii" src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/61154d31702d0f675d20ba2c/img/twitter1.png" width="52" height="21" style="max-width: 52px;" border="0" alt="Logo Twitter"/>
+                                                                                                                                                    </a>
+                                                                                                                                                    <div style="color: #ffffff; font-size: 0px;">
+                                                                                                                                                        Logo Twitter.
+                                                                                                                                                    </div>
+                                                                                                                                                </td>
+                                                                                                                                                <td align="left" class="button-wrapper" valign="top">
+                                                                                                                                                    <a href="https://www.linkedin.com/company/22690/" name="qLink4" overwrite="true" target="_blank" xt="SPCLICK">
+                                                                                                                                                        <img class="banner fr-fic fr-dii" src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/61154d31702d0f675d20ba2c/img/linked.png" width="51" height="21" style="max-width: 51px;" border="0" alt="Logo Linkedin"/>
+                                                                                                                                                    </a>
+                                                                                                                                                    <div style="color: #ffffff; font-size: 0px;">
+                                                                                                                                                        Logo Linkedin.
+                                                                                                                                                    </div>
+                                                                                                                                                </td>
+                                                                                                                                                <td align="left" class="button-wrapper" valign="top">
+                                                                                                                                                    <a href="https://www.instagram.com/bancolombia/" name="qLink3" overwrite="true" target="_blank" xt="SPCLICK">
+                                                                                                                                                        <img class="banner fr-fic fr-dii" src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/6414bfedb28db76b927786a4/img/instagram_ico_vd.png" width="52" height="21" style="max-width: 52px;" border="0" alt="Logo Instagram"/>
+                                                                                                                                                    </a>
+                                                                                                                                                    <div style="color: #ffffff; font-size: 0px;">
+                                                                                                                                                        Logo Instagram.
+                                                                                                                                                    </div>
+                                                                                                                                                </td>
+                                                                                                                                                <td align="left" class="button-wrapper" valign="top">
+                                                                                                                                                    <a href="https://www.youtube.com/user/GrupoBancolombia" name="qLink2" overwrite="true" target="_blank" xt="SPCLICK">
+                                                                                                                                                        <img class="banner fr-fic fr-dii" src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/61154d31702d0f675d20ba2c/img/youtube1.png" width="52" height="21" style="max-width: 52px;" border="0" alt="Logo Youtube"/>
+                                                                                                                                                    </a>
+                                                                                                                                                    <div style="color: #ffffff; font-size: 0px;">
+                                                                                                                                                        Logo Youtube.
+                                                                                                                                                    </div>
+                                                                                                                                                </td>
+                                                                                                                                                <td align="left" class="button-wrapper" valign="top">
+                                                                                                                                                    <a href="https://api.whatsapp.com/send/?phone=573013536788&amp;text&amp;app_absent=0" name="qLink1" overwrite="true" rel="noopener noreferrer" target="_blank" xt="SPCLICK">
+                                                                                                                                                        <img class="banner fr-fic fr-dii" src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/61154d31702d0f675d20ba2c/img/ICONO-WP.png" width="52" height="21" style="    margin-left: -10px;max-width: 52px;" border="0" alt="Logo Whatsapp"/>
+                                                                                                                                                    </a>
+                                                                                                                                                    <div style="color: #ffffff; font-size: 0px;">
+                                                                                                                                                        Logo Whatsapp.
+                                                                                                                                                    </div>
+                                                                                                                                                </td>
+                                                                                                                                            </tr>
+                                                                                                                                        </tbody>
+                                                                                                                                    </table>
+                                                                                                                                </td>
+                                                                                                                            </tr>
+                                                                                                                        </tbody>
+                                                                                                                    </table>
+                                                                                                                </td>
+                                                                                                                <td width="5%">&#160;</td>
+                                                                                                            </tr>
+                                                                                                        </tbody>
+                                                                                                    </table>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="center" valign="top">&#160;</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>
