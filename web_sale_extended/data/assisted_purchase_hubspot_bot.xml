@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="1">
+        <record id="ir_cron_register_assisted_purchase_hubspot" model="ir.cron">
+            <field name="name">Registro tipo de venta en HubSpot</field>
+            <field name="model_id" ref="model_sale_order"/>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">model._cron_register_assisted_purchase_hubspot()</field>
+            <field eval="False" name="active" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">40</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+        </record>
+    </data>
+</odoo>

@@ -939,21 +939,14 @@ class SaleOrder(models.Model):
             ('date_order', '<=', fields.datetime.now() - timedelta(hours=24)),
             ('sent_hubspot', '=', False)
         ], limit=45)
-        _logger.info('********************************* Venta Asistida *********************************')
-        _logger.info(sale_order_ids)
         for sale_order_id in sale_order_ids:
             time.sleep(2)
             subscription = sale_order_id.subscription_id
             deal_id = self.env['api.hubspot'].search_deal_id(subscription)
-            
             if deal_id == False:
                 continue
             else:
-                _logger.info(deal_id)
-                _logger.info(sale_order_id.assisted_purchase)
-                sale_order_id.write({
-                    'sent_hubspot': 't'
-                })
+                sale_order_id.sent_hubspot = True
                 if sale_order_id.assisted_purchase == True:
                     deal_properties = {
                         "venta_asistida": "SI"
@@ -963,4 +956,3 @@ class SaleOrder(models.Model):
                         "venta_asistida": "NO"
                     }
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
-    
