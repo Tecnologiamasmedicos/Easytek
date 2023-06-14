@@ -4,7 +4,9 @@
         <record id="payment_link_assisted_purchase_email_template" model="mail.template">
             <field name="name">Link pago venta asistida Code</field>
             <field name="model_id" ref="sale.model_sale_order" />
-            <field name="email_from">Más Médicos &lt;contacto@masmedicos.co&gt;</field>
+            <field name="email_from">Más Médicos &lt;${object.order_line.product_id.categ_id.servidor_de_correo.smtp_user or user.email_formatted}&gt;</field>
+            <field name="mail_server_id">${object.order_line.product_id.categ_id.servidor_de_correo.smtp_user}</field>
+            <field name="lang">${object.partner_id.lang}</field>
             <field name="partner_to">${object.partner_id.id}</field>
             <field name="subject">¡Estás a un paso de disfrutar de Más Médicos!</field>
             <field name="body_html" type="html">
