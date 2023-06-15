@@ -5,8 +5,6 @@
             <field name="name">Terminar compra, registra tus beneficiarios</field>
             <field name="model_id" ref="sale.model_sale_order" />
             <field name="email_from">Más Médicos &lt;${object.order_line.product_id.categ_id.servidor_de_correo.smtp_user or user.email_formatted}&gt;</field>
-            <field name="mail_server_id">${object.order_line.product_id.categ_id.servidor_de_correo.smtp_user}</field>
-            <field name="lang">${object.partner_id.lang}</field>
             <field name="partner_to">${object.partner_id.id}</field>
             <field name="subject">¡Ups, te falta registrar a tus beneficiarios!</field>
             <field name="body_html" type="html">
