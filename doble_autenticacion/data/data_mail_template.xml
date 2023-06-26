@@ -16,7 +16,7 @@
                         <br/>
                         Este código expira en 3 minutos.
                     </p>
-                </div>v
+                </div>
             </field>
             <field name="user_signature" eval="False"/>
             <field name="auto_delete" eval="True"/>
