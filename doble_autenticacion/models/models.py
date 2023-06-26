@@ -27,7 +27,14 @@ class SaleOrderExtend(models.Model):
         ctx = {
             'codigo': str(self.codigo).zfill(6),
         }
-        template = self.env.ref('doble_autenticacion.email_template_envio_codigo')
+        servidor = self.order_line.product_id.categ_id.servidor_de_correo
+        if servidor:
+            if servidor.smtp_user == 'asfalabella@masmedicos.co':
+                template = self.env.ref('doble_autenticacion.email_template_envio_codigo_falabella')
+            elif servidor.smtp_user == 'zvc0082@palig.com':
+                template = self.env.ref('doble_autenticacion.email_template_envio_codigo_bancolombia')
+            else:
+                template = self.env.ref('doble_autenticacion.email_template_envio_codigo_masmedicos')
         template.sudo().with_context(ctx).send_mail(self.id, force_send=True)
         self.partner_id.email = False
 
