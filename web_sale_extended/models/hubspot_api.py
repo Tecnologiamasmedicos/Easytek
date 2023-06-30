@@ -393,3 +393,11 @@ class hubSpot(models.Model):
             return api_response
         except ApiException as e:
             raise("Exception when calling associations_api->create: %s\n" % e)
+        
+    def get_property_history(self, object_type, object_id, property_name):
+        client = self.hubspot_api_client()
+        try:
+            api_response = client.crm.objects.basic_api.get_object_property_history(object_type=object_type, object_id=object_id, property_name=property_name)
+            return api_response["properties"][property_name]
+        except ApiException as e:
+            raise("Exception when calling associations_api->get: %s\n" % e)
