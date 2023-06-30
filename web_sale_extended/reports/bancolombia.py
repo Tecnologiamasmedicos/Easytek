@@ -10,6 +10,45 @@ from base64 import b64decode
 _logger = logging.getLogger(__name__)
 
 
+class BancolombiaReport(models.Model):
+    _name = 'bancolombia.report'
+    _auto = False
+    
+    sale_order_id = fields.Many2one('sale.order', string='Order', readonly=True)
+    sale_order_state = fields.Selection([
+        ('draft', 'Presupuesto'),
+        ('sent', 'Presupuesto enviado'),
+        ('sale', 'Pedido de Venta'),
+        ('done', 'Bloqueado'),
+        ('cancel', 'Cancelado'),
+        ('payu_pending', 'Esperando Aprobación'),
+        ('payu_approved', 'Pago Aprobado')
+    ])
+    buyer_name = fields.Char('Nombre del Pagador',readonly=True)
+    amount = fields.Char('Valor a debitar',readonly=True)
+    debit_request = fields.Boolean('Solicitud de debito')
+    
+    def init(self):
+        tools.drop_view_if_exists(self._cr, 'bancolombia_report')
+        query = """
+        CREATE or REPLACE VIEW bancolombia_report AS(
+        select 
+        row_number() OVER (ORDER BY sorder.id) as id,
+        sorder.id as sale_order_id,
+        sorder.state as sale_order_state,
+        p.name as buyer_name,
+        sorder.amount_total as amount,
+        sorder.debit_request as debit_request
+        
+        
+        from sale_order sorder
+        left join res_partner p on p.id = sorder.partner_id
+        where sorder.sponsor_id=5521
+        order by sorder.id desc
+        );
+        """
+        self.env.cr.execute(query)
+
 class BancolombiaNewsEntry(models.Model):
     _name = 'bancolombia.news.entry'
     _auto = False
