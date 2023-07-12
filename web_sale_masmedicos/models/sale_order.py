@@ -48,16 +48,17 @@ class SaleOrder(models.Model):
             for filename in filelist:
                 mode = filename.st_mode
                 filename = filename.filename
-                if not filename.startswith('OK_') and not S_ISDIR(mode):
+                if not filename.startswith('OK_') and not S_ISDIR(mode) and \
+                        (filename.startswith('REC') or filename.startswith('rec')):
                     with sftp.open(path + filename) as f:
                         lines = f.readlines()
                         lines_cuentas_incorrectas = [lines[0]] if len(lines) > 1 else []
                         for line in lines[1:]:
-                            referencia = line[80:110].strip()
+                            referencia = line[80:110].strip().upper()
                             codigo_respuesta = line[171:174].strip()
                             beneficiary_list = []
                             order = self.env['sale.order'].search([('name', '=ilike', referencia)])
-                            if order:
+                            if order and order.state != 'sale':
                                 order.write({'nro_intentos': order.nro_intentos + 1})
                                 if codigo_respuesta in ['OK0', 'OK1', 'OK2', 'OK3', 'OK4']:
                                     print('recaudo exitoso')
@@ -131,7 +132,7 @@ class SaleOrder(models.Model):
                                     if order.nro_intentos > 3:
                                         order.action_cancel()
                                         order.write({'buyer_account_type': False, 'buyer_account_number':False})
-                            else:
+                            elif referencia.startswith('LIS'):
                                 move = self.env['account.move'].search([('name', '=ilike', referencia)])
                                 if move:
                                     move.write({'nro_intentos': order.nro_intentos + 1})
@@ -508,4 +509,3 @@ class SaleOrder(models.Model):
 
                 else:
                     continue
-
