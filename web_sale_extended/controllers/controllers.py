@@ -571,94 +571,13 @@ class WebsiteSaleExtended(WebsiteSale):
             }
             
             if order.state == 'payu_approved':
-                beneficiary_list = []
                 order.action_confirm()
                 order._send_order_confirmation_mail()
-
-                order.partner_id.write({
-                    'subscription_id': order.subscription_id.id
-                })
-
-                order.beneficiary0_id.write({
-                    'subscription_id': order.subscription_id.id
-                })
-
-                order.beneficiary1_id.write({
-                    'subscription_id': order.subscription_id.id
-                })
-
-                order.beneficiary2_id.write({
-                    'subscription_id': order.subscription_id.id
-                })
-
-                order.beneficiary3_id.write({
-                    'subscription_id': order.subscription_id.id
-                })
-
-                order.beneficiary4_id.write({
-                    'subscription_id': order.subscription_id.id
-                })
-
-                order.beneficiary5_id.write({
-                    'subscription_id': order.subscription_id.id
-                })
-
-                order.beneficiary6_id.write({
-                    'subscription_id': order.subscription_id.id
-                })
-
-                beneficiary_list.append((4, order.partner_id.id))
-                beneficiary_list.append((4, order.beneficiary0_id.id))
-                beneficiary_list.append((4, order.beneficiary1_id.id))
-                beneficiary_list.append((4, order.beneficiary2_id.id))
-                beneficiary_list.append((4, order.beneficiary3_id.id))
-                beneficiary_list.append((4, order.beneficiary4_id.id))
-                beneficiary_list.append((4, order.beneficiary5_id.id))
-                beneficiary_list.append((4, order.beneficiary6_id.id))
-
-                order.pet1_id.write({
-                    'subscription_id': order.subscription_id.id
-                })
-
-                order.pet2_id.write({
-                    'subscription_id': order.subscription_id.id
-                })
-
-                order.pet3_id.write({
-                    'subscription_id': order.subscription_id.id
-                })
-
-                order.pet4_id.write({
-                    'subscription_id': order.subscription_id.id
-                })
-
-                order.pet5_id.write({
-                    'subscription_id': order.subscription_id.id
-                })
-
-                order.pet6_id.write({
-                    'subscription_id': order.subscription_id.id
-                })
-
-                beneficiary_list.append((4, order.pet1_id.id))
-                beneficiary_list.append((4, order.pet2_id.id))
-                beneficiary_list.append((4, order.pet3_id.id))
-                beneficiary_list.append((4, order.pet4_id.id))
-                beneficiary_list.append((4, order.pet5_id.id))
-                beneficiary_list.append((4, order.pet6_id.id))
-
-                order.subscription_id.write({
-                    'subscription_partner_ids': beneficiary_list
-                })                
-            
-            
             return request.render("web_sale_extended.beneficiary_detail", render_values)
         
         Partner = order.partner_id
         BeneficiaryPartner = request.env['res.partner'].sudo()
-        Subscription = order_detail.subscription_id
-        beneficiary_list = []
-                
+
         if 'infoBuyer' in kwargs:
             Partner.sudo().write({
                 'company_type': 'person',
@@ -671,8 +590,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 'gender' : kwargs['sex'],
                 'marital_status' : kwargs['estado_civil'],
                 'main_insured': True,
-                'sponsor_id': sponsor_id.id,
-                'subscription_id': Subscription.id
+                'sponsor_id': sponsor_id.id
             })
 
             phone_code_country = request.env['res.country'].sudo().search([('id', '=', int(Partner.country_id.id))], limit=1)
@@ -687,7 +605,6 @@ class WebsiteSaleExtended(WebsiteSale):
                     'phone' : '(+' + str(phone_code_country.phone_code) + ') ' + str(kwargs['fijo'])
                 })
         
-            beneficiary_list.append((4, Partner.id))
             order.write({
                 'beneficiary0_id': Partner.id
             })
@@ -730,10 +647,8 @@ class WebsiteSaleExtended(WebsiteSale):
                 'address_beneficiary': kwargs['address'],
                 'beneficiary_number': 1,
                 'main_insured': True,
-                'sponsor_id': sponsor_id.id,
-                'subscription_id': Subscription.id,
+                'sponsor_id': sponsor_id.id
             })
-            beneficiary_list.append((4, NewBeneficiaryPartner.id))
             order.write({
                 'beneficiary0_id': NewBeneficiaryPartner.id
             })
@@ -821,10 +736,8 @@ class WebsiteSaleExtended(WebsiteSale):
                 'beneficiary_number': i+2,
                 'beneficiary': True,
                 'clerk_code': clerk_code,
-                'sponsor_id': sponsor_id.id,
-                'subscription_id': Subscription.id,
+                'sponsor_id': sponsor_id.id
             })
-            beneficiary_list.append((4, NewBeneficiaryPartner.id))                
             if i == 0:
                 order.write({
                     'beneficiary1_id': NewBeneficiaryPartner.id
@@ -864,10 +777,8 @@ class WebsiteSaleExtended(WebsiteSale):
                     'person_type': "2",
                     'beneficiary': True,
                     'company_type': 'pet',
-                    'sponsor_id': sponsor_id.id,
-                    'subscription_id': Subscription.id,
+                    'sponsor_id': sponsor_id.id
                 })
-                beneficiary_list.append((4, NewBeneficiaryPartner.id))     
                 if i == 0:
                     order.write({
                         'pet1_id': NewBeneficiaryPartner.id
@@ -908,10 +819,6 @@ class WebsiteSaleExtended(WebsiteSale):
                     if (order.subscription_id.template_id.is_fixed_policy and date.today().day <= order.subscription_id.template_id.cutoff_day) or not order.subscription_id.template_id.is_fixed_policy:
                         order._send_order_confirmation_mail()
 
-                order.subscription_id.write({
-                    'subscription_partner_ids': beneficiary_list,
-                })
-
                 request.session['sale_order_id'] = None
                 request.session['sale_transaction_id'] = None
                 return request.render("web_sale_extended.confirm_assisted_purchase_benefice", render_values)
@@ -932,9 +839,6 @@ class WebsiteSaleExtended(WebsiteSale):
                 order.action_payu_confirm()
                 return request.render("web_sale_extended.bancolombia_confirmation_sale", kwargs)
             else:
-                order.subscription_id.write({
-                    'subscription_partner_ids': beneficiary_list,
-                })
                 """ Confirmando Orden de Venta luego del proceso exitoso de beneficiarios """
                 order.action_confirm()
                 order._send_order_confirmation_mail()
@@ -1247,6 +1151,7 @@ class WebsiteSaleExtended(WebsiteSale):
             secretkey = b64encode(encrypt_msg[3]).decode('utf-8')
             order_id.write({
                 'update_account_bancolombia': False,
+                'debit_request': False,
                 'buyer_account_type': kwargs['bancolombia_types_account'],
                 'buyer_account_number': ciphertext,
                 'nonce': nonce,

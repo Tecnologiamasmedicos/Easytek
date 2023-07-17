@@ -84,7 +84,7 @@ class SaleOrder(models.Model):
     auth_tag = fields.Char('auth_tag')
     secretkey = fields.Char('secretkey')
     debit_request = fields.Boolean('Solicitud debito', default=False, store=True)
-    debit_request_date = fields.Date(string='Fecha accion ciclo de cobro', store=True)
+    debit_request_date = fields.Date(string='Fecha de transmisión Bancolombia', store=True)
     update_account_bancolombia = fields.Boolean('Actualizar cuenta bancolombia', default=False, store=True)
     sent_hubspot = fields.Boolean('Enviado a HubSpot', default=False, store=True)
     
@@ -370,6 +370,70 @@ class SaleOrder(models.Model):
                 else:
                     continue
 
+    def write_subscription_beneficiaries(self, subscription):
+        self.partner_id.write({
+            'subscription_id': subscription.id
+        })
+        self.beneficiary0_id.write({
+            'subscription_id': subscription.id
+        })
+        self.beneficiary1_id.write({
+            'subscription_id': subscription.id
+        })
+        self.beneficiary2_id.write({
+            'subscription_id': subscription.id
+        })
+        self.beneficiary3_id.write({
+            'subscription_id': subscription.id
+        })
+        self.beneficiary4_id.write({
+            'subscription_id': subscription.id
+        })
+        self.beneficiary5_id.write({
+            'subscription_id': subscription.id
+        })
+        self.beneficiary6_id.write({
+            'subscription_id': subscription.id
+        })
+        beneficiary_list = []
+        beneficiary_list.append((4, self.partner_id.id))
+        beneficiary_list.append((4, self.beneficiary0_id.id))
+        beneficiary_list.append((4, self.beneficiary1_id.id))
+        beneficiary_list.append((4, self.beneficiary2_id.id))
+        beneficiary_list.append((4, self.beneficiary3_id.id))
+        beneficiary_list.append((4, self.beneficiary4_id.id))
+        beneficiary_list.append((4, self.beneficiary5_id.id))
+        beneficiary_list.append((4, self.beneficiary6_id.id))
+
+        self.pet1_id.write({
+            'subscription_id': subscription.id
+        })
+        self.pet2_id.write({
+            'subscription_id': subscription.id
+        })
+        self.pet3_id.write({
+            'subscription_id': subscription.id
+        })
+        self.pet4_id.write({
+            'subscription_id': subscription.id
+        })
+        self.pet5_id.write({
+            'subscription_id': subscription.id
+        })
+        self.pet6_id.write({
+            'subscription_id': subscription.id
+        })
+        beneficiary_list.append((4, self.pet1_id.id))
+        beneficiary_list.append((4, self.pet2_id.id))
+        beneficiary_list.append((4, self.pet3_id.id))
+        beneficiary_list.append((4, self.pet4_id.id))
+        beneficiary_list.append((4, self.pet5_id.id))
+        beneficiary_list.append((4, self.pet6_id.id))
+        
+        subscription.write({
+            'subscription_partner_ids': beneficiary_list
+        })
+
     def _prepare_subscription_data(self, template):
         res = super(SaleOrder, self)._prepare_subscription_data(template) 
         current_date = date.today()     
@@ -425,6 +489,7 @@ class SaleOrder(models.Model):
                 order.write({
                     'subscription_id': subscription.id,
                 })
+                order.write_subscription_beneficiaries(subscription)
         return res
     
     
@@ -735,86 +800,9 @@ class SaleOrder(models.Model):
         """ Selección de ordenes de venta que estan aprobadas por PayU y confirmmarlas """
         sale_ids = self.env['sale.order'].search([('state', '=', 'payu_approved'),('assisted_purchase', '=', True)])
         _logger.error(sale_ids)
-        beneficiary_list = []
         for sale in sale_ids:            
             sale.action_confirm()
             sale._send_order_confirmation_mail()
-            
-            sale.partner_id.write({
-                'subscription_id': sale.subscription_id.id
-            })
-            
-            sale.beneficiary0_id.write({
-                'subscription_id': sale.subscription_id.id
-            })
-            
-            sale.beneficiary1_id.write({
-                'subscription_id': sale.subscription_id.id
-            })
-            
-            sale.beneficiary2_id.write({
-                'subscription_id': sale.subscription_id.id
-            })
-            
-            sale.beneficiary3_id.write({
-                'subscription_id': sale.subscription_id.id
-            })
-            
-            sale.beneficiary4_id.write({
-                'subscription_id': sale.subscription_id.id
-            })
-            
-            sale.beneficiary5_id.write({
-                'subscription_id': sale.subscription_id.id
-            })
-            
-            sale.beneficiary6_id.write({
-                'subscription_id': sale.subscription_id.id
-            })
-            
-            beneficiary_list.append((4, sale.partner_id.id))
-            beneficiary_list.append((4, sale.beneficiary0_id.id))
-            beneficiary_list.append((4, sale.beneficiary1_id.id))
-            beneficiary_list.append((4, sale.beneficiary2_id.id))
-            beneficiary_list.append((4, sale.beneficiary3_id.id))
-            beneficiary_list.append((4, sale.beneficiary4_id.id))
-            beneficiary_list.append((4, sale.beneficiary5_id.id))
-            beneficiary_list.append((4, sale.beneficiary6_id.id))
-
-            sale.pet1_id.write({
-                'subscription_id': sale.subscription_id.id
-            })
-
-            sale.pet2_id.write({
-                'subscription_id': sale.subscription_id.id
-            })
-
-            sale.pet3_id.write({
-                'subscription_id': sale.subscription_id.id
-            })
-
-            sale.pet4_id.write({
-                'subscription_id': sale.subscription_id.id
-            })
-
-            sale.pet5_id.write({
-                'subscription_id': sale.subscription_id.id
-            })
-
-            sale.pet6_id.write({
-                'subscription_id': sale.subscription_id.id
-            })
-
-            beneficiary_list.append((4, sale.pet1_id.id))
-            beneficiary_list.append((4, sale.pet2_id.id))
-            beneficiary_list.append((4, sale.pet3_id.id))
-            beneficiary_list.append((4, sale.pet4_id.id))
-            beneficiary_list.append((4, sale.pet5_id.id))
-            beneficiary_list.append((4, sale.pet6_id.id))
-            
-            sale.subscription_id.write({
-                'subscription_partner_ids': beneficiary_list
-            })
 
     def generate_access_token(self, order_id):        
         order = self.env['sale.order'].sudo().browse(order_id)
@@ -923,6 +911,11 @@ class SaleOrder(models.Model):
         
     def update_bancolombia_account(self):
         self.update_account_bancolombia = True
+        self.buyer_account_type = ''
+        self.buyer_account_number = ''
+        self.nonce = ''
+        self.auth_tag = ''
+        self.secretkey = ''
         template_id = self.env.ref('web_sale_extended.email_template_update_bancolombia_account').id
         template = self.env['mail.template'].browse(template_id)
         template.sudo().send_mail(self.id, force_send=True)
@@ -932,6 +925,14 @@ class SaleOrder(models.Model):
         template_id = self.env.ref('web_sale_extended.email_template_assisted_purchase_bancolombia').id
         template = self.env['mail.template'].browse(template_id)
         template.sudo().send_mail(self.id, force_send=True)
+
+    def retransmit_record_bancol(self):
+        self.debit_request = False
+        body_message = """
+            <b><span style='color:#fff3cd;'>Transmisión Archivos de entrada Bancolombia</span></b><br/>
+            <p>Se va a volver a trasmitir esta Orden de venta en los archivos de entrada de Bancolombia</p>
+        """ 
+        self.message_post(body=body_message, type="comment")
         
     def _cron_register_assisted_purchase_hubspot(self):
         sale_order_ids = self.env['sale.order'].search([

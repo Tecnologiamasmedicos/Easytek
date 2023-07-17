@@ -117,7 +117,7 @@ class BancolombiaNewsEntry(models.Model):
         from sale_order sorder
         left join res_partner p on p.id = sorder.partner_id
         left join res_partner_document_type rpdt on rpdt.id = p.document_type_id
-        where 1=1 and sorder.state='payu_pending' and sorder.debit_request='f' and sorder.sponsor_id=5521
+        where 1=1 and sorder.state='payu_pending' and sorder.debit_request='f' and sorder.sponsor_id=5521 and sorder.buyer_account_number!=''
         order by sorder.id desc
         );
         """
@@ -175,7 +175,7 @@ class BancolombiaBillingEntry(models.Model):
         from sale_order sorder
         left join res_partner p on p.id = sorder.partner_id
         left join res_partner_document_type rpdt on rpdt.id = p.document_type_id
-        where 1=1 and sorder.state='payu_pending' and sorder.debit_request='f' and sorder.sponsor_id=5521
+        where 1=1 and sorder.state='payu_pending' and sorder.debit_request='f' and sorder.sponsor_id=5521 and sorder.buyer_account_number!=''
         order by sorder.id desc
         );
         """

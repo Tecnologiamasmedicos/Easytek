@@ -55,7 +55,6 @@ class SaleOrder(models.Model):
                         for line in lines[1:]:
                             referencia = line[80:110].strip()
                             codigo_respuesta = line[171:174].strip()
-                            beneficiary_list = []
                             order = self.env['sale.order'].search([('name', '=ilike', referencia)])
                             if order:
                                 order.write({'nro_intentos': order.nro_intentos + 1})
@@ -67,52 +66,6 @@ class SaleOrder(models.Model):
                                     # if order.tusdatos_approved:
                                     order.action_confirm()
                                     order._send_order_confirmation_mail()
-
-                                    order.partner_id.write({
-                                        'subscription_id': order.subscription_id.id
-                                    })
-
-                                    order.beneficiary0_id.write({
-                                        'subscription_id': order.subscription_id.id
-                                    })
-
-                                    order.beneficiary1_id.write({
-                                        'subscription_id': order.subscription_id.id
-                                    })
-
-                                    order.beneficiary2_id.write({
-                                        'subscription_id': order.subscription_id.id
-                                    })
-
-                                    order.beneficiary3_id.write({
-                                        'subscription_id': order.subscription_id.id
-                                    })
-
-                                    order.beneficiary4_id.write({
-                                        'subscription_id': order.subscription_id.id
-                                    })
-
-                                    order.beneficiary5_id.write({
-                                        'subscription_id': order.subscription_id.id
-                                    })
-
-                                    order.beneficiary6_id.write({
-                                        'subscription_id': order.subscription_id.id
-                                    })
-
-                                    beneficiary_list.append((4, order.partner_id.id))
-                                    beneficiary_list.append((4, order.beneficiary0_id.id))
-                                    beneficiary_list.append((4, order.beneficiary1_id.id))
-                                    beneficiary_list.append((4, order.beneficiary2_id.id))
-                                    beneficiary_list.append((4, order.beneficiary3_id.id))
-                                    beneficiary_list.append((4, order.beneficiary4_id.id))
-                                    beneficiary_list.append((4, order.beneficiary5_id.id))
-                                    beneficiary_list.append((4, order.beneficiary6_id.id))
-
-                                    order.subscription_id.write({
-                                        'subscription_partner_ids': beneficiary_list
-                                    })
-
                                     order._registrar_archivo_pagos()
 
                                 elif codigo_respuesta in respuestas:
@@ -121,9 +74,9 @@ class SaleOrder(models.Model):
                                     order.notify_contact_center_rechazo_bancolombia(codigo_respuesta)
 
                                     body_message = """
-                                                                    <b><span style='color:red;'>Respuesta Bancolombia</span></b><br/>
-                                                                    <b>Respuesta:</b> %s<br/>
-                                                                """ % (
+                                        <b><span style='color:red;'>Respuesta Bancolombia</span></b><br/>
+                                        <b>Respuesta:</b> %s<br/>
+                                    """ % (
                                         json.dumps(respuestas[codigo_respuesta]),
                                     )
                                     order.message_post(body=body_message, type="comment")
@@ -166,37 +119,37 @@ class SaleOrder(models.Model):
     def _registrar_archivo_pagos(self):
         order = self
         query = """
-                                INSERT INTO payments_report (
-                                    policy_number,
-                                    certificate_number,
-                                    firstname,
-                                    othernames,
-                                    lastname,
-                                    identification_document,
-                                    birthday_date,
-                                    transaction_type,
-                                    clase,
-                                    change_date,
-                                    collected_value,
-                                    number_of_installments,
-                                    payment_method,
-                                    number_of_plan_installments,
-                                    total_installments,
-                                    number_of_installments_arrears,
-                                    policyholder,
-                                    sponsor_id,
-                                    product_code,
-                                    product_name,
-                                    payulatam_order_id,
-                                    payulatam_transaction_id,
-                                    origin_document,
-                                    sale_order,
-                                    subscription,
-                                    payment_type
-                                )
-                                SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, %s, %s, '%s', %s, '%s', '%s', '%s', '%s', '%s', %s, %s, '%s' 
-                                WHERE NOT EXISTS(SELECT * FROM payments_report WHERE payulatam_order_id='%s');
-                            """ % (
+            INSERT INTO payments_report (
+                policy_number,
+                certificate_number,
+                firstname,
+                othernames,
+                lastname,
+                identification_document,
+                birthday_date,
+                transaction_type,
+                clase,
+                change_date,
+                collected_value,
+                number_of_installments,
+                payment_method,
+                number_of_plan_installments,
+                total_installments,
+                number_of_installments_arrears,
+                policyholder,
+                sponsor_id,
+                product_code,
+                product_name,
+                payulatam_order_id,
+                payulatam_transaction_id,
+                origin_document,
+                sale_order,
+                subscription,
+                payment_type
+            )
+            SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, %s, %s, '%s', %s, '%s', '%s', '%s', '%s', '%s', %s, %s, '%s' 
+            WHERE NOT EXISTS(SELECT * FROM payments_report WHERE payulatam_order_id='%s');
+        """ % (
             order.subscription_id.number if order.subscription_id.number != False else '',
             order.subscription_id.policy_number if order.subscription_id.policy_number != False else '',
             order.beneficiary0_id.firstname if order.beneficiary0_id.firstname != False else '',
