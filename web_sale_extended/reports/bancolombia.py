@@ -27,6 +27,10 @@ class BancolombiaReport(models.Model):
     buyer_name = fields.Char('Nombre del Pagador',readonly=True)
     amount = fields.Char('Valor a debitar',readonly=True)
     debit_request = fields.Boolean('Solicitud de debito')
+    buyer_account_type = fields.Selection([
+        ("1", "Cuenta Corriente"), 
+        ("7", "A la mano / Ahorros")
+    ])
     
     def init(self):
         tools.drop_view_if_exists(self._cr, 'bancolombia_report')
@@ -38,7 +42,8 @@ class BancolombiaReport(models.Model):
         sorder.state as sale_order_state,
         p.name as buyer_name,
         sorder.amount_total as amount,
-        sorder.debit_request as debit_request
+        sorder.debit_request as debit_request,
+        sorder.buyer_account_type as buyer_account_type
         
         
         from sale_order sorder
