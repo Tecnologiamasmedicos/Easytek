@@ -118,68 +118,66 @@ class SaleOrder(models.Model):
                                 file.write(line)
 
     def _registrar_archivo_pagos(self):
-        order = self
-        query = """
-            INSERT INTO payments_report (
-                policy_number,
-                certificate_number,
-                firstname,
-                othernames,
-                lastname,
-                identification_document,
-                birthday_date,
-                transaction_type,
-                clase,
-                change_date,
-                collected_value,
-                number_of_installments,
-                payment_method,
-                number_of_plan_installments,
-                total_installments,
-                number_of_installments_arrears,
-                policyholder,
-                sponsor_id,
-                product_code,
-                product_name,
-                payulatam_order_id,
-                payulatam_transaction_id,
-                origin_document,
-                sale_order,
-                subscription,
-                payment_type
+        for order in self:
+            query = """
+                INSERT INTO payments_report (
+                    policy_number,
+                    certificate_number,
+                    firstname,
+                    othernames,
+                    lastname,
+                    identification_document,
+                    birthday_date,
+                    transaction_type,
+                    clase,
+                    change_date,
+                    collected_value,
+                    number_of_installments,
+                    payment_method,
+                    number_of_plan_installments,
+                    total_installments,
+                    number_of_installments_arrears,
+                    policyholder,
+                    sponsor_id,
+                    product_code,
+                    product_name,
+                    payulatam_order_id,
+                    payulatam_transaction_id,
+                    origin_document,
+                    sale_order,
+                    subscription,
+                    payment_type
+                )
+                SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, %s, %s, '%s', %s, '%s', '%s', '%s', '%s', '%s', %s, %s, '%s';
+            """ % (
+                order.subscription_id.number if order.subscription_id.number != False else '',
+                order.subscription_id.policy_number if order.subscription_id.policy_number != False else '',
+                order.beneficiary0_id.firstname if order.beneficiary0_id.firstname != False else '',
+                order.beneficiary0_id.othernames if order.beneficiary0_id.othernames != False else '',
+                (str(order.beneficiary0_id.lastname) + ' ' + str(order.beneficiary0_id.lastname2))[:20] if order.beneficiary0_id.lastname != False else '',
+                order.beneficiary0_id.identification_document if order.beneficiary0_id.identification_document != False else '',
+                str(order.beneficiary0_id.birthdate_date.strftime("%Y-%m-%d")) if order.beneficiary0_id.birthdate_date != False else 'null',
+                'R',
+                order.main_product_id.product_class if order.main_product_id.product_class != False else '',
+                date.today(),
+                order.amount_total if order.amount_total != False else '',
+                1,
+                order.payment_method_type if order.payment_method_type != False else '',
+                order.main_product_id.subscription_template_id.recurring_rule_count if order.main_product_id.subscription_template_id.recurring_rule_count != False else '',
+                1,
+                0,
+                order.subscription_id.policyholder if order.subscription_id.policyholder != False else '',
+                order.sponsor_id.id if order.sponsor_id.id != False else 'null',
+                order.main_product_id.default_code if order.main_product_id.default_code != False else '',
+                order.main_product_id.name if order.main_product_id.name != False else '',
+                order.payulatam_order_id if order.payulatam_order_id != False else '',
+                order.payulatam_transaction_id if order.payulatam_transaction_id != False else '',
+                order.name if order.name != False else '',
+                order.id if order.id != False else 'null',
+                order.subscription_id.id if order.subscription_id.id != False else 'null',
+                'new_sale',
             )
-            SELECT '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %s, %s, '%s', %s, %s, %s, '%s', %s, '%s', '%s', '%s', '%s', '%s', %s, %s, '%s' 
-            WHERE NOT EXISTS(SELECT * FROM payments_report WHERE payulatam_order_id='%s');
-        """ % (
-            order.subscription_id.number if order.subscription_id.number != False else '',
-            order.subscription_id.policy_number if order.subscription_id.policy_number != False else '',
-            order.beneficiary0_id.firstname if order.beneficiary0_id.firstname != False else '',
-            order.beneficiary0_id.othernames if order.beneficiary0_id.othernames != False else '',
-            (str(order.beneficiary0_id.lastname) + ' ' + str(order.beneficiary0_id.lastname2))[:20] if order.beneficiary0_id.lastname != False else '',
-            order.beneficiary0_id.identification_document if order.beneficiary0_id.identification_document != False else '',
-            str(order.beneficiary0_id.birthdate_date.strftime("%Y-%m-%d")) if order.beneficiary0_id.birthdate_date != False else 'null',
-            'R',
-            order.main_product_id.product_class if order.main_product_id.product_class != False else '',
-            date.today(),
-            order.amount_total if order.amount_total != False else '',
-            1,
-            order.payment_method_type if order.payment_method_type != False else '',
-            order.main_product_id.subscription_template_id.recurring_rule_count if order.main_product_id.subscription_template_id.recurring_rule_count != False else '',
-            1,
-            0,
-            order.subscription_id.policyholder if order.subscription_id.policyholder != False else '',
-            order.sponsor_id.id if order.sponsor_id.id != False else 'null',
-            order.main_product_id.default_code if order.main_product_id.default_code != False else '',
-            order.main_product_id.name if order.main_product_id.name != False else '',
-            order.payulatam_order_id if order.payulatam_order_id != False else '',
-            order.payulatam_transaction_id if order.payulatam_transaction_id != False else '',
-            order.name if order.name != False else '',
-            order.id if order.id != False else 'null',
-            order.subscription_id.id if order.subscription_id.id != False else 'null',
-            'new_sale',
-            order.payulatam_order_id if order.payulatam_order_id != False else ''
-        )
-        order.env.cr.execute(query)
+            order.env.cr.execute(query)
 
     def get_status_tusdatos_order(self):
         self.ensure_one()
