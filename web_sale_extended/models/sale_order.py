@@ -898,7 +898,7 @@ class SaleOrder(models.Model):
     def retransmit_record_bancol(self):
         self.debit_request = False
         body_message = """
-            <b><span style='color:#fff3cd;'>Transmisión Archivos de entrada Bancolombia</span></b><br/>
+            <b><span style='color:#E2BA1F;'>Transmisión Archivos de entrada Bancolombia</span></b><br/>
             <p>Se va a volver a trasmitir esta Orden de venta en los archivos de entrada de Bancolombia</p>
         """ 
         self.message_post(body=body_message, type="comment")
