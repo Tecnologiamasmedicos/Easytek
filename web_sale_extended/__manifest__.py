@@ -79,7 +79,8 @@
         'data/mail_template_update_bancolombia_account.xml',
         'data/mail_template_assisted_purchase_bancolombia.xml',
         'data/bancolombia_input_files_boot.xml',
-        'data/assisted_purchase_hubspot_bot.xml'
+        'data/assisted_purchase_hubspot_bot.xml',
+        'data/email_template_unsuccessful_debits_bancolombia.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
