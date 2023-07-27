@@ -1038,9 +1038,6 @@
                                         <br/>
                                         <p align="justify" style="color:#4f4b4c;">Aplican términos y condiciones de la
                                             póliza de Accidentes Personales
-                                            <strong>
-                                                <span t-esc="doc.order_line[0].subscription_id.number"/>
-                                            </strong>
                                         </p>
                                         <div id="i" style="color:#4f4b4c;">
                                             <ul style="list-style-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTBwdCIgaGVpZ2h0PSIxMXB0IiB2aWV3Qm94PSIwIDAgMTAgMTEiIHZlcnNpb249IjEuMSI+CjxnIGlkPSJzdXJmYWNlMSI+CjxwYXRoIHN0eWxlPSIgc3Ryb2tlOm5vbmU7ZmlsbC1ydWxlOm5vbnplcm87ZmlsbDpyZ2IoMCUsMCUsMCUpO2ZpbGwtb3BhY2l0eToxOyIgZD0iTSA4LjkyOTY4OCAwLjY4NzUgTCAxLjA3MDMxMiAwLjY4NzUgQyAwLjQ4MDQ2OSAwLjY4NzUgMCAxLjE0ODQzOCAwIDEuNzE4NzUgTCAwIDkuMjgxMjUgQyAwIDkuODUxNTYyIDAuNDgwNDY5IDEwLjMxMjUgMS4wNzAzMTIgMTAuMzEyNSBMIDguOTI5Njg4IDEwLjMxMjUgQyA5LjUxOTUzMSAxMC4zMTI1IDEwIDkuODUxNTYyIDEwIDkuMjgxMjUgTCAxMCAxLjcxODc1IEMgMTAgMS4xNDg0MzggOS41MTk1MzEgMC42ODc1IDguOTI5Njg4IDAuNjg3NSBaIE0gOC45Mjk2ODggOS4yODEyNSBMIDEuMDcwMzEyIDkuMjgxMjUgTCAxLjA3MDMxMiAxLjcxODc1IEwgOC45Mjk2ODggMS43MTg3NSBaIE0gOC4xMjg5MDYgNC4wODk4NDQgTCA0LjI3NzM0NCA3Ljc2NTYyNSBDIDQuMTcxODc1IDcuODY3MTg4IDQgNy44NjcxODggMy44OTg0MzggNy43NjU2MjUgTCAxLjg3MTA5NCA1Ljc5Njg3NSBDIDEuNzY1NjI1IDUuNjk5MjE5IDEuNzY1NjI1IDUuNTM1MTU2IDEuODcxMDk0IDUuNDMzNTk0IEwgMi4zNzg5MDYgNC45NDkyMTkgQyAyLjQ4NDM3NSA0Ljg0NzY1NiAyLjY1MjM0NCA0Ljg1MTU2MiAyLjc1NzgxMiA0Ljk1MzEyNSBMIDQuMDkzNzUgNi4yNDYwOTQgTCA3LjI0NjA5NCAzLjIzNDM3NSBDIDcuMzUxNTYyIDMuMTMyODEyIDcuNTIzNDM4IDMuMTMyODEyIDcuNjI1IDMuMjM0Mzc1IEwgOC4xMjg5MDYgMy43MjI2NTYgQyA4LjIzNDM3NSAzLjgyNDIxOSA4LjIzNDM3NSAzLjk4ODI4MSA4LjEyODkwNiA0LjA4OTg0NCBaIE0gOC4xMjg5MDYgNC4wODk4NDQgIi8+CjwvZz4KPC9zdmc+Cg==)">
@@ -1055,17 +1052,17 @@
                                                     de la fecha maneje mis Datos Personales conforme a la Política del
                                                     tratamiento de la información de la Compañía y al aviso de
                                                     privacidad que está en
-                                                    <a href="https://bit.ly/3y7Ao9x" target="_blank">
+                                                    <a href="https://www.palig.com" target="_blank">
                                                         <i>
-                                                            <strong>https://bit.ly/3y7Ao9x</strong>
+                                                            <strong>www.palig.com</strong>
                                                         </i>
                                                     </a>
                                                 </li>
                                                 <br/>
                                                 <li>
-                                                    He leído, revisado, entendido y recibido todas y cada una de las
-                                                    condiciones del presente certificado, conozco y entiendo su
-                                                    contenido, en especial lo
+                                                    He leído, revisado, entendido y recibido todas y cada una de las 
+                                                    condiciones del presente certificado, el cual me fué explicado por el tomador,
+                                                    que conozco y entiendo su contenido, en especial lo
                                                     relacionado con el alcance de cobertura, y con mi firma acepto
                                                     integralmente sus condiciones.
                                                 </li>
