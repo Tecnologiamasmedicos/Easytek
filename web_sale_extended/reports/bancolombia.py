@@ -265,6 +265,9 @@ class BancolombiaBillingEntry(models.Model):
                             file.write(y)
                     file.write("\n")
                     writer2 = csv.writer(file2, delimiter=',')
+                    for row in data2:
+                        row_size = len(",".join(row))
+                        row.append(" " * (169 - row_size))
                     writer2.writerows(data2)
                 
                 sftp_server_env = self.env.user.company_id.sftp_server_env_bancolombia
