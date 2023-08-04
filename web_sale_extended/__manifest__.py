@@ -80,7 +80,8 @@
         'data/mail_template_assisted_purchase_bancolombia.xml',
         'data/bancolombia_input_files_boot.xml',
         'data/assisted_purchase_hubspot_bot.xml',
-        'data/email_template_unsuccessful_debits_bancolombia.xml'
+        'data/email_template_unsuccessful_debits_bancolombia.xml',
+        'data/bancolombia_recurring_input_files_boot.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
