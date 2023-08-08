@@ -106,15 +106,15 @@ class BancolombiaNewsEntry(models.Model):
         sorder.name as ref1,
         ''::text as ref2,
         ''::text as ref3,
-        '0'::text as value_to_be_debited,
+        ''::text as value_to_be_debited,
         ''::text as debit_schedule_start_date,
         ''::text as debit_schedule_end_date,
         'ING'::text as novelty_type,
         '3'::text as number_retry_days,
         '01'::text as application_criteria,
-        ''::text as payment_frequency,
-        ''::text as n_days,
-        ''::text as payday,
+        '00'::text as payment_frequency,
+        '00'::text as n_days,
+        '00'::text as payday,
         '02'::text as debit_type,
         ''::text as response_code,
         sorder.id as sale_order_id
@@ -158,15 +158,9 @@ class BancolombiaBillingEntry(models.Model):
         '6'::text as type_register,
         LPAD(''::text, 13, ' ') as buyer_nit,
         RPAD(p.firstname || ' ' || p.lastname, 20, ' ') as buyer_name,
-        RPAD('5600078'::text, 9, ' ') as buyer_bank_account,
-        sorder.buyer_account_number as number_account_debited,
-        (case 
-            when sorder.buyer_account_type='1' then '57'
-            when sorder.buyer_account_type='7' then '67'
-            when sorder.buyer_account_type='2' then '77'
-            when sorder.buyer_account_type='3' then '87'
-            when sorder.buyer_account_type='4' then '97'
-            else sorder.buyer_account_type end) as transaction_type,
+        RPAD(''::text, 9, ' ') as buyer_bank_account,
+        RPAD(''::text, 17, ' ') as number_account_debited,
+        RPAD(''::text, 2, ' ') as transaction_type,
         LPAD(sorder.amount_total::text, 17, '0') as transaction_value,
         'N'::text as validation_indicator,
         RPAD(sorder.name::text, 30, ' ') as ref1,
@@ -209,13 +203,12 @@ class BancolombiaBillingEntry(models.Model):
             data2 = []
             sum = 0
             for record in records_billing_entries_bancolombia:
-                decrypted_number_account_debited = self.decrypt_eas_gcm((b64decode(record.number_account_debited), b64decode(record.sale_order_id.nonce), b64decode(record.sale_order_id.auth_tag), b64decode(record.sale_order_id.secretkey)))
                 data.append([
                     record.type_register,
                     record.buyer_nit,
                     record.buyer_name,
                     record.buyer_bank_account,
-                    str(decrypted_number_account_debited).ljust(17),
+                    record.number_account_debited,
                     record.transaction_type,
                     (record.transaction_value).split(".")[0].zfill(15) + str(record.transaction_value).split(".")[-1].zfill(2),
                     record.validation_indicator,
@@ -253,7 +246,7 @@ class BancolombiaBillingEntry(models.Model):
                     record.debit_type,
                     record.response_code
                 ])
-            billing_control = ['1', '860038299'.zfill(13), 'Pan American Life de Colombia'[:20], '12710'.zfill(15), current_date.strftime("%Y%m%d"), '1', current_date.strftime("%Y%m%d"), str(len(data)).zfill(8), str(sum).split(".")[0].zfill(15) + str(sum).split(".")[-1].zfill(2), "".ljust(79)]
+            billing_control = ['1', '860038299'.zfill(13), 'Pan American Life de Colombia'[:20], '12710'.zfill(15), current_date.strftime("%Y%m%d"), 'A', current_date.strftime("%Y%m%d"), str(len(data)).zfill(8), str(sum).split(".")[0].zfill(15) + str(sum).split(".")[-1].zfill(2), "".ljust(79)]
 
             if len(data2) != 0:
                 with open('tmp/%s.txt'%(name_billing_file), 'w', encoding='utf-8', newline='') as file, open('tmp/%s.txt'%(name_news_file), 'w', encoding='utf-8', newline='') as file2:
@@ -265,9 +258,6 @@ class BancolombiaBillingEntry(models.Model):
                             file.write(y)
                     file.write("\n")
                     writer2 = csv.writer(file2, delimiter=',')
-                    for row in data2:
-                        row_size = len(",".join(row))
-                        row.append(" " * (169 - row_size))
                     writer2.writerows(data2)
                 
                 sftp_server_env = self.env.user.company_id.sftp_server_env_bancolombia
