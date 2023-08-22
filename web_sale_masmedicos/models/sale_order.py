@@ -51,9 +51,11 @@ class SaleOrder(models.Model):
                 if not filename.startswith('OK_') and not S_ISDIR(mode) and \
                         (filename.startswith('REC') or filename.startswith('rec')):
                     with sftp.open(path + filename) as f:
-                        lines = f.readlines()
+                        leer = f.read()
+                        lines = leer.splitlines()
                         lines_cuentas_incorrectas = [lines[0]] if len(lines) > 1 else []
                         for line in lines[1:]:
+                            line = line.decode("latin-1")
                             referencia = line[80:110].strip().upper()
                             codigo_respuesta = line[171:174].strip()
                             order = self.env['sale.order'].search([('name', '=ilike', referencia)])
