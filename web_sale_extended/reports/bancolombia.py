@@ -164,7 +164,7 @@ class BancolombiaBillingEntry(models.Model):
         LPAD(sorder.amount_total::text, 17, '0') as transaction_value,
         'N'::text as validation_indicator,
         RPAD(sorder.name::text, 30, ' ') as ref1,
-        RPAD(''::text, 30, ' ') as ref2,
+        RPAD(sorder.name::text, 30, ' ') as ref2,
         ''::text as expiration_date,
         RPAD(''::text, 2, ' ') as billed_periods,
         RPAD(''::text, 3, ' ') as cycle,
@@ -253,10 +253,10 @@ class BancolombiaBillingEntry(models.Model):
                     for x in billing_control:
                         file.write(x)
                     for x in range(len(data)):
-                        file.write('\n')
+                        file.write('\r\n')
                         for y in data[x]:
                             file.write(y)
-                    file.write("\n")
+                    file.write("\r\n")
                     writer2 = csv.writer(file2, delimiter=',')
                     writer2.writerows(data2)
                 
@@ -347,19 +347,13 @@ class BancolombiaRecurringBillingEntry(models.Model):
         '6'::text as type_register,
         LPAD(''::text, 13, ' ') as buyer_nit,
         RPAD(p.firstname || ' ' || p.lastname, 20, ' ') as buyer_name,
-        RPAD('5600078'::text, 9, ' ') as buyer_bank_account,
-        sorder.buyer_account_number as number_account_debited,
-        (case 
-            when sorder.buyer_account_type='1' then '57'
-            when sorder.buyer_account_type='7' then '67'
-            when sorder.buyer_account_type='2' then '77'
-            when sorder.buyer_account_type='3' then '87'
-            when sorder.buyer_account_type='4' then '97'
-            else sorder.buyer_account_type end) as transaction_type,
+        RPAD(''::text, 9, ' ') as buyer_bank_account,
+        RPAD(''::text, 17, ' ') as number_account_debited,
+        RPAD(''::text, 2, ' ') as transaction_type,
         LPAD(inv.amount_total::text, 17, '0') as transaction_value,
         'N'::text as validation_indicator,
-        RPAD(inv.name::text, 30, ' ') as ref1,
-        RPAD(''::text, 30, ' ') as ref2,
+        RPAD(sorder.name::text, 30, ' ') as ref1,
+        RPAD(inv.name::text, 30, ' ') as ref2,
         ''::text as expiration_date,
         RPAD(''::text, 2, ' ') as billed_periods,
         RPAD(''::text, 3, ' ') as cycle,
@@ -423,13 +417,12 @@ class BancolombiaRecurringBillingEntry(models.Model):
             data = []
             sum = 0
             for record in records_billing_entries_bancolombia:
-                decrypted_number_account_debited = self.decrypt_eas_gcm((b64decode(record.number_account_debited), b64decode(record.sale_order_id.nonce), b64decode(record.sale_order_id.auth_tag), b64decode(record.sale_order_id.secretkey)))
                 data.append([
                     record.type_register,
                     record.buyer_nit,
                     record.buyer_name,
                     record.buyer_bank_account,
-                    str(decrypted_number_account_debited).ljust(17),
+                    record.number_account_debited,
                     record.transaction_type,
                     (record.transaction_value).split(".")[0].zfill(15) + str(record.transaction_value).split(".")[-1].zfill(2),
                     record.validation_indicator,
@@ -441,16 +434,16 @@ class BancolombiaRecurringBillingEntry(models.Model):
                     record.reserved
                 ])
                 sum = sum + float(record.transaction_value)
-            billing_control = ['1', '860038299'.zfill(13), 'Pan American Life de Colombia'[:20], '12710'.zfill(15), current_date.strftime("%Y%m%d"), '1', current_date.strftime("%Y%m%d"), str(len(data)).zfill(8), str(sum).split(".")[0].zfill(15) + str(sum).split(".")[-1].zfill(2), "".ljust(79)]
+            billing_control = ['1', '860038299'.zfill(13), 'Pan American Life de Colombia'[:20], '12710'.zfill(15), current_date.strftime("%Y%m%d"), 'B', current_date.strftime("%Y%m%d"), str(len(data)).zfill(8), str(sum).split(".")[0].zfill(15) + str(sum).split(".")[-1].zfill(2), "".ljust(79)]
             if len(data) != 0:
                 with open('tmp/%s.txt'%(name_billing_file), 'w', encoding='utf-8', newline='') as file:
                     for x in billing_control:
                         file.write(x)
                     for x in range(len(data)):
-                        file.write('\n')
+                        file.write('\r\n')
                         for y in data[x]:
                             file.write(y)
-                    file.write("\n")
+                    file.write("\r\n")
                 sftp_server_env = self.env.user.company_id.sftp_server_env_bancolombia
                 if sftp_server_env:
                     if sftp_server_env == 'prod':
