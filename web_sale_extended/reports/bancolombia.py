@@ -249,7 +249,7 @@ class BancolombiaBillingEntry(models.Model):
             billing_control = ['1', '860038299'.zfill(13), 'Pan American Life de Colombia'[:20], '12710'.zfill(15), current_date.strftime("%Y%m%d"), 'A', current_date.strftime("%Y%m%d"), str(len(data)).zfill(8), str(sum).split(".")[0].zfill(15) + str(sum).split(".")[-1].zfill(2), "".ljust(79)]
 
             if len(data2) != 0:
-                with open('tmp/%s.txt'%(name_billing_file), 'w', encoding='utf-8', newline='') as file, open('tmp/%s.txt'%(name_news_file), 'w', encoding='utf-8', newline='') as file2:
+                with open('tmp/%s.txt'%(name_billing_file), 'w', encoding='cp1252', newline='') as file, open('tmp/%s.txt'%(name_news_file), 'w', encoding='cp1252', newline='') as file2:
                     for x in billing_control:
                         file.write(x)
                     for x in range(len(data)):
@@ -396,12 +396,6 @@ class BancolombiaRecurringBillingEntry(models.Model):
             day += timedelta(days=1)
         return non_working_days
 
-    def decrypt_eas_gcm(self, encrypted_msg):
-        (ciphertext, nonce, authTag, secretKey) = encrypted_msg
-        aes_cipher = AES.new(secretKey, AES.MODE_GCM, nonce)
-        plaintext = aes_cipher.decrypt_and_verify(ciphertext, authTag)
-        return plaintext.decode('utf-8')
-        
     def _cron_generate_bancolombia_recurring_billing_file(self):
         current_date = (datetime.now() - timedelta(hours=5)).date()
         if self.is_business_day(current_date) == True:
@@ -436,7 +430,7 @@ class BancolombiaRecurringBillingEntry(models.Model):
                 sum = sum + float(record.transaction_value)
             billing_control = ['1', '860038299'.zfill(13), 'Pan American Life de Colombia'[:20], '12710'.zfill(15), current_date.strftime("%Y%m%d"), 'B', current_date.strftime("%Y%m%d"), str(len(data)).zfill(8), str(sum).split(".")[0].zfill(15) + str(sum).split(".")[-1].zfill(2), "".ljust(79)]
             if len(data) != 0:
-                with open('tmp/%s.txt'%(name_billing_file), 'w', encoding='utf-8', newline='') as file:
+                with open('tmp/%s.txt'%(name_billing_file), 'w', encoding='cp1252', newline='') as file:
                     for x in billing_control:
                         file.write(x)
                     for x in range(len(data)):
