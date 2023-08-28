@@ -40,9 +40,13 @@ class SaleSubscription(models.Model):
             policyholder = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.sequence_id.sponsor_name
         else:
             policyholder = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.categ_id.sequence_id.sponsor_name
+        if sequence_id.id == 213 and res.recurring_invoice_line_ids[0].product_id.id == 234:
+            number = "06312"
+        else: 
+            number = str(sequence_id.code).zfill(5)
         res.write({
             'policy_number': (str(sequence_id.next_by_id(sequence_id.id)).split(".")[0]).zfill(10),
-            'number': str(sequence_id.code).zfill(5),
+            'number': number,
             'recurring_next_date': date.today(),
             'sponsor_id': res.recurring_invoice_line_ids[0].product_id.categ_id.sponsor_id,
             'policyholder': str(policyholder),
