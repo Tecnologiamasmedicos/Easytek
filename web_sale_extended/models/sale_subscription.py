@@ -113,7 +113,8 @@ class SaleSubscription(models.Model):
         res.update({
             'journal_id': journal.id,
             'sponsor_id': self.sponsor_id,
-            'payment_mean_id': 1
+            'payment_mean_id': 1,
+            'action_date_billing_cycle': self.invoice_date
         })
         return res
 
