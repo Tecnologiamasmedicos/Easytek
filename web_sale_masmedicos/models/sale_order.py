@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api, _
+from odoo import models, fields, api, _, SUPERUSER_ID
 from ..tools import sftp_utils
 import time, json, logging
 from datetime import date, timedelta, datetime
@@ -40,7 +40,7 @@ class SaleOrder(models.Model):
         return sftp_utils.connect(host, user, password, port), path, path_processed
 
     def _cron_read_files_sftp(self):
-        current_date = fields.Datetime.now()
+        current_date = fields.Date.today()
         connection, path, path_processed = self.conection_sftp()
         with connection as sftp:
             filelist = sftp.listdir_attr(path)
@@ -53,60 +53,107 @@ class SaleOrder(models.Model):
                     with sftp.open(path + filename) as f:
                         leer = f.read()
                         lines = leer.splitlines()
-                        lines_cuentas_incorrectas = [lines[0]] if len(lines) > 1 else []
+                        encabezado = lines[0].decode("latin-1")
+                        lines_cuentas_incorrectas = [encabezado] if len(lines) > 1 else []
                         for line in lines[1:]:
                             line = line.decode("latin-1")
-                            referencia = line[80:110].strip().upper()
+                            referencia = line[110:140].strip().upper()
                             codigo_respuesta = line[171:174].strip()
                             order = self.env['sale.order'].search([('name', '=ilike', referencia)])
-                            if order and order.state != 'sale':
-                                order.write({'nro_intentos': order.nro_intentos + 1})
-                                if codigo_respuesta in ['OK0', 'OK1', 'OK2', 'OK3', 'OK4']:
-                                    print('recaudo exitoso')
-                                    #Se comenta para no hacer validacion SARLAFT en pruebas, en producción se debe descomentar
-                                    # if not order.tusdatos_send:
-                                    #     order.get_status_tusdatos_order()
-                                    # if order.tusdatos_approved:
-                                    order.action_confirm()
-                                    order._send_order_confirmation_mail()
-                                    order._registrar_archivo_pagos()
-
-                                elif codigo_respuesta in respuestas:
-                                    if codigo_respuesta in ['D12', 'D03', 'D10', 'R04', 'R17']:
-                                        lines_cuentas_incorrectas.append(line)
-                                    order.notify_contact_center_rechazo_bancolombia(codigo_respuesta)
-
-                                    body_message = """
-                                        <b><span style='color:red;'>Respuesta Bancolombia</span></b><br/>
-                                        <b>Respuesta:</b> %s<br/>
-                                    """ % (
-                                        json.dumps(respuestas[codigo_respuesta]),
-                                    )
-                                    order.message_post(body=body_message, type="comment")
-
-                                    if order.nro_intentos > 3:
-                                        order.action_cancel()
-                                        order.write({'buyer_account_type': False, 'buyer_account_number':False})
-                            elif referencia.startswith('LIS'):
-                                move = self.env['account.move'].search([('name', '=ilike', referencia)])
-                                if move:
-                                    move.write({'nro_intentos': order.nro_intentos + 1})
+                            if order:
+                                if order.state != 'sale':
                                     if codigo_respuesta in ['OK0', 'OK1', 'OK2', 'OK3', 'OK4']:
                                         print('recaudo exitoso')
-                                        move.write({'payulatam_state': 'APPROVED'})
+                                        #Se comenta para no hacer validacion SARLAFT en pruebas, en producción se debe descomentar
+                                        # if not order.tusdatos_send:
+                                        #     order.get_status_tusdatos_order()
+                                        # if order.tusdatos_approved:
+                                        order.action_confirm()
+                                        order._send_order_confirmation_mail()
+                                        order._registrar_archivo_pagos()
 
                                     elif codigo_respuesta in respuestas:
                                         if codigo_respuesta in ['D12', 'D03', 'D10', 'R04', 'R17']:
-                                            lines_cuentas_incorrectas.append(line)
+                                            lines_cuentas_incorrectas.append("\n" + line)
+                                        order.notify_contact_center_rechazo_bancolombia(codigo_respuesta)
 
-                                        if move.nro_intentos > 3:
+                                        body_message = """
+                                            <b><span style='color:red;'>Respuesta Bancolombia</span></b><br/>
+                                            <b>Respuesta:</b> %s<br/>
+                                        """ % (respuestas[codigo_respuesta],)
+                                        order.message_post(body=body_message, type="comment")
+                                else:
+                                    order.notificar_error_en_recaudo()
+                            elif referencia.startswith('LIS'):
+                                move = self.env['account.move'].search([('name', '=ilike', referencia)])
+                                if move:
+                                    if move.payulatam_state:
+                                        move.notificar_error_recaudo()
+                                    elif codigo_respuesta in ['OK0', 'OK1', 'OK2', 'OK3', 'OK4']:
+                                        move.write({'payulatam_state': 'APPROVED',
+                                                    'payulatam_datetime': fields.Datetime.now()})
+                                        move.invoice_line_ids[0].subscription_id.stage_id = 2
+                                        move._registrar_archivo_pagos()
+                                        body_message = """<b><span style='color:green;'>Respuesta Bancolombia</span></b><br/>
+                                                                                    <b>Respuesta:</b> %s<br/>""" % (
+                                            respuestas[codigo_respuesta],
+                                        )
+                                        move.message_post(body=body_message, type="comment")
+
+                                    elif codigo_respuesta in respuestas:
+                                        if codigo_respuesta in ['D12', 'D03', 'D10', 'R04', 'R17']:
+                                            lines_cuentas_incorrectas.append("\n" + line)
+
+                                        if move.nro_intentos > 1:
                                             move.notify_contact_center_rechazo_bancolombia(codigo_respuesta)
+                                            subscription = self.env['sale.subscription'].search(
+                                                [('code', '=', move.invoice_origin)])
+                                            if subscription:
+                                                subscription.write({'stage_id': 4, 'close_reason_id': 13})
+                                            sale_order = self.env['sale.order'].sudo().search(
+                                                [('subscription_id', '=', subscription.id)])
+                                            if sale_order:
+                                                sale_order.write({'state': 'done',
+                                                                  'cancel_date': fields.Datetime.now()})
+                                            deal_id = self.env['api.hubspot'].search_deal_id(subscription)
+                                            deal_properties = {
+                                                "estado_de_la_poliza": "Cancelado",
+                                                "causal_de_cancelacion": "Falta de pago",
+                                                "fecha_efectiva_de_cancelacion": fields.Date.today()
+                                            }
+                                            self.env['api.hubspot'].update_deal(deal_id, deal_properties)
+                                            subscription._send_bancolombia_cancellation_plan_email()
+                                        else:
+                                            move.mensaje_recordacion_cobro = True
+                                            move.send_payment = False
+                                            if current_date.day >= 15:
+                                                if current_date.day == 2:
+                                                    dif = 28 - current_date.day
+                                                else:
+                                                    dif = 30 - current_date.day
+                                            else:
+                                                dif = 15 - current_date.day
+                                            move.action_date_billing_cycle = current_date + timedelta(days=dif)
 
+                                            subscription = self.env['sale.subscription'].search([('code', '=', move.invoice_origin)])
+                                            deal_id = self.env['api.hubspot'].search_deal_id(subscription)
+                                            update_properties = {
+                                                "estado_de_la_poliza": "En mora",
+                                                "accion_de_cobro": "Bancolombia SMS2",
+                                                "estado_de_accion_de_cobro": "SI"
+                                            }
+                                            self.env['api.hubspot'].update_deal(deal_id, update_properties)
+                                            contact_id = self.env['api.hubspot'].search_contact_id(move.partner_id)
+                                            contact_properties = {
+                                                "estado_de_accion_de_cobro": "SI"
+                                            }
+                                            self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
                                             body_message = """<b><span style='color:red;'>Respuesta Bancolombia</span></b><br/>
-                                            <b>Respuesta:</b> %s<br/>""" % (
-                                                json.dumps(respuestas[codigo_respuesta]),
+                                                                                        <b>Respuesta:</b> %s<br/>""" % (
+                                                respuestas[codigo_respuesta],
                                             )
                                             move.message_post(body=body_message, type="comment")
+                                    move.write({'nro_intentos': move.nro_intentos + 1})
 
                         sftp.rename(path + filename, path_processed + "/OK_" + filename)
 
@@ -118,6 +165,23 @@ class SaleOrder(models.Model):
                         with open('tmp/error/%s_%s.txt' % ('error', filename), 'w') as file:
                             for line in lines_cuentas_incorrectas:
                                 file.write(line)
+                elif not filename.startswith('OK_') and not S_ISDIR(mode) and \
+                        (filename.startswith('RNOV') or filename.startswith('rnov')):
+                    with sftp.open(path + filename) as f:
+                        leer = f.read()
+                        lines = leer.splitlines()
+                        for line in lines[0:]:
+                            line = line.decode("latin-1")
+                            referencia = line.split(',')[8].strip().upper()
+                            codigo_respuesta = line.split(',')[-1].strip().upper()
+                            order = self.env["sale.order"].search([('name', '=ilike', referencia)])
+                            if codigo_respuesta not in ['OK1', 'OK2', 'OK3', 'OK4']:
+                                if order:
+                                    order.novedad_rechazada(codigo_respuesta)
+
+                        sftp.rename(path + filename, path_processed + '/OK_' + filename)
+                elif not filename.startswith('Cargados-a-Easytek'):
+                    sftp.rename(path + filename, path_processed + '/' + filename)
 
     def _registrar_archivo_pagos(self):
         for order in self:
@@ -463,3 +527,23 @@ class SaleOrder(models.Model):
                 else:
                     continue
 
+    def notificar_error_en_recaudo(self):
+        if self.env.su:
+            # sending mail in sudo was meant for it being sent from superuser
+            self = self.with_user(SUPERUSER_ID)
+        ctx = {'fecha': fields.Date.today()}
+        template_id = self.env.ref('web_sale_masmedicos.error_en_recaudo').with_context(ctx)
+        if template_id:
+            for order in self:
+                template_id.sudo().send_mail(order.id, force_send=True)
+
+    def novedad_rechazada(self, rechazo):
+        if self.env.su:
+            # sending mail in sudo was meant for it being sent from superuser
+            self = self.with_user(SUPERUSER_ID)
+
+        ctx = {'rechazo': respuestas[rechazo], 'fecha': fields.Date.today()}
+        template_id = self.env.ref('web_sale_masmedicos.novedad_rechazada').with_context(ctx)
+        if template_id:
+            for order in self:
+                template_id.sudo().send_mail(order.id, force_send=True)

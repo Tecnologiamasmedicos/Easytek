@@ -113,7 +113,8 @@ class SaleSubscription(models.Model):
         res.update({
             'journal_id': journal.id,
             'sponsor_id': self.sponsor_id,
-            'payment_mean_id': 1
+            'payment_mean_id': 1,
+            'action_date_billing_cycle': self.invoice_date
         })
         return res
 
@@ -378,6 +379,11 @@ class SaleSubscription(models.Model):
                 )
                 subscription.message_post(body=body_message, type="comment")
         return res
+    
+    def _send_bancolombia_cancellation_plan_email(self):        
+        template_id = self.env.ref('web_sale_extended.mail_template_cancellation_plan_bancolombia').id
+        template = self.env['mail.template'].browse(template_id)
+        template.sudo().send_mail(self.id)
 
 class SaleSubscriptionCloseReasonWizard(models.TransientModel):
     _inherit = "sale.subscription.close.reason.wizard"
