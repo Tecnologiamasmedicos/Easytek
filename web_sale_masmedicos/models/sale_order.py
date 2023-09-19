@@ -175,7 +175,7 @@ class SaleOrder(models.Model):
                             referencia = line.split(',')[8].strip().upper()
                             codigo_respuesta = line.split(',')[-1].strip().upper()
                             order = self.env["sale.order"].search([('name', '=ilike', referencia)])
-                            if codigo_respuesta not in ['OK1', 'OK2', 'OK3', 'OK4']:
+                            if codigo_respuesta not in ['OK0', 'OK1', 'OK2', 'OK3', 'OK4']:
                                 if order:
                                     order.novedad_rechazada(codigo_respuesta)
 
