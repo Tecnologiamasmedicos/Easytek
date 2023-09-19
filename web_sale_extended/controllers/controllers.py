@@ -185,12 +185,24 @@ class WebsiteSaleExtended(WebsiteSale):
     # toma de datos de pago y se crea el asegurador principal
     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def address(self, errortusdatos= '', **kw):
+        qcontext = ''
+        params = {}
+        assisted_purchase = 0
         if 'assisted_purchase' in request.params and request.params['assisted_purchase']:
-            qcontext = '?assisted_purchase=' + str(request.params['assisted_purchase'])
             assisted_purchase = request.params['assisted_purchase']
-        else:
-            qcontext = ''
-            assisted_purchase = 0
+            params["assisted_purchase"] = assisted_purchase
+        if request.params.get('_ga'):
+            ag = request.params['_ga']
+            params["_ga"] = ag
+        if request.params.get('_gl'):
+            gl = request.params['_gl']
+            params["_gl"] = gl
+        if params:
+            params = [f"{param}={value}" for param, value in params.items()]
+            qcontext = "?" + "&".join(params)
+        if request.params.get('qcontext'):
+            qcontext = request.params['qcontext']
+
         ''' Toma de datos de pago y se crea el asegurador principal '''
         Partner = request.env['res.partner'].with_context(show_address=1).sudo()
         order = request.website.sale_get_order()
@@ -393,6 +405,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'only_services': order and order.only_services,
             'order_detail': order_detail,
             'assisted_purchase': assisted_purchase,
+            'qcontext': qcontext,
         }
         if order_detail.product_id.categ_id.buyer_view:
             return request.render(order_detail.product_id.categ_id.buyer_view.xml_id, render_values)
@@ -402,8 +415,12 @@ class WebsiteSaleExtended(WebsiteSale):
 
     @http.route(['/shop/confirm_order'], type='http', auth="public", website=True, sitemap=False)
     def confirm_order(self, **post):
+        params = dict(request.params)
+        assisted_purchase = 0
+        params = [f"{param}={value}" for param, value in params.items()]
+        qcontext = "&" + "&".join(params)
+        
         order = request.website.sale_get_order()
-
         redirection = self.checkout_redirection(order)
         if redirection:
             return redirection
@@ -424,7 +441,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 para el registro de Asegurado y Beneficiarios<br/>
             """
             order.message_post(body=body_message, type="comment")
-            return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)))
+            return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)) + qcontext)
         
         """ Evaluando si el producto es un beneficio """
         if order.main_product_id.is_beneficiary:
@@ -437,9 +454,9 @@ class WebsiteSaleExtended(WebsiteSale):
                 para el registro de Asegurado y Beneficiarios<br/>
             """
             order.message_post(body=body_message, type="comment")
-            return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)))
+            return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)) + qcontext)
         if order.main_product_id.categ_id.sponsor_id.id == 5521:
-            return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)))
+            return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)) + qcontext)
         return request.redirect("/shop/payment")
     
     
@@ -1006,6 +1023,9 @@ class WebsiteSaleExtended(WebsiteSale):
             if request.params.get('_ga'):
                 ag = request.params['_ga']
                 qcontext = '?_ga=' + ag
+                if request.params.get('_gl'):
+                    gl = request.params['_gl']
+                    qcontext += '&_gl=' + gl
             """ 
                 Redireccionando al formulario de datos del comprador.
                 1er Paso, lanzado desde landpage(no hay proceso de token para saber si la petición es valida),
