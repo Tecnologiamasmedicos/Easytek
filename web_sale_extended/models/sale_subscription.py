@@ -114,7 +114,7 @@ class SaleSubscription(models.Model):
             'journal_id': journal.id,
             'sponsor_id': self.sponsor_id,
             'payment_mean_id': 1,
-            'action_date_billing_cycle': self.invoice_date
+            'action_date_billing_cycle': self.recurring_next_date + timedelta(days=4),
         })
         return res
 
