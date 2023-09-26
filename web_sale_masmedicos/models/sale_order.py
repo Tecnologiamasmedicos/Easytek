@@ -59,6 +59,8 @@ class SaleOrder(models.Model):
                             line = line.decode("latin-1")
                             referencia = line[110:140].strip().upper()
                             codigo_respuesta = line[171:174].strip()
+                            collection_date = datetime.strptime(line[174:182].strip(), '%Y%m%d').date()
+                            collection_datetime = datetime.now().replace(year=collection_date.year, month=collection_date.month, day=collection_date.day)
                             order = self.env['sale.order'].search([('name', '=ilike', referencia)])
                             if order:
                                 if order.state != 'sale':
@@ -70,6 +72,11 @@ class SaleOrder(models.Model):
                                         # if order.tusdatos_approved:
                                         order.action_confirm()
                                         order._send_order_confirmation_mail()
+                                        order.write({
+                                            'payulatam_state': 'APPROVED',
+                                            'payulatam_order_id': order.name,
+                                            'payulatam_datetime': collection_datetime
+                                        })
                                         order._registrar_archivo_pagos()
 
                                     elif codigo_respuesta in respuestas:
@@ -90,8 +97,11 @@ class SaleOrder(models.Model):
                                     if move.payulatam_state:
                                         move.notificar_error_recaudo()
                                     elif codigo_respuesta in ['OK0', 'OK1', 'OK2', 'OK3', 'OK4']:
+                                        subscription = self.env['sale.subscription'].sudo().search([('code', '=', move.invoice_origin)])
+                                        sale_order = self.env['sale.order'].sudo().search([('subscription_id', '=', subscription.id)])
                                         move.write({'payulatam_state': 'APPROVED',
-                                                    'payulatam_datetime': fields.Datetime.now()})
+                                                    'payulatam_order_id': sale_order.name,
+                                                    'payulatam_datetime': collection_datetime})
                                         move.invoice_line_ids[0].subscription_id.stage_id = 2
                                         move._registrar_archivo_pagos()
                                         body_message = """<b><span style='color:green;'>Respuesta Bancolombia</span></b><br/>
@@ -225,7 +235,7 @@ class SaleOrder(models.Model):
                 str(order.beneficiary0_id.birthdate_date.strftime("%Y-%m-%d")) if order.beneficiary0_id.birthdate_date != False else 'null',
                 'R',
                 order.main_product_id.product_class if order.main_product_id.product_class != False else '',
-                date.today(),
+                order.payulatam_datetime.date(),
                 order.amount_total if order.amount_total != False else '',
                 1,
                 order.payment_method_type if order.payment_method_type != False else '',
