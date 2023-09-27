@@ -114,4 +114,5 @@ respuestas = {
     "D42": "(Nuevo sistema de Recaudos)	Débito parcial no válido",
     "D43": "Fecha inicio de programación es mayor a la fecha de vigencia del convenio",
     "D44": "Cantidad de días insuficientes entre la fecha de inicio y la siguiente fecha de aplicación",
+    "D65": "La inscripción ya se encuentra activa",
 }
