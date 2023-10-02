@@ -774,7 +774,8 @@ class AccountMove(models.Model):
             ('state', '=', 'finalized'),
             ('payulatam_state', 'in', [False, "EXPIRED", "DECLINED"]),
             ('payment_method_type', '!=', 'Product Without Price'),
-            ('action_date_billing_cycle', '!=', today)
+            ('action_date_billing_cycle', '!=', today),
+            ('sponsor_id', '!=', 5521)
         ], limit=45)
         _logger.info('********************************* Bot Accion de cobro *********************************')
         _logger.info(invoice_payment_ids)
@@ -792,24 +793,18 @@ class AccountMove(models.Model):
             _logger.info(deal_id)
             _logger.info('action date billing cycle')
             _logger.info(invoice.action_date_billing_cycle)
-            invoice.write({
-                'action_date_billing_cycle': today,
-            })
+            invoice.action_date_billing_cycle = today
             _logger.info('action date billing cycle')
             _logger.info(invoice.action_date_billing_cycle)
             if deal_id == False:
                 continue            
             if subscription.stage_id == 4:
-                invoice.write({
-                    'payulatam_state': 'no_payment'
-                })
+                invoice.payulatam_state = 'no_payment'
                 continue
             search_policy_state = ['estado_de_la_poliza']
             policy_state = self.env['api.hubspot'].search_deal_properties_values(deal_id, search_policy_state)
             if policy_state['estado_de_la_poliza'] == 'Cancelado':
-                invoice.write({
-                    'payulatam_state': 'no_payment'
-                })
+                invoice.payulatam_state = 'no_payment'
                 continue
             # Buscando el comprador
             contact_id = self.env['api.hubspot'].search_contact_id(invoice.partner_id)
@@ -834,6 +829,14 @@ class AccountMove(models.Model):
                     self.env['api.hubspot'].associate_company_with_contact(str(company_id), str(contact_id))
             _logger.info('contact_id')
             _logger.info(contact_id)
+            propertie = self.env['api.hubspot'].get_property_history("contacts", contact_id, "estado_de_accion_de_cobro")
+            last_update_billing_cycle = datetime.fromtimestamp(propertie["versions"][0]["timestamp"] / 1000)
+            _logger.info('last_update_billing_cycle')
+            _logger.info(last_update_billing_cycle)
+            if last_update_billing_cycle == today:
+                _logger.info('No se actualizo fecha de accion de cobro en la invoice y entro otra vez')
+                invoice.action_date_billing_cycle = today
+                continue
             if diff.days == -4:
                 deal_properties = {
                     "accion_de_cobro": "5 dias antes",
@@ -856,9 +859,7 @@ class AccountMove(models.Model):
                     })
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
                 self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
-                invoice.write({
-                    "hubspot_payment_action": "5_days_before"
-                })
+                invoice.hubspot_payment_action = "5_days_before"
                 body_message = """
                     <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
                     <b>Acción de cobro:</b> %s<br/>
@@ -894,9 +895,7 @@ class AccountMove(models.Model):
                     })
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
                 self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
-                invoice.write({
-                    "hubspot_payment_action": "1_day_before"
-                })
+                invoice.hubspot_payment_action = "1_day_before"
                 body_message = """
                     <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
                     <b>Acción de cobro:</b> %s<br/>
@@ -940,9 +939,7 @@ class AccountMove(models.Model):
                     })
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
                 self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
-                invoice.write({
-                    "hubspot_payment_action": "1_days_after"
-                })
+                invoice.hubspot_payment_action = "1_days_after"
                 body_message = """
                     <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
                     <b>Acción de cobro:</b> %s<br/>
@@ -979,9 +976,7 @@ class AccountMove(models.Model):
                     })
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
                 self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
-                invoice.write({
-                    "hubspot_payment_action": "10_days_after"
-                })
+                invoice.hubspot_payment_action = "10_days_after"
                 body_message = """
                     <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
                     <b>Acción de cobro:</b> %s<br/>
@@ -1018,9 +1013,7 @@ class AccountMove(models.Model):
                     })
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
                 self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
-                invoice.write({
-                    "hubspot_payment_action": "20_days_after"
-                })
+                invoice.hubspot_payment_action = "20_days_after"
                 body_message = """
                     <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
                     <b>Acción de cobro:</b> %s<br/>
@@ -1057,9 +1050,7 @@ class AccountMove(models.Model):
                     })
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
                 self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
-                invoice.write({
-                    "hubspot_payment_action": "25_days_after"
-                })
+                invoice.hubspot_payment_action = "25_days_after"
                 body_message = """
                     <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
                     <b>Acción de cobro:</b> %s<br/>
@@ -1098,10 +1089,8 @@ class AccountMove(models.Model):
                     })
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
                 self.env['api.hubspot'].update_contact_id(contact_id, contact_properties)
-                invoice.write({
-                    'payulatam_state': 'no_payment',
-                    "hubspot_payment_action": "36_days_after"
-                })
+                invoice.payulatam_state = 'no_payment'
+                invoice.hubspot_payment_action = "36_days_after"
                 body_message = """
                     <b><span style='color: darkblue;'>API HubSpot - Informacion ciclo de cobro</span></b><br/>
                     <b>Acción de cobro:</b> %s<br/>
