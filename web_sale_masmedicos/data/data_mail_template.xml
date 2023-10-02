@@ -75,5 +75,100 @@
             <field name="auto_delete" eval="True"/>
         </record>
 
+        <record id="error_en_recaudo" model="mail.template">
+            <field name="name">Error en recaudo</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="email_from">${(object.company_id.email or user.email_formatted) |safe}</field>
+            <field name="partner_to">${object.company_id.contact_center_id.id}</field>
+            <field name="subject">Error recaudo orden de venta Nro: ${object.name}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Cordial saludo
+                        ${object.company_id.contact_center_id.name},
+                        <br/>
+                        Número orden de compra: ${object.name},
+                        <br/>
+                        Fecha: ${ctx.get('fecha')}
+                        <br/>
+                        Estado de la orden de compra: ${object.state}
+                        <br/>
+                        Cliente: ${object.partner_id.display_name}
+                        <br/>
+                        Teléfono: ${object.partner_id.mobile}
+                        <br/>
+                        Correo: ${object.partner_id.email}
+                        <br/>
+                        La orden de compra se encuentra en un estado diferente a "Esperando aprobación"
+                    </p>
+                </div>
+            </field>
+            <field name="lang">${object.company_id.contact_center_id.lang}</field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="novedad_rechazada" model="mail.template">
+            <field name="name">Novedad rechazada</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="email_from">${(object.company_id.email or user.email_formatted) |safe}</field>
+            <field name="partner_to">${object.company_id.contact_center_id.id}</field>
+            <field name="subject">Novedad rechazada de la orden de venta Nro: ${object.name}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Cordial saludo
+                        ${object.company_id.contact_center_id.name},
+                        <br/>
+                        Número orden de compra: ${object.name},
+                        <br/>
+                        Cliente: ${object.partner_id.display_name}
+                        <br/>
+                        Fecha: ${ctx.get('fecha')}
+                        <br/>
+                        Teléfono: ${object.partner_id.mobile}
+                        <br/>
+                        Correo: ${object.partner_id.email}
+                        <br/>
+                        Causa de rechazo: ${ctx['rechazo']}
+                    </p>
+                </div>
+            </field>
+            <field name="lang">${object.company_id.contact_center_id.lang}</field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="invoice_error_recaudo" model="mail.template">
+            <field name="name">Error en recaudo liquidación</field>
+            <field name="model_id" ref="sale.model_account_move"/>
+            <field name="email_from">${(object.company_id.email or user.email_formatted) |safe}</field>
+            <field name="partner_to">${object.company_id.contact_center_id.id}</field>
+            <field name="subject">Error en recaudo liquidación: ${object.name}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Cordial saludo
+                        ${object.company_id.contact_center_id.name},
+                        <br/>
+                        Número liquidación: ${object.name},
+                        <br/>
+                        Cliente: ${object.partner_id.display_name}
+                        <br/>
+                        Fecha: ${ctx.get('fecha')}
+                        <br/>
+                        Teléfono: ${object.partner_id.mobile}
+                        <br/>
+                        Correo: ${object.partner_id.email}
+                        <br/>
+                        El campo 'payulatam_state' es diferente a NULL
+                    </p>
+                </div>
+            </field>
+            <field name="lang">${object.company_id.contact_center_id.lang}</field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
     </data>
 </odoo>

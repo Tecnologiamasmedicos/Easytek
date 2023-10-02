@@ -185,12 +185,24 @@ class WebsiteSaleExtended(WebsiteSale):
     # toma de datos de pago y se crea el asegurador principal
     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def address(self, errortusdatos= '', **kw):
+        qcontext = ''
+        params = {}
+        assisted_purchase = 0
         if 'assisted_purchase' in request.params and request.params['assisted_purchase']:
-            qcontext = '?assisted_purchase=' + str(request.params['assisted_purchase'])
             assisted_purchase = request.params['assisted_purchase']
-        else:
-            qcontext = ''
-            assisted_purchase = 0
+            params["assisted_purchase"] = assisted_purchase
+        if request.params.get('_ga'):
+            ag = request.params['_ga']
+            params["_ga"] = ag
+        if request.params.get('_gl'):
+            gl = request.params['_gl']
+            params["_gl"] = gl
+        if params:
+            params = [f"{param}={value}" for param, value in params.items()]
+            qcontext = "?" + "&".join(params)
+        if request.params.get('qcontext'):
+            qcontext = request.params['qcontext']
+
         ''' Toma de datos de pago y se crea el asegurador principal '''
         Partner = request.env['res.partner'].with_context(show_address=1).sudo()
         order = request.website.sale_get_order()
@@ -393,6 +405,7 @@ class WebsiteSaleExtended(WebsiteSale):
             'only_services': order and order.only_services,
             'order_detail': order_detail,
             'assisted_purchase': assisted_purchase,
+            'qcontext': qcontext,
         }
         if order_detail.product_id.categ_id.buyer_view:
             return request.render(order_detail.product_id.categ_id.buyer_view.xml_id, render_values)
@@ -402,8 +415,12 @@ class WebsiteSaleExtended(WebsiteSale):
 
     @http.route(['/shop/confirm_order'], type='http', auth="public", website=True, sitemap=False)
     def confirm_order(self, **post):
+        params = dict(request.params)
+        assisted_purchase = 0
+        params = [f"{param}={value}" for param, value in params.items()]
+        qcontext = "&" + "&".join(params)
+        
         order = request.website.sale_get_order()
-
         redirection = self.checkout_redirection(order)
         if redirection:
             return redirection
@@ -424,7 +441,7 @@ class WebsiteSaleExtended(WebsiteSale):
                 para el registro de Asegurado y Beneficiarios<br/>
             """
             order.message_post(body=body_message, type="comment")
-            return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)))
+            return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)) + qcontext)
         
         """ Evaluando si el producto es un beneficio """
         if order.main_product_id.is_beneficiary:
@@ -437,9 +454,9 @@ class WebsiteSaleExtended(WebsiteSale):
                 para el registro de Asegurado y Beneficiarios<br/>
             """
             order.message_post(body=body_message, type="comment")
-            return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)))
+            return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)) + qcontext)
         if order.main_product_id.categ_id.sponsor_id.id == 5521:
-            return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)))
+            return request.redirect("/my/order/beneficiaries/" + str(order.id) + '?access_token=' + str(self.generate_access_token(order.id)) + qcontext)
         return request.redirect("/shop/payment")
     
     
@@ -498,12 +515,6 @@ class WebsiteSaleExtended(WebsiteSale):
                 if beneficiaries_number > 6:
                     beneficiaries_number = 6
 
-                pets_number = 0
-                if product.sequence_id and product.product_tmpl_id.is_plan_with_pet:
-                    pets_number = product.sequence_id.pet_number
-                elif product.categ_id.sequence_id and product.product_tmpl_id.is_plan_with_pet:
-                    pets_number = product.categ_id.sequence_id.pet_number
-
                 country = request.env['res.country'].browse(int(order.partner_id.country_id))
                 render_values = {
                     "partner": order.partner_id,
@@ -517,8 +528,7 @@ class WebsiteSaleExtended(WebsiteSale):
                     'current_city':order.partner_id.zip_id.city_id.id,
                     'beneficiaries_number': beneficiaries_number,
                     'order_id': order.id,
-                    'website_sale_order': order,
-                    'pets_number': pets_number,
+                    'website_sale_order': order
                 }
                 _logger.info(render_values)
                 if order.main_product_id.categ_id.sponsor_id.id == 5521:
@@ -762,47 +772,6 @@ class WebsiteSaleExtended(WebsiteSale):
                 order.write({
                     'beneficiary6_id': NewBeneficiaryPartner.id
                 })
-
-        cont_d, cont_h, cont_c, cont_m, cont_s = 0,0,0,0,0
-        if 'petnumber' in kwargs:
-            for i in range(int(kwargs['petnumber'])):
-                pet_name = "pet_name_"+str(i+1)
-                pet_type = "pet_type_"+str(i+1)
-
-                NewBeneficiaryPartner = BeneficiaryPartner.create({
-                    'pet_name': kwargs[pet_name],
-                    'pet_type': kwargs[pet_type],
-                    'firstname': kwargs[pet_name],
-                    'parent_id': Partner.id,
-                    'person_type': "2",
-                    'beneficiary': True,
-                    'company_type': 'pet',
-                    'sponsor_id': sponsor_id.id
-                })
-                if i == 0:
-                    order.write({
-                        'pet1_id': NewBeneficiaryPartner.id
-                    })
-                if i == 1:
-                    order.write({
-                        'pet2_id': NewBeneficiaryPartner.id
-                    })
-                if i == 2:
-                    order.write({
-                        'pet3_id': NewBeneficiaryPartner.id
-                    })
-                if i == 3:
-                    order.write({
-                        'pet4_id': NewBeneficiaryPartner.id
-                    })
-                if i == 4:
-                    order.write({
-                        'pet5_id': NewBeneficiaryPartner.id
-                    })
-                if i == 5:
-                    order.write({
-                        'pet6_id': NewBeneficiaryPartner.id
-                    })
 
         if order.assisted_purchase:
             render_values = {
@@ -1054,6 +1023,9 @@ class WebsiteSaleExtended(WebsiteSale):
             if request.params.get('_ga'):
                 ag = request.params['_ga']
                 qcontext = '?_ga=' + ag
+                if request.params.get('_gl'):
+                    gl = request.params['_gl']
+                    qcontext += '&_gl=' + gl
             """ 
                 Redireccionando al formulario de datos del comprador.
                 1er Paso, lanzado desde landpage(no hay proceso de token para saber si la petición es valida),

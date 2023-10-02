@@ -58,6 +58,8 @@ class AccountMove(models.Model):
         ("25_days_after", "PC 25 dias despues"),
         ("36_days_after", "C 36 dias despues"),
     ])
+    number_payments_sent = fields.Integer('Número de pagos enviados', store=True, default=0)
+    msg_payment_reminder = fields.Boolean('Mensaje recordación de cobro', default=False)
 
     def post(self):
         res = super(AccountMove, self).post()

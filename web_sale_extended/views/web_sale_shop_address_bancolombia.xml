@@ -439,6 +439,7 @@
                                     <input type="hidden" name="assisted_purchase" t-att-value="assisted_purchase" />
                                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
                                     <input type="hidden" name="submitted" value="1" />
+                                    <input type="hidden" name="qcontext" t-att-value="qcontext" />
                                     <input type="hidden" name="partner_id" t-att-value="website_sale_order.partner_id and website_sale_order.partner_id.id or partner_id or '0'" />
                                     <input type="hidden" name="partner_country_id" t-att-value="('country_id' in checkout and checkout['country_id'].id or website_sale_order.partner_id.country_id and website_sale_order.partner_id.country_id.id or '0')" />
                                     <input type="hidden" name="partner_document_type" t-att-value="('document_type_id' in checkout and checkout['document_type_id'].id or website_sale_order.partner_id.document_type_id and website_sale_order.partner_id.document_type_id.id or '0')" />

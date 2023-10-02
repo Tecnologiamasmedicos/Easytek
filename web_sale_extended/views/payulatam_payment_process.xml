@@ -172,15 +172,6 @@
                     </div>
                 </div>   
             </div>
-            <script>
-                <![CDATA[
-                    window.dataLayer = window.dataLayer || [];
-                        window.dataLayer.push({
-                            'event': 'vpv',
-                            'page_path': '/MASMEDICOS/Pago/Pago-Aprobado'
-                    });
-                ]]>
-            </script>
         </t>
     </template>
     
@@ -381,15 +372,6 @@
                     </div>
                 </div>   
             </div>
-            <script>
-                <![CDATA[
-                    window.dataLayer = window.dataLayer || [];
-                    window.dataLayer.push({
-                        'event': 'vpv',
-                        'page_path': '/MASMEDICOS/Pago/Pago-Rechazado'
-                    });
-                ]]>
-            </script>
         </t>
     </template>
     
@@ -504,15 +486,6 @@
                     </div>
                 </div>   
             </div>
-            <script>
-                <![CDATA[
-                    window.dataLayer = window.dataLayer || [];
-                    window.dataLayer.push({
-                        'event': 'vpv',
-                        'page_path': '/MASMEDICOS/Pago/Pago-Aprobado'
-                    });
-                ]]>
-            </script>
         </t>
     </template>
     
@@ -601,15 +574,6 @@
                     </div>
                 </div> 
             </div>
-            <script>
-                <![CDATA[
-                    window.dataLayer = window.dataLayer || [];
-                    window.dataLayer.push({
-                        'event': 'vpv',
-                        'page_path': '/MASMEDICOS/Pago/Pago-Rechazado'
-                    });
-                ]]>
-            </script>
         </t>
     </template>
     
@@ -716,15 +680,6 @@
                     </div>
                 </div>
             </div>
-            <script>
-                <![CDATA[
-                    window.dataLayer = window.dataLayer || [];
-                    window.dataLayer.push({
-                        'event': 'vpv',
-                         'page_path': '/MASMEDICOS/Pago/Pago-Aprobado'
-                    });
-                ]]>
-            </script>
         </t> 
     </template>
     
@@ -898,16 +853,7 @@
                                                        style="color:#FFF;">Descargar documentos
                                                        <i class="fa fa-chevron-right"/>
                                                     </a>                                            
-                                                </t>  
-                                                <script>
-                                                    <![CDATA[
-                                                        window.dataLayer = window.dataLayer || [];
-                                                            window.dataLayer.push({
-                                                                'event': 'vpv',
-                                                                'page_path': '/MASMEDICOS/Pago/Pago-Aprobado'
-                                                        });
-                                                    ]]>
-                                                </script>                                      
+                                                </t>
                                             </t>
                                         </t>
                                         <t t-else="">
@@ -931,15 +877,6 @@
                                                <i class="fa fa-chevron-right"/>
                                             </a>
                                             <!--FIN Cambio de texto del boton cuando el pago por pse es rechazado-->
-                                            <script>
-                                                <![CDATA[
-                                                    window.dataLayer = window.dataLayer || [];
-                                                        window.dataLayer.push({
-                                                            'event': 'vpv',
-                                                            'page_path': '/MASMEDICOS/Pago/Pago-Rechazado'
-                                                    });
-                                                ]]>
-                                            </script>
                                         </t>
                                         <input type="hidden" name="order_id" t-att-value="order_id.id"/>
                                         <input type="hidden" name="token" t-att-value="access_token"/>
@@ -1047,15 +984,6 @@
                     </div>
                 </div>   
             </div>
-            <script>
-                <![CDATA[
-                    window.dataLayer = window.dataLayer || [];
-                    window.dataLayer.push({
-                        'event': 'vpv',
-                        'page_path': '/MASMEDICOS/Pago/Pago-Rechazado'
-                    });
-                ]]>
-            </script>
         </t>
     </template>
     

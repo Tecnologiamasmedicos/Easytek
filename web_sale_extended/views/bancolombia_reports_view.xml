@@ -9,6 +9,7 @@
                 <tree string="Reporte Bancolombia" create="0" edit="0">
                     <field name="sale_order_id" />
                     <field name="sale_order_state" />
+                    <field name="buyer_account_type" />
                     <field name="buyer_name" />
                     <field name="amount" />
                     <field name="debit_request" />

@@ -10,6 +10,7 @@
                 <button name="delete_token_payulatam" string="Eliminar Token" class="btn-primary" type="object" attrs="{'invisible':['|',('payment_method_type','!=','Credit Card'), '|', ('state', 'not in', ('sale')), ('payulatam_credit_card_token', '=', '')]}" confirm="¿Esta seguro que desea eliminar el Token de la tarjeta de crédito?"/>
                 <button name="update_bancolombia_account" string="Actualizar cuenta" class="btn-primary" states="payu_pending, sale" type="object" attrs="{'invisible': [('sponsor_id', '!=', '5521')]}" confirm="¿Está seguro que desea enviar correo de atualizacion de cuenta?"/>
                 <button name="retransmit_record_bancol" string="Retrasmitir en arvhivo de entrada Bancolombia" class="btn-primary" states="payu_pending" type="object" attrs="{'invisible': [('sponsor_id', '!=', '5521')]}" confirm="¿Está seguro que desea retrasmitir esta orden de venta en los archivos de entrada de Bancolombia?"/>
+                <button name="send_unsuccessful_debit_email_bancolombia" string="Enviar correo debito no exitoso" class="btn-primary" states="payu_pending" type="object" attrs="{'invisible': [('sponsor_id', '!=', '5521')]}" confirm="¿Está seguro que desea enviar el correo de debito no exitoso de Bancolombia?"/>
             </header>
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 <field name="sponsor_id" />

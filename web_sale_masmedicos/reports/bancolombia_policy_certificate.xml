@@ -3,7 +3,7 @@
     <data>
         <report
                 id="bancolombia_custom_policy_certificate"
-                string="Certificado Póliza bancolombia"
+                string="Certificado Poliza bancolombia"
                 model="sale.order"
                 report_type="qweb-pdf"
                 name="web_sale_masmedicos.report_bancolombia"
@@ -14,12 +14,12 @@
             <t t-call="web.html_container">
                 <style>
                     @font-face {
-                    font-family: CIBFontSans-Regular;
-                    src: url('../static/src/fonts/CIBFontSans-Regular.woff') format("woff"),
-                    url('../static/src/fonts/CIBFontSans-Regular.otf') format('truetype');
+                    font-family: 'CIBFontSans-Regular';
+                    src: url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Regular.woff') format("woff"),
+                    url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Regular.otf') format('truetype');
                     }
                     *{
-                    font-family: CIBFontSans-Regular;
+                    font-family: 'CIBFontSans-Regular' !important;
                     }
 
 
@@ -50,8 +50,10 @@
                                          style="border-style: none solid none none; white-space: nowrap;
                                          display: inline-block; padding-bottom: 40px; line-height: 1.242em;;
                                          font-size:18px;  color:#565759;">
-                                        <p> <strong style="">PÓLIZA N°</strong>
-                                        <span t-esc="doc.order_line[0].subscription_id.policy_number"/></p>
+                                        <p>
+                                            <strong style="">PÓLIZA N°</strong>
+                                            <span t-esc="doc.order_line[0].subscription_id.policy_number"/>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -61,13 +63,19 @@
 
                     <div class="article o_report_layout_standard" style="margin:0">
                         <div style="position: absolute;  left: -16px; top: 52em; z-index:1000;">
-                            <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/>
+                            <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)"
+                                 width="50" height="140"/>
+
                         </div>
+
                         <div style="position: absolute;  left: -16px; top: 112em; z-index:1000;">
-                            <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/>
+                            <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)"
+                                 width="50" height="140"/>
                         </div>
+
                         <div style="position: absolute;  left: -16px; top: 162em; z-index:1000;">
-                            <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/>
+                            <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)"
+                                 width="50" height="140"/>
                         </div>
                         <div style="position:absolute;opacity:0.25;z-index:1000;margin-left: auto;top: 20em; margin-right: auto; left: 0; right: 0; text-align: center; transform:rotate(300deg);-webkit-transform:rotate(300deg);width:auto;height:auto;">
                             <p style="font-size:120px;color:#221E1F;">PRUEBAS </p>
@@ -82,21 +90,20 @@
                         <div class="page" style="margin:0px 9px 0px 9px; letter-spacing: -0.01em;">
                             <t t-foreach="doc.partner_id" t-as="p">
                                 <div style="left:20em; position: absolute; top:0em; word-spacing:0.1em; letter-spacing: -0.1em;">
-                                    <b style="font-size:18px;
-                                font-family: CIBFontSans-Regular; font-weight: bold;
+                                    <b style="font-size:18px; font-weight: bold;
                                 color:#221E1F; word-spacing:0.1em;">CERTIFICADO INDIVIDUAL DE SEGURO DE ACCIDENTES
                                         PERSONALES
                                     </b>
                                 </div>
                                 <div style="left:17.8em; top:1.5em; font-size:18px; position: absolute;
-                                  font-family: monserrat; font-weight: bold; letter-spacing: -0.1em;
+                                   monserrat; font-weight: bold; letter-spacing: -0.1em;
                                   color:#221E1F; word-spacing:0.08em;">
                                     <span>TOMADOR:
                                         <span t-esc="doc.partner_id.name"/>
                                     </span>
                                 </div>
                                 <div style="left:40.5em; top:1.5em; font-size:18px; position: absolute;
-                                  font-family: monserrat; letter-spacing: -0.1em; font-weight: bold;
+                                   monserrat; letter-spacing: -0.1em; font-weight: bold;
                                   color:#221E1F; word-spacing:0.08em;">
                                     <span>ID:
                                         <span t-esc="doc.partner_id.identification_document"/>
@@ -110,15 +117,15 @@
                                 <tr>
                                     <td>
                                         <p align="justify"
-                                           style="color:#4f4b4c;font-family: CIBFontSans-Regular;color:#2B282D;line-height: 1.1em;
-                                                font-size:16.5px !important;">
-                                            <strong>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A.</strong><![CDATA[&nbsp;]]>
+                                           style="font-size:16px !important; color:#2B282D; line-height: 1em; letter-spacing: 0.068em; word-spacing: 0.04em;">
+                                            <strong>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A&#160;
+                                            </strong>
                                             que
                                             en adelante se denominará <strong>PALIG</strong> certifica mediante este
                                             documento, que
-                                            forma parte integrante de la póliza, que el/los asegurados relacionados a
+                                            forma parte integrante de la poliza, que el/los asegurados relacionados a
                                             continuación se encuentran amparados, por ende, se compromete a pagar los
-                                            beneficios de acuerdo y con sujeción a las estipulaciones de esta póliza y
+                                            beneficios de acuerdo y con sujeción a las estipulaciones de esta poliza y
                                             que constan en el cuadro de coberturas en lo que respecta a:
                                         </p>
                                     </td>
@@ -127,7 +134,7 @@
                             </table>
 
                             <strong>
-                                <p style="font-size:17px !important;font-family:CIBFontSans-Regular;color:#231f20; font-style: italic;">
+                                <p style="font-size:17px !important; color:#231f20; font-style: italic; word-spacing: 0.01em;">
                                     <b>1. Nombre del Asegurado Principal</b>
                                 </p>
                             </strong>
@@ -164,15 +171,15 @@
                                 <tbody style="margin: 0px;">
                                     <tr>
                                         <td align="center"
-                                            style="width:25%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             1er Apellido
                                         </td>
                                         <td align="center"
-                                            style=" width:25%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             2do Apellido
                                         </td>
                                         <td align="center"
-                                            style=" width:50%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             Nombres
                                         </td>
                                     </tr>
@@ -181,60 +188,60 @@
                             <table style="width:100%; margin: 0px;">
                                 <tbody style="margin: 0px;">
                                     <tr style="margin: 0px;">
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 17.94%;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 17.94%;">
                                             Número de cédula
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; width: 2.56%;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; width: 2.56%;">
                                             CC
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; width: 2.56%;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; width: 2.56%;">
                                             <t t-if="doc.beneficiary0_id.document_type_id.name == 'Cédula de Ciudadanía'">
                                                 <![CDATA[&nbsp;]]>X
                                             </t>
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; width: 2.56%;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; width: 2.56%;">
                                             CE
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; width: 2.56%;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; width: 2.56%;">
                                             <t t-if="doc.beneficiary0_id.document_type_id.name == 'Cédula de Extranjería'">
                                                 <![CDATA[&nbsp;]]>X
                                             </t>
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width:5.13%;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width:5.13%;">
                                             OTRO
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width:2.56%;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width:2.56%;">
                                             <t t-if="doc.beneficiary0_id.document_type_id.name == 'Pasaporte' or doc.beneficiary0_id.document_type_id.name == 'Documento de Identificación Extranjero'">
                                                 <![CDATA[&nbsp;]]>X
                                             </t>
                                         </td>
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; border-bottom: 1.3pt solid #565759; white-space: nowrap; width: 15.38%;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.3pt solid #565759; white-space: nowrap; width: 15.38%;">
                                             <span t-esc="doc.beneficiary0_id.identification_document"/>
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 17.95%;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 17.95%;">
                                             Fecha de expedición
                                         </td>
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  border-bottom: 1.3pt solid #565759; white-space: nowrap; width: 12.82%;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.3pt solid #565759; white-space: nowrap; width: 12.82%;">
                                             <span t-field="doc.beneficiary0_id.expedition_date"
                                                   t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; width: 7.69%;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; width: 7.69%;">
                                             Sexo:
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; width: 2.56%;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; width: 2.56%;">
                                             F
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; width: 2.56%;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; width: 2.56%;">
                                             <t t-if="doc.beneficiary0_id.gender == 'F'">
                                                 <![CDATA[&nbsp;]]>X
                                             </t>
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; width: 2.56%;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; width: 2.56%;">
                                             M
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; width: 2.56%;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; width: 2.56%;">
                                             <t t-if="doc.beneficiary0_id.gender == 'M'">
                                                 <![CDATA[&nbsp;]]>X
                                             </t>
@@ -245,19 +252,19 @@
                             <table style="width:100%;">
                                 <tbody>
                                     <tr>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Fecha Nacimiento:
                                         </td>
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; border-bottom: 1.3pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.3pt solid #565759;">
                                             <span t-field="doc.beneficiary0_id.birthdate_date"
                                                   t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Estado Civil
                                         </td>
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; border-bottom: 1.3pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.3pt solid #565759;">
                                             <t t-if="doc.beneficiary0_id.marital_status != &quot;Unión Libre&quot;">
                                                 <t t-esc="doc.beneficiary0_id.marital_status"/>/a
                                             </t>
@@ -265,11 +272,11 @@
                                                 <t t-esc="doc.beneficiary0_id.marital_status"/>
                                             </t>
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Dirección de Residencia
                                         </td>
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; border-bottom: 1.3pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.3pt solid #565759;">
                                             <t t-if="doc.beneficiary0_id.address_beneficiary">
                                                 <t t-esc="doc.beneficiary0_id.address_beneficiary"/>
                                             </t>
@@ -283,25 +290,25 @@
                             <table style="width:100%;">
                                 <tbody>
                                     <tr>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Teléfono(s)
                                         </td>
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  width: 25%; border-bottom: 1.4pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; width: 25%; border-bottom: 1.4pt solid #565759;">
                                             <t t-esc="doc.beneficiary0_id.phone"/>
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Celular
                                         </td>
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  border-bottom: 1.4pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-esc="doc.beneficiary0_id.mobile"/>
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Email
                                         </td>
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  border-bottom: 1.4pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-esc="doc.beneficiary0_id.email"/>
                                         </td>
                                     </tr>
@@ -312,7 +319,7 @@
                             <t t-set="vigencia_plan"
                                t-value="doc.order_line.product_id.subscription_template_id.recurring_rule_count * doc.order_line.product_id.subscription_template_id.recurring_interval"/>
                             <p align="justify"
-                               style="color:#4f4b4c;font-size:15px !important; font-family: CIBFontSans-Regular;">
+                               style="color:#4f4b4c;font-size:16.5px !important;">
                                 Fecha de inicio de vigencia del certificado: al dia siguiente de
                                 <u>
                                     <t t-if="doc.order_line.product_id.subscription_template_id.is_fixed_policy">
@@ -337,7 +344,7 @@
                                 siguientes al inicio de vigencia.
                             </p>
                             <strong>
-                                <i style="font-size:16.5px !important;font-family:CIBFontSans-Regular;color:#231f20;">
+                                <i style="font-size:16.5px !important; color:#231f20;">
                                     Dependiente 1
                                 </i>
                             </strong>
@@ -379,28 +386,28 @@
                                 <tbody style="margin: 0px;">
                                     <tr>
                                         <td align="center"
-                                            style="width:25%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             1er Apellido
                                         </td>
                                         <td align="center"
-                                            style=" width:25%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             2do Apellido
                                         </td>
                                         <td align="center"
-                                            style=" width:50%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             Nombres
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <table style="width:100%; margin: 0px; margin-bottom: 7px;;" id="tableNew">
+                            <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Parentesco:
                                         </td>
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  border-bottom: 1.4pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-if="doc.beneficiary1_id.relationship == 'M'">
                                                 <span style="color:#565759">Hermanos</span>
                                             </t>
@@ -417,12 +424,12 @@
                                                 <span style="color:#565759">Suegros</span>
                                             </t>
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Fecha de Nacimiento:
                                         </td>
 
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  border-bottom: 1.4pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <span style="color:#565759" t-field="doc.beneficiary1_id.birthdate_date"
                                                   t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
@@ -431,7 +438,7 @@
                             </table>
 
                             <strong>
-                                <i style="font-size:16.5px !important;font-family:CIBFontSans-Regular;color:#231f20;">
+                                <i style="font-size:16.5px !important; color:#231f20;">
                                     Dependiente 2
                                 </i>
                             </strong>
@@ -473,28 +480,28 @@
                                 <tbody style="margin: 0px;">
                                     <tr>
                                         <td align="center"
-                                            style="width:25%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             1er Apellido
                                         </td>
                                         <td align="center"
-                                            style=" width:25%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             2do Apellido
                                         </td>
                                         <td align="center"
-                                            style=" width:50%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             Nombres
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <table style="width:100%; margin: 0px; margin-bottom: 7px;;" id="tableNew">
+                            <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Parentesco:
                                         </td>
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  border-bottom: 1.4pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-if="doc.beneficiary2_id.relationship == 'M'">
                                                 <span style="color:#565759">Hermanos</span>
                                             </t>
@@ -511,12 +518,12 @@
                                                 <span style="color:#565759">Suegros</span>
                                             </t>
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Fecha de Nacimiento:
                                         </td>
 
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  border-bottom: 1.4pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <span style="color:#565759" t-field="doc.beneficiary2_id.birthdate_date"
                                                   t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
@@ -525,7 +532,7 @@
                             </table>
 
                             <strong>
-                                <i style="font-size:16.5px !important;font-family:CIBFontSans-Regular;color:#231f20;">
+                                <i style="font-size:16.5px !important; color:#231f20;">
                                     Dependiente 3
                                 </i>
                             </strong>
@@ -567,28 +574,28 @@
                                 <tbody style="margin: 0px;">
                                     <tr>
                                         <td align="center"
-                                            style="width:25%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             1er Apellido
                                         </td>
                                         <td align="center"
-                                            style=" width:25%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             2do Apellido
                                         </td>
                                         <td align="center"
-                                            style=" width:50%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             Nombres
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <table style="width:100%; margin: 0px; margin-bottom: 7px;;" id="tableNew">
+                            <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Parentesco:
                                         </td>
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  border-bottom: 1.4pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-if="doc.beneficiary3_id.relationship == 'M'">
                                                 <span style="color:#565759">Hermanos</span>
                                             </t>
@@ -605,12 +612,12 @@
                                                 <span style="color:#565759">Suegros</span>
                                             </t>
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Fecha de Nacimiento:
                                         </td>
 
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  border-bottom: 1.4pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <span style="color:#565759" t-field="doc.beneficiary3_id.birthdate_date"
                                                   t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
@@ -619,7 +626,7 @@
                             </table>
 
                             <strong>
-                                <i style="font-size:16.5px !important;font-family:CIBFontSans-Regular;color:#231f20;">
+                                <i style="font-size:16.5px !important; color:#231f20;">
                                     Dependiente 4
                                 </i>
                             </strong>
@@ -651,6 +658,7 @@
                                                 <t style="text-transform: capitalize;"
                                                    t-esc="doc.beneficiary4_id.firstname"/>
                                             </t>
+
                                             <!--</p>-->
                                         </td>
                                     </tr>
@@ -660,28 +668,28 @@
                                 <tbody style="margin: 0px;">
                                     <tr>
                                         <td align="center"
-                                            style="width:25%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             1er Apellido
                                         </td>
                                         <td align="center"
-                                            style=" width:25%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             2do Apellido
                                         </td>
                                         <td align="center"
-                                            style=" width:50%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             Nombres
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <table style="width:100%; margin: 0px; margin-bottom: 7px;;" id="tableNew">
+                            <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Parentesco:
                                         </td>
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  border-bottom: 1.4pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-if="doc.beneficiary4_id.relationship == 'M'">
                                                 <span style="color:#565759">Hermanos</span>
                                             </t>
@@ -698,12 +706,12 @@
                                                 <span style="color:#565759">Suegros</span>
                                             </t>
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Fecha de Nacimiento:
                                         </td>
 
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  border-bottom: 1.4pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <span style="color:#565759" t-field="doc.beneficiary4_id.birthdate_date"
                                                   t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
@@ -712,7 +720,7 @@
                             </table>
 
                             <strong>
-                                <i style="font-size:16.5px !important;font-family:CIBFontSans-Regular;color:#231f20;">
+                                <i style="font-size:16.5px !important; color:#231f20;">
                                     Dependiente 5
                                 </i>
                             </strong>
@@ -754,28 +762,28 @@
                                 <tbody style="margin: 0px;">
                                     <tr>
                                         <td align="center"
-                                            style="width:25%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             1er Apellido
                                         </td>
                                         <td align="center"
-                                            style=" width:25%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             2do Apellido
                                         </td>
                                         <td align="center"
-                                            style=" width:50%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             Nombres
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <table style="width:100%; margin: 0px; margin-bottom: 7px;;" id="tableNew">
+                            <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Parentesco:
                                         </td>
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  border-bottom: 1.4pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-if="doc.beneficiary5_id.relationship == 'M'">
                                                 <span style="color:#565759">Hermanos</span>
                                             </t>
@@ -792,12 +800,12 @@
                                                 <span style="color:#565759">Suegros</span>
                                             </t>
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Fecha de Nacimiento:
                                         </td>
 
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  border-bottom: 1.4pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <span style="color:#565759" t-field="doc.beneficiary5_id.birthdate_date"
                                                   t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
@@ -806,7 +814,7 @@
                             </table>
 
                             <strong>
-                                <i style="font-size:16.5px !important;font-family:CIBFontSans-Regular;color:#231f20;">
+                                <i style="font-size:16.5px !important; color:#231f20;">
                                     Dependiente 6
                                 </i>
                             </strong>
@@ -846,28 +854,28 @@
                                 <tbody style="margin: 0px;">
                                     <tr>
                                         <td align="center"
-                                            style="width:25%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             1er Apellido
                                         </td>
                                         <td align="center"
-                                            style=" width:25%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             2do Apellido
                                         </td>
                                         <td align="center"
-                                            style=" width:50%; color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;">
+                                            style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             Nombres
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <table style="width:100%; margin: 0px; margin-bottom: 7px;;" id="tableNew">
+                            <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Parentesco:
                                         </td>
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  border-bottom: 1.4pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-if="doc.beneficiary6_id.relationship == 'M'">
                                                 <span style="color:#565759">Hermanos</span>
                                             </t>
@@ -884,12 +892,12 @@
                                                 <span style="color:#565759">Suegros</span>
                                             </t>
                                         </td>
-                                        <td style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular; white-space: nowrap; width: 20px;">
+                                        <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Fecha de Nacimiento:
                                         </td>
 
                                         <td align="center"
-                                            style="color:#565759; font-size:15px !important; font-weight: lighter; font-family: CIBFontSans-Regular;  border-bottom: 1.4pt solid #565759;">
+                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <span style="color:#565759" t-field="doc.beneficiary6_id.birthdate_date"
                                                   t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
@@ -899,14 +907,14 @@
                             <div style="page-break-after: always;"/>
 
 
-                            <div style="font-family: CIBFontSans-Regular;">
+                            <div>
                                 <strong>
-                                    <p style="font-size:16.5px !important;font-family:CIBFontSans-Regular;color:#231f20; font-style: italic;">
+                                    <p style="font-size:16.5px !important; color:#231f20; font-style: italic;">
                                         <b>2. Cobertura: Muerte Accidental</b>
                                     </p>
                                 </strong>
 
-                                <p align="justify" style="color:#4f4b4c;line-height: 1.1em; font-size:16.5px !important;">
+                                <p align="justify" style="color:#4f4b4c; line-height: 1.33em;">
                                     PALIG pagará a los beneficiaros de ley de acuerdo a las condiciones generales de la
                                     póliza, el valor indicado a continuación
                                     después de presentar la reclamación en la que se acredite que el fallecimiento se
@@ -915,7 +923,7 @@
                                     incluida en las condiciones generales de la póliza.
                                 </p>
                             </div>
-                            <p align="justify" style="color:#4f4b4c; font-family: CIBFontSans-Regular;">
+                            <p align="justify" style="color:#4f4b4c;">
                                 <strong>
                                     <i>Valor asegurado:
                                         <t t-if="doc.order_line.product_template_id[0].sequence_id.value_policy != 0">
@@ -936,9 +944,9 @@
                                         Pesos Colombianos.
                                     </i>
                                 </strong>
-                                <div style="font-family: CIBFontSans-Regular;">
+                                <div>
                                     <strong>
-                                        <p style="font-size:16.5px !important;font-family:CIBFontSans-Regular;color:#231f20; font-style: italic;">
+                                        <p style="font-size:16.5px !important; color:#231f20; font-style: italic;">
                                             <b>3. Cobertura: Asistencia Médica</b>
                                         </p>
                                     </strong>
@@ -978,10 +986,12 @@
                                                  width="100%" height="390"/>
                                         </center>
                                     </t>
-                                    <div style="font-size:16.5px !important;font-family:CIBFontSans-Regular;color:#231f20; font-style: italic;">
+                                    <div style="font-size:16.5px !important; color:#231f20; font-style: italic;">
                                         <strong>
                                             <i style="color:#231f20;">
-                                                4. Prima
+                                                4.<![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
+                                                <![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
+                                                Prima
                                                 <span/>
                                                 <t t-if="not doc.order_line.product_id.subscription_template_id.is_fixed_policy">
                                                     <t t-if="doc.order_line.product_id.subscription_template_id.recurring_interval == 1 and doc.order_line.product_id.subscription_template_id.recurring_rule_type == 'monthly'">
@@ -1015,11 +1025,12 @@
                                         </strong>
                                     </div>
                                     <br/>
-                                    <div style="font-family: CIBFontSans-Regular;">
-                                        <p align="justify" style="color:#4f4b4c;  line-height: 1.1em;">
-                                            <span style="color:#231f20;font-style: italic;"><strong>5.</strong></span>
+                                    <div>
+                                        <p align="justify" style="color:#4f4b4c;  line-height: 1.33em;">
+                                            <strong>5.</strong>
                                             <span style="text-indent: 20%; font-size:16.5px !important;">
-                                                La póliza
+                                                <![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
+                                                <![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>La póliza
                                                 terminará según lo establecido en las condiciones generales o
                                                 particulares de la misma o cualquiera de sus anexos, por
                                                 incumplimiento en el pago de cualquier prima al expirar el periodo de
@@ -1037,16 +1048,13 @@
                                         <br/>
                                         <p align="justify" style="color:#4f4b4c;">Aplican términos y condiciones de la
                                             póliza de Accidentes Personales
-                                            <strong>
-                                                <span t-esc="doc.order_line[0].subscription_id.number"/>
-                                            </strong>
                                         </p>
                                         <div id="i" style="color:#4f4b4c;">
                                             <ul style="list-style-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTBwdCIgaGVpZ2h0PSIxMXB0IiB2aWV3Qm94PSIwIDAgMTAgMTEiIHZlcnNpb249IjEuMSI+CjxnIGlkPSJzdXJmYWNlMSI+CjxwYXRoIHN0eWxlPSIgc3Ryb2tlOm5vbmU7ZmlsbC1ydWxlOm5vbnplcm87ZmlsbDpyZ2IoMCUsMCUsMCUpO2ZpbGwtb3BhY2l0eToxOyIgZD0iTSA4LjkyOTY4OCAwLjY4NzUgTCAxLjA3MDMxMiAwLjY4NzUgQyAwLjQ4MDQ2OSAwLjY4NzUgMCAxLjE0ODQzOCAwIDEuNzE4NzUgTCAwIDkuMjgxMjUgQyAwIDkuODUxNTYyIDAuNDgwNDY5IDEwLjMxMjUgMS4wNzAzMTIgMTAuMzEyNSBMIDguOTI5Njg4IDEwLjMxMjUgQyA5LjUxOTUzMSAxMC4zMTI1IDEwIDkuODUxNTYyIDEwIDkuMjgxMjUgTCAxMCAxLjcxODc1IEMgMTAgMS4xNDg0MzggOS41MTk1MzEgMC42ODc1IDguOTI5Njg4IDAuNjg3NSBaIE0gOC45Mjk2ODggOS4yODEyNSBMIDEuMDcwMzEyIDkuMjgxMjUgTCAxLjA3MDMxMiAxLjcxODc1IEwgOC45Mjk2ODggMS43MTg3NSBaIE0gOC4xMjg5MDYgNC4wODk4NDQgTCA0LjI3NzM0NCA3Ljc2NTYyNSBDIDQuMTcxODc1IDcuODY3MTg4IDQgNy44NjcxODggMy44OTg0MzggNy43NjU2MjUgTCAxLjg3MTA5NCA1Ljc5Njg3NSBDIDEuNzY1NjI1IDUuNjk5MjE5IDEuNzY1NjI1IDUuNTM1MTU2IDEuODcxMDk0IDUuNDMzNTk0IEwgMi4zNzg5MDYgNC45NDkyMTkgQyAyLjQ4NDM3NSA0Ljg0NzY1NiAyLjY1MjM0NCA0Ljg1MTU2MiAyLjc1NzgxMiA0Ljk1MzEyNSBMIDQuMDkzNzUgNi4yNDYwOTQgTCA3LjI0NjA5NCAzLjIzNDM3NSBDIDcuMzUxNTYyIDMuMTMyODEyIDcuNTIzNDM4IDMuMTMyODEyIDcuNjI1IDMuMjM0Mzc1IEwgOC4xMjg5MDYgMy43MjI2NTYgQyA4LjIzNDM3NSAzLjgyNDIxOSA4LjIzNDM3NSAzLjk4ODI4MSA4LjEyODkwNiA0LjA4OTg0NCBaIE0gOC4xMjg5MDYgNC4wODk4NDQgIi8+CjwvZz4KPC9zdmc+Cg==)">
                                                 <li>
                                                     Autorizo permanente e irrevocablemente a
                                                     <i>
-                                                        <strong>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑÍA DE SEGUROS
+                                                        <strong>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑÏA DE SEGUROS
                                                             S.A.,
                                                         </strong>
                                                     </i>
@@ -1054,35 +1062,24 @@
                                                     de la fecha maneje mis Datos Personales conforme a la Política del
                                                     tratamiento de la información de la Compañía y al aviso de
                                                     privacidad que está en
-                                                    <a href="https://bit.ly/3y7Ao9x" target="_blank">
+                                                    <a href="https://www.palig.com" target="_blank">
                                                         <i>
-                                                            <strong>https://bit.ly/3y7Ao9x</strong>
+                                                            <strong>www.palig.com</strong>
                                                         </i>
                                                     </a>
                                                 </li>
                                                 <br/>
                                                 <li>
-                                                    He leído, revisado, entendido y recibido todas y cada una de las
-                                                    condiciones del presente certificado, conozco y entiendo su
-                                                    contenido, en especial lo
+                                                    He leído, revisado, entendido y recibido todas y cada una de las 
+                                                    condiciones del presente certificado, el cual me fué explicado por el tomador,
+                                                    que conozco y entiendo su contenido, en especial lo
                                                     relacionado con el alcance de cobertura, y con mi firma acepto
                                                     integralmente sus condiciones.
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
-                                    <div align="justify" style="font-family: CIBFontSans-Regular; color:#4f4b4c;
-                                    word-spacing: 0.01em;line-height: 1.1em; font-size:16.5px !important;">
-                                        <p>
-                                            Pan-American Life de Colombia Compañía de seguros S.A. asume exclusivamente
-                                            la responsabilidad del cumplimiento de las obligaciones del producto frente
-                                            al consumidor financiero. Este producto es ofrecido por la red de BANCOLOMBIA S.A.
-                                            limitándose única y exclusivamente al correcto cumplimiento de las instrucciones
-                                            debidamente impartidas por Pan-American Life de Colombia Compañía de seguros S.A.
-                                            para la prestación del servicio en dicha red
-                                        </p>
-                                    </div>
-                                    <div align="justify" style="font-family: CIBFontSans-Regular; color:#4f4b4c;">
+                                    <div align="justify" style="color:#4f4b4c;">
                                         <p>
                                             <strong>
                                                 Tenemos a su disposición los siguientes canales de atención:
@@ -1100,8 +1097,7 @@
                                             </a>
                                         </p>
                                     </div>
-                                    <p align="justify" style="font-family: CIBFontSans-Regular;
-                                    color:#4f4b4c;line-height: 1.1em;font-size:16.5px !important;">Adicionalmente, puede contactar al Defensor del Consumidor
+                                    <p align="justify">Adicionalmente, puede contactar al Defensor del Consumidor
                                         Financiero, cuya información de contacto podrá encontrar en nuestra página web
                                         <strong>
                                             <a href="https://bit.ly/3p63DFO" target="_blank" rel="noopener noreferrer">
@@ -1116,14 +1112,16 @@
                             <br/>
                             <br/>
                             <div id="b">
-                                <table style="width:100%; color:#4f4b4c; font-family: CIBFontSans-Regular;">
+                                <table style="width:100%; color:#4f4b4c;">
                                     <tbody>
                                         <tr>
                                             <td style="width:33%;" align="center">
                                                 <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
                                             </td>
                                             <td style="width:33%;" align="center"/>
-                                            <td style="width:33%;" align="center"/>
+                                            <td style="width:33%;" align="center">
+                                                <img t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.firma)" width="300" style="margin-top:-60px; text-align: center;" />
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td align="center">
@@ -1148,8 +1146,8 @@
                             <br/>
                             <br/>
                             <p align="justify"
-                               style="color:#4f4b4c; font-family: CIBFontSans-Regular; word-spacing: 0.01em;line-height: 1.1em;font-size:16.5px !important;">
-                                <b>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A.</b><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>que en
+                               style="color:#4f4b4c; letter-spacing: 0.078em; word-spacing: 0.05em;">
+                                <b>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A</b><![CDATA[&nbsp;]]>que en
                                 adelante se denominará PALIG conviene otorgar las coberturas incorporadas en el
                                 presente Certificado individual con sujeción a los términos y condiciones de esta póliza
                                 y sus anexos.

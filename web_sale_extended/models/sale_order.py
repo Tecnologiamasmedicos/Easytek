@@ -839,12 +839,12 @@ class SaleOrder(models.Model):
     def _send_payment_link_assisted_purchase_email(self):        
         template_id = self.env.ref('web_sale_extended.payment_link_assisted_purchase_email_template').id
         template = self.env['mail.template'].browse(template_id)
-        template.sudo().send_mail(self.id, force_send=True)
+        template.sudo().send_mail(self.id)
 
     def send_recovery_email(self):
         template_id = self.env.ref('web_sale_extended.recovery_main_insured_email_template').id
         template = self.env['mail.template'].browse(template_id)
-        template.sudo().send_mail(self.id, force_send=True)
+        template.sudo().send_mail(self.id)
 
     def _cron_send_recovery_email_main_insured(self):
         """ Selección de ordenes de venta que estan aprobadas por PayU y que no se envio correo """
@@ -909,6 +909,11 @@ class SaleOrder(models.Model):
         else:
             raise UserError('El metodo de pago no es Tarjeta de Credito o no tiene token')
         
+    def send_unsuccessful_debit_email_bancolombia(self):
+        template_id = self.env.ref('web_sale_extended.email_template_unsuccessful_debits_bancolombia').id
+        template = self.env['mail.template'].browse(template_id)
+        template.sudo().send_mail(self.id)
+        
     def update_bancolombia_account(self):
         self.update_account_bancolombia = True
         self.buyer_account_type = ''
@@ -918,18 +923,18 @@ class SaleOrder(models.Model):
         self.secretkey = ''
         template_id = self.env.ref('web_sale_extended.email_template_update_bancolombia_account').id
         template = self.env['mail.template'].browse(template_id)
-        template.sudo().send_mail(self.id, force_send=True)
+        template.sudo().send_mail(self.id)
 
     def register_bancolombia_account(self):
         self.update_account_bancolombia = True
         template_id = self.env.ref('web_sale_extended.email_template_assisted_purchase_bancolombia').id
         template = self.env['mail.template'].browse(template_id)
-        template.sudo().send_mail(self.id, force_send=True)
+        template.sudo().send_mail(self.id)
 
     def retransmit_record_bancol(self):
         self.debit_request = False
         body_message = """
-            <b><span style='color:#fff3cd;'>Transmisión Archivos de entrada Bancolombia</span></b><br/>
+            <b><span style='color:#E2BA1F;'>Transmisión Archivos de entrada Bancolombia</span></b><br/>
             <p>Se va a volver a trasmitir esta Orden de venta en los archivos de entrada de Bancolombia</p>
         """ 
         self.message_post(body=body_message, type="comment")

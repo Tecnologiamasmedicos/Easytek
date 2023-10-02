@@ -36,10 +36,14 @@ class SaleSubscription(models.Model):
             sequence_id = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.sequence_id
         else:
             sequence_id = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.categ_id.sequence_id
-        if res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.sequence_id.sponsor_name:
-            policyholder = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.sequence_id.sponsor_name
+        if res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.categ_id.policy_type == 'individual':
+            sale_order = res.env['sale.order'].sudo().search([('partner_id', '=', res.partner_id.id)])
+            policyholder = (str(sale_order.beneficiary0_id.firstname) + ' ' + str(sale_order.beneficiary0_id.othernames) + ' ' + str(sale_order.beneficiary0_id.lastname) + ' ' + str(sale_order.beneficiary0_id.lastname2))
         else:
-            policyholder = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.categ_id.sequence_id.sponsor_name
+            if res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.sequence_id.sponsor_name:
+                policyholder = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.sequence_id.sponsor_name
+            else:
+                policyholder = res.recurring_invoice_line_ids[0].product_id.product_tmpl_id.categ_id.sequence_id.sponsor_name
         if sequence_id.id == 213 and res.recurring_invoice_line_ids[0].product_id.id == 234:
             number = "06312"
         else: 
@@ -114,7 +118,7 @@ class SaleSubscription(models.Model):
             'journal_id': journal.id,
             'sponsor_id': self.sponsor_id,
             'payment_mean_id': 1,
-            'action_date_billing_cycle': self.invoice_date
+            'action_date_billing_cycle': self.recurring_next_date + timedelta(days=4),
         })
         return res
 
@@ -379,6 +383,11 @@ class SaleSubscription(models.Model):
                 )
                 subscription.message_post(body=body_message, type="comment")
         return res
+    
+    def _send_bancolombia_cancellation_plan_email(self):        
+        template_id = self.env.ref('web_sale_extended.mail_template_cancellation_plan_bancolombia').id
+        template = self.env['mail.template'].browse(template_id)
+        template.sudo().send_mail(self.id)
 
 class SaleSubscriptionCloseReasonWizard(models.TransientModel):
     _inherit = "sale.subscription.close.reason.wizard"
