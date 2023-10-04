@@ -319,14 +319,14 @@
                                         <!-- Numero de cuenta -->
                                         <div class="col-lg-6" t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521 and assisted_purchase != '1'">
                                             <div class="form-group">
-                                                <label class="col-form-label" for="account_number">Número de cuenta*</label>
+                                                <label class="col-form-label" for="account_number">Número de cuenta o producto*</label>
                                                 <input type="text" name="account_number" t-attf-class="form-control #{error.get('account_number') and 'is-invalid' or ''}" t-att-value="'account_number' in checkout and checkout['account_number']" />
                                             </div>
                                         </div>
                                         <!-- confirmar Numero de cuenta -->
                                         <div class="col-lg-6" t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521 and assisted_purchase != '1'">
                                             <div class="form-group">
-                                                <label class="col-form-label" for="confirm_account_number">Confirmar número de cuenta*</label>
+                                                <label class="col-form-label" for="confirm_account_number">Confirmar número de cuenta o producto*</label>
                                                 <input type="text" name="confirm_account_number" t-attf-class="form-control #{error.get('confirm_account_number') and 'is-invalid' or ''}" t-att-value="'confirm_account_number' in checkout and checkout['confirm_account_number']" />
                                             </div>
                                         </div>
@@ -370,7 +370,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <p style="text-align: justify; padding: 20px;">
-                                                            Autorizo a BANCOLOMBIA S.A para debitar la suma informada por Pan-American Life de Colombia con ocasión del pago de la póliza que en este documento se constituye, de mi Cuenta de Ahorros o Cuenta Corriente, Depósito de Bajo Monto “Bancolombia a la Mano” o realizar el cargo a mi Tarjeta de Crédito. Me comprometo a tener los fondos suficientes en mi Cuenta de Ahorros o Corriente Depósito de Bajo Monto “Bancolombia a la Mano”, o a mantener la disponibilidad de cupo de mi Tarjeta de Crédito, según el caso, para cubrir el valor facturado el día de cobro. Si no se encontraren fondos en mi Cuenta Corriente, autorizo para que se afecte el cupo de sobregiro disponible. Así mismo, me comprometo a actualizar cualquier cambio de cuenta o número de Tarjeta de Crédito para continuar con el débito o cargo automático.
+                                                            Autorizo a BANCOLOMBIA S.A para debitar la suma informada por Pan-American Life de Colombia con ocasión del pago de la póliza que en este documento se constituye, de mi Cuenta de Ahorros o Cuenta Corriente, Depósito de Bajo Monto “Bancolombia a la Mano” o realizar el cargo a mi Tarjeta de Crédito. Me comprometo a tener los fondos suficientes en mi Cuenta de Ahorros o Corriente o Depósito de Bajo Monto “Bancolombia a la Mano”, o a mantener la disponibilidad de cupo de mi Tarjeta de Crédito, según el caso, para cubrir el valor facturado el día de cobro. Si no se encontraren fondos en mi Cuenta Corriente, autorizo para que se afecte el cupo de sobregiro disponible. Así mismo, me comprometo a actualizar cualquier cambio de cuenta o número de Tarjeta de Crédito para continuar con el débito o cargo automático.
                                                         </p>
                                                     </div>
                                                     <div class="modal-footer">
