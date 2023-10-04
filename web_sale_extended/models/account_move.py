@@ -831,14 +831,6 @@ class AccountMove(models.Model):
                     self.env['api.hubspot'].associate_company_with_contact(str(company_id), str(contact_id))
             _logger.info('contact_id')
             _logger.info(contact_id)
-            propertie = self.env['api.hubspot'].get_property_history("contacts", contact_id, "estado_de_accion_de_cobro")
-            last_update_billing_cycle = datetime.fromtimestamp(propertie["versions"][0]["timestamp"] / 1000)
-            _logger.info('last_update_billing_cycle')
-            _logger.info(last_update_billing_cycle)
-            if last_update_billing_cycle == today:
-                _logger.info('No se actualizo fecha de accion de cobro en la invoice y entro otra vez')
-                invoice.action_date_billing_cycle = today
-                continue
             if diff.days == -4:
                 deal_properties = {
                     "accion_de_cobro": "5 dias antes",

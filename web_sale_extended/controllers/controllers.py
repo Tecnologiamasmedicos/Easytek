@@ -515,6 +515,12 @@ class WebsiteSaleExtended(WebsiteSale):
                 if beneficiaries_number > 6:
                     beneficiaries_number = 6
 
+                pets_number = 0
+                if product.sequence_id and product.product_tmpl_id.is_plan_with_pet:
+                    pets_number = product.sequence_id.pet_number
+                elif product.categ_id.sequence_id and product.product_tmpl_id.is_plan_with_pet:
+                    pets_number = product.categ_id.sequence_id.pet_number
+
                 country = request.env['res.country'].browse(int(order.partner_id.country_id))
                 render_values = {
                     "partner": order.partner_id,
@@ -528,7 +534,8 @@ class WebsiteSaleExtended(WebsiteSale):
                     'current_city':order.partner_id.zip_id.city_id.id,
                     'beneficiaries_number': beneficiaries_number,
                     'order_id': order.id,
-                    'website_sale_order': order
+                    'website_sale_order': order,
+                    'pets_number': pets_number,
                 }
                 _logger.info(render_values)
                 if order.main_product_id.categ_id.sponsor_id.id == 5521:
@@ -772,6 +779,47 @@ class WebsiteSaleExtended(WebsiteSale):
                 order.write({
                     'beneficiary6_id': NewBeneficiaryPartner.id
                 })
+
+        cont_d, cont_h, cont_c, cont_m, cont_s = 0,0,0,0,0
+        if 'petnumber' in kwargs:
+            for i in range(int(kwargs['petnumber'])):
+                pet_name = "pet_name_"+str(i+1)
+                pet_type = "pet_type_"+str(i+1)
+
+                NewBeneficiaryPartner = BeneficiaryPartner.create({
+                    'pet_name': kwargs[pet_name],
+                    'pet_type': kwargs[pet_type],
+                    'firstname': kwargs[pet_name],
+                    'parent_id': Partner.id,
+                    'person_type': "2",
+                    'beneficiary': True,
+                    'company_type': 'pet',
+                    'sponsor_id': sponsor_id.id
+                })
+                if i == 0:
+                    order.write({
+                        'pet1_id': NewBeneficiaryPartner.id
+                    })
+                if i == 1:
+                    order.write({
+                        'pet2_id': NewBeneficiaryPartner.id
+                    })
+                if i == 2:
+                    order.write({
+                        'pet3_id': NewBeneficiaryPartner.id
+                    })
+                if i == 3:
+                    order.write({
+                        'pet4_id': NewBeneficiaryPartner.id
+                    })
+                if i == 4:
+                    order.write({
+                        'pet5_id': NewBeneficiaryPartner.id
+                    })
+                if i == 5:
+                    order.write({
+                        'pet6_id': NewBeneficiaryPartner.id
+                    })
 
         if order.assisted_purchase:
             render_values = {
