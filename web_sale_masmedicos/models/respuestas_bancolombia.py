@@ -115,4 +115,7 @@ respuestas = {
     "D43": "Fecha inicio de programación es mayor a la fecha de vigencia del convenio",
     "D44": "Cantidad de días insuficientes entre la fecha de inicio y la siguiente fecha de aplicación",
     "D65": "La inscripción ya se encuentra activa",
+    "D63": "La referencia supera la longitud o contiene valores no permitidos",
+    "D64": "Tipo de novedad no es válido",
+    "D66": "Inscripción a retirar no se encuentra activa",
 }
