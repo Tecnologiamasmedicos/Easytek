@@ -9,6 +9,7 @@ from odoo.http import request
 from odoo.tools import ustr, consteq, float_compare
 import hashlib
 import hmac
+from web_sale_extended.reports.bancolombia import is_business_day
 
 _logger = logging.getLogger(__name__)
 
@@ -87,6 +88,8 @@ class SaleOrder(models.Model):
     debit_request_date = fields.Date(string='Fecha de transmisión Bancolombia', store=True)
     update_account_bancolombia = fields.Boolean('Actualizar cuenta bancolombia', default=False, store=True)
     sent_hubspot = fields.Boolean('Enviado a HubSpot', default=False, store=True)
+    send_unsuccessful_debit_email_bancolombia = fields.Boolean('Correo debito no exitoso enviado', default=False, store=True)
+    date_send_unsuccessful_debit_email_bancolombia = fields.Date(string='Fecha de envio debito no exitoso', store=True)
     
     @api.depends('order_line', 'state', 'partner_id')
     def _compute_sponsor_id(self):
@@ -913,6 +916,8 @@ class SaleOrder(models.Model):
         template_id = self.env.ref('web_sale_extended.email_template_unsuccessful_debits_bancolombia').id
         template = self.env['mail.template'].browse(template_id)
         template.sudo().send_mail(self.id)
+        self.send_unsuccessful_debit_email_bancolombia = True
+        self.date_send_unsuccessful_debit_email_bancolombia = (datetime.now() - timedelta(hours=5)).date()
         
     def update_bancolombia_account(self):
         self.update_account_bancolombia = True
@@ -962,3 +967,23 @@ class SaleOrder(models.Model):
                         "venta_asistida": "NO"
                     }
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
+
+    def _cron_cancel_unsuccessful_debit_order_bancolombia(self):
+        current_date = (datetime.now() - timedelta(hours=5)).date()
+        sale_order_ids = self.env['sale.order'].search([
+            ('sponsor_id', '=', 5521),
+            ('payulatam_state', '=', "payu_pending"),
+            ('send_unsuccessful_debit_email_bancolombia', '=', True),
+            ('date_send_unsuccessful_debit_email_bancolombia', '!=', False)
+        ], limit=45)
+        for sale_order_id in sale_order_ids:
+            initial_date = sale_order_id.date_send_unsuccessful_debit_email_bancolombia
+            days_passed = 0
+            while initial_date <= current_date:
+                if is_business_day(initial_date) == True:
+                    days_passed += 1
+                initial_date += timedelta(days=1)
+            if days_passed >= 10:
+                sale_order_id.write({
+                    'state': 'cancel'
+                })
