@@ -31,7 +31,7 @@
                   name="Log aceptación poli."
                   action="log_aceptacion_action_config_sale"
                   parent="sale.menu_sale_report"
-                  groups="base.group_no_one"/>
+                  groups="sales_team.group_sale_salesman"/>
 
         <record id="product_category_inherit_form_view_politicas" model="ir.ui.view">
             <field name="name">product_category_inherit_form_view_politicas</field>
