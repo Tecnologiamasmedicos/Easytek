@@ -38,6 +38,7 @@ class ProductTemplate(models.Model):
     is_beneficiary = fields.Boolean('Saltar pasarela de pago (Beneficio)')
     is_plan_with_pet = fields.Boolean('Es un Plan que incluye mascotas?')
     payulatam_payment_methods_ids = fields.Many2many('payu.payment.methods', string='Metodos de pago')
+    only_add_beneficiaries_by_call = fields.Boolean('Solo agregar beneficiarios por llamada')
     
     # @api.onchange('default_code', 'name', 'id')
     # def _compute_url_product(self):

@@ -44,6 +44,10 @@
                                 <field name="is_plan_with_pet" /> 
                                 <label for="is_plan_with_pet" />
                             </div>
+                            <div>
+                                <field name="only_add_beneficiaries_by_call" /> 
+                                <label for="only_add_beneficiaries_by_call" />
+                            </div>
                         </div>
                         <div class="col-6">
                             <group>

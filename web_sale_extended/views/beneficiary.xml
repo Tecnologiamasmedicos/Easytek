@@ -11,6 +11,9 @@
                     #submit_beneficiaries {
                         background-color: #43b12e;
                     }
+                    .sponsor {
+                        background-color: #43b12e;
+                    }
                 </style>
             </t>
             <br/>
@@ -194,16 +197,18 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-4">
-                                <div class="form-group">
-                                    <abbr title="Para registrar tus beneficiarios, ten a mano su documento de identificación, o registrarlos después con nuestra asesoría" style="text-decoration: none;">
-                                        <label class="col-form-label" for="beneficiario">Número de beneficiarios a incluir</label>
-                                        <select name="beneficiario" id="cant_beneficiarios" class="form-control">
-                                            <option value="0">...</option>
-                                        </select>
-                                    </abbr>
-                                </div>
-                            </div>
+                            <t t-if="not website_sale_order.main_product_id.only_add_beneficiaries_by_call">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <abbr title="Para registrar tus beneficiarios, ten a mano su documento de identificación, o registrarlos después con nuestra asesoría" style="text-decoration: none;">
+                                            <label class="col-form-label" for="beneficiario">Número de beneficiarios a incluir</label>
+                                            <select name="beneficiario" id="cant_beneficiarios" class="form-control">
+                                                <option value="0">...</option>
+                                            </select>
+                                        </abbr>
+                                    </div>
+                                </div>    
+                            </t>
                             <div class="col-lg-5" t-if="pets_number" id="div_plan_with_pet">
                                 <div class="form-group">
                                     <label class="col-form-label" for="petnumber">Número de mascotas a incluir</label>
@@ -220,6 +225,14 @@
                             </div>
                         </div>
                     </div>
+                    <t t-if="website_sale_order.main_product_id.only_add_beneficiaries_by_call">
+                        <div id="div_info" class="alert alert-info fade show" role="alert" style="display: none;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="fa fa-times" aria-hidden="false"></i>
+                            </button>
+                            <strong>Info: </strong><span>Para agregar los beneficiarios de tu poliza llama a <span t-field="website_sale_order.main_product_id.categ_id.sponsor_id.mobile" /></span>
+                        </div>
+                    </t>
                     <br/><br/>
                     <!-- MASCOTAS -->
                     <div id="pets_container"/>
@@ -1214,6 +1227,11 @@
                         <span>Genera el certificado del Plan</span>
                         <i class="fa fa-chevron-right"/>
                     </button>
+                    <t t-if="website_sale_order.main_product_id.only_add_beneficiaries_by_call">
+                        <button class="btn btn-custom mb32 pull-right sponsor" style="margin-top: -220px; margin-right: 230px;" id="only_add_beneficiaries_by_call">
+                            <span>Agregar beneficiarios</span>
+                        </button>
+                    </t>
                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
                 </form>
             </div>

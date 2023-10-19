@@ -3230,6 +3230,13 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
             $('#beneficiary').submit();
         });
     }
+    
+    if ($('#only_add_beneficiaries_by_call').length) {
+        $("#only_add_beneficiaries_by_call").on('click', function(e){
+            e.preventDefault();
+            $('#div_info').show();
+        });
+    }
 });
 
 
