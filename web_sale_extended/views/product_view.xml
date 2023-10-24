@@ -48,6 +48,10 @@
                                 <field name="only_add_beneficiaries_by_call" /> 
                                 <label for="only_add_beneficiaries_by_call" />
                             </div>
+                            <div>
+                                <field name="main_insured_can_differ_from_buyer" /> 
+                                <label for="main_insured_can_differ_from_buyer" />
+                            </div>
                         </div>
                         <div class="col-6">
                             <group>

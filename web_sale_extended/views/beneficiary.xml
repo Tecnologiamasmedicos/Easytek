@@ -44,12 +44,14 @@
                     </section>
                     <br/>
                     <div id="div_error" class="alert alert-danger fade show" role="alert" style="background-color: #f2dede !important; border-color: #ebcccc !important; color: #a94442 !important; display: none;"></div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="0" id="flexCheckDefault" name="infoBuyer"/>
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Comprador es igual al asegurado principal
-                        </label>
-                    </div>
+                    <t t-if="website_sale_order.main_product_id.main_insured_can_differ_from_buyer">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="0" id="flexCheckDefault" name="infoBuyer"/>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Comprador es igual al asegurado principal
+                            </label>
+                        </div>
+                    </t>
                     <div class="card">
                         <h4>Datos del Asegurado Principal</h4>
                         <div class="row">

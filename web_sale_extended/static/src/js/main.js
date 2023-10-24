@@ -1038,6 +1038,13 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 }
             });
         }
+
+    if ($("#flexCheckDefault").length == 0) {
+        let url = window.location.href.split("/");
+        let number = url[url.length - 1];
+        let order_id = number.split("?")[0];
+        obtenerInfoComprador(order_id);
+    }
     
     
     $('#flexCheckDefault').on('click', function() {

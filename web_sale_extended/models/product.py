@@ -39,6 +39,7 @@ class ProductTemplate(models.Model):
     is_plan_with_pet = fields.Boolean('Es un Plan que incluye mascotas?')
     payulatam_payment_methods_ids = fields.Many2many('payu.payment.methods', string='Metodos de pago')
     only_add_beneficiaries_by_call = fields.Boolean('Solo agregar beneficiarios por llamada')
+    main_insured_can_differ_from_buyer = fields.Boolean('Asegurado principal puede ser diferente del comprador', default=True)
     
     # @api.onchange('default_code', 'name', 'id')
     # def _compute_url_product(self):
