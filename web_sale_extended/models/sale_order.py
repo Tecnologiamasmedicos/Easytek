@@ -9,7 +9,7 @@ from odoo.http import request
 from odoo.tools import ustr, consteq, float_compare
 import hashlib
 import hmac
-from web_sale_extended.reports.bancolombia import is_business_day
+# from web_sale_extended.reports.bancolombia import is_business_day
 
 _logger = logging.getLogger(__name__)
 
@@ -980,8 +980,8 @@ class SaleOrder(models.Model):
             initial_date = sale_order_id.date_send_unsuccessful_debit_email_bancolombia
             days_passed = 0
             while initial_date <= current_date:
-                if is_business_day(initial_date) == True:
-                    days_passed += 1
+                # if is_business_day(initial_date) == True:
+                #     days_passed += 1
                 initial_date += timedelta(days=1)
             if days_passed >= 10:
                 sale_order_id.write({
