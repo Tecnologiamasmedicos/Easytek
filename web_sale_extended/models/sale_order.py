@@ -968,22 +968,22 @@ class SaleOrder(models.Model):
                     }
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
 
-    def _cron_cancel_unsuccessful_debit_order_bancolombia(self):
-        current_date = (datetime.now() - timedelta(hours=5)).date()
-        sale_order_ids = self.env['sale.order'].search([
-            ('sponsor_id', '=', 5521),
-            ('payulatam_state', '=', "payu_pending"),
-            ('send_unsuccessful_debit_email_bancolombia', '=', True),
-            ('date_send_unsuccessful_debit_email_bancolombia', '!=', False)
-        ], limit=45)
-        for sale_order_id in sale_order_ids:
-            initial_date = sale_order_id.date_send_unsuccessful_debit_email_bancolombia
-            days_passed = 0
-            while initial_date <= current_date:
-                # if is_business_day(initial_date) == True:
-                #     days_passed += 1
-                initial_date += timedelta(days=1)
-            if days_passed >= 10:
-                sale_order_id.write({
-                    'state': 'cancel'
-                })
+    # def _cron_cancel_unsuccessful_debit_order_bancolombia(self):
+    #     current_date = (datetime.now() - timedelta(hours=5)).date()
+    #     sale_order_ids = self.env['sale.order'].search([
+    #         ('sponsor_id', '=', 5521),
+    #         ('payulatam_state', '=', "payu_pending"),
+    #         ('send_unsuccessful_debit_email_bancolombia', '=', True),
+    #         ('date_send_unsuccessful_debit_email_bancolombia', '!=', False)
+    #     ], limit=45)
+    #     for sale_order_id in sale_order_ids:
+    #         initial_date = sale_order_id.date_send_unsuccessful_debit_email_bancolombia
+    #         days_passed = 0
+    #         while initial_date <= current_date:
+    #             # if is_business_day(initial_date) == True:
+    #             #     days_passed += 1
+    #             initial_date += timedelta(days=1)
+    #         if days_passed >= 10:
+    #             sale_order_id.write({
+    #                 'state': 'cancel'
+    #             })
