@@ -63,7 +63,7 @@
                                                                 <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly' and order_detail[0].product_template_id.subscription_template_id.recurring_interval == 1">
                                                                     <t t-set="frecuencia_pago" t-value="'anual'" />
                                                                 </t>
-                                                                <b><t t-esc="frecuencia_pago" /> del Plan <t t-esc="order_detail[0].product_template_id.name"/> por un año. ¡Es seguro y rápido!</b>
+                                                                <b style="font-size: 18px;"><t t-esc="frecuencia_pago" /> del Plan <t t-esc="order_detail[0].product_template_id.name"/> por un año. ¡Es seguro y rápido!</b>
                                                             </font>
                                                             <br/>
                                                         </div>
