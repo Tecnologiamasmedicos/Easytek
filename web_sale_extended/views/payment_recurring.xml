@@ -110,6 +110,11 @@
                                 <section class="s_references pt32 pb40 bg-white" data-name="References" style="">
                                     <div class="container">
                                         <div class="row">
+                                            <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
+                                                <div class="col-lg-2">
+                                                    <img src="/web_sale_extended/static/src/img/CMR_Falabella.png" class="img img-fluid" alt="CRM Falabella Demo"/>
+                                                </div>
+                                            </t>
                                             <div class="col-lg-2">
                                                 <img src="/web_sale_extended/static/src/img/tdc-codensa.png" 
                                                     class="img img-fluid" 

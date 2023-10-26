@@ -41,45 +41,34 @@
                                                         <p/>
                                                         <div style="text-align: left;">
                                                             <font color="#000000">
-                                                            <b style="font-size: 18px;">¡Genial que quieras ser parte de Más Médicos! </b>
-                                                            <span style="font-size: 18px;">
-                                                                <b>Llenemos</b>
-                                                            </span>
-                                                            <t t-if="order_detail[0].product_template_id.subscription_template_id.is_fixed_policy">
-                                                                <t t-set="vigencia_plan" t-value="int(order_detail[0].product_uom_qty)" />
-                                                            </t>
-                                                            <t t-else="">
-                                                                <t t-set="vigencia_plan" t-value="order_detail[0].product_template_id.subscription_template_id.recurring_rule_count * order_detail[0].product_template_id.subscription_template_id.recurring_interval" />
-                                                            </t>
-                                                            <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly' and vigencia_plan == 1">
-                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Mes, es fácil y rápido.</b>
-                                                            </t>
-                                                            <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
-                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Meses, es fácil y rápido.</b>
-                                                            </t>
-                                                            <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'daily' and vigencia_plan == 1">
-                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Día, es fácil y rápido.</b>
-                                                            </t>
-                                                            <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'daily'">
-                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Días, es fácil y rápido.</b>
-                                                            </t>
-                                                            <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'weekly' and vigencia_plan == 1">
-                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Semana, es fácil y rápido.</b>
-                                                            </t>
-                                                            <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'weekly'">
-                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Semanas, es fácil y rápido.</b>
-                                                            </t>
-                                                            <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly' and vigencia_plan == 1">
-                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Año, es fácil y rápido.</b>
-                                                            </t>
-                                                            <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly'">
-                                                                <b style="font-size: 18px;">la siguiente información para adquirir tu <t t-esc="order_detail[0].product_template_id.name"/> de vigencia <t t-esc="vigencia_plan"/> Años, es fácil y rápido.</b>
-                                                            </t>
+                                                                <b style="font-size: 18px;">Gracias por asegurar tu atención médica y la de tu familia con el plan Más Médicos. Completa la siguiente información para realizar e inscribir el pago </b>
+                                                                <t t-if="order_detail[0].product_template_id.subscription_template_id.is_fixed_policy">
+                                                                    <t t-set="vigencia_plan" t-value="int(order_detail[0].product_uom_qty)" />
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <t t-set="vigencia_plan" t-value="order_detail[0].product_template_id.subscription_template_id.recurring_rule_count * order_detail[0].product_template_id.subscription_template_id.recurring_interval" />
+                                                                </t>
+                                                                <t t-if="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly' and order_detail[0].product_template_id.subscription_template_id.recurring_interval == 1">
+                                                                    <t t-set="frecuencia_pago" t-value="'mensual'" />
+                                                                </t>
+                                                                <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly' and order_detail[0].product_template_id.subscription_template_id.recurring_interval == 3">
+                                                                    <t t-set="frecuencia_pago" t-value="'trimestral'" />
+                                                                </t>
+                                                                <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly' and order_detail[0].product_template_id.subscription_template_id.recurring_interval == 6">
+                                                                    <t t-set="frecuencia_pago" t-value="'semestral'" />
+                                                                </t>
+                                                                <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly' and order_detail[0].product_template_id.subscription_template_id.recurring_interval == 12">
+                                                                    <t t-set="frecuencia_pago" t-value="'anual'" />
+                                                                </t>
+                                                                <t t-elif="order_detail[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly' and order_detail[0].product_template_id.subscription_template_id.recurring_interval == 1">
+                                                                    <t t-set="frecuencia_pago" t-value="'anual'" />
+                                                                </t>
+                                                                <b><t t-esc="frecuencia_pago" /> del Plan <t t-esc="order_detail[0].product_template_id.name"/> por un año. ¡Es seguro y rápido!</b>
                                                             </font>
                                                             <br/>
                                                         </div>
                                                             <div style="text-align: left;">
-                                                                <span style="font-size: 14px;">Ésta es la información del comprador del plan, ¡comencemos!</span>
+                                                                <span style="font-size: 14px;">Esta es la información del pagador y de facturación del plan. Una vez finalices el proceso de compra exitosa, procederemos a generar tu póliza. </span>
                                                             </div>
                                                             <p/>
                                                         </div>

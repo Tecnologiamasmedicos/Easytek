@@ -1033,24 +1033,24 @@
                                         <div class="col-lg-12 pb0 pt0">
                                             <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
                                                 <div class="s_alert clearfix s_alert_sm w-100" data-name="Alert" style="background: #FFFFFF; border: 1px solid #43b12e; box-sizing: border-box; box-shadow: 0px 0px 10px rgba(67, 177, 46, 0.5); border-radius: 5px;">
-                                                    <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/Robot-falabella.png" width="92" data-original-title="" title="" aria-describedby="tooltip561547"/>
+                                                    <img class="img-fluid o_we_custom_image float-left" src="/web_sale_extended/static/src/images/stethoscope.png" width="92" data-original-title="" title="" aria-describedby="tooltip561547"/>
                                                     <i class="fa-2x s_alert_icon" data-original-title="" title="" aria-describedby="tooltip831158"/>
                                                     <div class="s_alert_content" style="">
                                                         <p/>
                                                         <t t-if="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 1 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
-                                                            <t t-set="forma_pago" t-value="'Mensual'" />
+                                                            <t t-set="forma_pago" t-value="'mensual'" />
                                                         </t>
                                                         <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 3 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
-                                                            <t t-set="forma_pago" t-value="'Trimestral'" />
+                                                            <t t-set="forma_pago" t-value="'trimestral'" />
                                                         </t>
                                                         <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 6 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
-                                                            <t t-set="forma_pago" t-value="'Semestral'" />
+                                                            <t t-set="forma_pago" t-value="'semestral'" />
                                                         </t>
                                                         <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 12 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'monthly'">
-                                                            <t t-set="forma_pago" t-value="'Anual'" />
+                                                            <t t-set="forma_pago" t-value="'anual'" />
                                                         </t>
                                                         <t t-elif="order.order_line[0].product_template_id.subscription_template_id.recurring_interval == 1 and order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly'">
-                                                            <t t-set="forma_pago" t-value="'Anual'" />
+                                                            <t t-set="forma_pago" t-value="'anual'" />
                                                         </t>
                                                         <t t-else="">
                                                             <t t-if="order.order_line[0].product_template_id.subscription_template_id.recurring_rule_type == 'yearly'">
@@ -1064,16 +1064,15 @@
                                                         <div style="text-align: left;">
                                                             <font color="#000000">
                                                                 <b style="font-size: 18px;">
-                                                                    Realicemos el pago <t t-esc="forma_pago"/> de tu 
-                                                                    <t t-esc="order.order_line[0].product_template_id.name"/> 
-                                                                    para ti y tu grupo familiar, es seguro y muy rápido, gracias a PayU.</b>
+                                                                    A continuación realizaremos e inscribiremos el pago <t t-esc="forma_pago"/> del Plan 
+                                                                    <t t-esc="order.order_line[0].product_template_id.name"/>, en este tú y tu grupo familiar estarán incluidos. ¡Es seguro y rápido!
+                                                                </b>
                                                             </font>
                                                             <br/>
                                                         </div>
                                                         <div style="text-align: left;">
                                                             <b>
-                                                                Esta es la información del pagador del plan, así como la información
-                                                                de facturación. Una ves terminado éste proceso, de una generamos tu poliza.
+                                                                Esta es la información del pagador y de facturación del plan. Una vez finalices el proceso de compra exitosa, procederemos a generar tu póliza.
                                                             </b>
                                                         </div>
                                                         <p/>
@@ -1230,6 +1229,11 @@
                                         <section class="s_references pt32 pb40 bg-white" data-name="References" style="">
                                             <div class="container">
                                                 <div class="row">
+                                                    <t t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5111">
+                                                        <div class="col-lg-2">
+                                                            <img src="/web_sale_extended/static/src/img/CMR_Falabella.png" class="img img-fluid" alt="CRM Falabella Demo"/>
+                                                        </div>
+                                                    </t>
                                                     <div class="col-lg-2">
                                                         <img src="/web_sale_extended/static/src/img/tdc-codensa.png" class="img img-fluid" alt="Logo Demo" data-original-title="" title="" aria-describedby="tooltip214079" style=""/>
                                                     </div>
