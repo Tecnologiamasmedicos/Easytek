@@ -405,7 +405,7 @@ class BancolombiaRecurringBillingEntry(models.Model):
                 ('number_payments_sent', '<', 2),
             ]
             if non_working_days:
-                domain.append(('action_date_billing_cycle', 'in', non_working_days))
+                domain.append(('invoice_date', 'in', non_working_days))
             name_billing_file = 'FC_CRECUR_' + current_date.strftime("%y%m%d")
             records_billing_entries_bancolombia =  self.env['bancolombia.recurring.billing.entry'].search(domain)
             data = []
