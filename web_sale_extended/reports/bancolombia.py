@@ -396,18 +396,22 @@ class BancolombiaRecurringBillingEntry(models.Model):
             day += timedelta(days=1)
         return non_working_days
 
-    def _cron_generate_bancolombia_recurring_billing_file(self):
+    def _cron_generate_bancolombia_recurring_billing_file(self, id_liqu=False):
         current_date = (datetime.now() - timedelta(hours=5)).date()
         if self.is_business_day(current_date) == True:
-            non_working_days = self._get_non_working_days(current_date)
-            domain = [
-                ('payulatam_state', 'in', [False, "EXPIRED", "DECLINED"]),
-                ('number_payments_sent', '<', 2),
-            ]
-            if non_working_days:
-                domain.append(('invoice_date', 'in', non_working_days))
-            name_billing_file = 'FC_CRECUR_' + current_date.strftime("%y%m%d")
-            records_billing_entries_bancolombia =  self.env['bancolombia.recurring.billing.entry'].search(domain)
+            if id_liqu:
+                name_billing_file = 'FC_CRECUR_' + current_date.strftime("%y%m%d") + str(id_liqu)
+                records_billing_entries_bancolombia = self.env['bancolombia.recurring.billing.entry'].sudo().search([('invoice_id', "=", id_liqu)])
+            else:
+                non_working_days = self._get_non_working_days(current_date)
+                domain = [
+                    ('payulatam_state', 'in', [False, "EXPIRED", "DECLINED"]),
+                    ('number_payments_sent', '<', 2),
+                ]
+                if non_working_days:
+                    domain.append(('invoice_date', 'in', non_working_days))
+                name_billing_file = 'FC_CRECUR_' + current_date.strftime("%y%m%d")
+                records_billing_entries_bancolombia =  self.env['bancolombia.recurring.billing.entry'].search(domain)
             data = []
             sum = 0
             for record in records_billing_entries_bancolombia:

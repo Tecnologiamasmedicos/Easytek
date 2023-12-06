@@ -1125,3 +1125,6 @@ class AccountMove(models.Model):
                     'state': 'done',
                     'cancel_date': today
                 })
+
+    def generar_FR_RECURR_manual(self):
+        self.env["bancolombia.recurring.billing.entry"]._cron_generate_bancolombia_recurring_billing_file(self.id)
