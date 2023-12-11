@@ -1,0 +1,91 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* report_qweb_password
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0+e-20220818\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-28 18:29+0000\n"
+"PO-Revision-Date: 2023-11-28 18:29+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: report_qweb_password
+#: model:ir.model.fields,help:report_qweb_password.field_ir_actions_report__encrypt
+msgid ""
+"* Manual Input Password: allow user to key in password on the fly. This option available only on document print action.\n"
+"* Auto Generated Password: system will auto encrypt password when PDF created, based on provided python syntax."
+msgstr ""
+"* Contraseña de entrada manual: permite al usuario ingresar la contraseña sobre la marcha. Esta opción solo está disponible en la acción de impresión del documento.\n"
+"* Contraseña generada automáticamente: el sistema cifrará automáticamente la contraseña cuando se cree el PDF, según la sintaxis de Python proporcionada."
+
+#. module: report_qweb_password
+#: model:ir.model.fields.selection,name:report_qweb_password.selection__ir_actions_report__encrypt__auto
+msgid "Auto Generated Password"
+msgstr "Contraseña generada automáticamente"
+
+#. module: report_qweb_password
+#. openerp-web
+#: code:addons/report_qweb_password/static/src/js/report/action_manager_report.js:0
+#, python-format
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: report_qweb_password
+#. openerp-web
+#: code:addons/report_qweb_password/static/src/js/report/action_manager_report.js:0
+#, python-format
+msgid "Encrypt"
+msgstr "Cifrar"
+
+#. module: report_qweb_password
+#: model:ir.model.fields,field_description:report_qweb_password.field_ir_actions_report__encrypt_password
+msgid "Encrypt Password"
+msgstr "Cifrar contraseña"
+
+#. module: report_qweb_password
+#: model:ir.model.fields,field_description:report_qweb_password.field_ir_actions_report__encrypt
+msgid "Encryption"
+msgstr "Cifrado"
+
+#. module: report_qweb_password
+#: model:ir.model.fields.selection,name:report_qweb_password.selection__ir_actions_report__encrypt__manual
+msgid "Manual Input Password"
+msgstr "Contraseña de entrada manual"
+
+#. module: report_qweb_password
+#. openerp-web
+#: code:addons/report_qweb_password/static/src/js/report/action_manager_report.js:0
+#, python-format
+msgid "Ok"
+msgstr "Aceptar"
+
+#. module: report_qweb_password
+#: model:ir.model.fields,help:report_qweb_password.field_ir_actions_report__encrypt_password
+msgid "Python code syntax to gnerate password."
+msgstr "Sintaxis del código Python para generar contraseñas."
+
+#. module: report_qweb_password
+#: code:addons/report_qweb_password/models/ir_actions_report.py:0
+#, python-format
+msgid ""
+"Python code used for encryption password is invalid.\n"
+"%s"
+msgstr ""
+"El código Python utilizado para cifrar la contraseña no es válido.\n"
+"%s"
+
+#. module: report_qweb_password
+#: model:ir.model,name:report_qweb_password.model_ir_actions_report
+msgid "Report Action"
+msgstr "Acción de informe"
+
+#. module: report_qweb_password
+#: model_terms:ir.ui.view,arch_db:report_qweb_password.ir_actions_report_form_view
+msgid "python syntax, i.e., (object.default_code or 'secretcode')"
+msgstr ""
