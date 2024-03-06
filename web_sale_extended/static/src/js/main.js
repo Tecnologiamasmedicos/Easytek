@@ -627,13 +627,13 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                     required: "Es necesario que escojas un tipo de cuenta",
                 },
                 account_number: {
-                    required: "Es necesario que escribas tu numero de cuenta",
+                    required: "Es necesario que escribas tu número de cuenta",
                     number: "Solo se permiten numeros",
                     minlength: "El número de cuenta debe tener 11 caracteres",
                     maxlength: "El número de cuenta debe tener 11 caracteres"
                 },
                 confirm_account_number: {
-                    required: "Es necesario que escribas tu numero de cuenta",
+                    required: "Es necesario que escribas tu número de cuenta",
                     number: "Solo se permiten numeros",
                     minlength: "El número de cuenta debe tener 11 caracteres",
                     maxlength: "El número de cuenta debe tener 11 caracteres"

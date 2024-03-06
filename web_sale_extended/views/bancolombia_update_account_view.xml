@@ -148,7 +148,7 @@
                                                     <input type="checkbox" value="" name="tycp" id="tycp"/>
                                                     Acepto 
                                                     <a href="" data-toggle="modal" data-target="#tycpModalCenter" style="color: black; text-decoration: underline;">
-                                                        términos, condiciones y politica de tratamiento de datos
+                                                        términos, condiciones y política de tratamiento de datos
                                                     </a>
                                                 </label>
                                             </div>
@@ -174,12 +174,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Modal Acepto términos, condiciones y politica de tratamiento de datos -->
-                                        <div class="modal fade" id="tycpModalCenter" tabindex="-1" role="dialog" aria-labelledby="Acepto términos, condiciones y politica de tratamiento de datos" aria-hidden="true">
+                                        <!-- Modal Acepto términos, condiciones y política de tratamiento de datos -->
+                                        <div class="modal fade" id="tycpModalCenter" tabindex="-1" role="dialog" aria-labelledby="Acepto términos, condiciones y política de tratamiento de datos" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title">Acepto términos, condiciones y politica de tratamiento de datos</h5>
+                                                        <h5 class="modal-title">Acepto términos, condiciones y política de tratamiento de datos</h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span>&#215;</span>
                                                         </button>
