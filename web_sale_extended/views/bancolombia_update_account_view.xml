@@ -95,7 +95,7 @@
                                                 <div style="text-align: left;">
                                                     <a class="btn btn-dark btn-lg btn-block" style="color: white; text-align: left; background-color: #2C2A29; border-color: #2C2A29;">
                                                         <img src="/web_sale_extended/static/src/images/user_bancol.svg" width="25" style="padding-bottom: 5px;"/>
-                                                        Hola <span t-field="partner_id.firstname" style="color: white; font-weight: bold;" /> <span t-field="partner_id.lastname" style="color: white; font-weight: bold;" /> esta es la información de tu cuenta ¡Comencemos!
+                                                        Hola <span t-field="partner_id.firstname" style="color: white; font-weight: bold;"/> <span t-field="partner_id.lastname" style="color: white; font-weight: bold;"/> esta es la información de tu cuenta ¡Comencemos!
                                                     </a>
                                                 </div>
                                             </div>
@@ -111,7 +111,7 @@
                                             <select name="bancolombia_types_account" class="selectpicker" id="bancolombia_types_account">
                                                 <t t-foreach="bancolombia_types_account" t-as="bta">
                                                     <option t-att-value="bta" t-att-selected="bta == '7'">
-                                                        <t t-esc="bancolombia_types_account[bta]" />
+                                                        <t t-esc="bancolombia_types_account[bta]"/>
                                                     </option>
                                                 </t>
                                             </select>
@@ -121,20 +121,20 @@
                                         <div class="col-lg-6" t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="account_number">Número de cuenta*</label>
-                                                <input type="text" name="account_number" class="form-control" />
+                                                <input type="text" name="account_number" class="form-control"/>
                                             </div>
                                         </div>
                                         <!-- confirmar Numero de cuenta -->
                                         <div class="col-lg-6" t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="confirm_account_number">Confirmar número de cuenta*</label>
-                                                <input type="text" name="confirm_account_number" class="form-control" />
+                                                <input type="text" name="confirm_account_number" class="form-control"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-12" id="div_ada">
                                             <div class="form-check">
                                                 <label class="form-check-label" for="ada">
-                                                    <input type="checkbox"  name="ada" id="ada"/>
+                                                    <input type="checkbox" name="ada" id="ada"/>
                                                     Acepto
                                                     <a href="" data-toggle="modal" data-target="#adaModalCenter" style="color: black; text-decoration: underline;">
                                                         débito automático
@@ -218,9 +218,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
-                                    <input type="hidden" name="submitted" value="1" />
-                                    <input type="hidden" name="order_id" t-att-value="website_sale_order.id" />
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="submitted" value="1"/>
+                                    <input type="hidden" name="order_id" t-att-value="website_sale_order.id"/>
                                     <p/>
                                     <div class="d-flex justify-content-end">
                                         <button class="btn rounded-pill" id="submit_update_account" style="height: 28px; padding: 0; width: 100px;">

@@ -618,7 +618,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                     required: "Acepta débito automático para continuar",
                 },
                 tycp: {
-                    required: "Acepta términos, condiciones y politica de tratamiento de datos para continuar",
+                    required: "Acepta términos, condiciones y política de tratamiento de datos para continuar",
                 },
                 type_payment: {
                     required: "El tipo de pago es requerido",

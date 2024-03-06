@@ -1131,6 +1131,8 @@ class WebsiteSaleExtended(WebsiteSale):
                 'secretkey': secretkey
             })
             return request.render("web_sale_extended.bancolombia_confirmation_update_account", {})
+
+        # sponsor_id.id 5521 = "Bancolombia"
         if partner_id and not access_token or order_id.sponsor_id.id != 5521 or order_id.update_account_bancolombia != True:
             raise werkzeug.exceptions.NotFound
         if partner_id and access_token:
