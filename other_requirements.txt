@@ -1,0 +1,13 @@
+unidecode
+pycryptodome
+hubspot-api-client
+simplejson
+delorean
+paramiko
+numpy
+holidays-co
+pysftp
+
+
+
+

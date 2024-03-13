@@ -11,6 +11,7 @@
                 <button name="update_bancolombia_account" string="Actualizar cuenta" class="btn-primary" states="payu_pending, sale" type="object" attrs="{'invisible': [('sponsor_id', '!=', '5521')]}" confirm="¿Está seguro que desea enviar correo de atualizacion de cuenta?"/>
                 <button name="retransmit_record_bancol" string="Retrasmitir en arvhivo de entrada Bancolombia" class="btn-primary" states="payu_pending" type="object" attrs="{'invisible': [('sponsor_id', '!=', '5521')]}" confirm="¿Está seguro que desea retrasmitir esta orden de venta en los archivos de entrada de Bancolombia?"/>
                 <button name="send_unsuccessful_debit_email_bancolombia" string="Enviar correo debito no exitoso" class="btn-primary" states="payu_pending" type="object" attrs="{'invisible': [('sponsor_id', '!=', '5521')]}" confirm="¿Está seguro que desea enviar el correo de debito no exitoso de Bancolombia?"/>
+                <button name="generate_bancolombia_certificade" string="Generar certificado" class="btn-primary" states="payu_pending, sale" type="object" attrs="{'invisible': [('sponsor_id', '!=', '5521')]}" confirm="¿Está seguro que desea generar certificado y enviar el correo de bienvenida de Bancolombia?"/>
             </header>
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 <field name="sponsor_id" />
@@ -52,6 +53,17 @@
                             <field name="payulatam_credit_card_identification" readonly="True"/>
                             <field name="payulatam_credit_card_method" readonly="True"/>
                         </group>
+                    </group>
+                </page>
+                <page string="Beneficiarios" id="beneficiarios_tab">
+                    <group string="Beneficiarios (Certificado)">
+                        <field name="beneficiary0_id"/>
+                        <field name="beneficiary1_id"/>
+                        <field name="beneficiary2_id"/>
+                        <field name="beneficiary3_id"/>
+                        <field name="beneficiary4_id"/>
+                        <field name="beneficiary5_id"/>
+                        <field name="beneficiary6_id"/>
                     </group>
                 </page>
             </xpath>

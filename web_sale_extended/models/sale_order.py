@@ -894,6 +894,11 @@ class SaleOrder(models.Model):
         template = self.env['mail.template'].browse(template_id)
         template.sudo().send_mail(self.id)
 
+    def generate_bancolombia_certificade(self):
+        template_id = self.env.ref('web_sale_extended.mail_template_welcome_bancolombia').id
+        template = self.env['mail.template'].browse(template_id)
+        template.sudo().send_mail(self.id)
+
     def register_bancolombia_account(self):
         self.update_account_bancolombia = True
         template_id = self.env.ref('web_sale_extended.email_template_assisted_purchase_bancolombia').id
