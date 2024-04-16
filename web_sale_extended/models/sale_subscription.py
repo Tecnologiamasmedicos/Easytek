@@ -389,6 +389,11 @@ class SaleSubscription(models.Model):
         template = self.env['mail.template'].browse(template_id)
         template.sudo().send_mail(self.id)
 
+    def send_bancolombia_cancellation_plan_email(self):        
+        template_id = self.env.ref('web_sale_extended.mail_template_cancellation_plan_bancolombia').id
+        template = self.env['mail.template'].browse(template_id)
+        template.sudo().send_mail(self.id)
+
 class SaleSubscriptionCloseReasonWizard(models.TransientModel):
     _inherit = "sale.subscription.close.reason.wizard"
     

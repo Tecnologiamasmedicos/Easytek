@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="sale_subscription_view_form_inherit" model="ir.ui.view">
-            <field name="name">sale.subscription.form.view</field>
-            <field name="model">sale.subscription</field>
-            <field name="inherit_id" ref="sale_subscription.sale_subscription_view_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//header" position="inside">
-                    <button string="Activar" name="set_open" type="object" attrs="{'invisible': [('in_progress', '=', True)]}"/>
-                </xpath>
-                <xpath expr="//notebook" position="inside">
-                    <page string="Beneficiarios" id="beneficiaries">                        
-                        <field name="subscription_partner_ids">
-                            <tree>
-                                <field name="name"/>
-                                <field name="document_type_id"/>
-                                <field name="identification_document"/>
-                                <field name="email"/>
-                                <field name="mobile"/>
-                                <field name="birthdate_date"/>
-                                <field name="buyer" style="text-align:center;"/>
-                                <field name="beneficiary" style="text-align:center;"/>
-                                <field name="main_insured" style="text-align:center;"/>
-                            </tree>
-                        </field>                        
-                    </page>
-                </xpath>
-                <xpath expr="//field[@name='partner_id']" position="after">
-                    <field name="policy_number"/>
-                    <field name="number"/>
-                </xpath>
-                <xpath expr="//field[@name='company_id']" position="after">
-                    <field name="sponsor_id"/>
-                </xpath>
-            </field>
-        </record>
+        <field name="name">sale.subscription.form.view</field>
+        <field name="model">sale.subscription</field>
+        <field name="inherit_id" ref="sale_subscription.sale_subscription_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button string="Activar" name="set_open" type="object" attrs="{'invisible': [('in_progress', '=', True)]}"/>
+                <button name="send_bancolombia_cancellation_plan_email" string="Correo de cancelación Bancolombia" class="btn-primary" type="object" attrs="{'invisible': [('sponsor_id', '=', '5521')]}" confirm="¿Está seguro que desea enviar correo de cancelación de plan de Bancolombia?"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Beneficiarios" id="beneficiaries">                        
+                    <field name="subscription_partner_ids">
+                        <tree>
+                            <field name="name"/>
+                            <field name="document_type_id"/>
+                            <field name="identification_document"/>
+                            <field name="email"/>
+                            <field name="mobile"/>
+                            <field name="birthdate_date"/>
+                            <field name="buyer" style="text-align:center;"/>
+                            <field name="beneficiary" style="text-align:center;"/>
+                            <field name="main_insured" style="text-align:center;"/>
+                        </tree>
+                    </field>                        
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="policy_number"/>
+                <field name="number"/>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="sponsor_id"/>
+            </xpath>
+        </field>
+    </record>
 
     <data>
         <record id="sftp_report_view_tree" model="ir.ui.view">
