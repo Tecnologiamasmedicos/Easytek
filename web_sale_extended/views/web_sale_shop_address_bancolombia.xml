@@ -191,7 +191,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label class="col-form-label" for="name">Primer nombre*</label>
-                                                <input type="text" name="name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in checkout and checkout['name']" />
+                                                <input type="text" name="name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in checkout and checkout['name']" data-layer="firstname" t-attf-data-layer="firstname2" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
