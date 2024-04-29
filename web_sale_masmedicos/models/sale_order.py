@@ -190,7 +190,7 @@ class SaleOrder(models.Model):
                                     order.novedad_rechazada(codigo_respuesta)
 
                         sftp.rename(path + filename, path_processed + '/OK_' + filename)
-                elif not filename.startswith('Cargados-a-Easytek'):
+                elif not filename.startswith('Cargados-a-Easytek') or not not filename.startswith('Respuestas del 5 al 15122023'):
                     sftp.rename(path + filename, path_processed + '/' + filename)
 
     def _registrar_archivo_pagos(self):
