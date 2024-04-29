@@ -191,7 +191,15 @@ class SaleOrder(models.Model):
 
                         sftp.rename(path + filename, path_processed + '/OK_' + filename)
                 elif not filename.startswith('Cargados-a-Easytek') or not not filename.startswith('Respuestas del 5 al 15122023'):
-                    sftp.rename(path + filename, path_processed + '/' + filename)
+
+                    try:
+                        sftp.rename(path + filename, path_processed + '/' + filename)
+                    except FileNotFoundError:
+                        print("El archivo {} no se encontró en la ubicación especificada.".format(filename))
+                    except PermissionError:
+                        print("Permiso denegado para renombrar el archivo {}.".format(filename))
+                    except Exception as e:
+                        print("Se produjo un error al intentar renombrar el archivo {}: {}".format(filename, str(e)))
 
     def _registrar_archivo_pagos(self):
         for order in self:
