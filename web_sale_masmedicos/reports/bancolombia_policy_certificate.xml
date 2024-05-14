@@ -2,33 +2,27 @@
 <odoo>
     <data>
         <report
-                id="bancolombia_custom_policy_certificate"
-                string="Certificado Poliza bancolombia"
-                model="sale.order"
-                report_type="qweb-pdf"
-                name="web_sale_masmedicos.report_bancolombia"
+            id="bancolombia_custom_policy_certificate"
+            string="Certificado Poliza bancolombia"
+            model="sale.order"
+            report_type="qweb-pdf"
+            name="web_sale_masmedicos.report_bancolombia"
         />
-
-
         <template id="report_bancolombia">
             <t t-call="web.html_container">
                 <style>
                     @font-face {
-                    font-family: 'CIBFontSans-Regular';
-                    src: url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Regular.woff') format("woff"),
-                    url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Regular.otf') format('truetype');
+                        font-family: 'CIBFontSans-Regular';
+                        src: url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Regular.woff') format("woff"),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Regular.otf') format('truetype');
                     }
-                    *{
-                    font-family: 'CIBFontSans-Regular' !important;
+                    * {
+                        font-family: 'CIBFontSans-Regular' !important;
                     }
-
-
                 </style>
                 <t t-foreach="docs" t-as="doc">
                     <div class="header" style='margin:0px !important; padding: 0px !important'>
-
                         <div class="container" style='margin:0px !important; padding: 0px !important '>
-
                             <div style="margin:0px !important; padding: 0px !important">
                                 <!--                                <img t-att-src="'data:image/png;base64,%s' % to_text(doc.logo)" width="150" height="100"/>-->
                                 <t t-if="doc.order_line[0].product_id.sequence_id.logo_header_website_sponsor">
@@ -46,8 +40,7 @@
                                     <!--                                    </div>-->
                                 </t>
                                 <div style="position: absolute; left:39em; top: 16px;">
-                                    <div class="col-sm-3 fonts_bold"
-                                         style="border-style: none solid none none; white-space: nowrap;
+                                    <div class="col-sm-3 fonts_bold" style="border-style: none solid none none; white-space: nowrap;
                                          display: inline-block; padding-bottom: 40px; line-height: 1.242em;;
                                          font-size:18px;  color:#565759;">
                                         <p>
@@ -58,24 +51,19 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="article o_report_layout_standard" style="margin:0">
                         <div style="position: absolute;  left: -16px; top: 52em; z-index:1000;">
-                            <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)"
-                                 width="50" height="140"/>
-
+                            <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/>
                         </div>
 
                         <div style="position: absolute;  left: -16px; top: 112em; z-index:1000;">
-                            <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)"
-                                 width="50" height="140"/>
+                            <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/>
                         </div>
 
                         <div style="position: absolute;  left: -16px; top: 162em; z-index:1000;">
-                            <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)"
-                                 width="50" height="140"/>
+                            <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/>
                         </div>
 
                         <div class="page" style="margin:0px 9px 0px 9px; letter-spacing: -0.01em;">
@@ -107,16 +95,12 @@
                             <table style="width:100%">
                                 <tr>
                                     <td>
-                                        <p align="justify"
-                                           style="font-size:16px !important; color:#2B282D; line-height: 1em; letter-spacing: 0.068em; word-spacing: 0.04em;">
-                                            <strong>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A&#160;
-                                            </strong>
-                                            que
-                                            en adelante se denominará <strong>PALIG</strong> certifica mediante este
-                                            documento, que
-                                            forma parte integrante de la poliza, que el/los asegurados relacionados a
+                                        <p align="justify" style="font-size:16px !important; color:#2B282D; line-height: 1em; letter-spacing: 0.068em; word-spacing: 0.04em;">
+                                            <strong>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A&#160;</strong>
+                                            que en adelante se denominará <strong>PALIG</strong> certifica mediante este
+                                            documento, que forma parte integrante de la póliza, que el/los asegurados relacionados a
                                             continuación se encuentran amparados, por ende, se compromete a pagar los
-                                            beneficios de acuerdo y con sujeción a las estipulaciones de esta poliza y
+                                            beneficios de acuerdo y con sujeción a las estipulaciones de esta póliza y
                                             que constan en el cuadro de coberturas en lo que respecta a:
                                         </p>
                                     </td>
@@ -132,27 +116,21 @@
                             <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr style="margin: 0px;">
-                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;" align="center">
                                             <t t-esc="doc.beneficiary0_id.lastname"/>
                                         </td>
-                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;" align="center">
                                             <t t-esc="doc.beneficiary0_id.lastname2"/>
                                         </td>
-                                        <td style="color:#565759; width:50%; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:50%; border-bottom: 1.3pt solid #565759;" align="center">
                                             <!--<p style="text-transform: capitalize;">
                                                 <t t-esc="doc.beneficiary0_id.firstname"/>-->
                                             <t t-if="doc.beneficiary0_id.othernames">
-                                                <t style="text-transform: capitalize;"
-                                                   t-esc="doc.beneficiary0_id.firstname + ' ' + doc.beneficiary0_id.othernames"/>
+                                                <t style="text-transform: capitalize;" t-esc="doc.beneficiary0_id.firstname + ' ' + doc.beneficiary0_id.othernames"/>
                                             </t>
                                             <t t-else="">
-                                                <t style="text-transform: capitalize;"
-                                                   t-esc="doc.beneficiary0_id.firstname"/>
+                                                <t style="text-transform: capitalize;" t-esc="doc.beneficiary0_id.firstname"/>
                                             </t>
-
                                             <!--</p>-->
                                         </td>
                                     </tr>
@@ -161,16 +139,13 @@
                             <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr>
-                                        <td align="center"
-                                            style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             1er Apellido
                                         </td>
-                                        <td align="center"
-                                            style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             2do Apellido
                                         </td>
-                                        <td align="center"
-                                            style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             Nombres
                                         </td>
                                     </tr>
@@ -206,17 +181,14 @@
                                                 <![CDATA[&nbsp;]]>X
                                             </t>
                                         </td>
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.3pt solid #565759; white-space: nowrap; width: 15.38%;">
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.3pt solid #565759; white-space: nowrap; width: 15.38%;">
                                             <span t-esc="doc.beneficiary0_id.identification_document"/>
                                         </td>
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 17.95%;">
                                             Fecha de expedición
                                         </td>
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.3pt solid #565759; white-space: nowrap; width: 12.82%;">
-                                            <span t-field="doc.beneficiary0_id.expedition_date"
-                                                  t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.3pt solid #565759; white-space: nowrap; width: 12.82%;">
+                                            <span t-field="doc.beneficiary0_id.expedition_date" t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; width: 7.69%;">
                                             Sexo:
@@ -246,16 +218,13 @@
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Fecha Nacimiento:
                                         </td>
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.3pt solid #565759;">
-                                            <span t-field="doc.beneficiary0_id.birthdate_date"
-                                                  t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.3pt solid #565759;">
+                                            <span t-field="doc.beneficiary0_id.birthdate_date" t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Estado Civil
                                         </td>
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.3pt solid #565759;">
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.3pt solid #565759;">
                                             <t t-if="doc.beneficiary0_id.marital_status != &quot;Unión Libre&quot;">
                                                 <t t-esc="doc.beneficiary0_id.marital_status"/>/a
                                             </t>
@@ -266,8 +235,7 @@
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Dirección de Residencia
                                         </td>
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.3pt solid #565759;">
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.3pt solid #565759;">
                                             <t t-if="doc.beneficiary0_id.address_beneficiary">
                                                 <t t-esc="doc.beneficiary0_id.address_beneficiary"/>
                                             </t>
@@ -284,22 +252,19 @@
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Teléfono(s)
                                         </td>
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; width: 25%; border-bottom: 1.4pt solid #565759;">
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; width: 25%; border-bottom: 1.4pt solid #565759;">
                                             <t t-esc="doc.beneficiary0_id.phone"/>
                                         </td>
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Celular
                                         </td>
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-esc="doc.beneficiary0_id.mobile"/>
                                         </td>
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Email
                                         </td>
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-esc="doc.beneficiary0_id.email"/>
                                         </td>
                                     </tr>
@@ -307,19 +272,15 @@
                             </table>
 
                             <!--                            </table>-->
-                            <t t-set="vigencia_plan"
-                               t-value="doc.order_line.product_id.subscription_template_id.recurring_rule_count * doc.order_line.product_id.subscription_template_id.recurring_interval"/>
-                            <p align="justify"
-                               style="color:#4f4b4c;font-size:16.5px !important;">
-                                Fecha de inicio de vigencia del certificado: al dia siguiente de
+                            <t t-set="vigencia_plan" t-value="doc.order_line.product_id.subscription_template_id.recurring_rule_count * doc.order_line.product_id.subscription_template_id.recurring_interval"/>
+                            <p align="justify" style="color:#4f4b4c;font-size:16.5px !important;">
+                                Fecha de inicio de vigencia del certificado: al día siguiente de
                                 <u>
                                     <t t-if="doc.order_line.product_id.subscription_template_id.is_fixed_policy">
-                                        <span t-field="doc.subscription_id.date_start"
-                                              t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
+                                        <span t-field="doc.subscription_id.date_start" t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                     </t>
                                     <t t-else="">
-                                        <span t-field="doc.date_order"
-                                              t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
+                                        <span t-field="doc.date_order" t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                     </t>
                                 </u>
                                 Fecha fin de vigencia del certificado:
@@ -342,8 +303,7 @@
                             <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr style="margin: 0px;">
-                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;" align="center">
                                             <t t-if="doc.beneficiary1_id">
                                                 <t t-esc="doc.beneficiary1_id.lastname"/>
                                             </t>
@@ -351,21 +311,17 @@
                                                 <p></p>
                                             </t>
                                         </td>
-                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;" align="center">
                                             <t t-esc="doc.beneficiary1_id.lastname2"/>
                                         </td>
-                                        <td style="color:#565759; width:50%; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:50%; border-bottom: 1.3pt solid #565759;" align="center">
                                             <!--<p style="text-transform: capitalize;">
                                                 <t t-esc="doc.beneficiary0_id.firstname"/>-->
                                             <t t-if="doc.beneficiary1_id.othernames">
-                                                <t style="text-transform: capitalize;"
-                                                   t-esc="doc.beneficiary1_id.firstname + ' ' + doc.beneficiary1_id.othernames"/>
+                                                <t style="text-transform: capitalize;" t-esc="doc.beneficiary1_id.firstname + ' ' + doc.beneficiary1_id.othernames"/>
                                             </t>
                                             <t t-else="">
-                                                <t style="text-transform: capitalize;"
-                                                   t-esc="doc.beneficiary1_id.firstname"/>
+                                                <t style="text-transform: capitalize;" t-esc="doc.beneficiary1_id.firstname"/>
                                             </t>
 
                                             <!--</p>-->
@@ -376,16 +332,13 @@
                             <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr>
-                                        <td align="center"
-                                            style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             1er Apellido
                                         </td>
-                                        <td align="center"
-                                            style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             2do Apellido
                                         </td>
-                                        <td align="center"
-                                            style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             Nombres
                                         </td>
                                     </tr>
@@ -397,8 +350,7 @@
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Parentesco:
                                         </td>
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-if="doc.beneficiary1_id.relationship == 'M'">
                                                 <span style="color:#565759">Hermanos</span>
                                             </t>
@@ -418,11 +370,8 @@
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Fecha de Nacimiento:
                                         </td>
-
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
-                                            <span style="color:#565759" t-field="doc.beneficiary1_id.birthdate_date"
-                                                  t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
+                                            <span style="color:#565759" t-field="doc.beneficiary1_id.birthdate_date" t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -436,8 +385,7 @@
                             <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr style="margin: 0px;">
-                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;" align="center">
                                             <t t-if="doc.beneficiary2_id">
                                                 <t t-esc="doc.beneficiary2_id.lastname"/>
                                             </t>
@@ -445,21 +393,17 @@
                                                 <p></p>
                                             </t>
                                         </td>
-                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;" align="center">
                                             <t t-esc="doc.beneficiary2_id.lastname2"/>
                                         </td>
-                                        <td style="color:#565759; width:50%; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:50%; border-bottom: 1.3pt solid #565759;" align="center">
                                             <!--<p style="text-transform: capitalize;">
                                                 <t t-esc="doc.beneficiary0_id.firstname"/>-->
                                             <t t-if="doc.beneficiary2_id.othernames">
-                                                <t style="text-transform: capitalize;"
-                                                   t-esc="doc.beneficiary2_id.firstname + ' ' + doc.beneficiary2_id.othernames"/>
+                                                <t style="text-transform: capitalize;" t-esc="doc.beneficiary2_id.firstname + ' ' + doc.beneficiary2_id.othernames"/>
                                             </t>
                                             <t t-else="">
-                                                <t style="text-transform: capitalize;"
-                                                   t-esc="doc.beneficiary2_id.firstname"/>
+                                                <t style="text-transform: capitalize;" t-esc="doc.beneficiary2_id.firstname"/>
                                             </t>
 
                                             <!--</p>-->
@@ -470,16 +414,13 @@
                             <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr>
-                                        <td align="center"
-                                            style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             1er Apellido
                                         </td>
-                                        <td align="center"
-                                            style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             2do Apellido
                                         </td>
-                                        <td align="center"
-                                            style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             Nombres
                                         </td>
                                     </tr>
@@ -491,8 +432,7 @@
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Parentesco:
                                         </td>
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-if="doc.beneficiary2_id.relationship == 'M'">
                                                 <span style="color:#565759">Hermanos</span>
                                             </t>
@@ -512,11 +452,8 @@
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Fecha de Nacimiento:
                                         </td>
-
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
-                                            <span style="color:#565759" t-field="doc.beneficiary2_id.birthdate_date"
-                                                  t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
+                                            <span style="color:#565759" t-field="doc.beneficiary2_id.birthdate_date" t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -530,8 +467,7 @@
                             <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr style="margin: 0px;">
-                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;" align="center">
                                             <t t-if="doc.beneficiary3_id">
                                                 <t t-esc="doc.beneficiary3_id.lastname"/>
                                             </t>
@@ -539,21 +475,17 @@
                                                 <p></p>
                                             </t>
                                         </td>
-                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;" align="center">
                                             <t t-esc="doc.beneficiary3_id.lastname2"/>
                                         </td>
-                                        <td style="color:#565759; width:50%; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:50%; border-bottom: 1.3pt solid #565759;" align="center">
                                             <!--<p style="text-transform: capitalize;">
                                                 <t t-esc="doc.beneficiary0_id.firstname"/>-->
                                             <t t-if="doc.beneficiary3_id.othernames">
-                                                <t style="text-transform: capitalize;"
-                                                   t-esc="doc.beneficiary3_id.firstname + ' ' + doc.beneficiary3_id.othernames"/>
+                                                <t style="text-transform: capitalize;" t-esc="doc.beneficiary3_id.firstname + ' ' + doc.beneficiary3_id.othernames"/>
                                             </t>
                                             <t t-else="">
-                                                <t style="text-transform: capitalize;"
-                                                   t-esc="doc.beneficiary3_id.firstname"/>
+                                                <t style="text-transform: capitalize;" t-esc="doc.beneficiary3_id.firstname"/>
                                             </t>
 
                                             <!--</p>-->
@@ -564,16 +496,13 @@
                             <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr>
-                                        <td align="center"
-                                            style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             1er Apellido
                                         </td>
-                                        <td align="center"
-                                            style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             2do Apellido
                                         </td>
-                                        <td align="center"
-                                            style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             Nombres
                                         </td>
                                     </tr>
@@ -585,8 +514,7 @@
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Parentesco:
                                         </td>
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-if="doc.beneficiary3_id.relationship == 'M'">
                                                 <span style="color:#565759">Hermanos</span>
                                             </t>
@@ -607,10 +535,8 @@
                                             Fecha de Nacimiento:
                                         </td>
 
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
-                                            <span style="color:#565759" t-field="doc.beneficiary3_id.birthdate_date"
-                                                  t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
+                                            <span style="color:#565759" t-field="doc.beneficiary3_id.birthdate_date" t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -624,8 +550,7 @@
                             <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr style="margin: 0px;">
-                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;" align="center">
                                             <t t-if="doc.beneficiary4_id">
                                                 <t t-esc="doc.beneficiary4_id.lastname"/>
                                             </t>
@@ -633,21 +558,17 @@
                                                 <p></p>
                                             </t>
                                         </td>
-                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;" align="center">
                                             <t t-esc="doc.beneficiary4_id.lastname2"/>
                                         </td>
-                                        <td style="color:#565759; width:50%; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:50%; border-bottom: 1.3pt solid #565759;" align="center">
                                             <!--<p style="text-transform: capitalize;">
                                                 <t t-esc="doc.beneficiary0_id.firstname"/>-->
                                             <t t-if="doc.beneficiary4_id.othernames">
-                                                <t style="text-transform: capitalize;"
-                                                   t-esc="doc.beneficiary4_id.firstname + ' ' + doc.beneficiary4_id.othernames"/>
+                                                <t style="text-transform: capitalize;" t-esc="doc.beneficiary4_id.firstname + ' ' + doc.beneficiary4_id.othernames"/>
                                             </t>
                                             <t t-else="">
-                                                <t style="text-transform: capitalize;"
-                                                   t-esc="doc.beneficiary4_id.firstname"/>
+                                                <t style="text-transform: capitalize;" t-esc="doc.beneficiary4_id.firstname"/>
                                             </t>
 
                                             <!--</p>-->
@@ -658,16 +579,13 @@
                             <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr>
-                                        <td align="center"
-                                            style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             1er Apellido
                                         </td>
-                                        <td align="center"
-                                            style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             2do Apellido
                                         </td>
-                                        <td align="center"
-                                            style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             Nombres
                                         </td>
                                     </tr>
@@ -679,8 +597,7 @@
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Parentesco:
                                         </td>
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-if="doc.beneficiary4_id.relationship == 'M'">
                                                 <span style="color:#565759">Hermanos</span>
                                             </t>
@@ -700,11 +617,8 @@
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Fecha de Nacimiento:
                                         </td>
-
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
-                                            <span style="color:#565759" t-field="doc.beneficiary4_id.birthdate_date"
-                                                  t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
+                                            <span style="color:#565759" t-field="doc.beneficiary4_id.birthdate_date" t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -718,8 +632,7 @@
                             <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr style="margin: 0px;">
-                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;" align="center">
                                             <t t-if="doc.beneficiary5_id">
                                                 <t t-esc="doc.beneficiary5_id.lastname"/>
                                             </t>
@@ -727,21 +640,17 @@
                                                 <p></p>
                                             </t>
                                         </td>
-                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;" align="center">
                                             <t t-esc="doc.beneficiary5_id.lastname2"/>
                                         </td>
-                                        <td style="color:#565759; width:50%; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:50%; border-bottom: 1.3pt solid #565759;" align="center">
                                             <!--<p style="text-transform: capitalize;">
                                                 <t t-esc="doc.beneficiary0_id.firstname"/>-->
                                             <t t-if="doc.beneficiary5_id.othernames">
-                                                <t style="text-transform: capitalize;"
-                                                   t-esc="doc.beneficiary5_id.firstname + ' ' + doc.beneficiary5_id.othernames"/>
+                                                <t style="text-transform: capitalize;" t-esc="doc.beneficiary5_id.firstname + ' ' + doc.beneficiary5_id.othernames"/>
                                             </t>
                                             <t t-else="">
-                                                <t style="text-transform: capitalize;"
-                                                   t-esc="doc.beneficiary5_id.firstname"/>
+                                                <t style="text-transform: capitalize;" t-esc="doc.beneficiary5_id.firstname"/>
                                             </t>
 
                                             <!--</p>-->
@@ -752,16 +661,13 @@
                             <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr>
-                                        <td align="center"
-                                            style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             1er Apellido
                                         </td>
-                                        <td align="center"
-                                            style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             2do Apellido
                                         </td>
-                                        <td align="center"
-                                            style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             Nombres
                                         </td>
                                     </tr>
@@ -773,8 +679,7 @@
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Parentesco:
                                         </td>
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-if="doc.beneficiary5_id.relationship == 'M'">
                                                 <span style="color:#565759">Hermanos</span>
                                             </t>
@@ -795,10 +700,8 @@
                                             Fecha de Nacimiento:
                                         </td>
 
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
-                                            <span style="color:#565759" t-field="doc.beneficiary5_id.birthdate_date"
-                                                  t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
+                                            <span style="color:#565759" t-field="doc.beneficiary5_id.birthdate_date" t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -812,8 +715,7 @@
                             <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr style="margin: 0px;">
-                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;" align="center">
                                             <t t-if="doc.beneficiary6_id">
                                                 <t t-esc="doc.beneficiary6_id.lastname"/>
                                             </t>
@@ -821,21 +723,17 @@
                                                 <p></p>
                                             </t>
                                         </td>
-                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:25%; text-transform: capitalize; border-bottom: 1.3pt solid #565759;" align="center">
                                             <t t-esc="doc.beneficiary6_id.lastname2"/>
                                         </td>
-                                        <td style="color:#565759; width:50%; border-bottom: 1.3pt solid #565759;"
-                                            align="center">
+                                        <td style="color:#565759; width:50%; border-bottom: 1.3pt solid #565759;" align="center">
                                             <!--<p style="text-transform: capitalize;">
                                                 <t t-esc="doc.beneficiary0_id.firstname"/>-->
                                             <t t-if="doc.beneficiary6_id.othernames">
-                                                <t style="text-transform: capitalize;"
-                                                   t-esc="doc.beneficiary6_id.firstname + ' ' + doc.beneficiary6_id.othernames"/>
+                                                <t style="text-transform: capitalize;" t-esc="doc.beneficiary6_id.firstname + ' ' + doc.beneficiary6_id.othernames"/>
                                             </t>
                                             <t t-else="">
-                                                <t style="text-transform: capitalize;"
-                                                   t-esc="doc.beneficiary6_id.firstname"/>
+                                                <t style="text-transform: capitalize;" t-esc="doc.beneficiary6_id.firstname"/>
                                             </t>
                                         </td>
                                     </tr>
@@ -844,16 +742,13 @@
                             <table style="width:100%; margin: 0px;" id="tableNew">
                                 <tbody style="margin: 0px;">
                                     <tr>
-                                        <td align="center"
-                                            style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style="width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             1er Apellido
                                         </td>
-                                        <td align="center"
-                                            style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style=" width:25%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             2do Apellido
                                         </td>
-                                        <td align="center"
-                                            style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
+                                        <td align="center" style=" width:50%; color:#565759; font-size:16.5px !important; font-weight: lighter;">
                                             Nombres
                                         </td>
                                     </tr>
@@ -865,8 +760,7 @@
                                         <td style="color:#565759; font-size:16.5px !important; font-weight: lighter; white-space: nowrap; width: 20px;">
                                             Parentesco:
                                         </td>
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
                                             <t t-if="doc.beneficiary6_id.relationship == 'M'">
                                                 <span style="color:#565759">Hermanos</span>
                                             </t>
@@ -887,10 +781,8 @@
                                             Fecha de Nacimiento:
                                         </td>
 
-                                        <td align="center"
-                                            style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
-                                            <span style="color:#565759" t-field="doc.beneficiary6_id.birthdate_date"
-                                                  t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
+                                        <td align="center" style="color:#565759; font-size:16.5px !important; font-weight: lighter; border-bottom: 1.4pt solid #565759;">
+                                            <span style="color:#565759" t-field="doc.beneficiary6_id.birthdate_date" t-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -919,14 +811,12 @@
                                     <i>Valor asegurado:
                                         <t t-if="doc.order_line.product_template_id[0].sequence_id.value_policy != 0">
                                             <u>
-                                                <span t-esc="doc.order_line.product_template_id[0].sequence_id.value_policy"
-                                                      t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
+                                                <span t-esc="doc.order_line.product_template_id[0].sequence_id.value_policy" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
                                             </u>
                                         </t>
                                         <t t-elif="doc.order_line.product_template_id[0].categ_id.sequence_id.value_policy != 0">
                                             <u>
-                                                <span t-esc="doc.order_line.product_template_id[0].categ_id.sequence_id.value_policy"
-                                                      t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
+                                                <span t-esc="doc.order_line.product_template_id[0].categ_id.sequence_id.value_policy" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
                                             </u>
                                         </t>
                                         <t t-else="">
@@ -963,8 +853,7 @@
                                 <div style="page-break-after: always;"/>
                                 <div>
                                     <br/>
-                                    <div class="watermark"
-                                         style="position:absolute; opacity:0.12; width: 100%; height: 500px; text-align: center; padding: 50px; margin-top: 60px;"/>
+                                    <div class="watermark" style="position:absolute; opacity:0.12; width: 100%; height: 500px; text-align: center; padding: 50px; margin-top: 60px;"/>
                                     <t t-if="doc.order_line[0].product_id.product_tmpl_id.sequence_id.logo_body_website_sponsor">
                                         <center>
                                             <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].product_id.product_tmpl_id.sequence_id.logo_body_website_sponsor)"
@@ -1031,7 +920,7 @@
                                                 acepta
                                                 con el entendimiento que la misma está sujeta a todos los privilegios
                                                 y condiciones expuestas en esta carátula y en la solicitud, las cuales
-                                                forman parte integrante de la póliza. Este certificado podrá utulizarse
+                                                forman parte integrante de la póliza. Este certificado podrá utilizarse
                                                 como
                                                 Constancia de Seguro.
                                             </span>
@@ -1053,7 +942,7 @@
                                                     de la fecha maneje mis Datos Personales conforme a la Política del
                                                     tratamiento de la información de la Compañía y al aviso de
                                                     privacidad que está en
-                                                    <a href="https://www.palig.com" target="_blank">
+                                                    <a href="https://www.palig.com/Media/Default/Centro de Herramientas y Recursos/Colombia/Política de Protección de Datos/Política del Tratamiento de la Información.pdf" target="_blank">
                                                         <i>
                                                             <strong>www.palig.com</strong>
                                                         </i>
@@ -1062,7 +951,7 @@
                                                 <br/>
                                                 <li>
                                                     He leído, revisado, entendido y recibido todas y cada una de las 
-                                                    condiciones del presente certificado, el cual me fué explicado por el tomador,
+                                                    condiciones del presente certificado, el cual me fue explicado por el tomador,
                                                     que conozco y entiendo su contenido, en especial lo
                                                     relacionado con el alcance de cobertura, y con mi firma acepto
                                                     integralmente sus condiciones.
@@ -1132,12 +1021,10 @@
                                         </tr>
                                     </tbody>
                                 </table>
-
                             </div>
                             <br/>
                             <br/>
-                            <p align="justify"
-                               style="color:#4f4b4c; letter-spacing: 0.078em; word-spacing: 0.05em;">
+                            <p align="justify" style="color:#4f4b4c; letter-spacing: 0.078em; word-spacing: 0.05em;">
                                 <b>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A</b><![CDATA[&nbsp;]]>que en
                                 adelante se denominará PALIG conviene otorgar las coberturas incorporadas en el
                                 presente Certificado individual con sujeción a los términos y condiciones de esta póliza
