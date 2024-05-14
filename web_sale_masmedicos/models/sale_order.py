@@ -40,6 +40,13 @@ class SaleOrder(models.Model):
         return sftp_utils.connect(host, user, password, port), path, path_processed
 
     def _cron_read_files_sftp(self):
+
+        def generate_unique_filename(filename):
+            """Genera un nombre de archivo único agregando una marca de tiempo."""
+            timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+            filename, file_extension = os.path.splitext(filename)
+            return f"{filename}_{timestamp}{file_extension}"
+
         current_date = fields.Date.today()
         connection, path, path_processed = self.conection_sftp()
         with connection as sftp:
@@ -190,16 +197,24 @@ class SaleOrder(models.Model):
                                     order.novedad_rechazada(codigo_respuesta)
 
                         sftp.rename(path + filename, path_processed + '/OK_' + filename)
-                elif not filename.startswith('Cargados-a-Easytek') or not not filename.startswith('Respuestas del 5 al 15122023'):
-
+                elif not S_ISDIR(mode):
                     try:
-                        sftp.rename(path + filename, path_processed + '/' + filename)
+                        source_file_path = os.path.join(path, filename)
+                        destination_file_path = os.path.join(path_processed, filename)
+                        if sftp.exists(destination_file_path):
+                            new_filename = generate_unique_filename(filename)
+                            destination_file_path = os.path.join(path_processed, new_filename)
+                        sftp.rename(source_file_path, destination_file_path)
+
+
                     except FileNotFoundError:
                         print("El archivo {} no se encontró en la ubicación especificada.".format(filename))
                     except PermissionError:
                         print("Permiso denegado para renombrar el archivo {}.".format(filename))
                     except Exception as e:
                         print("Se produjo un error al intentar renombrar el archivo {}: {}".format(filename, str(e)))
+
+
 
     def _registrar_archivo_pagos(self):
         for order in self:
