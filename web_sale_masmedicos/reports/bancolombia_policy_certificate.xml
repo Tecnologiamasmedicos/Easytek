@@ -110,7 +110,7 @@
                                 <div style="position: absolute; left:39em; top: 16px;">
                                     <div class="col-sm-3 fonts_bold" style="border-style: none solid none none; white-space: nowrap;
                                          display: inline-block; padding-bottom: 40px; line-height: 1.242em;;
-                                         font-size:18px;  color:#565759;">
+                                         font-size:18px; color:#565759;">
                                         <p>
                                             <strong style="">PÓLIZA N°</strong>
                                             <span t-esc="doc.order_line[0].subscription_id.policy_number"/>
@@ -134,24 +134,20 @@
                             <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/>
                         </div>
 
-                        <div class="page" style="margin:0px 9px 0px 9px; letter-spacing: -0.01em;">
+                        <div class="page" style="margin:0px 9px 0px 9px;">
                             <t t-foreach="doc.partner_id" t-as="p">
-                                <div style="left:20em; position: absolute; top:0em; word-spacing:0.1em; letter-spacing: -0.1em;">
+                                <div style="left:20em; position: absolute; top:0em; word-spacing:0.1em;">
                                     <b style="font-size:18px; font-weight: bold;
                                 color:#221E1F; word-spacing:0.1em;">CERTIFICADO INDIVIDUAL DE SEGURO DE ACCIDENTES
                                         PERSONALES
                                     </b>
                                 </div>
-                                <div style="left:17.8em; top:1.5em; font-size:18px; position: absolute;
-                                   monserrat; font-weight: bold; letter-spacing: -0.1em;
-                                  color:#221E1F; word-spacing:0.08em;">
+                                <div style="left:17.8em; top:1.5em; font-size:18px; position: absolute; monserrat; font-weight: bold; color:#221E1F; word-spacing:0.08em;">
                                     <span>TOMADOR:
                                         <span t-esc="doc.partner_id.name"/>
                                     </span>
                                 </div>
-                                <div style="left:40.5em; top:1.5em; font-size:18px; position: absolute;
-                                   monserrat; letter-spacing: -0.1em; font-weight: bold;
-                                  color:#221E1F; word-spacing:0.08em;">
+                                <div style="left:40.5em; top:1.5em; font-size:18px; position: absolute; monserrat; font-weight: bold; color:#221E1F; word-spacing:0.08em;">
                                     <span>ID:
                                         <span t-esc="doc.partner_id.identification_document"/>
                                     </span>
@@ -163,7 +159,8 @@
                             <table style="width:100%">
                                 <tr>
                                     <td>
-                                        <p align="justify" style="font-size:16px !important; color:#2B282D; line-height: 1em; letter-spacing: 0.068em; word-spacing: 0.04em;">
+                                        <p align="justify" style="font-size:16px !important; color:#2B282D; line-height: 1em; word-spacing: 0.04em;">
+                                            <!-- line-height: 1.33em; -->
                                             <strong>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A&#160;</strong>
                                             que en adelante se denominará <strong>PALIG</strong> certifica mediante este
                                             documento, que forma parte integrante de la póliza, que el/los asegurados relacionados a
@@ -1001,15 +998,9 @@
                                             <ul style="list-style-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTBwdCIgaGVpZ2h0PSIxMXB0IiB2aWV3Qm94PSIwIDAgMTAgMTEiIHZlcnNpb249IjEuMSI+CjxnIGlkPSJzdXJmYWNlMSI+CjxwYXRoIHN0eWxlPSIgc3Ryb2tlOm5vbmU7ZmlsbC1ydWxlOm5vbnplcm87ZmlsbDpyZ2IoMCUsMCUsMCUpO2ZpbGwtb3BhY2l0eToxOyIgZD0iTSA4LjkyOTY4OCAwLjY4NzUgTCAxLjA3MDMxMiAwLjY4NzUgQyAwLjQ4MDQ2OSAwLjY4NzUgMCAxLjE0ODQzOCAwIDEuNzE4NzUgTCAwIDkuMjgxMjUgQyAwIDkuODUxNTYyIDAuNDgwNDY5IDEwLjMxMjUgMS4wNzAzMTIgMTAuMzEyNSBMIDguOTI5Njg4IDEwLjMxMjUgQyA5LjUxOTUzMSAxMC4zMTI1IDEwIDkuODUxNTYyIDEwIDkuMjgxMjUgTCAxMCAxLjcxODc1IEMgMTAgMS4xNDg0MzggOS41MTk1MzEgMC42ODc1IDguOTI5Njg4IDAuNjg3NSBaIE0gOC45Mjk2ODggOS4yODEyNSBMIDEuMDcwMzEyIDkuMjgxMjUgTCAxLjA3MDMxMiAxLjcxODc1IEwgOC45Mjk2ODggMS43MTg3NSBaIE0gOC4xMjg5MDYgNC4wODk4NDQgTCA0LjI3NzM0NCA3Ljc2NTYyNSBDIDQuMTcxODc1IDcuODY3MTg4IDQgNy44NjcxODggMy44OTg0MzggNy43NjU2MjUgTCAxLjg3MTA5NCA1Ljc5Njg3NSBDIDEuNzY1NjI1IDUuNjk5MjE5IDEuNzY1NjI1IDUuNTM1MTU2IDEuODcxMDk0IDUuNDMzNTk0IEwgMi4zNzg5MDYgNC45NDkyMTkgQyAyLjQ4NDM3NSA0Ljg0NzY1NiAyLjY1MjM0NCA0Ljg1MTU2MiAyLjc1NzgxMiA0Ljk1MzEyNSBMIDQuMDkzNzUgNi4yNDYwOTQgTCA3LjI0NjA5NCAzLjIzNDM3NSBDIDcuMzUxNTYyIDMuMTMyODEyIDcuNTIzNDM4IDMuMTMyODEyIDcuNjI1IDMuMjM0Mzc1IEwgOC4xMjg5MDYgMy43MjI2NTYgQyA4LjIzNDM3NSAzLjgyNDIxOSA4LjIzNDM3NSAzLjk4ODI4MSA4LjEyODkwNiA0LjA4OTg0NCBaIE0gOC4xMjg5MDYgNC4wODk4NDQgIi8+CjwvZz4KPC9zdmc+Cg==)">
                                                 <li>
                                                     Autorizo permanente e irrevocablemente a
-                                                    <i>
-                                                        <strong>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑÏA DE SEGUROS
-                                                            S.A.,
-                                                        </strong>
-                                                    </i>
-                                                    para que a partir
-                                                    de la fecha maneje mis Datos Personales conforme a la Política del
-                                                    tratamiento de la información de la Compañía y al aviso de
-                                                    privacidad que está en
+                                                    <i><strong>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑÏA DE SEGUROS S.A.,</strong></i>
+                                                    para que a partir de la fecha maneje mis Datos Personales conforme a la Política del
+                                                    tratamiento de la información de la Compañía y al aviso de privacidad que está en
                                                     <a href="https://www.palig.com/Media/Default/Centro de Herramientas y Recursos/Colombia/Política de Protección de Datos/Política del Tratamiento de la Información.pdf" target="_blank">
                                                         <i>
                                                             <strong>www.palig.com</strong>
@@ -1029,17 +1020,10 @@
                                     </div>
                                     <div align="justify" style="color:#4f4b4c;">
                                         <p>
-                                            <strong>
-                                                Tenemos a su disposición los siguientes canales de atención:
-                                            </strong>
-                                            Línea telefónica en Bogotá: (57)
-                                            <strong>
-                                                <i>305 781 0000</i>
-                                                <br/>
-                                            </strong>
-                                            <i>
-                                                <strong>Correo electrónico:</strong>
-                                            </i>
+                                            <strong>Tenemos a su disposición los siguientes canales de atención:</strong>
+                                            Línea telefónica en Bogotá: (57) <strong><i>305 781 0000</i></strong>
+                                            <br/>
+                                            <strong>Correo electrónico:</strong>
                                             <a href="mailto:planfamiliaprotegidaco@palig.com" target="_blank">
                                                 planfamiliaprotegidaco@palig.com
                                             </a>
@@ -1092,7 +1076,7 @@
                             </div>
                             <br/>
                             <br/>
-                            <p align="justify" style="color:#4f4b4c; letter-spacing: 0.078em; word-spacing: 0.05em;">
+                            <p align="justify" style="color:#4f4b4c;">
                                 <b>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A</b><![CDATA[&nbsp;]]>que en
                                 adelante se denominará PALIG conviene otorgar las coberturas incorporadas en el
                                 presente Certificado individual con sujeción a los términos y condiciones de esta póliza
