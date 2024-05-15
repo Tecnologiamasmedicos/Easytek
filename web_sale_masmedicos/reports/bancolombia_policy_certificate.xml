@@ -136,7 +136,7 @@
 
                         <div class="page" style="margin:0px 9px 0px 9px;">
                             <t t-foreach="doc.partner_id" t-as="p">
-                                <div style="left:14em; position: absolute; top:0em; width: 900px;">
+                                <div style="left:14em; position: absolute; top:0em; width: 800px;">
                                     <b style="font-size:18px; font-weight: bold; color:#221E1F;">CERTIFICADO INDIVIDUAL DE SEGURO DE ACCIDENTES PERSONALES</b>
                                 </div>
                                 <div style="left:14em; top:1.5em; font-size:18px; position: absolute; monserrat; font-weight: bold; color:#221E1F; width: 500px;">
