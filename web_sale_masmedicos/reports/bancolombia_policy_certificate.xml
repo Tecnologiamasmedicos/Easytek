@@ -122,29 +122,29 @@
                     </div>
 
                     <div class="article o_report_layout_standard" style="margin:0">
-                        <div style="position: absolute;  left: -16px; top: 52em; z-index:1000;">
+                        <div style="position: absolute; left: -16px; top: 52em; z-index:1000;">
                             <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/>
                         </div>
 
-                        <div style="position: absolute;  left: -16px; top: 112em; z-index:1000;">
+                        <div style="position: absolute; left: -16px; top: 112em; z-index:1000;">
                             <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/>
                         </div>
 
-                        <div style="position: absolute;  left: -16px; top: 162em; z-index:1000;">
+                        <div style="position: absolute; left: -16px; top: 162em; z-index:1000;">
                             <img t-att-src="'data:image/png;base64,%s' % to_text(doc.order_line[0].company_id.logo_supervigilado)" width="50" height="140"/>
                         </div>
 
                         <div class="page" style="margin:0px 9px 0px 9px;">
                             <t t-foreach="doc.partner_id" t-as="p">
-                                <div style="left:14em; position: absolute; top:0em;">
+                                <div style="left:14em; position: absolute; top:0em; width: 500px;">
                                     <b style="font-size:18px; font-weight: bold; color:#221E1F;">CERTIFICADO INDIVIDUAL DE SEGURO DE ACCIDENTES PERSONALES</b>
                                 </div>
-                                <div style="left:14em; top:1.5em; font-size:18px; position: absolute; monserrat; font-weight: bold; color:#221E1F; word-spacing:0.08em;">
+                                <div style="left:14em; top:1.5em; font-size:18px; position: absolute; monserrat; font-weight: bold; color:#221E1F; width: 500px;">
                                     <span>TOMADOR:
                                         <span t-esc="doc.partner_id.name"/>
                                     </span>
                                 </div>
-                                <div style="left:40.5em; top:1.5em; font-size:18px; position: absolute; monserrat; font-weight: bold; color:#221E1F; word-spacing:0.08em;">
+                                <div style="left:40.5em; top:1.5em; font-size:18px; position: absolute; monserrat; font-weight: bold; color:#221E1F;">
                                     <span>ID:
                                         <span t-esc="doc.partner_id.identification_document"/>
                                     </span>
@@ -156,7 +156,7 @@
                             <table style="width:100%">
                                 <tr>
                                     <td>
-                                        <p align="justify" style="font-size:16px !important; color:#2B282D; line-height: 1em; word-spacing: 0.04em;">
+                                        <p align="justify" style="font-size:16px !important; color:#2B282D; line-height: 1em;">
                                             <!-- line-height: 1.33em; -->
                                             <strong>PAN AMERICAN LIFE DE COLOMBIA, COMPAÑIA DE SEGUROS S.A&#160;</strong>
                                             que en adelante se denominará <strong>PALIG</strong> certifica mediante este
@@ -171,7 +171,7 @@
                             </table>
 
                             <strong>
-                                <p style="font-size:17px !important; color:#231f20; font-style: italic; word-spacing: 0.01em;">
+                                <p style="font-size:17px !important; color:#231f20; font-style: italic;">
                                     <b>1. Nombre del Asegurado Principal</b>
                                 </p>
                             </strong>
@@ -968,7 +968,7 @@
                                     </div>
                                     <br/>
                                     <div>
-                                        <p align="justify" style="color:#4f4b4c;  line-height: 1.33em;">
+                                        <p align="justify" style="color:#4f4b4c; line-height: 1.33em;">
                                             <strong>5.</strong>
                                             <span style="text-indent: 20%; font-size:16.5px !important;">
                                                 <![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
