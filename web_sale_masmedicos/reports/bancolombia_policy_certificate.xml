@@ -3,7 +3,7 @@
     <data>
         <report
             id="bancolombia_custom_policy_certificate"
-            string="Certificado Poliza bancolombia"
+            string="Certificado Póliza Bancolombia"
             model="sale.order"
             report_type="qweb-pdf"
             name="web_sale_masmedicos.report_bancolombia"
