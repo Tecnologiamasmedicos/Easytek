@@ -139,12 +139,12 @@
                                 <div style="left:14em; position: absolute; top:0em; width: 700px;">
                                     <b style="font-size:18px; font-weight: bold; color:#221E1F;">CERTIFICADO INDIVIDUAL DE SEGURO DE ACCIDENTES PERSONALES</b>
                                 </div>
-                                <div style="left:12.5em; top:1.5em; font-size:18px; position: absolute; monserrat; font-weight: bold; color:#221E1F; width: 500px;">
+                                <div style="left:12.5em; top:1.5em; font-size:18px; position: absolute; monserrat; font-weight: bold; color:#221E1F; width: 400px;">
                                     <span>TOMADOR:
                                         <span t-esc="doc.partner_id.name"/>
                                     </span>
                                 </div>
-                                <div style="left:30em; top:1.5em; font-size:18px; position: absolute; monserrat; font-weight: bold; color:#221E1F;">
+                                <div style="left:34em; top:1.5em; font-size:18px; position: absolute; monserrat; font-weight: bold; color:#221E1F;">
                                     <span>ID:
                                         <span t-esc="doc.partner_id.identification_document"/>
                                     </span>
