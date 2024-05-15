@@ -136,13 +136,10 @@
 
                         <div class="page" style="margin:0px 9px 0px 9px;">
                             <t t-foreach="doc.partner_id" t-as="p">
-                                <div style="left:20em; position: absolute; top:0em; word-spacing:0.1em;">
-                                    <b style="font-size:18px; font-weight: bold;
-                                color:#221E1F; word-spacing:0.1em;">CERTIFICADO INDIVIDUAL DE SEGURO DE ACCIDENTES
-                                        PERSONALES
-                                    </b>
+                                <div style="left:14em; position: absolute; top:0em;">
+                                    <b style="font-size:18px; font-weight: bold; color:#221E1F;">CERTIFICADO INDIVIDUAL DE SEGURO DE ACCIDENTES PERSONALES</b>
                                 </div>
-                                <div style="left:17.8em; top:1.5em; font-size:18px; position: absolute; monserrat; font-weight: bold; color:#221E1F; word-spacing:0.08em;">
+                                <div style="left:14em; top:1.5em; font-size:18px; position: absolute; monserrat; font-weight: bold; color:#221E1F; word-spacing:0.08em;">
                                     <span>TOMADOR:
                                         <span t-esc="doc.partner_id.name"/>
                                     </span>
