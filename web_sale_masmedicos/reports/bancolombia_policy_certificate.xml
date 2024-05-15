@@ -12,12 +12,80 @@
             <t t-call="web.html_container">
                 <style>
                     @font-face {
-                        font-family: 'CIBFontSans-Regular';
+                        font-family: 'CIBFontSans';
                         src: url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Regular.woff') format("woff"),
-                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Regular.otf') format('truetype');
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Regular.otf') format('truetype'),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Regular.ttf') format('truetype');
+                    }
+                    @font-face {
+                        font-family: 'CIBFontSans';
+                        src: url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Light.woff') format("woff"),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Light.otf') format('truetype'),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Light.ttf') format('truetype');
+                        font-weight: 100;
+                    }
+                    @font-face {
+                        font-family: 'CIBFontSans';
+                        src: url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-LightItalic.woff') format("woff"),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-LightItalic.otf') format('truetype'),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-LightItalic.ttf') format('truetype');
+                        font-weight: 100;
+                        font-style: italic;
+                    }
+                    @font-face {
+                        font-family: 'CIBFontSans';
+                        src: url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Thin.woff') format("woff"),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Thin.otf') format('truetype'),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Thin.ttf') format('truetype');
+                        font-weight: 200;
+                    }
+                    @font-face {
+                        font-family: 'CIBFontSans';
+                        src: url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-ThinItalic.woff') format("woff"),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-ThinItalic.otf') format('truetype'),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-ThinItalic.ttf') format('truetype');
+                        font-weight: 200;
+                        font-style: italic;
+                    }
+                    @font-face {
+                        font-family: 'CIBFontSans';
+                        src: url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Book.woff') format("woff"),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Book.otf') format('truetype'),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Book.ttf') format('truetype');
+                        font-weight: 300;
+                    }
+                    @font-face {
+                        font-family: 'CIBFontSans';
+                        src: url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-BookItalic.woff') format("woff"),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-BookItalic.otf') format('truetype'),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-BookItalic.ttf') format('truetype');
+                        font-weight: 300;
+                        font-style: italic;
+                    }
+                    @font-face {
+                        font-family: 'CIBFontSans';
+                        src: url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Regular.woff') format("woff"),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Regular.otf') format('truetype'),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Regular.ttf') format('truetype');
+                        font-weight: 400;
+                    }
+                    @font-face {
+                        font-family: 'CIBFontSans';
+                        src: url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Bold.woff') format("woff"),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Bold.otf') format('truetype'),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-Bold.ttf') format('truetype');
+                        font-weight: 700;
+                    }
+                    @font-face {
+                        font-family: 'CIBFontSans';
+                        src: url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-BoldItalic.woff') format("woff"),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-BoldItalic.otf') format('truetype'),
+                                url('/web_sale_masmedicos/static/src/fonts/CIBFontSans-BoldItalic.ttf') format('truetype');
+                        font-weight: 700;
+                        font-style: italic;
                     }
                     * {
-                        font-family: 'CIBFontSans-Regular' !important;
+                        font-family: 'CIBFontSans' !important;
                     }
                 </style>
                 <t t-foreach="docs" t-as="doc">
