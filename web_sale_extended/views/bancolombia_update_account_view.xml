@@ -120,14 +120,14 @@
                                         <!-- Numero de cuenta -->
                                         <div class="col-lg-6" t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521">
                                             <div class="form-group">
-                                                <label class="col-form-label" for="account_number">Número de cuenta*</label>
+                                                <label class="col-form-label" for="account_number">Número de cuenta o producto*</label>
                                                 <input type="text" name="account_number" class="form-control"/>
                                             </div>
                                         </div>
                                         <!-- confirmar Numero de cuenta -->
                                         <div class="col-lg-6" t-if="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521">
                                             <div class="form-group">
-                                                <label class="col-form-label" for="confirm_account_number">Confirmar número de cuenta*</label>
+                                                <label class="col-form-label" for="confirm_account_number">Confirmar número de cuenta o producto*</label>
                                                 <input type="text" name="confirm_account_number" class="form-control"/>
                                             </div>
                                         </div>
