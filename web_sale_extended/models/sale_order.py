@@ -905,6 +905,11 @@ class SaleOrder(models.Model):
         template = self.env['mail.template'].browse(template_id)
         template.sudo().send_mail(self.id)
 
+    def desvinculate_bancolombia_account(self):
+        template_id = self.env.ref('web_sale_extended.email_template_desvinculate_bancolombia_account').id
+        template = self.env['mail.template'].browse(template_id)
+        template.sudo().send_mail(self.id)
+
     def retransmit_record_bancol(self):
         self.debit_request = False
         body_message = """
