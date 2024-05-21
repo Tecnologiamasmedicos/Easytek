@@ -306,21 +306,79 @@
                                                                     <br/>
                                                                 </td>
                                                             </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="600">
+                                        <tbody>
+                                            <tr>
+                                                <td align="center" valign="top">
+                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="600">
+                                                        <tbody>
                                                             <tr>
-                                                                <td align="center" valign="middle">
-                                                                    <table align="center" bgcolor="#FDDA24" border="0" cellpadding="0" cellspacing="0" class="cta" height="36" style="border-radius: 18px !important;" width="240">
+                                                                <td align="center" valign="top">
+                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                                         <tbody>
                                                                             <tr>
-                                                                                <td align="center" height="36" valign="middle" width="240"><a href="tel:+573057810000" name="qLink29" overwrite="true" rel="noopener noreferrer" style="background-color:#FDDA24;color:#000000;display:inline-block;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;mso-line-height-rule:exactly;line-height:36px;text-align:center;text-decoration:none;width:240px;-webkit-text-size-adjust:none;height: 36px;border-radius: 18px !important;text-transform: uppercase;" target="_blank" xt="SPCLICK">Llamar ahora</a>
-                                                                                    <br/>
+                                                                                <td align="center" valign="top">
+
+                                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td align="center" valign="bottom" width="6%">
+                                                                                                    <img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/6064f921ac0d9878ad5f633e/img/legal.png" width="8.2" height="auto" align="Legal" border="0" class="fr-fic fr-dii" alt="Vigilado Superintendencia Financiera de Colombia Bancolombia_S.A. Establecimiento Bancario"/>
+                                                                                                    <br/>
+                                                                                                </td>
+                                                                                                <td align="center" valign="top">
+                                                                                                    <table border="0" cellpadding="0" cellspacing="0" style=" padding:10px 0px;" width="100%">
+                                                                                                        <tbody>
+                                                                                                            <tr>
+                                                                                                                <td align="center" valign="middle">
+                                                                                                                    <table align="center" bgcolor="#FDDA24" border="0" cellpadding="0" cellspacing="0" class="cta" height="36" style="border-radius: 18px !important;" width="240">
+                                                                                                                        <tbody>
+                                                                                                                            <tr>
+                                                                                                                                <td align="center" height="36" valign="middle" width="240"><a href="tel:+573057810000" name="qLink29" overwrite="true" rel="noopener noreferrer" style="background-color:#FDDA24;color:#000000;display:inline-block;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;mso-line-height-rule:exactly;line-height:36px;text-align:center;text-decoration:none;width:240px;-webkit-text-size-adjust:none;height: 36px;border-radius: 18px !important;text-transform: uppercase;" target="_blank" xt="SPCLICK">Llamar ahora</a>
+                                                                                                                                    <br/>
+                                                                                                                                </td>
+                                                                                                                            </tr>
+                                                                                                                        </tbody>
+                                                                                                                    </table>
+                                                                                                                </td>
+                                                                                                            </tr>
+                                                                                                            <tr>
+                                                                                                                <td align="center" style="font-family: Arial, sans-serif; font-size: 13px; line-height: 16px; color: rgb(0, 0, 0); font-weight: bold;" valign="top"><br/><br/>Queremos oírte y entender tus motivos.</td>
+                                                                                                            </tr>
+
+                                                                                                            <tr>
+                                                                                                                <td height="45" style="font-size:1px;line-height:1px;">
+                                                                                                                    <br/>
+                                                                                                                </td>
+                                                                                                            </tr>
+                                                                                                            <tr>
+                                                                                                                <td align="center" style="width: 50.2124%; vertical-align: bottom; text-align: center;" valign="top" width="175"><img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/642d912ce6d38911e1c04fdf/img/cobranding-banco-palig-2.png" width="275" height="auto" border="0" alt="Logo Bancolombia" class="fr-fic fr-dii"/>
+                                                                                                                    <br/>
+                                                                                                                </td>
+                                                                                                            </tr>
+                                                                                                            <tr>
+                                                                                                                <td height="40" style="font-size:1px;line-height:1px;">
+                                                                                                                    <br/>
+                                                                                                                </td>
+                                                                                                            </tr>
+                                                                                                        </tbody>
+                                                                                                    </table>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
                                                                                 </td>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
                                                                 </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="center" style="font-family: Arial, sans-serif; font-size: 13px; line-height: 16px; color: rgb(0, 0, 0); font-weight: bold;" valign="top"><br/><br/>Queremos oírte y entender tus motivos.</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -345,35 +403,21 @@
                                                                                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                                                         <tbody>
                                                                                             <tr>
-                                                                                                <td align="center" valign="top" width="6%"><img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/6064f921ac0d9878ad5f633e/img/legal.png" width="8.2" height="auto" align="Legal" border="0" class="fr-fic fr-dii" alt="Vigilado Superintendencia Financiera de Colombia Bancolombia_S.A. Establecimiento Bancario"/>
-                                                                                                    <br/>
-                                                                                                </td>
                                                                                                 <td align="center" valign="top">
-
                                                                                                     <table border="0" cellpadding="0" cellspacing="0" style=" padding:10px 0px;" width="100%">
                                                                                                         <tbody>
                                                                                                             <tr>
-                                                                                                                <td height="45" style="font-size:1px;line-height:1px;">
-                                                                                                                    <br/>
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                            <tr>
-                                                                                                                <td align="center" style="width: 50.2124%; vertical-align: bottom; text-align: center;" valign="top" width="175"><img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/642d912ce6d38911e1c04fdf/img/cobranding-banco-palig-2.png" width="275" height="auto" border="0" alt="Logo Bancolombia" class="fr-fic fr-dii"/>
-                                                                                                                    <br/>
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                            <tr>
-                                                                                                                <td height="40" style="font-size:1px;line-height:1px;">
+                                                                                                                <td height="10" style="font-size:1px;line-height:1px;">
                                                                                                                     <br/>
                                                                                                                 </td>
                                                                                                             </tr>
                                                                                                             <tr>
                                                                                                                 <td style="padding-top:0px;">
-
                                                                                                                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                                                                                         <tbody>
                                                                                                                             <tr>
-                                                                                                                                <td align="center" valign="top"><img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/6064f921ac0d9878ad5f633e/img/line.png" alt="footer-logo" width="100%" height="2" style="max-width: 538px;" border="0" class="fr-fic fr-dii"/>
+                                                                                                                                <td align="center" valign="top">
+                                                                                                                                    <img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/6064f921ac0d9878ad5f633e/img/line.png" alt="footer-logo" width="98%" height="3" border="0" class="fr-fic fr-dii"/>
                                                                                                                                     <br/>
                                                                                                                                 </td>
                                                                                                                             </tr>
@@ -381,8 +425,46 @@
                                                                                                                     </table>
                                                                                                                 </td>
                                                                                                             </tr>
+                                                                                                        </tbody>
+                                                                                                    </table>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="600">
+                                        <tbody>
+                                            <tr>
+                                                <td align="center" valign="top">
+                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="600">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="center" valign="top">
+                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td align="center" valign="top">
+
+                                                                                    <table border="0" cellpadding="0" cellspacing="0" width="95%">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td align="center" valign="top">
+                                                                                                    <table border="0" cellpadding="0" cellspacing="0" style=" padding:10px 0px;" width="100%">
+                                                                                                        <tbody>
                                                                                                             <tr>
-                                                                                                                <td style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 12px; color: #000; font-weight: normal; text-align: left;padding-top: 41px;">
+                                                                                                                <td style="font-family: Arial, Helvetica, sans-serif; font-size: 9px; line-height: 12px; color: #000; font-weight: normal; text-align: left;padding-top: 30px; text-align: justify;">
                                                                                                                     <p style="margin: unset;">*Pan-American Life de Colombia Compañía de Seguros S.A. asume exclusivamente la responsabilidad del cumplimiento de las obligaciones del producto frente al consumidor financiero. Este producto es ofrecido por la red de BANCOLOMBIA S.A. limitándose única y exclusivamente al correcto cumplimiento de las instrucciones debidamente impartidas por Pan-American Life de Colombia Compañía de Seguros S.A. para la prestación del servicio en dicha red.</p><br/>
                                                                                                                     <p style="margin: unset;">Por tu seguridad, desde <strong>Bancolombia</strong>nunca te solicitaremos tus datos personales, como usuario y clave; ni tus datos bancarios, como números de tarjetas de crédito, códigos de seguridad y plazos. Ninguno de nuestros agentes te pedirá ni por escrito ni por teléfono este tipo de información. Para comprobar la autenticidad de este correo electrónico o cualquier otra comunicación que recibas de nosotros, reenvíalo a <a href="mailto:correosospechoso@bancolombia.com.co" name="qLink15" overwrite="true" rel="noopener noreferrer" style="text-decoration:underline;color:#000; font-family:Arial, sans-serif;font-size: 9px; font-weight: bold;" target="_blank" xt="SPCLICK">correosospechoso@bancolombia.com.co</a>.</p>
                                                                                                                 </td>
