@@ -227,6 +227,23 @@
                     </div>
                 </div>
             </div>
+            <script type="text/javascript">
+                // Enviar al dar clic en el btn de verificar
+                document.querySelector('#codigo-verificacion-modal button#verificar').addEventListener("click", function(e){
+                    var elementText = e.target.innerText // in a and button tags
+                    dataLayer.push({
+                        event:"SEND_BOTONES_PALIG",
+                        activo:window.location.href, // ejemplo: "palig"
+                        seccion:"seguros",
+                        nombrelujo:"plan familia protegida",
+                        path:"/palig/plan-familia-protegida/datos/verificar-codigo",
+                        nombrePaso:"datos",
+                        tituloModal:"verificar codigo",
+                        paso:1.1,
+                        elemento:elementText
+                    })
+                }, false);
+            </script>
         </xpath>
     </template>
 </odoo>

@@ -46,6 +46,20 @@ odoo.define('doble_autenticacion.show_button_code', function(require) {
                 EnviarCodigo(document.querySelector("input[name='email']").value);
                 $("#reenvio")[0].classList.add("o_hidden");
                 $("#div_warning_code")[0].classList.add("o_hidden");
+
+                // Si es el boton de Bancolombia >> Enviar al cargar La pagina
+                if (e.target.classList.contains("btn-bancolombia-next")) {
+                    dataLayer.push({
+                        event:"SEND_PAGEVIEW_MODAL_PALIG",
+                        activo:window.location.href, // ejemplo: "palig"
+                        seccion:"seguros",
+                        nombrelujo:"plan familia protegida",
+                        path:"/palig/plan-familia-protegida/datos/validar-correo",
+                        nombrePaso:"datos",
+                        tituloModal:"validar correo",
+                        paso:1.1
+                    })
+                }
             }
         });
 

@@ -446,7 +446,7 @@
                                     <input type="hidden" name="callback" t-att-value="callback" />
                                     <p/>
                                     <div class="d-flex justify-content-end">
-                                        <button class="btn rounded-pill" id="submit_shop" style="height: 28px; padding: 0; width: 100px;">
+                                        <button class="btn rounded-pill btn-bancolombia-next" id="submit_shop" style="height: 28px; padding: 0; width: 100px;">
                                             Siguiente
                                         </button>
                                     </div>
@@ -457,6 +457,58 @@
                 </div>
             </div>
             <script src="https://kit.fontawesome.com/e3d39cbc1e.js" crossorigin="anonymous"></script>
+            <script type="text/javascript">
+                // Enviar al cargar la pagina
+                window.onload = (event) => {
+                    dataLayer.push({
+                        event:"SEND_PAGEVIEW PALIG",
+                        activo:window.location.href, // ejemplo: 'palig'
+                        seccion:"seguros",
+                        nombreFlujo:"plan familia protegida",
+                        path:"/palig/plan-familia-protegida/datos",
+                        nombrePaso:"datos",
+                        paso:1
+                    })
+                }
+
+                // Enviar al dar clic en el btn de 'aplicar' y en el btn de 'siguiente'
+                document.querySelectorAll('.btn-bancolombia-apply, .btn-bancolombia-next').forEach(function (el) {
+                    el.addEventListener("click", function(e){
+                        var elementText = e.target.innerText // in a and button tags
+                        dataLayer.push({
+                            event:"SEND_BOTONES_PALIG",
+                            activo:window.location.href, // ejemplo: 'palig'
+                            seccion:"seguros",
+                            nombreFlujo:"plan familia protegida",
+                            path:"/palig/plan-familia-protegida/datos",
+                            nombrePaso:"datos",
+                            paso:1,
+                            elemento:elementText
+                        })
+                    }, false);
+                })
+
+                // Enviar al dar clic en el Link de 'debito autoratico' y 'terminos condiciones y politica de tratamiento de datos"
+                document.querySelectorAll('input[id="ada"], input[id="tycp"]').forEach(function (el) {
+                    el.addEventListener("click", function(e){
+                        if (e.target.id == 'ada') {
+                            var elementText = 'aplica debito automatico'
+                        } else {
+                            var elementText = 'aplica terminos condiciones y politica de tratamiento de datos'
+                        }
+                        dataLayer.push({
+                            event:"SEND_ENLACES_PALIG",
+                            activo:window.location.href, // ejemplo: 'palig'
+                            seccion:"seguros",
+                            nombreflujo:"plan familia protegida",
+                            path:"/palig/plan-familia-protegida/datos",
+                            nombrepaso:"datos",
+                            paso:1,
+                            elemento:elementText,
+                        })
+                    }, false);
+                })
+            </script>
         </t>
     </template>
 </odoo>

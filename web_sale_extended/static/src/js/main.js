@@ -3153,7 +3153,23 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
             if($('#beneficiary').valid()){ //checks if it's valid
                 $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />Cargando...</div>');
                 $(this).prop('disabled', true);  
-           }
+            }
+
+            // Enviar al dar clic en el btn de "agregar beneficiario" y "generar orden de compra"
+            if (e.target.classList.contains("btn-bancolombia-beneficiaries")) {
+                var elementText = e.target.innerText // in a and button tags
+                dataLayer.push({
+                    event:"SEND_BOTONES_PALIG",
+                    activo:window.location.href, // ejemplo: 'palig'
+                    seccion:"seguros",
+                    nombreFlujo:"plan familia protegida",
+                    path:"/palig/plan-familia-protegida/asegurado",
+                    nombrePaso:"datos",
+                    paso:2,
+                    elemento:elementText
+                })
+            }
+
             $('#beneficiary').submit();
         });
     }

@@ -369,8 +369,8 @@
                             </div>
                         </div>
                     </div>
-                    <div id="beneficiaries_container"></div>
-                    <a class="btn rounded-pill btn_principal" id="submit_beneficiaries">Generar orden de compra</a>
+                    <div id="beneficiaries_container" class="container-bancolombia-beneficiaries"></div>
+                    <a class="btn rounded-pill btn_principal btn-bancolombia-beneficiaries" id="submit_beneficiaries">Generar orden de compra</a>
                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
                 </form>
                 <a t-if="beneficiaries_number != '' and beneficiaries_number != 0" class="btn rounded-pill btn_secundario" id="add_beneficiaries">Agregar beneficiario</a>
@@ -383,6 +383,35 @@
             </div>
             <br/><br/>
             <script src="https://kit.fontawesome.com/e3d39cbc1e.js" crossorigin="anonymous"></script>
+            <script type="text/javascript">
+                // Enviar al cargar la pagina
+                window.onload = (event) => {
+                    dataLayer.push({
+                        event:"SEND_PAGEVIEN_PALIG",
+                        activo:window.location.href, // ejemplo: 'palig'
+                        seccion:"seguros",
+                        nombreFlujo:"plan familia protegida",
+                        path:"/palig/plan-familia-protegida/asegurado",
+                        nombrePaso:"datos",
+                        paso:2
+                    })
+                }
+
+                // Enviar al dar clic en el btn de "agregar beneficiario" y "generar orden de compra"
+                document.querySelector('#add_beneficiaries').addEventListener("click", function(e){
+                    var elementText = e.target.innerText // in a and button tags
+                    dataLayer.push({
+                        event:"SEND_BOTONES_PALIG",
+                        activo:window.location.href, // ejemplo: 'palig'
+                        seccion:"seguros",
+                        nombreFlujo:"plan familia protegida",
+                        path:"/palig/plan-familia-protegida/asegurado",
+                        nombrePaso:"datos",
+                        paso:2,
+                        elemento:elementText
+                    })
+                }, false);
+            </script>
         </t>
     </template>
     <template id="bancolombia_confirmation_sale" name="Confirmacion venta bancolombia">
@@ -478,6 +507,20 @@
                     </div>
                 </div>
             </div>
+            <script type="text/javascript">
+                // Enviar al cargar la pagina
+                window.onload = (event) => {
+                    dataLayer.push({
+                        event:"SEND_PAGEVIEN_PALIG",
+                        activo:window.location.href, // ejemplo: 'palig'
+                        seccion:seguros",
+                        nombreFlujo:"plan familia protegida",
+                        path:"/palig/plan-familia-protegida/solicitud-exitosa",
+                        nombrePaso:"solicitud exitosa",
+                        paso:3
+                    })
+                }
+            </script>
         </t>
     </template>
 </odoo>
