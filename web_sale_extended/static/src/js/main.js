@@ -312,7 +312,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
            } else {
               return false;
            }
-        }, "debe tener 7 ó 10 digitos");
+        }, "debe tener 7 ó 10 dígitos");
         
 
         $.validator.addMethod("lettersonly", function(value, element) {
@@ -338,11 +338,11 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 }
             }
             return true;
-        }, "numero de documento invalido");
+        }, "número de documento invalido");
         
         $.validator.addMethod("email2", function(value, element) {
             return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i.test(value);
-        }, "deben contener caracteres validos");
+        }, "deben contener caracteres válidos");
 
         $.validator.addMethod("account_numbers_same", function(value, element) {
             let account_number = $("input[name='account_number']").val();
@@ -351,7 +351,7 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 return true;
             }
             return false;
-        }, "Los numeros de cuenta no son iguales");
+        }, "Los números de cuenta no son iguales");
 
         $("#shop").validate({
             errorPlacement: function( error, element ) {
@@ -570,23 +570,23 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 email: {
                     required: "Tu email es requerido",
                     maxlength: "Tu email no debe contener más de 50 caracteres",
-                    email: "Escribe un email valido",
-                    email2: "Escribe un email valido"
+                    email: "Escribe un email válido",
+                    email2: "Escribe un email válido"
                 },
                 phone: {
                     number: "Este campo solo es numérico",
-                    required: "Tu telefono es requerido",
-                    minlength: "Este campo debe tener 10 digitos",
-                    maxlength: "Este campo debe tener 10 digitos"
+                    required: "Tu teléfono es requerido",
+                    minlength: "Este campo debe tener 10 dígitos",
+                    maxlength: "Este campo debe tener 10 dígitos"
                 },
                 document: {
                     required: "Tu tipo de documento es requerido",
                 },
                 identification_document: {
-                    required: "Tu numero de documento es requerido",
+                    required: "Tu número de documento es requerido",
                     lettersnumberonly: "Solo números (y letras para pasaporte)",
-                    documentrange: "Numero de documento invalido",
-                    maxlength: "Cantidad de digitos maxima es de 11",
+                    documentrange: "Número de documento invalido",
+                    maxlength: "Cantidad de dígitos máxima es de 11",
                 },
                 street: {
                     required: "Tu dirección es requerida",
@@ -628,20 +628,20 @@ odoo.define('web_sale_extended.show_website_cities', function(require) {
                 },
                 account_number: {
                     required: "Es necesario que escribas tu número de cuenta",
-                    number: "Solo se permiten numeros",
+                    number: "Solo se permiten números",
                     minlength: "El número de cuenta debe tener 11 caracteres",
                     maxlength: "El número de cuenta debe tener 11 caracteres"
                 },
                 confirm_account_number: {
                     required: "Es necesario que escribas tu número de cuenta",
-                    number: "Solo se permiten numeros",
+                    number: "Solo se permiten números",
                     minlength: "El número de cuenta debe tener 11 caracteres",
                     maxlength: "El número de cuenta debe tener 11 caracteres"
                 },
                 birthdate_date: {
                     required: "Tu fecha de nacimiento es requerida",
                     min: "Fecha invalida",
-                    max: "Debes de ser  menor de 116 años para continuar"
+                    max: "Debes de ser menor de 116 años para continuar"
                 },
                 expedition_date: {
                     required: "Tu fecha de expedición es requerida",
@@ -1359,7 +1359,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
            } else {
               return false;
            }
-        }, "debe tener 10 digitos");
+        }, "debe tener 10 dígitos");
         
         $.validator.addMethod("formFijoLength", function (value, element) {
             let number = element.value;
@@ -1370,7 +1370,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
            } else {
               return false;
            }
-        }, "debe tener 7 digitos");
+        }, "debe tener 7 dígitos");
 
     $.validator.addMethod("formcomma", function(value, element) {
         let street = element.value;
@@ -1451,7 +1451,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     return true;
                 }
             }
-        }, "numero de documento invalido");
+        }, "número de documento invalido");
     $.validator.addMethod("documentrange1", function(value, element) {
             var document = $("select[name='bfdocument1']").val();
             if (document == '3') { //cédula de ciudadanía
@@ -1462,7 +1462,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 }
             }
             return true;
-        }, "numero de documento invalido");
+        }, "número de documento invalido");
     $.validator.addMethod("documentrange2", function(value, element) {
             var document = $("select[name='bfdocument2']").val();
             if (document == '3') { //cédula de ciudadanía
@@ -1473,7 +1473,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 }
             }
             return true;
-        }, "numero de documento invalido");
+        }, "número de documento invalido");
     $.validator.addMethod("documentrange3", function(value, element) {
             var document = $("select[name='bfdocument3']").val();
             if (document == '3') { //cédula de ciudadanía
@@ -1484,7 +1484,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 }
             }
             return true;
-        }, "numero de documento invalido");
+        }, "número de documento invalido");
     $.validator.addMethod("documentrange4", function(value, element) {
             var document = $("select[name='bfdocument4']").val();
             if (document == '3') { //cédula de ciudadanía
@@ -1495,7 +1495,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 }
             }
             return true;
-        }, "numero de documento invalido");
+        }, "número de documento invalido");
     $.validator.addMethod("documentrange5", function(value, element) {
             var document = $("select[name='bfdocument5']").val();
             if (document == '3') { //cédula de ciudadanía
@@ -1506,7 +1506,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 }
             }
             return true;
-        }, "numero de documento invalido");
+        }, "número de documento invalido");
     $.validator.addMethod("documentrange6", function(value, element) {
             var document = $("select[name='bfdocument6']").val();
             if (document == '3') { //cédula de ciudadanía
@@ -1517,7 +1517,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 }
             }
             return true;
-        }, "numero de documento invalido");
+        }, "número de documento invalido");
     
     $.validator.addMethod("uniquedocument1", function(value, element) {
             var numero_documento = $("input[name='numero_documento']").val();
@@ -1736,7 +1736,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
     
         $.validator.addMethod("email2", function(value, element) {
             return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i.test(value);
-        }, "deben contener caracteres validos");
+        }, "deben contener caracteres válidos");
 
         $.validator.addMethod("uniqueconyuge", function(value, element) {
             let values = [];
@@ -2598,20 +2598,20 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 },
                 email: {
                     required: "un email es requerido",
-                    maxlength: "el correo electronico no debe contener más de 50 caracteres",
-                    email2: "escribe un email valido",
-                    email: "escribe un email valido"
+                    maxlength: "el correo electrónico no debe contener más de 50 caracteres",
+                    email2: "escribe un email válido",
+                    email: "escribe un email válido"
                 },
                 phone: {
                     number: "este campo solo es numérico",
-                    required: "un telefono es requerido",                    
+                    required: "un teléfono es requerido",                    
                 },
                 ocupation: {
                     maxlength: "no puede contener más de 12 caracteres"
                 },
                 fijo: {
-                    minlength: "debe tener 7 digitos",
-                    maxlength: "debe tener 7 digitos"
+                    minlength: "debe tener 7 dígitos",
+                    maxlength: "debe tener 7 dígitos"
                 },
                 sex: {
                     required: "este campo es requerido",
@@ -2623,10 +2623,10 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "un estado civil es requerido",
                 },
                 numero_documento: {
-                    required: "un numero de documento es requerido",
-                    maxlength: "cantidad de digitos maxima es de 11",
+                    required: "un número de documento es requerido",
+                    maxlength: "cantidad de dígitos maxima es de 11",
                     lettersnumberonly0: "solo números (y letras para pasaporte)",
-                    documentrange: "numero de documento invalido",
+                    documentrange: "número de documento invalido",
                     uniquedocument: "número de documento repetido",
                 },
                 address: {
@@ -2649,7 +2649,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 date: {
                     required: "una fecha de nacimiento es requerido",
                     min: "fecha invalida",
-                    max: "debes de ser  menor de 69 años para continuar"
+                    max: "debes de ser menor de 69 años para continuar"
                 },
                 expedition_date: {
                     required: "tu fecha de expedición es requerido",
@@ -2678,20 +2678,20 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfemail1: {
                     required: "un email es requerido",
                     maxlength: "el correo electronico no debe contener más de 50 caracteres",
-                    email2: "escribe un email valido",
-                    email: "escribe un email valido"
+                    email2: "escribe un email válido",
+                    email: "escribe un email válido"
                 },
                 bfphone1: {
                     number: "este campo solo es numérico",
-                    required: "un telefono es requerido",
+                    required: "un teléfono es requerido",
                 },
                 bfocupacion1: {
                     maxlength: "no puede contener más de 50 caracteres"
                 },
                 bffijo1: {           
                     number: "este campo solo es numérico",
-                    minlength: "debe tener 7 digitos",
-                    maxlength: "debe tener 7 digitos"
+                    minlength: "debe tener 7 dígitos",
+                    maxlength: "debe tener 7 dígitos"
                 },
                 bfsex1: {
                     required: "este campo es requerido",
@@ -2703,10 +2703,10 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "un tipo de documento es requerido",
                 },
                 bfnumero_documento1: {
-                    required: "un numero de documento es requerido",
-                    maxlength: "cantidad de digitos maxima es de 11",
+                    required: "un número de documento es requerido",
+                    maxlength: "cantidad de dígitos maxima es de 11",
                     lettersnumberonly1: "solo números (y letras para pasaporte)",
-                    documentrange1: "numero de documento invalido",
+                    documentrange1: "número de documento invalido",
                     uniquedocument1: "número de documento repetido",
                 },
                 bfaddress1: {
@@ -2750,20 +2750,20 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfemail2: {
                     required: "un email es requerido",
                     maxlength: "el correo electronico no debe contener más de 50 caracteres",
-                    email2: "escribe un email valido",
-                    email: "escribe un email valido"
+                    email2: "escribe un email válido",
+                    email: "escribe un email válido"
                 },
                 bfphone2: {
                     number: "este campo solo es numérico",
-                    required: "un telefono es requerido",                    
+                    required: "un teléfono es requerido",                    
                 },
                 bfocupacion2: {
                     maxlength: "no puede contener más de 50 caracteres"
                 },
                 bffijo2: {
                     number: "este campo solo es numérico",
-                    minlength: "debe tener 7 digitos",
-                    maxlength: "debe tener 7 digitos"
+                    minlength: "debe tener 7 dígitos",
+                    maxlength: "debe tener 7 dígitos"
                 },
                 bfsex2: {
                     required: "este campo es requerido",
@@ -2775,10 +2775,10 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "un tipo de documento es requerido",
                 },
                 bfnumero_documento2: {
-                    required: "un numero de documento es requerido",
-                    maxlength: "cantidad de digitos maxima es de 11",
+                    required: "un número de documento es requerido",
+                    maxlength: "cantidad de dígitos maxima es de 11",
                     lettersnumberonly2: "solo números (y letras para pasaporte)",
-                    documentrange2: "numero de documento invalido",
+                    documentrange2: "número de documento invalido",
                     uniquedocument2: "número de documento repetido",
                 },
                 bfaddress2: {
@@ -2822,20 +2822,20 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfemail3: {
                     required: "tu email es requerido",
                     maxlength: "el correo electronico no debe contener más de 50 caracteres",
-                    email2: "Escribe un email valido",
-                    email: "escribe un email valido"
+                    email2: "Escribe un email válido",
+                    email: "escribe un email válido"
                 },
                 bfphone3: {
                     number: "este campo solo es numérico",
-                    required: "tu telefono es requerido", 
+                    required: "tu teléfono es requerido", 
                 },
                 bfocupacion3: {
                     maxlength: "no puede contener más de 50 caracteres"
                 },
                 bffijo3: {
                     number: "este campo solo es numérico",
-                    minlength: "debe tener 7 digitos",
-                    maxlength: "debe tener 7 digitos"
+                    minlength: "debe tener 7 dígitos",
+                    maxlength: "debe tener 7 dígitos"
                 },
                 bfsex3: {
                     required: "este campo es requerido",
@@ -2847,10 +2847,10 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "tu tipo de documento es requerido",
                 },
                 bfnumero_documento3: {
-                    required: "tu numero de documento es requerido",
-                    maxlength: "cantidad de digitos maxima es de 11",
+                    required: "tu número de documento es requerido",
+                    maxlength: "cantidad de dígitos maxima es de 11",
                     lettersnumberonly3: "solo números (y letras para pasaporte)",
-                    documentrange3: "numero de documento invalido",
+                    documentrange3: "número de documento invalido",
                     uniquedocument3: "número de documento repetido",
                 },
                 bfaddress3: {
@@ -2894,20 +2894,20 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfemail4: {
                     required: "tu email es requerido",
                     maxlength: "el correo electronico no debe contener más de 50 caracteres",
-                    email2: "Escribe un email valido",
-                    email: "escribe un email valido"
+                    email2: "Escribe un email válido",
+                    email: "escribe un email válido"
                 },
                 bfphone4: {
                     number: "este campo solo es numérico",
-                    required: "tu telefono es requerido",
+                    required: "tu teléfono es requerido",
                 },
                 bfocupacion4: {
                     maxlength: "no puede contener más de 50 caracteres"
                 },
                 bffijo4: {
                     number: "este campo solo es numérico",
-                    minlength: "debe tener 7 digitos",
-                    maxlength: "debe tener 7 digitos"
+                    minlength: "debe tener 7 dígitos",
+                    maxlength: "debe tener 7 dígitos"
                 },
                 bfsex4: {
                     required: "este campo es requerido",
@@ -2919,10 +2919,10 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "tu tipo de documento es requerido",
                 },
                 bfnumero_documento4: {
-                    required: "tu numero de documento es requerido",
-                    maxlength: "cantidad de digitos maxima es de 11",
+                    required: "tu número de documento es requerido",
+                    maxlength: "cantidad de dígitos maxima es de 11",
                     lettersnumberonly4: "solo números (y letras para pasaporte)",
-                    documentrange4: "numero de documento invalido",
+                    documentrange4: "número de documento invalido",
                     uniquedocument4: "número de documento repetido",
                 },
                 bfaddress4: {
@@ -2966,20 +2966,20 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfemail5: {
                     required: "tu email es requerido",
                     maxlength: "el correo electronico no debe contener más de 50 caracteres",
-                    email2: "Escribe un email valido",
-                    email: "escribe un email valido"
+                    email2: "Escribe un email válido",
+                    email: "escribe un email válido"
                 },
                 bfphone5: {
                     number: "este campo solo es numérico",
-                    required: "tu telefono es requerido", 
+                    required: "tu teléfono es requerido", 
                 },
                 bfocupacion5: {
                     maxlength: "no puede contener más de 50 caracteres"
                 },
                 bffijo5: {
                     number: "este campo solo es numérico",
-                    minlength: "debe tener 7 digitos",
-                    maxlength: "debe tener 7 digitos"
+                    minlength: "debe tener 7 dígitos",
+                    maxlength: "debe tener 7 dígitos"
                 },
                 bfsex5: {
                     required: "este campo es requerido",
@@ -2991,10 +2991,10 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "tu tipo de documento es requerido",
                 },
                 bfnumero_documento5: {
-                    required: "tu numero de documento es requerido",                    
-                    maxlength: "cantidad de digitos maxima es de 11",
+                    required: "tu número de documento es requerido",                    
+                    maxlength: "cantidad de dígitos maxima es de 11",
                     lettersnumberonly5: "solo números (y letras para pasaporte)",
-                    documentrange5: "numero de documento invalido",
+                    documentrange5: "número de documento invalido",
                     uniquedocument5: "número de documento repetido",
                 },
                 bfaddress5: {
@@ -3038,20 +3038,20 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                 bfemail6: {
                     required: "tu email es requerido",
                     maxlength: "el correo electronico no debe contener más de 50 caracteres",
-                    email2: "Escribe un email valido",
-                    email: "escribe un email valido"
+                    email2: "Escribe un email válido",
+                    email: "escribe un email válido"
                 },
                 bfphone6: {
                     number: "este campo solo es numérico",
-                    required: "tu telefono es requerido",
+                    required: "tu teléfono es requerido",
                 },
                 bfocupacion6: {
                     maxlength: "no puede contener más de 50 caracteres"
                 },
                 bffijo6: {
                     number: "este campo solo es numérico",
-                    minlength: "debe tener 7 digitos",
-                    maxlength: "debe tener 7 digitos"
+                    minlength: "debe tener 7 dígitos",
+                    maxlength: "debe tener 7 dígitos"
                 },
                 bfsex6: {
                     required: "este campo es requerido",
@@ -3063,10 +3063,10 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
                     required: "tu tipo de documento es requerido",
                 },
                 bfnumero_documento6: {
-                    required: "tu numero de documento es requerido",
-                    maxlength: "cantidad de digitos maxima es de 11",
+                    required: "tu número de documento es requerido",
+                    maxlength: "cantidad de dígitos maxima es de 11",
                     lettersnumberonly6: "solo números (y letras para pasaporte)",
-                    documentrange6: "numero de documento invalido",
+                    documentrange6: "número de documento invalido",
                     uniquedocument6: "número de documento repetido",
                 },
                 bfaddress6: {
@@ -3153,7 +3153,23 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
             if($('#beneficiary').valid()){ //checks if it's valid
                 $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />Cargando...</div>');
                 $(this).prop('disabled', true);  
-           }
+            }
+
+            // Enviar al dar clic en el btn de "agregar beneficiario" y "generar orden de compra"
+            if (e.target.classList.contains("btn-bancolombia-beneficiaries")) {
+                var elementText = e.target.innerText // in a and button tags
+                dataLayer.push({
+                    event:"SEND_BOTONES_PALIG",
+                    activo:window.location.href, // ejemplo: 'palig'
+                    seccion:"seguros",
+                    nombreFlujo:"plan familia protegida",
+                    path:"/palig/plan-familia-protegida/asegurado",
+                    nombrePaso:"datos",
+                    paso:2,
+                    elemento:elementText
+                })
+            }
+
             $('#beneficiary').submit();
         });
     }
@@ -3619,7 +3635,7 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 }
             }
             return true;
-        }, "numero de documento invalido");
+        }, "número de documento invalido");
         $.validator.addMethod("documentrange_cash", function(value, element) {
             var document = $("select[name='cash_partner_document']").val();
             if (document == 'CC') { //cédula de ciudadanía
@@ -3630,7 +3646,7 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 }
             }
             return true;
-        }, "numero de documento invalido");
+        }, "número de documento invalido");
         $.validator.addMethod("documentrange_pse", function(value, element) {
             var document = $("select[name='pse_partner_document']").val();
             if (document == 'CC') { //cédula de ciudadanía
@@ -3641,11 +3657,11 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 }
             }
             return true;
-        }, "numero de documento invalido");
+        }, "número de documento invalido");
         
         $.validator.addMethod("email2", function(value, element) {
             return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i.test(value);
-        }, "deben contener caracteres validos");
+        }, "deben contener caracteres válidos");
 
 
         $("#payulatam-payment-form").validate({
@@ -3722,15 +3738,15 @@ odoo.define('web_sale_extended.payment_process', function(require) {
             messages: {
                 credit_card_number: {
                     required: "tu número de tarjeta es requerido",
-                    minlength: "debe contener entre 13 y 16 digitos",
-                    maxlength: "debe contener entre 13 y 16 digitos"
+                    minlength: "debe contener entre 13 y 16 dígitos",
+                    maxlength: "debe contener entre 13 y 16 dígitos"
                 },
                 credit_card_code: {
                     required: "el código de seguridad es requerido",
-                    maxlength: "máximo 4 digitos"
+                    maxlength: "máximo 4 dígitos"
                 },
                 credit_card_quotes: {
-                    required: "seleccione el numero de cuotas",
+                    required: "seleccione el número de cuotas",
                 },
                 credit_card_name: {
                     required: "el nombre de tajeta es requerido",
@@ -3739,13 +3755,13 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                     //lettersonly: "debe contener solo letras"
                 },
                 credit_card_partner_phone: {
-                    required: "tu telefono es requerido",
-                    minlength: "debe tener 10 digitos",
-                    maxlength: "debe tener 10 digitos"
+                    required: "tu teléfono es requerido",
+                    minlength: "debe tener 10 dígitos",
+                    maxlength: "debe tener 10 dígitos"
 
                 },
                 credit_card_billing_email: {
-                    email2: "debe registrar un correo valido",
+                    email2: "debe registrar un correo válido",
                 },
                 credit_card_billing_firstname: {
                     required: "tu(s) nombre(s) es requerido",
@@ -3754,12 +3770,12 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                     required: "tu(s) apellido(s) es requerido",
                 },
                 credit_card_partner_document: {
-                    required: "tu numero de documento es requerido",
+                    required: "tu número de documento es requerido",
                     lettersnumberonly_creditcard: "solo números (y letras para pasaporte)",
-                    documentrange_caredit_card: "numero de documento invalido",
+                    documentrange_caredit_card: "número de documento invalido",
                 },
                 identification_document: {
-                    required: "tu numero de documento es requerido",
+                    required: "tu número de documento es requerido",
                 },
                 credit_card_partner_street: {
                     required: "tu dirección es requerida",
@@ -3841,14 +3857,14 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 cash_partner_document: {
                     required: "tu No. de documento es requerido",
                     lettersnumberonly_cash: "solo números (y letras para pasaporte)",
-                    documentrange_cash: "numero de documento invalido",
+                    documentrange_cash: "número de documento invalido",
                 },
                 cash_billing_email: {
                     required: "tu email es requerido",
-                    email2: "debe contener un correo valido"
+                    email2: "debe contener un correo válido"
                 },
                 cash_partner_phone: {
-                    required: "tu telefono es requerido",
+                    required: "tu teléfono es requerido",
                 },
                 cash_partner_street: {
                     required: "tu documento es requerido",
@@ -3938,16 +3954,16 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                 pse_partner_document: {
                     required: "tu No. de documento es requerido",
                     lettersnumberonly_pse: "solo números (y letras para pasaporte)",
-                    documentrange_pse: "numero de documento invalido",
+                    documentrange_pse: "número de documento invalido",
                 },
                 pse_billing_partner_document: {
                     required: "tu No. de documento es requerido",
                     lettersnumberonly_pse: "solo números (y letras para pasaporte)",
-                    documentrange_pse: "numero de documento invalido",
+                    documentrange_pse: "número de documento invalido",
                 },
                 pse_billing_email: {
                     required: "tu email es requerido",
-                    email2: "debe contener un correo valido"
+                    email2: "debe contener un correo válido"
                 },
                 pse_partner_street: {
                     required: "tu documento es requerido",
@@ -3955,7 +3971,7 @@ odoo.define('web_sale_extended.payment_process', function(require) {
                     maxlength: "tu dirección no puede tener más de 30 caracteres",
                 },
                 pse_partner_phone: {
-                    required: "tu telefono es requerido",
+                    required: "tu teléfono es requerido",
                 },
                 pse_country_id: {
                     required: "debes seleccionar un país",

@@ -267,29 +267,6 @@
                         <tbody>
                             <tr>
                                 <td align="center" valign="top">
-                                    <table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" class="table_100" style="max-width:600px; width:100%;background-color: #ffffff;" width="600">
-                                        <tbody>
-                                            <tr>
-                                                <td align="left" valign="top">
-                                                    <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td height="5" style="font-size:1px;line-height:1px;">&#160;</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" style="font-family: Arial, Helvetica, sans-serif; font-size: 6px; line-height: 9px; color: #DDDDDD; font-weight: normal;padding-left: 25px;">
-                                                                    Te falta poco, es rápido.<br/>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td height="5" style="font-size:1px;line-height:1px;">&#160;</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
                                     <table align="center" bgcolor="#2C2A29" border="0" cellpadding="0" cellspacing="0" class="table_100" style="max-width:600px; width:100%;background-color: #2C2A29;" width="600">
                                         <tbody>
                                             <tr>
@@ -302,9 +279,6 @@
                                                             <tr>
                                                                 <td align="left" style="padding-left: 15px;" valign="top" width="175">
                                                                     <img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/6064f921ac0d9878ad5f633e/img/header-logo.png" width="175" height="auto" border="0" alt="Logo Bancolombia" class="fr-fic fr-dii"/>
-                                                                    <div style="color: #ffffff; font-size: 0px; height: 0px">
-                                                                        Logo Bancolombia
-                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr>

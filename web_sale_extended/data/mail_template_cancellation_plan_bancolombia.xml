@@ -6,7 +6,7 @@
             <field name="model_id" ref="sale_subscription.model_sale_subscription" />
             <field name="email_from">Plan Familia Protegida CO &lt;${object.recurring_invoice_line_ids[0].product_id.categ_id.servidor_de_correo.smtp_user or user.email_formatted}&gt;</field>
             <field name="partner_to">${object.partner_id.id}</field>
-            <field name="subject">Tu plan fue cancelado bancolombia</field>
+            <field name="subject">Tu Plan Familia Protegida necesita tu atención</field>
             <field name="body_html" type="html">
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -91,7 +91,7 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #2d2d2d; border-bottom: 0 solid #171717; border-left: 0 solid #171717; border-right: 0px solid #171717; border-top: 0 solid #171717; color: #000; width: 600px; margin: 0 auto;" width="600">
+                                                <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #2d2d2d; color: #000; width: 600px; margin: 0 auto;" width="600">
                                                     <tbody>
                                                         <tr>
                                                             <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 10px; padding-left: 10px; padding-right: 10px; padding-top: 10px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
@@ -114,7 +114,7 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #fce300; border-bottom: 0 solid #171717; border-left: 0 solid #171717; border-right: 0px solid #171717; border-top: 0 solid #171717; color: #000; width: 600px; margin: 0 auto;" width="600">
+                                                <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #fce300; color: #000; width: 600px; margin: 0 auto;" width="600">
                                                     <tbody>
                                                         <tr>
                                                             <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">

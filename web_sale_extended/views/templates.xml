@@ -132,7 +132,7 @@
                                     <a href="#" role="button" class="btn btn-primary a-submit" style="background-color: #43b12e;">Aplicar</a>
                                 </t>
                                 <t t-elif="website_sale_order.main_product_id.categ_id.sponsor_id.id == 5521">
-                                    <a href="#" role="button" class="btn btn-primary a-submit" style="background-color: #FDDA24; color: black;">Aplicar</a>
+                                    <a href="#" role="button" class="btn btn-primary a-submit btn-bancolombia-apply" style="background-color: #FDDA24; color: black;">Aplicar</a>
                                 </t>
                                 <t t-else="">
                                     <a href="#" role="button" class="btn btn-primary a-submit">Aplicar</a>
