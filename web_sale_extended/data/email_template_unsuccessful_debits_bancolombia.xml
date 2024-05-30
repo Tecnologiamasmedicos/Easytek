@@ -529,6 +529,24 @@
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                    <table class="social_block block-5" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                                        <tr>
+                                                            <td class="pad">
+                                                                <div class="alignment" align="center">
+                                                                    <table class="social-table" width="216px" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block;">
+                                                                        <tr>
+                                                                            <td style="padding:0 2px 0 2px;"><a href="https://www.facebook.com/Bancolombia/?_rdc=1&amp;_rdr" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/t-only-logo-default-gray/facebook@2x.png" width="32" height="32" alt="Facebook" title="facebook" style="height: auto; display: block; border: 0;"/></a></td>
+                                                                            <td style="padding:0 2px 0 2px;"><a href="https://twitter.com/Bancolombia" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/t-only-logo-default-gray/twitter@2x.png" width="32" height="32" alt="Twitter" title="twitter" style="height: auto; display: block; border: 0;"/></a></td>
+                                                                            <td style="padding:0 2px 0 2px;"><a href="https://www.linkedin.com/company/bancolombia/" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/t-only-logo-default-gray/linkedin@2x.png" width="32" height="32" alt="Linkedin" title="linkedin" style="height: auto; display: block; border: 0;"/></a></td>
+                                                                            <td style="padding:0 2px 0 2px;"><a href="https://www.instagram.com/bancolombia/" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/t-only-logo-default-gray/instagram@2x.png" width="32" height="32" alt="Instagram" title="instagram" style="height: auto; display: block; border: 0;"/></a></td>
+                                                                            <td style="padding:0 2px 0 2px;"><a href="https://www.youtube.com/user/GrupoBancolombia" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/t-only-logo-default-gray/youtube@2x.png" width="32" height="32" alt="YouTube" title="YouTube" style="height: auto; display: block; border: 0;"/></a></td>
+                                                                            <td style="padding:0 2px 0 2px;"><a href="https://api.whatsapp.com/send/?phone=573013536788&amp;text&amp;app_absent=0" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/t-only-logo-default-gray/whatsapp@2x.png" width="32" height="32" alt="WhatsApp" title="WhatsApp" style="height: auto; display: block; border: 0;"/></a></td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
                                                 </td>
                                             </tr>
                                         </tbody>
