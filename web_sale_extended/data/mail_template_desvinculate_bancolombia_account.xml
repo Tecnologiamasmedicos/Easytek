@@ -316,57 +316,26 @@
                                     <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="600">
                                         <tbody>
                                             <tr>
-                                                <td align="center" valign="top">
-                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="600">
+                                                <td align="center" valign="middle">
+                                                    <table align="center" bgcolor="#FDDA24" border="0" cellpadding="0" cellspacing="0" class="cta" height="36" style="border-radius: 18px !important;" width="240">
                                                         <tbody>
                                                             <tr>
-                                                                <td align="center" valign="top">
-                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td align="center" valign="top">
-                                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                                                        <tbody>
-                                                                                            <tr>
-                                                                                                <td align="center" valign="top">
-                                                                                                    <table border="0" cellpadding="0" cellspacing="0" style=" padding:10px 0px;" width="100%">
-                                                                                                        <tbody>
-                                                                                                            <tr>
-                                                                                                                <td align="center" valign="middle">
-                                                                                                                    <table align="center" bgcolor="#FDDA24" border="0" cellpadding="0" cellspacing="0" class="cta" height="36" style="border-radius: 18px !important;" width="240">
-                                                                                                                        <tbody>
-                                                                                                                            <tr>
-                                                                                                                                <td align="center" height="36" valign="middle" width="240"><a href="tel:+573057810000" name="qLink29" overwrite="true" rel="noopener noreferrer" style="background-color:#FDDA24;color:#000000;display:inline-block;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;mso-line-height-rule:exactly;line-height:36px;text-align:center;text-decoration:none;width:240px;-webkit-text-size-adjust:none;height: 36px;border-radius: 18px !important;text-transform: uppercase;" target="_blank" xt="SPCLICK">Llamar ahora</a>
-                                                                                                                                    <br/>
-                                                                                                                                </td>
-                                                                                                                            </tr>
-                                                                                                                        </tbody>
-                                                                                                                    </table>
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                            <tr>
-                                                                                                                <td align="center" style="font-family: Arial, sans-serif; font-size: 13px; line-height: 16px; color: rgb(0, 0, 0); font-weight: bold;" valign="top"><br/><br/>Queremos oírte y entender tus motivos.</td>
-                                                                                                            </tr>
-                                                                                                        </tbody>
-                                                                                                    </table>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td align="center" valign="bottom" width="100%">
-                                                                                                    <img src="https://cdngeneral.blob.core.windows.net/files/Cobranding-bancolombia-mails-2.png" width="100%" height="auto" border="0" alt="Logo Bancolombia" class="fr-fic fr-dii"/>
-                                                                                                    <br/>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
+                                                                <td align="center" height="36" valign="middle" width="240">
+                                                                    <a href="tel:+573057810000" name="qLink29" overwrite="true" rel="noopener noreferrer" style="background-color:#FDDA24;color:#000000;display:inline-block;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;mso-line-height-rule:exactly;line-height:36px;text-align:center;text-decoration:none;width:240px;-webkit-text-size-adjust:none;height: 36px;border-radius: 18px !important;text-transform: uppercase;" target="_blank" xt="SPCLICK">Llamar ahora</a>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center" style="font-family: Arial, sans-serif; font-size: 13px; line-height: 16px; color: rgb(0, 0, 0); font-weight: bold;" valign="top">
+                                                    <br/><br/>Queremos oírte y entender tus motivos.
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center" valign="bottom" width="100%">
+                                                    <img src="https://cdngeneral.blob.core.windows.net/files/Cobranding-bancolombia-mails-2.png" width="100%" height="auto" border="0" alt="Logo Bancolombia" class="fr-fic fr-dii"/>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -375,51 +344,17 @@
                                     <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="600">
                                         <tbody>
                                             <tr>
-                                                <td align="center" valign="top">
-                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="600">
+                                                <td height="4" style="font-size:1px;line-height:1px;">
+                                                    <br/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-top:0px;">
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                         <tbody>
                                                             <tr>
                                                                 <td align="center" valign="top">
-                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td align="center" valign="top">
-
-                                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                                                        <tbody>
-                                                                                            <tr>
-                                                                                                <td align="center" valign="top">
-                                                                                                    <table border="0" cellpadding="0" cellspacing="0" style=" padding:10px 0px;" width="100%">
-                                                                                                        <tbody>
-                                                                                                            <tr>
-                                                                                                                <td height="10" style="font-size:1px;line-height:1px;">
-                                                                                                                    <br/>
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                            <tr>
-                                                                                                                <td style="padding-top:0px;">
-                                                                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                                                                                        <tbody>
-                                                                                                                            <tr>
-                                                                                                                                <td align="center" valign="top">
-                                                                                                                                    <img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/6064f921ac0d9878ad5f633e/img/line.png" alt="footer-logo" width="98%" height="3" border="0" class="fr-fic fr-dii"/>
-                                                                                                                                    <br/>
-                                                                                                                                </td>
-                                                                                                                            </tr>
-                                                                                                                        </tbody>
-                                                                                                                    </table>
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                        </tbody>
-                                                                                                    </table>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
+                                                                    <img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/6064f921ac0d9878ad5f633e/img/line.png" alt="footer-logo" width="98%" height="3" border="0" class="fr-fic fr-dii"/>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
