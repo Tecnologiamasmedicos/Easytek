@@ -8,82 +8,223 @@
             <field name="partner_to">${object.partner_id.id}</field>
             <field name="subject">Tu solicitud de compra de Plan Familia Protegida presenta inconsistencias</field>
             <field name="body_html" type="html">
-                <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-                <style>
-                    * {
-                        box-sizing: border-box;
+                <!-- <title>Fluid Grid Master</title> -->
+                <style type="text/css">
+                    /* Outlines the grid, remove when sending */
+                                
+                    table td {
                     }
-
-                    body {
-                        margin: 0;
-                        padding: 0;
-                        text-size-adjust: none;
-                        background-color: #fff;
+                    /* CLIENT-SPECIFIC STYLES */
+                                
+                    body, table, td, a {
+                        -webkit-text-size-adjust: 100%;
+                        -ms-text-size-adjust: 100%;
                     }
-
-                    a[x-apple-data-detectors] {
-                        color: inherit !important;
-                        text-decoration: inherit !important;
+                    table, td {
+                        mso-table-lspace: 0pt;
+                        mso-table-rspace: 0pt;
                     }
-
-                    #MessageViewBody a {
-                        color: inherit;
+                    img {
+                        -ms-interpolation-mode: bicubic;
+                    }
+                    /* RESET STYLES */
+                                
+                    img {
+                        border: 0;
+                        outline: none;
                         text-decoration: none;
                     }
-
-                    p {
-                        line-height: inherit
+                    table {
+                        border-spacing: 0 !important;
+                        border-collapse: collapse !important;
+                        table-layout: fixed !important;
+                        margin: 0 auto !important;
+                    }
+                    table table table {
+                        table-layout: auto;
+                    }
+                    table {
+                    /*border-collapse: collapse !important;*/
+                    }
+                    body {
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        width: 100% !important;
+                    }
+                    /* iOS BLUE images */
+                                
+                    a[x-apple-data-detectors] {
+                        color: inherit !important;
+                        text-decoration: none !important;
+                        font-size: inherit !important;
+                        font-family: inherit !important;
+                        font-weight: inherit !important;
+                        line-height: inherit !important;
+                    }
+                    /* ANDROID CENTER FIX */ div[style*="margin: 16px 0;"] {
+                        margin: 0 !important;
                     }
 
-                    .desktop_hide,
-                    .desktop_hide table {
-                        mso-hide: all;
-                        display: none;
-                        max-height: 0px;
-                        overflow: hidden;
-                    }
-
-                    .image_block img+div {
-                        display: none;
-                    }
-
-                    @media (max-width:620px) {
-                        .image_block img.fullWidth {
-                            max-width: 100% !important;
+                    @media screen and (max-width: 600px) {
+                        .banner {
+                            width: 100% !important;
+                            height: auto !important;
                         }
-
-                        .social_block.desktop_hide .social-table {
-                            display: inline-block !important;
-                        }
-
-                        .row-content {
+                        .table-container {
                             width: 100% !important;
                         }
-
-                        .stack .column {
-                            width: 100%;
-                            display: block;
+                        .mobile-space {
+                            width: 15px !important;
                         }
-
-                        .mobile_hide {
-                            max-width: 0;
-                            min-height: 0;
-                            max-height: 0;
-                            font-size: 0;
-                            display: none;
-                            overflow: hidden;
+                        .mobile-space-2 {
+                            width: 0px !important;
                         }
-
-                        .desktop_hide,
-                        .desktop_hide table {
-                            max-height: none !important;
-                            display: table !important;
+                        .content-row {
+                            display: inline-block;
                         }
+                        .table_100 {
+                            width: 100% !important;
+                        }
+                        .table_85 {
+                            width: 85% !important;
+                        }
+                        .hide_mobile {
+                            display: none !important;
+                        }
+                        .text-yellow {
+                            font-size: 25px !important;
+                            line-height: 28px !important;
+                        }
+                        .text-white {
+                            font-size: 20px !important;
+                            line-height: 23px !important;
+                        }
+                        /*.td-width {
+                            width: 65px !important;
+                            }
+                            .td-width-space {
+                            width: 15px !important;
+                            }*/
+                        .mobile_height {
+                            height: 10px !important;
+                        }
+                        .align_center {
+                            text-align: center !important;
+                        }
+                        .cta_mobile {
+                            width: 200px !important;
+                        }
+                        .blue_text {
+                            font-size: 13px !important;
+                            padding: 10px 5px !important;
+                        }
+                        .text-yellow1 {
+                            font-size: 17px !important;
+                            line-height: 20px !important;
+                        }
+                    }
 
-                        .row-9 .column-1 .block-1.image_block td.pad {
-                            padding: 0 35px 0 10px !important;
+                    @media screen and (max-width: 480px) {
+                        .banner {
+                            width: 100% !important;
+                            height: auto !important;
+                        }
+                        .table-container {
+                            width: 100% !important;
+                        }
+                        .mobile-space {
+                            width: 15px !important;
+                        }
+                        .mobile-space-2 {
+                            width: 0px !important;
+                        }
+                        .content-row {
+                            display: inline-block;
+                        }
+                        .table_100 {
+                            width: 100% !important;
+                        }
+                        .table_85 {
+                            width: 85% !important;
+                        }
+                        .hide_mobile {
+                            display: none !important;
+                        }
+                        .text-yellow {
+                            font-size: 25px !important;
+                            line-height: 28px !important;
+                        }
+                        .text-white {
+                            font-size: 20px !important;
+                            line-height: 23px !important;
+                        }
+                        .td-width {
+                            width: 65px !important;
+                        }
+                        .td-width-space {
+                            width: 15px !important;
+                        }
+                        .mobile_height {
+                            height: 10px !important;
+                        }
+                        .align_center {
+                            text-align: center !important;
+                        }
+                        .cta_mobile {
+                            width: 200px !important;
+                        }
+                        .blue_text {
+                            font-size: 13px !important;
+                            padding: 10px 5px !important;
+                        }
+                        .text-yellow1 {
+                            font-size: 13.5px !important;
+                            line-height: 16.5px !important;
+                        }
+                    }
+
+                    /* Media Queries */
+                                
+                    @media screen and (max-width: 600px) {
+                        .email-container {
+                            width: 100% !important;
+                        }
+                        /* What it does: Forces elements to resize to the full width of their container. Useful for resizing images beyond their max-width. */
+                        .fluid, .fluid-centered {
+                            max-width: 100% !important;
+                            height: auto !important;
+                            margin-left: auto !important;
+                            margin-right: auto !important;
+                        }
+                        /* And center justify these ones. */
+                        .fluid-centered {
+                            margin-left: auto !important;
+                            margin-right: auto !important;
+                        }
+                        /* What it does: Forces table cells into full-width rows. */
+                        .stack-column, .stack-column-center {
+                            display: block !important;
+                            width: 100% !important;
+                            max-width: 100% !important;
+                            direction: ltr !important;
+                        }
+                        /* And center justify these ones. */
+                        .stack-column-center {
+                            text-align: center !important;
+                        }
+                        /* What it does: Generic utility class for centering. Useful for images, buttons, and nested tables. */
+                        .center-on-narrow {
+                            text-align: center !important;
+                            display: block !important;
+                            margin-left: auto !important;
+                            margin-right: auto !important;
+                            float: none !important;
+                        }
+                        table.center-on-narrow {
+                            display: inline-block !important;
                         }
                     }
                 </style>
@@ -124,9 +265,279 @@
                                                             <tr>
                                                                 <td bgcolor="#FDDA24" height="4" style="font-size:1px; line-height:1px;">&#160;</td>
                                                             </tr>
+                                                            <!-- Two Even Columns : BEGIN -->
+                                                            <tr>
+                                                                <td align="center" valign="top" style="padding: 0px;">
+                                                                    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                                                        <tr>
+                                                                            <th class="stack-column-center">
+                                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                                    <tr>
+                                                                                        <td>&#160;</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td align="left" style="font-family:Arial, sans-serif;font-size:24px;line-height:27px;color:#000000;font-weight: normal; padding: 5px 20px 5px 30px;" valign="top">
+                                                                                            <p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 19.2px;">
+                                                                                                <span style="color:#000000;font-size:26px;"><strong><span>Estamos para ti </span></strong><span>y queremos que continúes con tu compra de</span><strong><span> Plan Familia Protegida</span></strong></span>
+                                                                                            </p>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td>&#160;</td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </th>
+                                                                            <th class="stack-column-center">
+                                                                                <table cellspacing="0" cellpadding="0" border="0">
+                                                                                    <tr>
+                                                                                        <td style="padding: 0px; text-align: center">
+                                                                                            <img src="https://cdngeneral.blob.core.windows.net/files/MM-banner-02-Bancolombia.jpg" width="295" alt="Silvia tiene cara de sorpresa, porque algo salió mal en su registro del Seguro Familia Protegida." border="0" class="fluid"/>
+                                                                                            <div style="color: #ffffff; font-size: 0px; height: 1px">Silvia tiene cara de sorpresa, porque algo salió mal en su registro del Seguro Familia Protegida.</div>
+                                                                                            <!-- <div class="alignment" align="center" style="line-height:10px"><img class="fullWidth" src="https://cdngeneral.blob.core.windows.net/files/MM-banner-02-Bancolombia.jpg" style="height: auto; display: block; border: 0; max-width: 295px; width: 100%;" width="295" alt="I'm an image" title="I'm an image"/></div> -->
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </th>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                            <!-- Two Even Columns : END -->
                                                         </tbody>
                                                     </table>
                                                 </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="100%">
+                                        <tbody>
+                                            <tr>
+                                                <td align="center" valign="top">
+                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" class="table_95" width="90%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td height="38" style="font-size:1px;line-height:1px;">&#160;</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal;" valign="top">
+                                                                    <div style="font-size: 12px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 14.399999999999999px; color: #2c2a29; line-height: 1.2;">
+                                                                        <p style="text-align: justify;">Hola <strong>${object.partner_id.name}</strong></p>
+                                                                        <p style="text-align: justify;">Recibimos tu solicitud de compra de <strong>Plan Familia Protegida</strong>. Confirma tu información para activar y cobrar tu póliza, ya que presenta inconsistencias.</p>
+                                                                        <p style="text-align: justify;">Uno de nuestros asesores ha intentado comunicarse contigo para apoyarte con la finalización del proceso, para que puedas disfrutar de todos los beneficios que este producto tiene para ti.</p>
+                                                                        <p style="text-align: justify;">Te invitamos a comunicarte a la línea <strong>3057810000</strong> para finalizar tu proceso.</p>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="center" style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal; background-color: #ffffff">&#160;</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="center" style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal; background-color: #ffffff">&#160;</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="center" style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal; background-color: #ffffff">                                                                                            <!-- Button : BEGIN -->
+                                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 260px;" width="260">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td align="center" bgcolor="#fdda24" height="38" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: rgb(0, 0, 0); font-weight: bold; text-decoration: none; border-radius: 50px;" valign="middle">
+                                                                                    <a href="${object.generate_link_update_bancolombia_account(object.id)}" name="mail" overwrite="true" style="font-family:Arial, Helvetica, sans-serif;font-size:14px;color:#000000;font-weight:bold;display:block;text-decoration:none;" target="_blank" xt="SPCLICK">
+                                                                                        <span style="color: rgb(0, 0, 0);">HAZLO AQUÍ</span>
+                                                                                    </a>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="center" style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal; background-color: #ffffff">&#160;</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>&#160;</td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>
+                                                                    <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; background-color: #f5b6cd; border-radius: 13px; width: 100%; margin: 0 auto;" width="600">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="column column-1" width="25%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: left; font-weight: 400; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                                                                    <table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                                                                        <tr>
+                                                                                            <td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
+                                                                                                <div class="alignment" align="center" style="line-height:10px"><img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/6414bfedb28db76b927786a4/img/icono_telefono_fp.png" style="height: auto; display: block; border: 0; max-width: 45px; width: 100%;" width="45" alt="I'm an image" title="I'm an image"/></div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                                <td class="column column-2" width="75%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: left; font-weight: 400; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                                                                    <table class="text_block block-1" width="100%" border="0" cellpadding="15" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                                                                        <tr>
+                                                                                            <td class="pad">
+                                                                                                <div style="font-family: sans-serif">
+                                                                                                    <div style="font-size: 12px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 18px; color: #2c2a29; line-height: 1.5;">
+                                                                                                        <p style="margin: 0; text-align: justify; mso-line-height-alt: 18px;"><span style="color:#000000;"><strong>Información importante</strong></span></p>
+                                                                                                        <p style="margin: 0; text-align: justify; mso-line-height-alt: 18px;"><span style="color:#000000;">Tienes<strong> 10 días hábiles</strong> para comunicarte con nosotros y confirmar tu información para que valides que estás interesado en adquirir el producto.</span></p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>&#160;</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; background-color: #59cbe8; border-radius: 13px; width: 100%; margin: 0 auto;" width="600">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: left; font-weight: 400; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                                                                    <table class="text_block block-1" width="100%" border="0" cellpadding="5" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                                                                        <tr>
+                                                                                            <td class="pad">
+                                                                                                <div style="font-family: sans-serif">
+                                                                                                    <div style="font-size: 12px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 24px; color: #2c2a29; line-height: 2;">
+                                                                                                        <p style="margin: 0; text-align: center; mso-line-height-alt: 24px;"><strong><span style="color:#000000;">Juntos protegemos</span><span style="color:#000000;"> lo que más quieres.</span></strong></p>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>&#160;</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <!-- Footer -->
+                                    <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="600">
+                                        <tbody>
+                                            <tr>
+                                                <td align="center" valign="top">
+                                                    <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="600">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td align="center" valign="top">
+                                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="600">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td align="center" valign="top">
+                                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td align="center" valign="top">
+                                                                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                                                                        <tbody>
+                                                                                                            <tr>
+                                                                                                                <td align="center" valign="top">
+                                                                                                                    <table border="0" cellpadding="0" cellspacing="0" style=" padding:10px 0px;" width="100%">
+                                                                                                                        <tbody>
+                                                                                                                            <tr></tr>
+                                                                                                                            <tr>
+                                                                                                                                <td height="45" style="font-size:1px;line-height:1px;"> &#160;</td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
+                                                                                                                                    <div class="alignment" align="left" style="line-height:10px"><img class="fullWidth" src="https://cdngeneral.blob.core.windows.net/files/Cobranding-bancolombia-mails-2.png" style="height: auto; display: block; border: 0; max-width: 600px; width: 100%;" width="600" alt="Una Alianza de Bancolombia y Pan American Life de Colombia" title="Una Alianza de Bancolombia y Pan American Life de Colombia"/></div>
+                                                                                                                                </td>
+                                                                                                                            </tr>
+                                                                                                                            <tr>
+                                                                                                                                <td height="10" style="font-size:1px;line-height:1px;">
+                                                                                                                                    &#160;
+                                                                                                                                </td>
+                                                                                                                            </tr>
+                                                                                                                        </tbody>
+                                                                                                                    </table>
+                                                                                                                </td>
+                                                                                                                <td width="5%">&#160;</td>
+                                                                                                            </tr>
+                                                                                                        </tbody>
+                                                                                                    </table>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="600">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="pad">
+                                                                    <div class="alignment" align="center">
+                                                                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                                                            <tr>
+                                                                                <td class="divider_inner" style="font-size: 1px; line-height: 1px; border-top: 4px solid #fdda24;"><span>&#8202;</span></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <table class="text_block block-4" width="100%" border="0" cellpadding="10" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                                        <tr>
+                                                            <td class="pad">
+                                                                <div style="font-family: sans-serif;">
+                                                                    <div style="font-size: 12px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 14.399999999999999px; color: #2c2a29; line-height: 1.2;">
+                                                                        <p style="margin: 0; font-size: 10px; text-align: justify; mso-line-height-alt: 12px;"><span style="font-size:10px;">*<strong>Pan-American Life de Colombia Compañía de Seguros S.A.</strong> asume exclusivamente la responsabilidad del cumplimiento de las obligaciones del producto frente al consumidor financiero. Este producto es ofrecido por la red de <strong>BANCOLOMBIA S.A.</strong> limitándose única y exclusivamente al correcto cumplimiento de las instrucciones debidamente impartidas por <strong>Pan-American Life de Colombia Compañía de Seguros S.A.</strong> para la prestación del servicio en dicha red.</span></p>
+                                                                        <p style="margin: 0; font-size: 10px; text-align: justify; mso-line-height-alt: 14.399999999999999px;">&#160;</p>
+                                                                        <p style="margin: 0; font-size: 10px; text-align: justify; mso-line-height-alt: 12px;"><span style="font-size:10px;"><strong>Bancolombia </strong>nunca te pedirá datos financieros como usuarios, claves, números de tarjetas de crédito con sus códigos de seguridad y fechas de vencimiento mediante vínculos de correo electrónico o llamadas telefónicas. Para verificar la autenticidad de este correo electrónico puedes reenviarlo a <strong><a href="mailto:correosospechoso@bancolombia.com.co" name="qLink14" overwrite="true" rel="noopener noreferrer" style="text-decoration:underline;color:#000; font-family:Arial, sans-serif;font-size: 9px; font-weight: bold;" target="_blank" xt="SPCLICK">correosospechoso@bancolombia.com.co</a>.</strong></span></p>
+                                                                        <p style="margin: 0; font-size: 10px; text-align: justify; mso-line-height-alt: 14.399999999999999px;">&#160;</p>
+                                                                        <p style="margin: 0; font-size: 10px; text-align: justify; mso-line-height-alt: 12px;"><span style="font-size:10px;">Si tienes alguna inquietud puedes contactarnos en nuestras líneas de atención telefónica:</span></p>
+                                                                        <p style="margin: 0; font-size: 10px; text-align: justify; mso-line-height-alt: 14.399999999999999px;">&#160;</p>
+                                                                        <p style="margin: 0; font-size: 10px; text-align: justify; mso-line-height-alt: 12px;">
+                                                                            <span style="font-size:10px;">
+                                                                                Bogotá
+                                                                                <a href="tel:(601)%20343%200000" name="qLink13" overwrite="true" rel="noopener noreferrer" style="color: #000000; font-weight: bold; text-decoration: none;" target="_blank" xt="SPCLICK">(601) 343 0000</a>,
+                                                                                Medellín
+                                                                                <a href="tel:(604)%20510%209000" name="qLink12" overwrite="true" rel="noopener noreferrer" style="color: #000000; font-weight: bold; text-decoration: none;" target="_blank" xt="SPCLICK">(604) 510 9000</a>,
+                                                                                Cali
+                                                                                <a href="tel:(602)%20554%200505" name="qLink11" overwrite="true" rel="noopener noreferrer" style="color: #000000; font-weight: bold; text-decoration: none;" target="_blank" xt="SPCLICK">(602) 554 0505</a>,
+                                                                                Barranquilla
+                                                                                <a href="tel:(605)%20361%208888" name="qLink10" overwrite="true" rel="noopener noreferrer" style="color: #000000; font-weight: bold; text-decoration: none;" target="_blank" xt="SPCLICK">(605) 361 8888</a>,
+                                                                                Bucaramanga
+                                                                                <a href="tel:(607)%20697%202525" name="qLink9" overwrite="true" rel="noopener noreferrer" style="color: #000000; font-weight: bold; text-decoration: none;" target="_blank" xt="SPCLICK">(607) 697 2525</a>,
+                                                                                Cartagena
+                                                                                <a href="tel:(605)%20693%204400" name="qLink8" overwrite="true" rel="noopener noreferrer" style="color: #000000; font-weight: bold; text-decoration: none;" target="_blank" xt="SPCLICK">(605) 693 4400</a>,
+                                                                                Resto del país
+                                                                                <a href="tel:018000912345" name="qLink7" overwrite="true" rel="noopener noreferrer" style="color: #000000; font-weight: bold; text-decoration: none;" target="_blank" xt="SPCLICK">018000912345</a>
+                                                                                Sede principal Cra. 48 Nro. 26-85 Torre Norte. Medellín - Colombia
+                                                                            </span>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;" width="100%">
+                                        <tbody>
+                                            <tr>
+                                                <td align="center" valign="top">&#160;</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -135,315 +546,6 @@
                         </tbody>
                     </table>
                 </div>
-                <table class="nl-container" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #fff;">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <table class="row row-1" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; background-color: #2d2d2d; width: 600px; margin: 0 auto;" width="600">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: left; font-weight: 400; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
-                                                                <table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                                                    <tr>
-                                                                        <td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
-                                                                            <div class="alignment" align="left" style="line-height:10px"><img src="https://cdngeneral.blob.core.windows.net/files/BC_logotipo_horizontal_negativo.png" style="height: auto; display: block; border: 0; max-width: 177px; width: 100%;" width="177"/></div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="row row-2" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; background-color: #fce300; width: 600px; margin: 0 auto;" width="600">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: left; font-weight: 400; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
-                                                                <div class="spacer_block block-1" style="height:4px;line-height:4px;font-size:1px;">&#8202;</div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="row row-3" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; width: 600px; margin: 0 auto;" width="600">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="column column-1" width="50%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: left; font-weight: 400; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
-                                                                <table class="text_block block-1" width="100%" border="0" cellpadding="30" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
-                                                                    <tr>
-                                                                        <td class="pad">
-                                                                            <div style="font-family: Arial, sans-serif">
-                                                                                <div style="font-size: 12px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; mso-line-height-alt: 14.399999999999999px; color: #555555; line-height: 1.2;">
-                                                                                    <p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 19.2px;"><span style="color:#000000;font-size:26px;"><strong><span>Estamos para ti </span></strong><span>y queremos que continúes con tu compra de</span><strong><span> Plan Familia Protegida</span></strong></span>s</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                            <td class="column column-2" width="50%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: left; font-weight: 400; padding-right: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
-                                                                <table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                                                    <tr>
-                                                                        <td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
-                                                                            <div class="alignment" align="center" style="line-height:10px"><img class="fullWidth" src="https://cdngeneral.blob.core.windows.net/files/MM-banner-02-Bancolombia.jpg" style="height: auto; display: block; border: 0; max-width: 295px; width: 100%;" width="295" alt="I'm an image" title="I'm an image"/></div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="row row-4" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; width: 600px; margin: 0 auto;" width="600">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: left; font-weight: 400; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
-                                                                <table class="text_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
-                                                                    <tr>
-                                                                        <td class="pad" style="padding-left:10px;padding-right:10px;padding-top:10px;">
-                                                                            <div style="font-family: sans-serif">
-                                                                                <div style="font-size: 12px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 14.399999999999999px; color: #2c2a29; line-height: 1.2;">
-                                                                                    <p style="margin: 0; text-align: justify; mso-line-height-alt: 14.399999999999999px;"><span style="color:#000000;">Hola ${object.partner_id.name},</span></p>
-                                                                                    <p style="margin: 0; text-align: justify; mso-line-height-alt: 14.399999999999999px;">&#160;</p>
-                                                                                    <p style="margin: 0; text-align: justify; mso-line-height-alt: 14.399999999999999px;"><span style="color:#000000;">Recibimos tu solicitud de compra de <strong>Plan Familia Protegida</strong>. Confirma tu información para activar y cobrar tu póliza, ya que presenta inconsistencias.</span></p>
-                                                                                    <p style="margin: 0; text-align: justify; mso-line-height-alt: 14.399999999999999px;">&#160;</p>
-                                                                                    <p style="margin: 0; text-align: justify; mso-line-height-alt: 14.399999999999999px;"><span style="color:#000000;">Uno de nuestros asesores ha intentado comunicarse contigo para apoyarte con la finalización del proceso, para que puedas disfrutar de todos los beneficios que este producto tiene para ti.</span></p>
-                                                                                    <p style="margin: 0; text-align: justify; mso-line-height-alt: 14.399999999999999px;">&#160;</p>
-                                                                                    <p style="margin: 0; text-align: justify; mso-line-height-alt: 14.399999999999999px;"><span style="color:#000000;">Te invitamos a comunicarte a la línea <strong>3057810000</strong> para finalizar tu proceso.</span></p>
-                                                                                    <p style="margin: 0; text-align: justify; mso-line-height-alt: 14.399999999999999px;">&#160;</p>
-                                                                                    <p style="margin: 0; text-align: justify; mso-line-height-alt: 14.399999999999999px;">&#160;</p>
-                                                                                    <p style="margin: 0; text-align: justify; mso-line-height-alt: 14.399999999999999px;">&#160;</p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="row row-5" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; background-color: #f5b6cd; border-radius: 13px; width: 600px; margin: 0 auto;" width="600">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="column column-1" width="25%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: left; font-weight: 400; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
-                                                                <table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                                                    <tr>
-                                                                        <td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
-                                                                            <div class="alignment" align="center" style="line-height:10px"><img src="http://bancolombia-email-wsuite.s3.amazonaws.com/templates/6414bfedb28db76b927786a4/img/icono_telefono_fp.png" style="height: auto; display: block; border: 0; max-width: 45px; width: 100%;" width="45" alt="I'm an image" title="I'm an image"/></div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                            <td class="column column-2" width="75%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: left; font-weight: 400; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
-                                                                <table class="text_block block-1" width="100%" border="0" cellpadding="15" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
-                                                                    <tr>
-                                                                        <td class="pad">
-                                                                            <div style="font-family: sans-serif">
-                                                                                <div style="font-size: 12px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 18px; color: #2c2a29; line-height: 1.5;">
-                                                                                    <p style="margin: 0; text-align: justify; mso-line-height-alt: 18px;"><span style="color:#000000;"><strong>Información importante</strong></span></p>
-                                                                                    <p style="margin: 0; text-align: justify; mso-line-height-alt: 18px;"><span style="color:#000000;">Tienes<strong> 10 días hábiles</strong> para comunicarte con nosotros y confirmar tu información para que valides que estás interesado en adquirir el producto.</span></p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="row row-6" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; border-radius: 0; width: 600px; margin: 0 auto;" width="600">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: left; font-weight: 400; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
-                                                                <div class="spacer_block block-1" style="height:15px;line-height:15px;font-size:1px;">&#8202;</div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="row row-7" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; background-color: #59cbe8; border-radius: 13px; width: 600px; margin: 0 auto;" width="600">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: left; font-weight: 400; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
-                                                                <table class="text_block block-1" width="100%" border="0" cellpadding="5" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
-                                                                    <tr>
-                                                                        <td class="pad">
-                                                                            <div style="font-family: sans-serif">
-                                                                                <div style="font-size: 12px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 24px; color: #2c2a29; line-height: 2;">
-                                                                                    <p style="margin: 0; text-align: center; mso-line-height-alt: 24px;"><strong><span style="color:#000000;">Juntos protegemos</span><span style="color:#000000;"> lo que más quieres.</span></strong></p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="row row-8" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; border-radius: 0; width: 600px; margin: 0 auto;" width="600">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: left; font-weight: 400; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
-                                                                <div class="spacer_block block-1" style="height:20px;line-height:20px;font-size:1px;">&#8202;</div>
-                                                                <div class="spacer_block block-2" style="height:40px;line-height:40px;font-size:1px;">&#8202;</div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="row row-9" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; border-radius: 0; width: 600px; margin: 0 auto;" width="600">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; text-align: left; font-weight: 400; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
-                                                                <table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                                                    <tr>
-                                                                        <td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
-                                                                            <div class="alignment" align="left" style="line-height:10px"><img class="fullWidth" src="https://cdngeneral.blob.core.windows.net/files/Cobranding-bancolombia-mails-2.png" style="height: auto; display: block; border: 0; max-width: 600px; width: 100%;" width="600" alt="Una Alianza de Bancolombia y Pan American Life de Colombia" title="Una Alianza de Bancolombia y Pan American Life de Colombia"/></div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                                <div class="spacer_block block-2" style="height:6px;line-height:6px;font-size:1px;">&#8202;</div>
-                                                                <table class="divider_block block-3" width="100%" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                                                    <tr>
-                                                                        <td class="pad">
-                                                                            <div class="alignment" align="center">
-                                                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                                                                    <tr>
-                                                                                        <td class="divider_inner" style="font-size: 1px; line-height: 1px; border-top: 4px solid #fdda24;"><span>&#8202;</span></td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                                <table class="text_block block-4" width="100%" border="0" cellpadding="10" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
-                                                                    <tr>
-                                                                        <td class="pad">
-                                                                            <div style="font-family: sans-serif;">
-                                                                                <div style="font-size: 12px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 14.399999999999999px; color: #2c2a29; line-height: 1.2;">
-                                                                                    <p style="margin: 0; font-size: 10px; text-align: justify; mso-line-height-alt: 12px;"><span style="font-size:10px;">*<strong>Pan-American Life de Colombia Compañía de Seguros S.A.</strong> asume exclusivamente la responsabilidad del cumplimiento de las obligaciones del producto frente al consumidor financiero. Este producto es ofrecido por la red de <strong>BANCOLOMBIA S.A.</strong> limitándose única y exclusivamente al correcto cumplimiento de las instrucciones debidamente impartidas por <strong>Pan-American Life de Colombia Compañía de Seguros S.A.</strong> para la prestación del servicio en dicha red.</span></p>
-                                                                                    <p style="margin: 0; font-size: 10px; text-align: justify; mso-line-height-alt: 14.399999999999999px;">&#160;</p>
-                                                                                    <p style="margin: 0; font-size: 10px; text-align: justify; mso-line-height-alt: 12px;"><span style="font-size:10px;"><strong>Bancolombia </strong>nunca te pedirá datos financieros como usuarios, claves, números de tarjetas de crédito con sus códigos de seguridad y fechas de vencimiento mediante vínculos de correo electrónico o llamadas telefónicas. Para verificar la autenticidad de este correo electrónico puedes reenviarlo a <strong><a href="mailto:correosospechoso@bancolombia.com.co" name="qLink14" overwrite="true" rel="noopener noreferrer" style="text-decoration:underline;color:#000; font-family:Arial, sans-serif;font-size: 9px; font-weight: bold;" target="_blank" xt="SPCLICK">correosospechoso@bancolombia.com.co</a>.</strong></span></p>
-                                                                                    <p style="margin: 0; font-size: 10px; text-align: justify; mso-line-height-alt: 14.399999999999999px;">&#160;</p>
-                                                                                    <p style="margin: 0; font-size: 10px; text-align: justify; mso-line-height-alt: 12px;"><span style="font-size:10px;">Si tienes alguna inquietud puedes contactarnos en nuestras líneas de atención telefónica:</span></p>
-                                                                                    <p style="margin: 0; font-size: 10px; text-align: justify; mso-line-height-alt: 14.399999999999999px;">&#160;</p>
-                                                                                    <p style="margin: 0; font-size: 10px; text-align: justify; mso-line-height-alt: 12px;">
-                                                                                        <span style="font-size:10px;">
-                                                                                            Bogotá
-                                                                                            <a href="tel:(601)%20343%200000" name="qLink13" overwrite="true" rel="noopener noreferrer" style="color: #000000; font-weight: bold; text-decoration: none;" target="_blank" xt="SPCLICK">(601) 343 0000</a>,
-                                                                                            Medellín
-                                                                                            <a href="tel:(604)%20510%209000" name="qLink12" overwrite="true" rel="noopener noreferrer" style="color: #000000; font-weight: bold; text-decoration: none;" target="_blank" xt="SPCLICK">(604) 510 9000</a>,
-                                                                                            Cali
-                                                                                            <a href="tel:(602)%20554%200505" name="qLink11" overwrite="true" rel="noopener noreferrer" style="color: #000000; font-weight: bold; text-decoration: none;" target="_blank" xt="SPCLICK">(602) 554 0505</a>,
-                                                                                            Barranquilla
-                                                                                            <a href="tel:(605)%20361%208888" name="qLink10" overwrite="true" rel="noopener noreferrer" style="color: #000000; font-weight: bold; text-decoration: none;" target="_blank" xt="SPCLICK">(605) 361 8888</a>,
-                                                                                            Bucaramanga
-                                                                                            <a href="tel:(607)%20697%202525" name="qLink9" overwrite="true" rel="noopener noreferrer" style="color: #000000; font-weight: bold; text-decoration: none;" target="_blank" xt="SPCLICK">(607) 697 2525</a>,
-                                                                                            Cartagena
-                                                                                            <a href="tel:(605)%20693%204400" name="qLink8" overwrite="true" rel="noopener noreferrer" style="color: #000000; font-weight: bold; text-decoration: none;" target="_blank" xt="SPCLICK">(605) 693 4400</a>,
-                                                                                            Resto del país
-                                                                                            <a href="tel:018000912345" name="qLink7" overwrite="true" rel="noopener noreferrer" style="color: #000000; font-weight: bold; text-decoration: none;" target="_blank" xt="SPCLICK">018000912345</a>
-                                                                                            Sede principal Cra. 48 Nro. 26-85 Torre Norte. Medellín - Colombia
-                                                                                        </span>
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                                <table class="social_block block-5" width="100%" border="0" cellpadding="10" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                                                                    <tr>
-                                                                        <td class="pad">
-                                                                            <div class="alignment" align="center">
-                                                                                <table class="social-table" width="216px" border="0" cellpadding="0" cellspacing="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block;">
-                                                                                    <tr>
-                                                                                        <td style="padding:0 2px 0 2px;"><a href="https://www.facebook.com/Bancolombia/?_rdc=1&amp;_rdr" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/t-only-logo-default-gray/facebook@2x.png" width="32" height="32" alt="Facebook" title="facebook" style="height: auto; display: block; border: 0;"/></a></td>
-                                                                                        <td style="padding:0 2px 0 2px;"><a href="https://twitter.com/Bancolombia" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/t-only-logo-default-gray/twitter@2x.png" width="32" height="32" alt="Twitter" title="twitter" style="height: auto; display: block; border: 0;"/></a></td>
-                                                                                        <td style="padding:0 2px 0 2px;"><a href="https://www.linkedin.com/company/bancolombia/" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/t-only-logo-default-gray/linkedin@2x.png" width="32" height="32" alt="Linkedin" title="linkedin" style="height: auto; display: block; border: 0;"/></a></td>
-                                                                                        <td style="padding:0 2px 0 2px;"><a href="https://www.instagram.com/bancolombia/" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/t-only-logo-default-gray/instagram@2x.png" width="32" height="32" alt="Instagram" title="instagram" style="height: auto; display: block; border: 0;"/></a></td>
-                                                                                        <td style="padding:0 2px 0 2px;"><a href="https://www.youtube.com/user/GrupoBancolombia" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/t-only-logo-default-gray/youtube@2x.png" width="32" height="32" alt="YouTube" title="YouTube" style="height: auto; display: block; border: 0;"/></a></td>
-                                                                                        <td style="padding:0 2px 0 2px;"><a href="https://api.whatsapp.com/send/?phone=573013536788&amp;text&amp;app_absent=0" target="_blank"><img src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/t-only-logo-default-gray/whatsapp@2x.png" width="32" height="32" alt="WhatsApp" title="WhatsApp" style="height: auto; display: block; border: 0;"/></a></td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </field>
             <field name="user_signature" eval="False"/>
             <field name="auto_delete" eval="True"/>
