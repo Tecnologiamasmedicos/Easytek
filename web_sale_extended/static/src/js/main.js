@@ -3147,9 +3147,57 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
         }
     }
     
+    // Valida si el beneficiario principal ya posee una
+    // poliza activa ('PEDIDO DE VENTA' o 'ESPERANDO APROBACION')
+    // retorna true en caso de no poseer polizas
+    // retorna false si posee al menos una poliza
+    function validaPolizaUnicaBancolombia () {
+        var numero_documento
+        if (document.querySelector('#primary_insured #numero_documento')) {
+            numero_documento = document.querySelector('#primary_insured #numero_documento').value
+        }
+
+        // Si ya ha digitado el numero del documento del beneficiario principal
+        // >> entonces busca si ya posee polizas
+        if (numero_documento) {
+            var unique_buyer = false
+            $.ajax({
+                url: '/unique/buyer/bancolombia/' + numero_documento,
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+            })
+            .done(function(res) {
+                // console.log("success");
+                // console.log(res);
+                if (res.unique) {
+                    unique_buyer = res.unique[0]
+                }
+            })
+            .fail(function(res) {
+                console.log("error");
+                console.log(res);
+            })
+        }
+
+        if (unique_buyer == false) {
+            let errorLabel = document.createElement("label");
+            errorLabel.innerHTML = 'Este beneficiario ya posee una póliza activa. Solo se permite una póliza por beneficiario'
+            errorLabel.classList.add('error')
+            document.querySelector('#form-group-numero_documento').append(errorLabel)
+            return unique_buyer
+        }        
+    }
+
     if ($('#submit_beneficiaries').length) {
         $("#submit_beneficiaries").on('click', function(e){
             e.preventDefault();
+
+            // Valida poliza unica
+            if (validaPolizaUnicaBancolombia() == false) {
+                return false
+            }
+
             if($('#beneficiary').valid()){ //checks if it's valid
                 $(this).html('<div><p class="preloader"/><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />Cargando...</div>');
                 $(this).prop('disabled', true);  
@@ -3171,6 +3219,10 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
             }
 
             $('#beneficiary').submit();
+        });
+
+        $("#primary_insured #numero_documento").on('focusout', function(e){
+            validaPolizaUnicaBancolombia()
         });
     }
 });

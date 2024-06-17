@@ -967,8 +967,8 @@ class WebsiteSaleExtended(WebsiteSale):
 
     @http.route(['/shop/product/<model("product.template"):product>'], type='http', auth="public", website=True)
     def product(self, product, category='', search='', **kwargs):
-        if not product.can_access_from_current_website():
-            raise NotFound()
+        if not product.can_access_from_current_website(): # Comentar para efectos de pruebas
+            raise NotFound()                              # Comentar para efectos de pruebas
         #if product.id in (1,2,3):
         if product.is_product_landpage:
             """This route is called when adding a product to cart (no options)."""
@@ -1147,6 +1147,40 @@ class WebsiteSaleExtended(WebsiteSale):
         }
         return request.render("web_sale_extended.update_bancolombia_account", render_values)
     
+    # Consulta por cedula si ya posee una poliza activa
+    @http.route(['/unique/buyer/bancolombia/<int:cedula_comprador>'], methods=['GET'], type='http', auth="public", website=True, csrf=True)
+    def unique_payment_bancolombia(self, cedula_comprador=None, access_token=None, **kwargs):
+        # _logger.info('on unique_payment_bancolombia')
+        # _logger.info(cedula_comprador)
+
+        # init values
+        unique = True
+        polizas_activas = 0
+
+        # Consulta el cliente por la cedula
+        cliente = request.env['res.partner'].sudo().search([('identification_document', '=', cedula_comprador)], limit=1)
+
+        # Si existe el cliente
+        if cliente:
+            # Consulta las polizas activas
+            polizas_activas = request.env['sale.order'].sudo().search_count([
+                ('state', 'in', ['sale', 'payu_pending']),
+                ('partner_id', '=', cliente.id),
+                ('sponsor_id', '=', 5521), # sponpor_id = 5521 (Bancolombia)
+            ])
+
+            if polizas_activas > 0:
+                unique = False
+
+        # respuesta
+        data = {}
+        data['cedula'] = cedula_comprador,
+        data['name'] = cliente.name,
+        data['polizas'] = polizas_activas,
+        data['unique'] = unique,
+        data['status'] = True,
+        data['error'] = None,
+        return json.dumps(data)
 
 class SalePortalExtended(CustomerPortal):
 
