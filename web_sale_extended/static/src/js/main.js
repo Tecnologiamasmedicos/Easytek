@@ -3182,7 +3182,7 @@ odoo.define('web_sale_extended.subscription_add_beneficiaries', function(require
 
         if (unique_buyer == false) {
             let errorLabel = document.createElement("label");
-            errorLabel.innerHTML = 'Este beneficiario ya posee una póliza activa. Solo se permite una póliza por beneficiario'
+            errorLabel.innerHTML = 'Esta persona ya posee una póliza activa. Solo se permite una póliza por asegurado.'
             errorLabel.classList.add('error')
             document.querySelector('#form-group-numero_documento').append(errorLabel)
             return unique_buyer
