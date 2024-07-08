@@ -275,12 +275,19 @@
                                                                                     <tr>
                                                                                         <td>&#160;</td>
                                                                                     </tr>
+                                                                                    <!-- Si es "PEDIDO DE VENTA" -->
+                                                                                    % if object.state == 'sale':
+                                                                                    <tr>
+                                                                                        <td style="font-family:Arial, sans-serif;font-size:32px;line-height:34px;color:#000000;font-weight: bold; text-align: left; padding: 0px 20px 5px 30px;">Continua con la protección de tu salud y la de tu familia</td>
+                                                                                    </tr>
+                                                                                    % else:
                                                                                     <tr>
                                                                                         <td align="left" style="font-family:Arial, sans-serif;font-size:24px;line-height:27px;color:#000000;font-weight: normal; padding: 5px 20px 5px 30px;" valign="top">Tu inscripción al</td>
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td style="font-family:Arial, sans-serif;font-size:32px;line-height:34px;color:#000000;font-weight: bold; text-align: left; padding: 0px 20px 5px 30px;">Seguro Familia Protegida tiene una novedad</td>
                                                                                     </tr>
+                                                                                    % endif
                                                                                     <tr>
                                                                                         <td>&#160;</td>
                                                                                     </tr>
@@ -320,7 +327,21 @@
                                                                 <td align="left" style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal;" valign="top"> Hola <strong>${object.partner_id.name}</strong>
                                                                     <br/>
                                                                     <br/>
-                                                                    Te contamos que el número de cuenta que inscribiste en tu seguro nos registró un error, por favor intenta registrarlo nuevamente<br/>
+
+                                                                    <!-- Si es "PEDIDO DE VENTA" -->
+                                                                    % if object.state == 'sale':
+                                                                    Actualiza el método de pago de tu Plan Familia Protegida para seguir cuidando a los que amas.
+
+                                                                    <br/>
+                                                                    <br/>
+                                                                    Registra tu nuevo número de cuenta o método de pago y asegura la protección que tu familia merece.
+                                                                    <br/>
+
+                                                                    % else:
+                                                                    Te contamos que el número de cuenta que inscribiste en tu seguro nos registró un error, por favor intenta registrarlo nuevamente
+                                                                    <br/>
+
+                                                                    % endif
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -336,7 +357,14 @@
                                                                             <tr>
                                                                                 <td align="center" bgcolor="#fdda24" height="38" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: rgb(0, 0, 0); font-weight: bold; text-decoration: none; border-radius: 50px;" valign="middle">
                                                                                     <a href="${object.generate_link_update_bancolombia_account(object.id)}" name="mail" overwrite="true" style="font-family:Arial, Helvetica, sans-serif;font-size:14px;color:#000000;font-weight:bold;display:block;text-decoration:none;" target="_blank" xt="SPCLICK">
-                                                                                        <span style="color: rgb(0, 0, 0);">HAZLO AQUÍ</span>
+                                                                                        <span style="color: rgb(0, 0, 0);">
+                                                                                            <!-- Si es "PEDIDO DE VENTA" -->
+                                                                                            % if object.state == 'sale':
+                                                                                            ACTUALIZA AHORA
+                                                                                            % else:
+                                                                                            HAZLO AQUÍ
+                                                                                            % endif
+                                                                                        </span>
                                                                                     </a>
                                                                                 </td>
                                                                             </tr>
@@ -375,9 +403,22 @@
                                                             <tr>
                                                                 <td>&#160;</td>
                                                             </tr>
+                                                            <!-- Si es "PEDIDO DE VENTA" -->
+                                                            % if object.state == 'sale':
+                                                            <tr>
+                                                                <td align="center" style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal; background-color: #ffffff"><strong>Tranquilidad y protección sin interrupciones.</strong></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>&#160;</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="center" style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#777777;font-weight: normal; background-color: #ffffff">Nuestro plan no es una póliza de salud. Plan Familia Protegida es un seguro de accidentes para ti con asistencias médicas para tu familia.</td>
+                                                            </tr>
+                                                            % else:
                                                             <tr>
                                                                 <td align="center" style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal; background-color: #ffffff">Juntos protegemos <strong>lo que más quieres.</strong></td>
                                                             </tr>
+                                                            % endif
                                                             <tr>
                                                                 <td style="font-family:Arial, sans-serif;font-size:13px;line-height:16px;color:#000;font-weight: normal; background-color: #ffffff">&#160;</td>
                                                             </tr>
