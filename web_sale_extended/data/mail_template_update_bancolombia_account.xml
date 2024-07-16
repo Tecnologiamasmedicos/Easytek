@@ -278,7 +278,7 @@
                                                                                     <!-- Si es "PEDIDO DE VENTA" -->
                                                                                     % if object.state == 'sale':
                                                                                     <tr>
-                                                                                        <td style="font-family:Arial, sans-serif;font-size:32px;line-height:34px;color:#000000;font-weight: bold; text-align: left; padding: 0px 20px 5px 30px;">Continua con la protección de tu salud y la de tu familia</td>
+                                                                                        <td style="font-family:Arial, sans-serif;font-size:32px;line-height:34px;color:#000000;font-weight: bold; text-align: left; padding: 0px 20px 5px 30px;">Continúa con la protección de tu salud y la de tu familia</td>
                                                                                     </tr>
                                                                                     % else:
                                                                                     <tr>
