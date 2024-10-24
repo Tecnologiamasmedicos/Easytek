@@ -33,6 +33,7 @@
                         <!--<field name="tusdatos_email" string="Email" help="Número de Solicitud de verificación del documento del Comprador"/>-->
                         <field name="tusdatos_request_expired" string="Expirado" help="Si la petición tiene más de 4 horas, sin que se haya logrado verificar, el proceso expira y no podrá completarse esta orden de venta."/>
                         <field name="tusdatos_typedoc" />
+                        <field name="buyer_account_number_decrypted" readonly="True"/>
                     </group>
                 </page>
                 <page string="PayU Latam" id="payulatam">

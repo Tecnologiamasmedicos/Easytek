@@ -7,6 +7,7 @@ from odoo.exceptions import ValidationError, UserError
 import time, json, logging
 from odoo.http import request
 from odoo.tools import ustr, consteq, float_compare
+from Crypto.Cipher import AES
 import hashlib
 import hmac
 
@@ -941,3 +942,13 @@ class SaleOrder(models.Model):
                         "venta_asistida": "NO"
                     }
                 self.env['api.hubspot'].update_deal(deal_id, deal_properties)
+
+
+    buyer_account_number_decrypted = fields.Char('Nro de cuenta', compute="_decrypt_account_number", store=False)
+
+    def _decrypt_account_number(self):
+        encrypted_msg = (b64decode(record.buyer_account_number),b64decode(record.sale_order_id.nonce),b64decode(record.sale_order_id.auth_tag),b64decode(record.sale_order_id.secretkey))
+        (ciphertext, nonce, authTag, secretKey) = encrypted_msg
+        aes_cipher = AES.new(secretKey, AES.MODE_GCM, nonce)
+        plaintext = aes_cipher.decrypt_and_verify(ciphertext, authTag)
+        self.buyer_account_number_decrypted = plaintext.decode('utf-8')
