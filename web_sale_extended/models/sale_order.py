@@ -8,6 +8,7 @@ import time, json, logging
 from odoo.http import request
 from odoo.tools import ustr, consteq, float_compare
 from Crypto.Cipher import AES
+from base64 import b64decode
 import hashlib
 import hmac
 
