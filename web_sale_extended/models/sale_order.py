@@ -948,11 +948,12 @@ class SaleOrder(models.Model):
     buyer_account_number_decrypted = fields.Char('Nro de cuenta', compute="_decrypt_account_number", store=False)
 
     def _decrypt_account_number(self):
-        ciphertext = b64decode(self.buyer_account_number)
-        nonce = b64decode(self.nonce)
-        authTag = b64decode(self.auth_tag)
-        secretKey = b64decode(self.secretkey)
-        
-        aes_cipher = AES.new(secretKey, AES.MODE_GCM, nonce)
-        plaintext = aes_cipher.decrypt_and_verify(ciphertext, authTag)
-        self.buyer_account_number_decrypted = plaintext.decode('utf-8')
+        if self.buyer_account_number:
+            ciphertext = b64decode(self.buyer_account_number)
+            nonce = b64decode(self.nonce)
+            authTag = b64decode(self.auth_tag)
+            secretKey = b64decode(self.secretkey)
+            
+            aes_cipher = AES.new(secretKey, AES.MODE_GCM, nonce)
+            plaintext = aes_cipher.decrypt_and_verify(ciphertext, authTag)
+            self.buyer_account_number_decrypted = plaintext.decode('utf-8')
