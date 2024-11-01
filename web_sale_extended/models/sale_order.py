@@ -957,3 +957,5 @@ class SaleOrder(models.Model):
             aes_cipher = AES.new(secretKey, AES.MODE_GCM, nonce)
             plaintext = aes_cipher.decrypt_and_verify(ciphertext, authTag)
             self.buyer_account_number_decrypted = plaintext.decode('utf-8')
+        else:
+            self.buyer_account_number_decrypted = ''
