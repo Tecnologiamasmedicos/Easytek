@@ -65,6 +65,7 @@ class SaleOrder(models.Model):
                     self.env.cr.commit()
                 except Exception as e:
                     # Maneja la excepción aquí si es necesario
+                    print(f"Ha ocurrido un error: {e}")
                     self.env.cr.rollback()  # Revierte solo la iteración actual en caso de error
                     break
 
